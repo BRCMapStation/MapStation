@@ -20,9 +20,6 @@ public class GrindEditor : Editor
         DrawDefaultInspector();
         if (GUILayout.Button("Add Node"))
         {
-            // Record the object's state for undo
-            Undo.RegisterFullObjectHierarchyUndo(thisGrind, "Add Node");
-
             thisGrind.AddNode();
         }
         if (GUILayout.Button("Remove Node"))
@@ -31,31 +28,23 @@ public class GrindEditor : Editor
         }
     }
 
-    private void OnSceneGUI()
-    {
-        foreach (GrindNode node in thisGrind.nodes)
-        {
-            var oldPos = node.transform.position;
-            var newPos = Handles.PositionHandle(oldPos, Quaternion.identity);
+    // private void OnSceneGUI()
+    // {
+    //     // Avoid race condition when grind is deleted yet this still runs (?)
+    //     if(thisGrind == null) return;
 
-            if(newPos != oldPos)
-            {
-                // Record the object's state for undo
-                Undo.RecordObject(node.transform, "Move Grind Node");
+    //     foreach (GrindNode node in thisGrind.nodes)
+    //     {
+    //         var oldPos = node.transform.position;
+    //         var newPos = Handles.PositionHandle(oldPos, Quaternion.identity);
 
-                node.transform.position = newPos;
-            }
-        }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //         if(newPos != oldPos)
+    //         {
+    //             // Record the object's state for undo
+    //             Undo.RecordObject(node.transform, "Move Grind Node");
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    //             node.transform.position = newPos;
+    //         }
+    //     }
+    // }
 }

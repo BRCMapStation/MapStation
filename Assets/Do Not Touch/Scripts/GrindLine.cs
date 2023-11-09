@@ -1,9 +1,13 @@
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 namespace Reptile
 {
 	[RequireComponent(typeof(CapsuleCollider))]
 	[ExecuteInEditMode]
+	[SelectionBase]
 	public class GrindLine : MonoBehaviour
 	{
 		public enum LineState
@@ -13,6 +17,8 @@ namespace Reptile
 			missingNode = 1,
 			misaligned = 2
 		}
+
+		public GrindPath PathReference;
 
 		[SerializeField]
 		public GrindNode[] nodes = new GrindNode[2];
@@ -25,8 +31,6 @@ namespace Reptile
 		public bool upwardsGrindJump = true;
 
 		public bool alwaysFlipBack;
-
-		public GrindPath PathReference;
 
 		public GrindNode n0
 		{
@@ -178,7 +182,8 @@ namespace Reptile
 				CapsuleCollider component = GetComponent<CapsuleCollider>();
 				component.isTrigger = true;
 				component.direction = 2;
-				base.gameObject.layer = 11;
+				// Seems silly but avoids log spam about SendMessage within `OnValidate`
+				if(base.gameObject.layer != 11) base.gameObject.layer = 11;
 				component.height = vector.magnitude + component.radius * 2f;
 			}
 		}
@@ -344,5 +349,126 @@ namespace Reptile
 			}
 			return result;
 		}
+
+		#if UNITY_EDITOR
+
+		void OnEnable() {
+			transform.hideFlags |= HideFlags.NotEditable;
+		}
+
+		public GameObject redDebugShape => transform.childCount > 0 ? transform.GetChild(0).gameObject : null;
+
+		[ButtonInvoke(nameof(Button_Split), displayIn:ButtonInvoke.DisplayIn.PlayAndEditModes, customLabel: "Split Grind Line")]
+		public bool _dummy;
+
+		void Button_Split() {
+			// Split this line into two lines.
+			// This line will remain attached to n0
+			// The new line will be attached to n1
+			// a new node will be created between them
+
+			// To preserve inspector configuration on the nodes and lines,
+			// this line is cloned to make the new line, and n0 is cloned to make the new node.
+
+			Undo.IncrementCurrentGroup();
+
+			var oldN1 = n1;
+
+			// create new node at midpoint between n0 and n1
+			var midpoint = n0.transform.position + (n1.transform.position - n0.transform.position) / 2;
+			var newNode = GameObject.Instantiate(n0.gameObject).GetComponent<GrindNode>();
+			Undo.RegisterCreatedObjectUndo(newNode.gameObject, "Create new GrindNode");
+			Undo.RegisterFullObjectHierarchyUndo(newNode.gameObject, "Create new GrindNode");
+			newNode.transform.parent = n0.transform.parent;
+			newNode.transform.position = midpoint;
+
+			// create new grindline
+			var newLine = GameObject.Instantiate(gameObject).GetComponent<GrindLine>();
+			Undo.RegisterCreatedObjectUndo(newLine.gameObject, "Create new GrindLine");
+			Undo.RegisterFullObjectHierarchyUndo(newLine.gameObject, "Create new GrindLine");
+			newLine.transform.parent = transform.parent;
+
+			// Fix all references along the grind, starting with n0, going to n1
+
+			// old n0 is still correct, attached to this line
+
+			// Fix this line to attach to new node
+			Undo.RegisterCompleteObjectUndo(this, "");
+			n1 = newNode;
+
+			// Fix new node to attach to both lines
+			newNode.grindLines.Clear();
+			newNode.grindLines.Add(this);
+			newNode.grindLines.Add(newLine);
+
+			// Fix new line to attach to new node
+			newLine.n0 = newNode;
+			newLine.n1 = oldN1; // unnecessary but readable
+
+			// Fix old n1 to attach to new line
+			Undo.RegisterCompleteObjectUndo(oldN1, "");
+			oldN1.grindLines.Remove(this);
+			oldN1.grindLines.Add(newLine);
+
+			// Re-order hierarchy so that new node and line appear directly after this line
+			if(newLine.transform.parent == newNode.transform.parent) {
+				newNode.transform.SetSiblingIndex(transform.GetSiblingIndex() + 1);
+				newLine.transform.SetSiblingIndex(transform.GetSiblingIndex() + 2);
+			}
+
+			// rebuild both grindlines
+			Rebuild();
+			newLine.Rebuild();
+
+			GrindUtils.autoSelectIfEnabled(newNode.gameObject);
+
+			Undo.SetCurrentGroupName("Split GrindLine");
+		}
+
+		public void RebuildWithRedDebugShape() {
+			// TODO conditional is hack to avoid errors while spline grinds are being hooked up. they don't have red debug shapes
+			var r = redDebugShape;
+			if(r) {
+				r.transform.localScale = new Vector3(0.3f, 0.3f, GetComponent<CapsuleCollider>().height);
+				// When you accidentally drag-select the red debug shape alongside nodes, you will accidentally move
+				// the debug shape. Causes wonky drag behavior. Prevent this by resetting localPosition
+				// TODO EXCEPT THIS DOESN'T FIX THE PROBLEM
+				r.transform.localPosition = Vector3.zero;
+				r.transform.localRotation = Quaternion.identity;
+			}
+
+			Rebuild();
+		}
+
+		private void OnDestroy() {
+			if(n0 != null) n0.RemoveLine(this);
+			if(n1 != null) n1.RemoveLine(this);
+		}
+
+		private void OnValidate() {
+			PathReference = PathReference != null ? PathReference : GetComponentInParent<GrindPath>();
+		}
+
+		// TODO delete this, testing code
+		// [InitializeOnLoadMethod]
+		// static void registerSelectionChange() {
+		// 	// Selection.selectionChanged += selectionChanged;
+		// }
+		// static void selectionChanged() {
+		// 	CoroutineUtils.RunNextTick(selectionChangedNextTick);
+		// }
+		// static void selectionChangedNextTick() {
+		// 	foreach(var o in Selection.gameObjects) {
+		// 		if(o.name == "Cube") {
+		// 			Debug.Log("removing " + o);
+		// 			foreach(var o2 in Selection.objects) {
+		// 				Debug.Log("o2 " + o2);
+		// 			}
+		// 			Selection.objects = Selection.objects.Where(x => x != o).ToArray();
+		// 			break;
+		// 		}
+		// 	}
+		// }
+		#endif
 	}
 }
