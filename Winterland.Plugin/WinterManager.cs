@@ -21,7 +21,7 @@ namespace Winterland.Plugin
             return gameObject.AddComponent<WinterManager>();
         }
 
-        void Awake()
+        private void Awake()
         {
             Instance = this;
         }
