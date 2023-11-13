@@ -47,12 +47,19 @@ public class StageProxyMeshMaker {
         if (!Directory.Exists(proxyFolder))
             Directory.CreateDirectory(proxyFolder);
 
+        var assetsToAdd = new Mesh[combineInstances.Count];
         foreach (var combList in combineInstances) {
             var result = new Mesh();
             result.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
             result.CombineMeshes(combList.ToArray(), true, true);
-            AssetDatabase.CreateAsset(result, Path.Combine(proxyFolder, $"{currentMesh}.asset"));
+            assetsToAdd[currentMesh] = result;
+            //AssetDatabase.CreateAsset(result, Path.Combine(proxyFolder, $"{currentMesh}.asset"));
             currentMesh++;
         }
+
+        for(var i = 0; i < assetsToAdd.Length; i++) {
+            AssetDatabase.CreateAsset(assetsToAdd[i], Path.Combine(proxyFolder, $"{i}.asset"));
+        }
+        
     }
 }
