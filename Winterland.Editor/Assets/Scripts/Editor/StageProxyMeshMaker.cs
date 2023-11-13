@@ -17,22 +17,42 @@ public class StageProxyMeshMaker {
         if (parentChunk == null)
             return;
         var renderers = parentChunk.GetComponentsInChildren<MeshRenderer>();
-        var combine = new CombineInstance[renderers.Length];
-        for (var i = 0; i < renderers.Length; i++) {
-            var filter = renderers[i].GetComponent<MeshFilter>();
+        var maxVerts = 50000;
+        var currentVerts = 0;
+        var combineInstances = new List<List<CombineInstance>>();
+        var currentList = new List<CombineInstance>();
+        combineInstances.Add(currentList);
+        foreach (var renderer in renderers) {
+            var filter = renderer.GetComponent<MeshFilter>();
             if (filter == null)
                 continue;
             if (filter.gameObject.layer != 0)
                 continue;
-            combine[i].mesh = filter.sharedMesh;
-            combine[i].transform = renderers[i].localToWorldMatrix;
+            if (filter.sharedMesh == null)
+                continue;
+            currentVerts += filter.sharedMesh.vertexCount;
+            var combine = new CombineInstance();
+            combine.mesh = filter.sharedMesh;
+            combine.transform = renderer.localToWorldMatrix;
+            currentList.Add(combine);
+            if (currentVerts >= maxVerts) {
+                currentVerts = 0;
+                currentList = new List<CombineInstance>();
+                combineInstances.Add(currentList);
+            }
         }
 
-        var result = new Mesh();
-        result.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-        result.CombineMeshes(combine, true, true);
-        if (!Directory.Exists(ProxyFolder))
-            Directory.CreateDirectory(ProxyFolder);
-        AssetDatabase.CreateAsset(result, Path.Combine(ProxyFolder, $"{parentChunk.gameObject.scene.name}.asset"));
+        var currentMesh = 0;
+        var proxyFolder = Path.Combine(ProxyFolder, parentChunk.gameObject.scene.name);
+        if (!Directory.Exists(proxyFolder))
+            Directory.CreateDirectory(proxyFolder);
+
+        foreach (var combList in combineInstances) {
+            var result = new Mesh();
+            result.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+            result.CombineMeshes(combList.ToArray(), true, true);
+            AssetDatabase.CreateAsset(result, Path.Combine(proxyFolder, $"{currentMesh}.asset"));
+            currentMesh++;
+        }
     }
 }
