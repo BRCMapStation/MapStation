@@ -1,6 +1,7 @@
-﻿using BepInEx;
+using BepInEx;
 using System;
 using Reptile;
+using CommonAPI;
 
 namespace Winterland.Plugin
 {
@@ -11,7 +12,7 @@ namespace Winterland.Plugin
         {
             try
             {
-                StageManager.OnStagePostInitialization += StageManager_OnStagePostInitialization;
+                StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;
                 Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} {PluginInfo.PLUGIN_VERSION} is loaded!");
             }
             catch(Exception e)
@@ -20,9 +21,9 @@ namespace Winterland.Plugin
             }
         }
 
-        private void StageManager_OnStagePostInitialization()
+        private void StageAPI_OnStagePreInitialization(Stage newStage, Stage previousStage)
         {
-            if (Core.Instance.BaseModule.CurrentStage != Stage.square)
+            if (newStage != Stage.square)
                 return;
             WinterManager.Create();
         }
