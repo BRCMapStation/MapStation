@@ -26,6 +26,10 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(ManagedPath)/Assembly-CSharp.dll</HintPath>
 	  <Private>false</Private>
