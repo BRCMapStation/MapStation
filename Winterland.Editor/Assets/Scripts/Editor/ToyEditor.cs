@@ -42,6 +42,7 @@ public class ToyEditor : MonoBehaviour
         var toyLine = new GameObject("Toy Line");
         StageUtility.PlaceGameObjectInCurrentStage(toyLine);
         GameObjectUtility.SetParentAndAlign(toyLine, context as GameObject);
+        toyLine.transform.position = SceneView.lastActiveSceneView.pivot;
         return toyLine.AddComponent<ToyLine>();
     }
 }
