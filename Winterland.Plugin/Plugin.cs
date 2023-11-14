@@ -5,6 +5,8 @@ using CommonAPI;
 using BepInEx.Logging;
 using HarmonyLib;
 using System.IO;
+using System.Reflection;
+using System.Linq;
 
 namespace Winterland.Plugin
 {
@@ -25,10 +27,11 @@ namespace Winterland.Plugin
         }
 
         private void Initialize() {
+            Logger.LogInfo($"Forcing Mono assembly to load. {typeof(Mono.ToyLine)}");
             Log = Logger;
             WinterConfig = new WinterConfig(Config);
-            var assetsFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "Assets");
-            Assets = new WinterAssets(assetsFolder);
+            var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
+            Assets = new WinterAssets(assetBundlesFolder);
             StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();

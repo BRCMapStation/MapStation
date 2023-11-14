@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
-    <AssemblyName>Winterland.Plugin</AssemblyName>
-    <Description>BepInEx Plugin Assembly for Millenium Winterland.</Description>
+    <AssemblyName>Winterland.Mono</AssemblyName>
+    <Description>MonoBehaviours for Millenium Winterland.</Description>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
@@ -25,10 +25,9 @@
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
   
-  <ItemGroup>
-    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
-    <ProjectReference Include="..\Winterland.Mono\Winterland.Mono.csproj" />
-  </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)/$(TargetFileName)" "$(SolutionDir)/Winterland.Editor/Assets/Scripts"</PostBuildEvent>
+  </PropertyGroup>
   
   <ItemGroup>
     <Reference Include="Assembly-CSharp">

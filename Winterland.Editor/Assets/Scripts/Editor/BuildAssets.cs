@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -12,11 +13,13 @@ public class BuildAssets {
         CleanUpOutputDirectoryPreBuild(OutputDirectory);
         BuildAssetBundles(OutputDirectory);
         CleanUpOutputDirectoryPostBuild(OutputDirectory);
+        if (Directory.Exists(OutputDirectory))
+            Process.Start(OutputDirectory);
     }
 
     private static void PreBuildAssetBundles() {
         AssetDatabase.RemoveUnusedAssetBundleNames();
-        string[] stageScenes = Directory.GetFiles("Assets/Stage Additions", "*.prefab", SearchOption.AllDirectories);
+        var stageScenes = Directory.GetFiles("Assets/Stage Additions", "*.prefab", SearchOption.AllDirectories);
         foreach(var file in stageScenes) {
             var assetImporter = AssetImporter.GetAtPath(file);
             assetImporter.assetBundleName = $"Stages/{Path.GetFileNameWithoutExtension(file)}";
