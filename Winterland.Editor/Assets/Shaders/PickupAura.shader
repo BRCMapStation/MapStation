@@ -50,7 +50,7 @@ Shader "Winterland/PickupAura"
             {
                 fixed4 col = _Color;
                 float3 viewDir = normalize(_WorldSpaceCameraPos - i.worldPos);
-                col.a = (-pow(dot(viewDir, i.normal), 1) * 1.1)+1;
+                col.a = saturate((-pow(dot(viewDir, i.normal), 1) * 1.1)+1);
                 return col;
             }
             ENDCG

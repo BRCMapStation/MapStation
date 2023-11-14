@@ -15,6 +15,8 @@ public class StageProxyMeshMaker {
                 parentChunk = obj;
         }
         if (parentChunk == null)
+            parentChunk = Selection.activeTransform;
+        if (parentChunk == null)
             return;
         var renderers = parentChunk.GetComponentsInChildren<MeshRenderer>();
         var maxVerts = 50000;
@@ -23,6 +25,8 @@ public class StageProxyMeshMaker {
         var currentList = new List<CombineInstance>();
         combineInstances.Add(currentList);
         foreach (var renderer in renderers) {
+            if (!renderer.enabled)
+                continue;
             var filter = renderer.GetComponent<MeshFilter>();
             if (filter == null)
                 continue;
