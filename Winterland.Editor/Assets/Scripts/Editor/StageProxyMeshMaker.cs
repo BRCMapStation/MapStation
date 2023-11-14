@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StageProxyMeshMaker {
     private const string ProxyFolder = "Assets/Proxy Stages";
-    [MenuItem("BRC/Make Stage Proxy Mesh")]
+    [MenuItem("BRC/Make Stage Proxy Mesh", priority = 50)]
     private static void MakeStageProxyMesh() {
         var objects = GameObject.FindObjectsOfType<Transform>();
         Transform parentChunk = null;
@@ -30,7 +30,7 @@ public class StageProxyMeshMaker {
             var filter = renderer.GetComponent<MeshFilter>();
             if (filter == null)
                 continue;
-            if (filter.gameObject.layer != 0)
+            if (filter.gameObject.layer != 0 && filter.gameObject.layer != 10)
                 continue;
             if (filter.sharedMesh == null)
                 continue;
@@ -38,6 +38,13 @@ public class StageProxyMeshMaker {
             var combine = new CombineInstance();
             combine.mesh = filter.sharedMesh;
             combine.transform = renderer.localToWorldMatrix;
+            if (renderer.gameObject.isStatic) {
+                var collider = renderer.GetComponent<MeshCollider>();
+                if (collider != null) {
+                    combine.mesh = collider.sharedMesh;
+                    combine.transform = renderer.transform.localToWorldMatrix;
+                }
+            }
             currentList.Add(combine);
             if (currentVerts >= maxVerts) {
                 currentVerts = 0;

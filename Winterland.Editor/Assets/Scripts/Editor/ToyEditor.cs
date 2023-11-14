@@ -4,8 +4,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using Winterland.Mono;
-public class ToyEditor : MonoBehaviour
-{
+public class ToyEditor {
     [MenuItem("GameObject/Winterland/Create Toy Line", priority = -50)]
     private static void CreateToyLine(MenuCommand menuCommand) {
         var toyLine = CreateToyLineUnderContext(menuCommand.context);
