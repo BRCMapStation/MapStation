@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Winterland.Common;
 
 namespace Winterland.Plugin
 {
@@ -20,7 +21,7 @@ namespace Winterland.Plugin
         }
 
         public void SetupStage(Stage stage) {
-            var stagePrefab = Plugin.Assets.GetPrefabForStage(stage);
+            var stagePrefab = WinterAssets.Instance.GetPrefabForStage(stage);
             if (stagePrefab == null)
                 return;
             GameObject.Instantiate(stagePrefab);

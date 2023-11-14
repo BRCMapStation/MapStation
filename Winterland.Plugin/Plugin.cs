@@ -7,6 +7,7 @@ using HarmonyLib;
 using System.IO;
 using System.Reflection;
 using System.Linq;
+using Winterland.Common;
 
 namespace Winterland.Plugin
 {
@@ -14,7 +15,6 @@ namespace Winterland.Plugin
     public class Plugin : BaseUnityPlugin {
         public static ManualLogSource Log = null;
         public static WinterConfig WinterConfig = null;
-        public static WinterAssets Assets = null;
 
         private void Awake() {
             try {
@@ -27,11 +27,10 @@ namespace Winterland.Plugin
         }
 
         private void Initialize() {
-            Logger.LogInfo($"Forcing Mono assembly to load. {typeof(Common.ToyLine)}");
+            var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
+            new WinterAssets(assetBundlesFolder);
             Log = Logger;
             WinterConfig = new WinterConfig(Config);
-            var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
-            Assets = new WinterAssets(assetBundlesFolder);
             StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();

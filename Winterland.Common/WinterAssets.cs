@@ -7,11 +7,14 @@ using UnityEngine;
 using System.IO;
 using Reptile;
 
-namespace Winterland.Plugin {
+namespace Winterland.Common {
     public class WinterAssets {
         private readonly Dictionary<string, AssetBundle> bundleByStageName = null;
         public AssetBundle WinterBundle = null;
+        public static WinterAssets Instance { get; private set; }
+
         public WinterAssets(string folder) {
+            Instance = this;
             bundleByStageName = new();
             WinterBundle = AssetBundle.LoadFromFile(Path.Combine(folder, "winter"));
             var stagesFolder = Path.Combine(folder, "stages");
