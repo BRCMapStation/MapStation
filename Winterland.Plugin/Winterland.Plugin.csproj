@@ -37,4 +37,8 @@
 	  <Publicize>true</Publicize>
     </Reference>
   </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="mkdir &quot;$(BepInExDirectory)\plugins\$(SolutionName)&quot;&#xD;&#xA;xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\$(SolutionName)&quot; /E /H /C" />
+  </Target>
 </Project>
