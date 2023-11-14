@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using Winterland.Mono;
+using Winterland.Common;
 public class ToyEditor {
     [MenuItem("GameObject/Winterland/Create Toy Line", priority = -50)]
     private static void CreateToyLine(MenuCommand menuCommand) {

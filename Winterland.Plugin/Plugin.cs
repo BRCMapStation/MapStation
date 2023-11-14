@@ -27,7 +27,7 @@ namespace Winterland.Plugin
         }
 
         private void Initialize() {
-            Logger.LogInfo($"Forcing Mono assembly to load. {typeof(Mono.ToyLine)}");
+            Logger.LogInfo($"Forcing Mono assembly to load. {typeof(Common.ToyLine)}");
             Log = Logger;
             WinterConfig = new WinterConfig(Config);
             var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Reptile;
 
-namespace Winterland.Mono {
+namespace Winterland.Common {
     public class ToyPart : MonoBehaviour {
         public ToyLine Line { get; private set; }
 

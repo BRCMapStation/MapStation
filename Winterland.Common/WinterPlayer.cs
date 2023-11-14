@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Reptile;
 using UnityEngine;
 
-namespace Winterland.Mono {
+namespace Winterland.Common {
     public class WinterPlayer : MonoBehaviour {
         public ToyLine CurrentToyLine = null;
 

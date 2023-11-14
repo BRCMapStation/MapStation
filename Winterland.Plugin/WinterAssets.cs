@@ -9,10 +9,11 @@ using Reptile;
 
 namespace Winterland.Plugin {
     public class WinterAssets {
-        private Dictionary<string, AssetBundle> bundleByStageName = null;
+        private readonly Dictionary<string, AssetBundle> bundleByStageName = null;
+        public AssetBundle WinterBundle = null;
         public WinterAssets(string folder) {
             bundleByStageName = new();
-
+            WinterBundle = AssetBundle.LoadFromFile(Path.Combine(folder, "winter"));
             var stagesFolder = Path.Combine(folder, "stages");
             if (Directory.Exists(stagesFolder)) {
                 var bundles = Directory.GetFiles(stagesFolder, "*", SearchOption.TopDirectoryOnly);

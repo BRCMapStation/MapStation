@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Winterland.Mono {
+namespace Winterland.Common {
     public class PickupRotation : MonoBehaviour {
         [SerializeField]
         private Vector3 rotationSpeed;
