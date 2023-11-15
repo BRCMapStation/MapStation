@@ -8,6 +8,9 @@ using Reptile;
 
 namespace Winterland.Common {
     public class FallingSnowController : MonoBehaviour {
+        [Tooltip("How much to move the particles upwards when you look up. To make it look like the particles are coming from higher up.")]
+        [SerializeField]
+        private float heightOffsetWhenLookingUp = 10f;
         [Tooltip("Size of the snow chunk grid. Make this match the size of the emitter.")]
         [SerializeField]
         private float gridSize = 50f;
@@ -67,7 +70,7 @@ namespace Winterland.Common {
             var targetHeight = currentCamera.transform.position.y;
             var lookingUp = Mathf.Max(0f, Vector3.Dot(currentCamera.transform.forward, Vector3.up));
 
-            targetHeight += 20f * lookingUp;
+            targetHeight += heightOffsetWhenLookingUp * lookingUp;
 
             var newParticles = new Dictionary<Vector2, GameObject>();
             foreach (var particle in particles) {
