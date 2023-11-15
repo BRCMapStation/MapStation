@@ -13,9 +13,9 @@ namespace Winterland.Common {
         private float gridSize = 50f;
         [SerializeField]
         private GameObject snowEmitter = null;
-
-        // Amount of adjacent extra snow chunks to make around the camera. Should probably leave this at 1 as it will increase the number of snow particles exponentially.
-        private const int AmountAroundCamera = 1;
+        [Tooltip("Amount of adjacent snow chunks to create around the camera. Probably best left at 1 as it increases the number of chunks exponentially.")]
+        [SerializeField]
+        private int amountAroundCamera = 1;
 
         private Dictionary<Vector2, GameObject> particles = null;
         private Stack<GameObject> particlePool = null;
@@ -23,7 +23,7 @@ namespace Winterland.Common {
         private void Awake() {
             particles = new();
             particlePool = new();
-            var rowsAndColumns = 1 + (AmountAroundCamera * 2);
+            var rowsAndColumns = 1 + (amountAroundCamera * 2);
             var poolAmount = rowsAndColumns * rowsAndColumns;
             AddToPool(snowEmitter);
             for (var i = 1; i < poolAmount; i++) {
@@ -34,13 +34,11 @@ namespace Winterland.Common {
 
         private void AddToPool(GameObject instance) {
             instance.transform.parent = transform;
-            instance.SetActive(false);
             particlePool.Push(instance);
         }
 
         private GameObject GetFromPool() {
             var instance = particlePool.Pop();
-            instance.SetActive(true);
             return instance;
         }
 
@@ -53,7 +51,7 @@ namespace Winterland.Common {
         private bool InRange(Vector2 position, Vector2 position2) {
             var xDist = Mathf.Abs(position.x - position2.x);
             var yDist = Mathf.Abs(position.y - position2.y);
-            if (xDist > AmountAroundCamera * gridSize || yDist > AmountAroundCamera * gridSize)
+            if (xDist > amountAroundCamera * gridSize || yDist > amountAroundCamera * gridSize)
                 return false;
             return true;
         }
@@ -62,25 +60,32 @@ namespace Winterland.Common {
             var currentCamera = WorldHandler.instance.CurrentCamera;
             if (currentCamera == null)
                 return;
-            var gridPosCenter = GridSnapPosition(currentCamera.transform.position);
+            // Add more snow towards where we're looking at.
+            var forwardFlat = (currentCamera.transform.forward - Vector3.Project(currentCamera.transform.forward, Vector3.up)).normalized;
+            var referencePosition = currentCamera.transform.position + (forwardFlat * gridSize);
+            var gridPosCenter = GridSnapPosition(referencePosition);
+            var targetHeight = currentCamera.transform.position.y;
+            var lookingUp = Mathf.Max(0f, Vector3.Dot(currentCamera.transform.forward, Vector3.up));
+
+            targetHeight += 20f * lookingUp;
 
             var newParticles = new Dictionary<Vector2, GameObject>();
             foreach (var particle in particles) {
                 if (!InRange(particle.Key, gridPosCenter))
                     AddToPool(particle.Value);
                 else {
-                    particle.Value.transform.position = new Vector3(particle.Value.transform.position.x, currentCamera.transform.position.y, particle.Value.transform.position.z);
+                    particle.Value.transform.position = new Vector3(particle.Value.transform.position.x, targetHeight, particle.Value.transform.position.z);
                     newParticles[particle.Key] = particle.Value;
                 }
             }
             particles = newParticles;
 
-            for (var i = -AmountAroundCamera;i <= AmountAroundCamera; i++) {
-                for(var j = -AmountAroundCamera; j <= AmountAroundCamera; j++) {
+            for (var i = -amountAroundCamera;i <= amountAroundCamera; i++) {
+                for(var j = -amountAroundCamera; j <= amountAroundCamera; j++) {
                     var pos = new Vector2(gridPosCenter.x + (i * gridSize), gridPosCenter.y + (j * gridSize));
                     if (!particles.ContainsKey(pos)) {
                         var part = GetFromPool();
-                        part.transform.position = new Vector3(pos.x + (gridSize * 0.5f), currentCamera.transform.position.y, pos.y + (gridSize * 0.5f));
+                        part.transform.position = new Vector3(pos.x + (gridSize * 0.5f), targetHeight, pos.y + (gridSize * 0.5f));
                         particles[pos] = part;
                     }
                 }
