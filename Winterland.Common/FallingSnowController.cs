@@ -7,25 +7,33 @@ using UnityEngine;
 using Reptile;
 
 namespace Winterland.Common {
-    public class SnowController : MonoBehaviour {
-        private const int PoolAmount = 9;
-        private const int Distance = 1;
-        private const float GridSize = 30f;
-        private GameObject particlePrefab = null;
+    public class FallingSnowController : MonoBehaviour {
+        [Tooltip("Size of the snow chunk grid. Make this match the size of the emitter.")]
+        [SerializeField]
+        private float gridSize = 50f;
+        [SerializeField]
+        private GameObject snowEmitter = null;
+
+        // Amount of adjacent extra snow chunks to make around the camera. Should probably leave this at 1 as it will increase the number of snow particles exponentially.
+        private const int AmountAroundCamera = 1;
+
         private Dictionary<Vector2, GameObject> particles = null;
         private Stack<GameObject> particlePool = null;
 
         private void Awake() {
             particles = new();
-            particlePrefab = WinterAssets.Instance.WinterBundle.LoadAsset<GameObject>("Snow Particles");
             particlePool = new();
-            for (var i = 0; i < PoolAmount; i++) {
-                var instance = GameObject.Instantiate(particlePrefab);
+            var rowsAndColumns = 1 + (AmountAroundCamera * 2);
+            var poolAmount = rowsAndColumns * rowsAndColumns;
+            AddToPool(snowEmitter);
+            for (var i = 1; i < poolAmount; i++) {
+                var instance = GameObject.Instantiate(snowEmitter);
                 AddToPool(instance);
             }
         }
 
         private void AddToPool(GameObject instance) {
+            instance.transform.parent = transform;
             instance.SetActive(false);
             particlePool.Push(instance);
         }
@@ -37,15 +45,15 @@ namespace Winterland.Common {
         }
 
         private Vector2 GridSnapPosition(Vector3 position) {
-            var px = Mathf.Floor(position.x / GridSize) * GridSize;
-            var py = Mathf.Floor(position.z / GridSize) * GridSize;
+            var px = Mathf.Floor(position.x / gridSize) * gridSize;
+            var py = Mathf.Floor(position.z / gridSize) * gridSize;
             return new Vector2(px, py);
         }
 
         private bool InRange(Vector2 position, Vector2 position2) {
             var xDist = Mathf.Abs(position.x - position2.x);
             var yDist = Mathf.Abs(position.y - position2.y);
-            if (xDist > Distance * GridSize || yDist > Distance * GridSize)
+            if (xDist > AmountAroundCamera * gridSize || yDist > AmountAroundCamera * gridSize)
                 return false;
             return true;
         }
@@ -67,12 +75,12 @@ namespace Winterland.Common {
             }
             particles = newParticles;
 
-            for (var i = -Distance;i <= Distance; i++) {
-                for(var j = -Distance; j <= Distance; j++) {
-                    var pos = new Vector2(gridPosCenter.x + (i * GridSize), gridPosCenter.y + (j * GridSize));
+            for (var i = -AmountAroundCamera;i <= AmountAroundCamera; i++) {
+                for(var j = -AmountAroundCamera; j <= AmountAroundCamera; j++) {
+                    var pos = new Vector2(gridPosCenter.x + (i * gridSize), gridPosCenter.y + (j * gridSize));
                     if (!particles.ContainsKey(pos)) {
                         var part = GetFromPool();
-                        part.transform.position = new Vector3(pos.x + (GridSize * 0.5f), currentCamera.transform.position.y, pos.y + (GridSize * 0.5f));
+                        part.transform.position = new Vector3(pos.x + (gridSize * 0.5f), currentCamera.transform.position.y, pos.y + (gridSize * 0.5f));
                         particles[pos] = part;
                     }
                 }

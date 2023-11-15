@@ -7,6 +7,9 @@ using Reptile;
 using UnityEngine;
 
 namespace Winterland.Common {
+    /// <summary>
+    /// Holds custom data in players.
+    /// </summary>
     public class WinterPlayer : MonoBehaviour {
         public ToyLine CurrentToyLine = null;
 

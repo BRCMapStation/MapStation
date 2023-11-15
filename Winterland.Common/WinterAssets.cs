@@ -8,6 +8,9 @@ using System.IO;
 using Reptile;
 
 namespace Winterland.Common {
+    /// <summary>
+    /// Retrieve stuff from our asset bundles using this class.
+    /// </summary>
     public class WinterAssets {
         private readonly Dictionary<string, AssetBundle> bundleByStageName = null;
         public AssetBundle WinterBundle = null;
@@ -16,7 +19,9 @@ namespace Winterland.Common {
         public WinterAssets(string folder) {
             Instance = this;
             bundleByStageName = new();
-            WinterBundle = AssetBundle.LoadFromFile(Path.Combine(folder, "winter"));
+            var winterBundleLocation = Path.Combine(folder, "winter");
+            if (File.Exists(winterBundleLocation))
+                WinterBundle = AssetBundle.LoadFromFile(winterBundleLocation);
             var stagesFolder = Path.Combine(folder, "stages");
             if (Directory.Exists(stagesFolder)) {
                 var bundles = Directory.GetFiles(stagesFolder, "*", SearchOption.TopDirectoryOnly);
@@ -27,6 +32,9 @@ namespace Winterland.Common {
             }
         }
 
+        /// <summary>
+        /// Returns the prefab containing the additions for a stage.
+        /// </summary>
         public GameObject GetPrefabForStage(Stage stage) {
             var stageName = stage.ToString().ToLowerInvariant();
             if (!bundleByStageName.TryGetValue(stageName, out var bundle))
