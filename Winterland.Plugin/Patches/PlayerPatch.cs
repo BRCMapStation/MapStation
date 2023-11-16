@@ -13,7 +13,8 @@ namespace Winterland.Plugin.Patches {
         [HarmonyPostfix]
         [HarmonyPatch(nameof(Player.Init))]
         private static void Init_Postfix(Player __instance) {
-            __instance.gameObject.AddComponent<WinterPlayer>();
+            var winterPlayer = __instance.gameObject.AddComponent<WinterPlayer>();
+            winterPlayer.player = __instance;
         }
 
         [HarmonyPostfix]

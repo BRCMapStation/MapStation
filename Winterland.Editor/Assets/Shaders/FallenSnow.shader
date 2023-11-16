@@ -1,9 +1,9 @@
 Shader "Winterland/Fallen Snow Surface" {
     Properties{
         _MainTex("Base (RGB)", 2D) = "white" {}
-        _Tess("Tessellation", Range(1,32)) = 4
-        _DepthTex("Depth Texture", 2D) = "black" {}
+        _Tess("Tessellation", Range(1,64)) = 4
         _Displacement("Displacement", float) = 1.0
+        _TestDisplacement("Test Displacement", Range(0,1)) = 0.0
     }
         SubShader{
             Tags { "RenderType" = "Opaque" }
@@ -27,6 +27,15 @@ Shader "Winterland/Fallen Snow Surface" {
                 fixed Shadow;
             };
 
+            float2 CameraPosition;
+            float DepthHalfRadius;
+
+            float2 GetDepthUVAt(float2 worldPos) {
+                float2 worldCoordsBegin = CameraPosition - float2(DepthHalfRadius, DepthHalfRadius);
+                float2 coords = worldPos - worldCoordsBegin;
+                return coords / (DepthHalfRadius * 2);
+            }
+
             half4 LightingSimpleLambert(SurfaceOutputSnow s, half3 lightDir, half atten) {
               half NdotL = saturate(dot(s.Normal, lightDir) * atten * LIGHT_MULTIPLY) * s.Shadow;
               // atten is shadows!
@@ -48,31 +57,40 @@ Shader "Winterland/Fallen Snow Surface" {
 
             float4 tessDistance(appdata v0, appdata v1, appdata v2) {
                 float minDist = 10.0;
-                float maxDist = 25.0;
+                float maxDist = 30.0;
                 return UnityDistanceBasedTess(v0.vertex, v1.vertex, v2.vertex, minDist, maxDist, _Tess);
             }
 
             sampler2D _DispTex;
-            sampler2D _DepthTex;
+            sampler2D DepthTexture;
             float _Displacement;
+            float _TestDisplacement;
 
             struct Input {
                 float2 uv_MainTex;
                 float3 worldPos;
             };
 
+            float GetDisplacementAmount(float2 uv) {
+                if (uv.x < 0 || uv.y < 0 || uv.x > 1 || uv.y > 1)
+                    return _TestDisplacement;
+                return tex2Dlod(DepthTexture, float4(uv, 0, 0)).r + _TestDisplacement;
+            }
+
             void disp(inout appdata v)
             {
                 float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
-                float d = tex2Dlod(_DepthTex, float4(worldPos.xz,0,0)).r * _Displacement;
+                float2 depthUv = GetDepthUVAt(worldPos.xz);
+                float d = GetDisplacementAmount(depthUv) * _Displacement;
                 v.vertex.y -= d;
             }
 
             sampler2D _MainTex;
 
             void surf(Input IN, inout SurfaceOutputSnow o) {
-                half4 c = tex2D(_MainTex, IN.worldPos.xz);
-                float d = saturate(tex2Dlod(_DepthTex, float4(IN.worldPos.xz, 0, 0)).r * 2);
+                float2 depthUv = GetDepthUVAt(IN.worldPos.xz);
+                half4 c = tex2D(_MainTex, depthUv);
+                float d = saturate(GetDisplacementAmount(depthUv) * 1);
                 o.Albedo = c.rgb;
                 o.Shadow = (-d)+1;
             }
