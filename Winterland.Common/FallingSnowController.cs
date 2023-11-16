@@ -22,16 +22,29 @@ namespace Winterland.Common {
 
         private Dictionary<Vector2, GameObject> particles = null;
         private Stack<GameObject> particlePool = null;
+        private List<GameObject> allParticles = null;
 
         private void Awake() {
             particles = new();
             particlePool = new();
+            allParticles = new();
             var rowsAndColumns = 1 + (amountAroundCamera * 2);
             var poolAmount = rowsAndColumns * rowsAndColumns;
             AddToPool(snowEmitter);
+            allParticles.Add(snowEmitter);
             for (var i = 1; i < poolAmount; i++) {
                 var instance = GameObject.Instantiate(snowEmitter);
                 AddToPool(instance);
+                allParticles.Add(instance);
+            }
+        }
+
+        public void AddKillTrigger(Collider trigger) {
+            foreach(var particle in allParticles) {
+                var emitter = particle.GetComponentInChildren<ParticleSystem>(true);
+                if (emitter == null)
+                    continue;
+                emitter.trigger.AddCollider(trigger);
             }
         }
 
