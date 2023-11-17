@@ -9,8 +9,8 @@ namespace Reptile
 	[SelectionBase]
 	public class GrindNode : MonoBehaviour
 	{
-		public const string GizmoIcon = "Assets/Do Not Touch/Icons/Grind.png";
-		public const string GizmoSelectedIcon = "Assets/Do Not Touch/Icons/GrindSelected.png";
+		public const string GizmoIcon = Constants.GizmoIconBaseDir + "/Grind.png";
+		public const string GizmoSelectedIcon = Constants.GizmoIconBaseDir + "/GrindSelected.png";
 
 		public GrindPath PathReference;
 
