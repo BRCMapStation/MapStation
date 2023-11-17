@@ -89,7 +89,7 @@ Shader "Winterland/Fallen Snow Surface" {
 
             void surf(Input IN, inout SurfaceOutputSnow o) {
                 float2 depthUv = GetDepthUVAt(IN.worldPos.xz);
-                half4 c = tex2D(_MainTex, depthUv);
+                half4 c = tex2D(_MainTex, IN.uv_MainTex);
                 float d = saturate(GetDisplacementAmount(depthUv) * 1);
                 o.Albedo = c.rgb;
                 o.Shadow = (-d)+1;

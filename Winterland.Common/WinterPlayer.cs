@@ -15,7 +15,8 @@ namespace Winterland.Common {
         public Player player = null;
         private SnowSinker snowSinker = null;
         private float snowTargetSize = 1f;
-        private float snowLerpSpeed = 10f;
+        private float snowTargetStrength = 1f;
+        private readonly float snowLerpSpeed = 5f;
 
         public static WinterPlayer Get(Player player) {
             return player.GetComponent<WinterPlayer>();
@@ -24,22 +25,28 @@ namespace Winterland.Common {
         private void Awake() {
             snowSinker = gameObject.AddComponent<SnowSinker>();
             snowSinker.Size = 1f;
-            snowSinker.Strength = 1f;
+            snowSinker.Strength = 0.5f;
         }
 
         private void Update() {
             snowSinker.Size = Mathf.Lerp(snowSinker.Size, snowTargetSize, snowLerpSpeed * Core.dt);
+            snowSinker.Strength = Mathf.Lerp(snowSinker.Strength, snowTargetStrength, snowLerpSpeed * Core.dt);
         }
 
         private void FixedUpdate() {
             snowSinker.Enabled = player.IsGrounded();
-            if (!player.IsGrounded())
+
+            if (!player.IsGrounded()) {
                 snowTargetSize = 2f;
-            else
+                snowTargetStrength = 1f;
+            } else {
                 snowTargetSize = 1f;
+                snowTargetStrength = 0.5f;
+            }
             if (player.ability is SlideAbility && player.moveStyle != MoveStyle.BMX && player.moveStyle != MoveStyle.SKATEBOARD)
                 snowTargetSize = 1.5f;
-
+            if (player.moveStyle == MoveStyle.ON_FOOT && player.ability is not SlideAbility)
+                snowTargetStrength = 0.25f;
         }
     }
 }
