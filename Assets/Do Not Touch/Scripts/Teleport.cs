@@ -42,6 +42,14 @@ namespace Reptile
 		private void OnEnable()
 		{
 			teleportRoutine = null;
+
+			// Suppress "is assigned but its value is never used" in Unity Editor
+			var a = fadeToBlackDurationDoor;
+			var b = teleportRoutine;
+			var c = blackDurationDoor;
+			var d = fadeOpenDurationDoor;
+			var e = blackDurationDeathzone;
+			var f = fadeOpenDurationDeathzone;
 		}
 	}
 }
