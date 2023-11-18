@@ -13,10 +13,12 @@ namespace Winterland.Plugin
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin {
+        public static Plugin Instance;
         public static ManualLogSource Log = null;
         public static WinterConfig WinterConfig = null;
 
         private void Awake() {
+            Instance = this;
             try {
                 Initialize();
                 Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} {PluginInfo.PLUGIN_VERSION} is loaded!");
@@ -40,5 +42,12 @@ namespace Winterland.Plugin
             var winterManager = WinterManager.Create();
             winterManager.SetupStage(newStage);
         }
+
+        private void Update() {
+            UpdateEvent?.Invoke();
+        }
+
+        public delegate void UpdateDelegate();
+        public static UpdateDelegate UpdateEvent;
     }
 }

@@ -16,9 +16,16 @@ namespace Winterland.Common {
         public AssetBundle WinterBundle = null;
         public static WinterAssets Instance { get; private set; }
 
+        private string folder;
+
         public WinterAssets(string folder) {
             Instance = this;
             bundleByStageName = new();
+            this.folder = folder;
+            LoadBundles();
+        }
+        
+        private void LoadBundles() {
             var winterBundleLocation = Path.Combine(folder, "winter");
             if (File.Exists(winterBundleLocation))
                 WinterBundle = AssetBundle.LoadFromFile(winterBundleLocation);
@@ -40,6 +47,23 @@ namespace Winterland.Common {
             if (!bundleByStageName.TryGetValue(stageName, out var bundle))
                 return null;
             return bundle.LoadAsset<GameObject>(stageName);
+        }
+
+        /// <summary>
+        /// Reload asset bundles, for development, rapid iteration
+        /// </summary>
+        public void ReloadBundles() {
+            UnloadBundles();
+            LoadBundles();
+        }
+
+        private void UnloadBundles() {
+            WinterBundle?.Unload(false);
+            WinterBundle = null;
+            foreach(var bundle in bundleByStageName) {
+                bundle.Value.Unload(false);
+            }
+            bundleByStageName.Clear();
         }
     }
 }
