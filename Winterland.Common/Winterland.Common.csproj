@@ -35,6 +35,6 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(TargetDir)\$(TargetFileName)&quot; &quot;$(SolutionDir)\Winterland.Editor\Assets\Scripts&quot; /y" />
+    <Exec Command="xcopy &quot;$(TargetDir)\$(TargetFileName)&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
   </Target>
 </Project>
