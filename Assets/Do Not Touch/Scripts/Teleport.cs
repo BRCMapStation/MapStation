@@ -50,6 +50,8 @@ namespace Reptile
 			var d = fadeOpenDurationDoor;
 			var e = blackDurationDeathzone;
 			var f = fadeOpenDurationDeathzone;
+			var g = fadeToBlackDurationDeathzone;
+			var h = giveSpeedAtSpawn;
 		}
 	}
 }
