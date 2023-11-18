@@ -27,7 +27,7 @@ namespace Winterland.Common {
         [SerializeField]
         private Texture2D holeTexture = null;
         [SerializeField]
-        private Texture2D edgeClearTexture = null;
+        private float gridSize = 10f;
         private RenderTexture backBufferRenderTexture = null;
         private Texture2D clearTexture = null;
         private Vector2 cameraPosition = Vector2.zero;
@@ -91,8 +91,9 @@ namespace Winterland.Common {
             if (currentCam != null)
                 newCameraPosition = new Vector2(currentCam.transform.position.x, currentCam.transform.position.z);
 
-            if (newCameraPosition != cameraPosition)
-                TransformTexture(cameraPosition, newCameraPosition);
+            var oldCameraPosition = cameraPosition;
+            newCameraPosition.x = Mathf.Floor(newCameraPosition.x / gridSize) * gridSize;
+            newCameraPosition.y = Mathf.Floor(newCameraPosition.y / gridSize) * gridSize;
 
             currentUpdateTime += Core.dt;
             currentClearTime += Core.dt;
@@ -110,8 +111,10 @@ namespace Winterland.Common {
             currentClearTime -= clearAmount * clearRate;
 
             cameraPosition = newCameraPosition;
-            
-            
+
+            if (newCameraPosition != oldCameraPosition)
+                TransformTexture(oldCameraPosition, newCameraPosition);
+
             Shader.SetGlobalVector(CameraPositionProp, cameraPosition);
         }
 
