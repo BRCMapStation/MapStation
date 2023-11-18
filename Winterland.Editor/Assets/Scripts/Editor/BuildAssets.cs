@@ -9,7 +9,7 @@ public class BuildAssets {
     private const string OutputDirectory = "AssetBundles";
     private const string PluginName = "MilleniumWinterland";
 
-    [MenuItem("BRC/Build Assets", priority = -50)]
+    [MenuItem("BRC/Build Assets _F5", priority = -50)]
     private static void BuildAllAssetBundles() {
         PreBuildAssetBundles();
         CleanUpOutputDirectoryPreBuild(OutputDirectory);
