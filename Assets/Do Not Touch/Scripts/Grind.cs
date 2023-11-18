@@ -160,6 +160,7 @@ public class Grind : MonoBehaviour
     }
 
     void OnValidate() {
+		if(EditorUtility.IsPersistent(this)) return;
         // Unpack prefab as soon as it's added to the scene.
         // This allows deleting the prefab's default 2x nodes and grindline without
         // breaking the prefab or prompting the user "children of a prefab instance cannot be deleted..."

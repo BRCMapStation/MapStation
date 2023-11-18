@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
+using UnityEditor;
 using Unity.EditorCoroutines.Editor;
 #endif
 
@@ -191,6 +192,7 @@ namespace Reptile
 
 
         private void OnValidate() {
+			if(EditorUtility.IsPersistent(this)) return;
             // Ensure subscription
             spline.OnChange -= OnSplineChange;
             spline.OnChange += OnSplineChange;

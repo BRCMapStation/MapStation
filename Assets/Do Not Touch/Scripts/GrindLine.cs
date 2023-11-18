@@ -446,6 +446,7 @@ namespace Reptile
 		}
 
 		private void OnValidate() {
+			if(EditorUtility.IsPersistent(this)) return;
 			PathReference = PathReference != null ? PathReference : GetComponentInParent<GrindPath>();
 		}
 

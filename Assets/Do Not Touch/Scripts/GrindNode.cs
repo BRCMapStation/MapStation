@@ -143,6 +143,7 @@ namespace Reptile
 		}
 
 		private void OnValidate() {
+			if(EditorUtility.IsPersistent(this)) return;
 			// Auto-set PathReference
 			if (PathReference == null) {
 				PathReference = gameObject.GetComponentInParent<GrindPath>();
