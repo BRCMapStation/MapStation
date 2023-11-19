@@ -11,6 +11,11 @@ public class BuildAssets {
 
     [MenuItem("BRC/Build Assets _F5", priority = -50)]
     private static void BuildAllAssetBundles() {
+        if (PluginEditor.IsPluginOutOfDate()) {
+            UnityEngine.Debug.Log("Winterland assemblies seem to be out of date, rebuilding!");
+            var rebuildProcess = PluginEditor.RebuildPlugin();
+            rebuildProcess.WaitForExit();
+        }
         PreBuildAssetBundles();
         CleanUpOutputDirectoryPreBuild(OutputDirectory);
         BuildAssetBundles(OutputDirectory);
