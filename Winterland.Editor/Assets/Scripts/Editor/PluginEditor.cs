@@ -13,6 +13,10 @@ public class PluginEditor : MonoBehaviour
     {
         RebuildPlugin();
     }
+    [MenuItem("BRC/Update Plugin _F6", true, priority = 1)]
+    private static bool UpdatePluginValidate() {
+        return IsPluginOutOfDate();
+    }
 
     public static bool IsPluginOutOfDate()
     {
