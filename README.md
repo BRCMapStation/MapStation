@@ -8,3 +8,7 @@ Everytime you build assets they will be automatically copied to your `BepInEx/pl
 
 ## Unity Project
 Prefabs saved under `Assets/Stage Additions` will be automatically exported to a `stages` folder with the prefab name as the filename when you use `Build Assets`. If the name matches the lowercase internal name of one of the game's stages (hideout, osaka, square, etc.) the prefab will be automatically instantiated into the stage in-game.
+
+Use `BRC -> Build Assets` or press F5 to build the assets and update the plugin with your changes.
+
+Use `BRC -> Update Plugin` or press F6 to rebuild the plugin. Use this when you pull cod echanges from the repo. This runs the powershell script located at `scripts/rebuild.ps1`.
