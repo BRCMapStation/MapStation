@@ -12,6 +12,7 @@ namespace Winterland.Common {
     /// </summary>
     public class WinterPlayer : MonoBehaviour {
         public ToyLine CurrentToyLine = null;
+        [NonSerialized]
         public Player player = null;
         private SnowSinker snowSinker = null;
         private float snowTargetSize = 1f;

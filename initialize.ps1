@@ -58,17 +58,8 @@ if ($dialogResult -eq "OK")
     $env:BRCPath = $path
 }
 
-Write-Output "====== Building Common Scripts ======="
+cd scripts
 
-cd Winterland.Common
-dotnet build
-
-Write-Output "====== Building Plugin ======="
-
-cd ../
-cd Winterland.Plugin
-dotnet build
-
-cd ../
+./rebuild.ps1
 
 read-host “Press ENTER to continue”
