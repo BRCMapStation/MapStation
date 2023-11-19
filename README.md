@@ -11,4 +11,4 @@ Prefabs saved under `Assets/Stage Additions` will be automatically exported to a
 
 Use `BRC -> Build Assets` or press F5 to build the assets and update the plugin with your changes.
 
-Use `BRC -> Update Plugin` or press F6 to rebuild the plugin. Use this when you pull cod echanges from the repo. This runs the powershell script located at `scripts/rebuild.ps1`.
+Use `BRC -> Update Plugin` or press F6 to rebuild the plugin. Use this when you pull code changes from the repo. This runs the powershell script located at `scripts/rebuild.ps1`.
