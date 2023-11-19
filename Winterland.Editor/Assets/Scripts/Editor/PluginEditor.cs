@@ -17,22 +17,23 @@ public class PluginEditor : MonoBehaviour
     public static bool IsPluginOutOfDate()
     {
         var rootPath = Path.GetDirectoryName(Directory.GetCurrentDirectory());
-        var commonAssemblyPath = Path.Combine("Assets/Scripts", "Winterland.Common.dll");
-        if (!File.Exists(commonAssemblyPath))
-            return true;
-        var assemblyInfo = new FileInfo(commonAssemblyPath);
-        var assemblyModifiedDate = assemblyInfo.LastWriteTime;
         var commonPath = Path.Combine(rootPath, "Winterland.Common");
-        var latestModifiedCommon = GetLatestModifiedDateTimeForScriptsInDirectory(commonPath);
-        if (latestModifiedCommon > assemblyModifiedDate)
+        var pluginPath = Path.Combine(rootPath, "Winterland.Plugin");
+        var binPath = Path.Combine(pluginPath, "bin");
+        if (!Directory.Exists(binPath))
+            return true;
+        var latestDllModifiedDate = GetLatestModifiedDateTimeForFilesInDirectory(binPath, "*.dll");
+        var latestCommonSourceCodeModifiedDate = GetLatestModifiedDateTimeForFilesInDirectory(commonPath, "*.cs");
+        var latestPluginSourceCodeModifiedDate = GetLatestModifiedDateTimeForFilesInDirectory(pluginPath, "*.cs");
+        if (latestCommonSourceCodeModifiedDate > latestDllModifiedDate || latestPluginSourceCodeModifiedDate > latestDllModifiedDate)
             return true;
         return false;
     }
 
-    private static DateTime GetLatestModifiedDateTimeForScriptsInDirectory(string directory)
+    private static DateTime GetLatestModifiedDateTimeForFilesInDirectory(string directory, string pattern)
     {
         var newestDate = DateTime.MinValue;
-        var allScripts = Directory.GetFiles(directory, "*.cs", SearchOption.AllDirectories);
+        var allScripts = Directory.GetFiles(directory, pattern, SearchOption.AllDirectories);
         foreach(var script in allScripts)
         {
             var scriptInfo = new FileInfo(script);
