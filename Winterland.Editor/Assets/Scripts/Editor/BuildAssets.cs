@@ -13,8 +13,14 @@ public class BuildAssets {
     private static void BuildAllAssetBundles() {
         if (PluginEditor.IsPluginOutOfDate()) {
             UnityEngine.Debug.Log("Winterland assemblies seem to be out of date, rebuilding!");
-            var rebuildProcess = PluginEditor.RebuildPlugin();
-            rebuildProcess.WaitForExit();
+            try {
+                var rebuildProcess = PluginEditor.RebuildPlugin();
+                rebuildProcess.WaitForExit();
+            }
+            catch(Exception e) {
+                UnityEngine.Debug.LogError("There was a problem rebuilding assemblies.");
+                UnityEngine.Debug.LogError(e);
+            }
         }
         PreBuildAssetBundles();
         CleanUpOutputDirectoryPreBuild(OutputDirectory);
