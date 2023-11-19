@@ -39,6 +39,6 @@
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="mkdir &quot;$(BepInExDirectory)\plugins\$(SolutionName)&quot;&#xD;&#xA;xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\$(SolutionName)&quot; /E /H /C" />
+    <Exec Command="mkdir &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot;&#xD;&#xA;xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot; /E /H /C" />
   </Target>
 </Project>
