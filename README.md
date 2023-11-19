@@ -12,3 +12,8 @@ Prefabs saved under `Assets/Stage Additions` will be automatically exported to a
 Use `BRC -> Build Assets` or press F5 to build the assets and update the plugin with your changes. This will also automatically run `Update Plugin` if it detects that `Winterland.Common.dll` is out of date.
 
 Use `BRC -> Update Plugin` or press F6 to rebuild the plugin. This runs the powershell script located at `scripts/rebuild.ps1`.
+
+## Testing In-Game
+Press F5 In-Game to reload the plugin assets and the current stage, to test changes in realtime.
+
+When launching for the first time a `BepInEx/config/Winterland.Plugin.cfg` config file will be created. There is a QuickLaunch option that, when set to true, will make the game skip all intros and load straight into Millenium Square.
