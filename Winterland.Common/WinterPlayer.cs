@@ -49,7 +49,7 @@ namespace Winterland.Common {
             if (player.moveStyle == MoveStyle.ON_FOOT && player.ability is not SlideAbility)
                 snowTargetStrength = 0.2f;
             if (player.ability is GroundTrickAbility)
-                snowTargetSize = 2f;
+                snowTargetSize = 1.5f;
         }
     }
 }
