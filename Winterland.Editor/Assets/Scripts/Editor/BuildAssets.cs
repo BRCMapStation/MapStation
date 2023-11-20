@@ -9,6 +9,18 @@ public class BuildAssets {
     private const string OutputDirectory = "AssetBundles";
     private const string PluginName = "MilleniumWinterland";
 
+    [MenuItem("BRC/Build Assets and Run on Steam _F6", priority = -49)]
+    private static void BuildAndRunSteam() {
+        BuildAllAssetBundles();
+        LaunchGameSteam();
+    }
+    [MenuItem("BRC/Build Assets and Run on Steam _F6", true, priority = -49)]
+    private static bool BuildAndRunSteamValidate() {
+        if (Process.GetProcessesByName("Bomb Rush Cyberfunk").Length > 0)
+            return false;
+        var steamLoc = GetSteamExecutablePath();
+        return !string.IsNullOrEmpty(steamLoc);
+    }
     [MenuItem("BRC/Build Assets _F5", priority = -50)]
     private static void BuildAllAssetBundles() {
         if (PluginEditor.IsPluginOutOfDate()) {
@@ -28,6 +40,28 @@ public class BuildAssets {
         CleanUpOutputDirectoryPostBuild(OutputDirectory);
         CopyToBepInExPluginsFolder(OutputDirectory, PluginName);
         UnityEngine.Debug.Log("Done building assets!");
+        //Process.Start($"steam://run/1353230//{args}/");
+    }
+
+    private static void LaunchGameSteam() {
+        var bepinexDirectory = Environment.GetEnvironmentVariable("BepInExDirectory", EnvironmentVariableTarget.User);
+        if (bepinexDirectory == null)
+            bepinexDirectory = Environment.GetEnvironmentVariable("BepInExDirectory", EnvironmentVariableTarget.Machine);
+        if (bepinexDirectory == null) {
+            return;
+        }
+        var preloaderPath = Path.Combine(bepinexDirectory, "core/BepInEx.Preloader.dll");
+        preloaderPath = preloaderPath.Replace("/", @"\");
+        var args = $"-applaunch 1353230 --doorstop-enable true --doorstop-target \"{preloaderPath}\"";
+        var steamLoc = GetSteamExecutablePath();
+        if (string.IsNullOrEmpty(steamLoc))
+            return;
+        Process.Start(steamLoc, args);
+    }
+
+    private static string GetSteamExecutablePath() {
+        var installPath = Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam", "InstallPath", "") as string;
+        return Path.Combine(installPath, "steam.exe");
     }
 
     private static void CopyToBepInExPluginsFolder(string outputDirectory, string pluginName) {

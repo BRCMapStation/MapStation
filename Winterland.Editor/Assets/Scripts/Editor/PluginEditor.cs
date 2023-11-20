@@ -8,12 +8,12 @@ using UnityEngine;
 
 public class PluginEditor : MonoBehaviour
 {
-    [MenuItem("BRC/Update Plugin _F6", priority = 1)]
+    [MenuItem("BRC/Update Plugin _F7", priority = 1)]
     private static void UpdatePlugin()
     {
         RebuildPlugin();
     }
-    [MenuItem("BRC/Update Plugin _F6", true, priority = 1)]
+    [MenuItem("BRC/Update Plugin _F7", true, priority = 1)]
     private static bool UpdatePluginValidate() {
         return IsPluginOutOfDate();
     }
