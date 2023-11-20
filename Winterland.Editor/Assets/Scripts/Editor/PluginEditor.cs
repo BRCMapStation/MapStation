@@ -57,7 +57,8 @@ public class PluginEditor : MonoBehaviour
 
     private static Process RunScript(string script) {
         var startInfo = new ProcessStartInfo();
-        startInfo.FileName = @"C:\windows\system32\windowspowershell\v1.0\powershell.exe";
+        var powershellDirectory = Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine", "ApplicationBase", "") as string;
+        startInfo.FileName = Path.Combine(powershellDirectory, "powershell.exe");
         startInfo.WorkingDirectory = Path.GetDirectoryName(script);
         script = "\"&'" + script + "'\"";
         startInfo.Arguments = script;
