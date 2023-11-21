@@ -59,7 +59,7 @@ Shader "Winterland/Fallen Snow Surface" {
             float4 tessDistance(appdata v0, appdata v1, appdata v2) {
                 float minDist = 10.0;
                 float maxDist = 30.0;
-                float tessAmount = _Tess * v0.color.r;
+                float tessAmount = ((_Tess - 1) * v0.color.r) + 1;
                 return UnityDistanceBasedTess(v0.vertex, v1.vertex, v2.vertex, minDist, maxDist, tessAmount);
             }
 
