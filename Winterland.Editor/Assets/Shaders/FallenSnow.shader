@@ -51,6 +51,7 @@ Shader "Winterland/Fallen Snow Surface" {
                 float4 tangent : TANGENT;
                 float3 normal : NORMAL;
                 float2 texcoord : TEXCOORD0;
+                float4 color : COLOR;
             };
 
             float _Tess;
@@ -58,7 +59,8 @@ Shader "Winterland/Fallen Snow Surface" {
             float4 tessDistance(appdata v0, appdata v1, appdata v2) {
                 float minDist = 10.0;
                 float maxDist = 30.0;
-                return UnityDistanceBasedTess(v0.vertex, v1.vertex, v2.vertex, minDist, maxDist, _Tess);
+                float tessAmount = _Tess * v0.color.r;
+                return UnityDistanceBasedTess(v0.vertex, v1.vertex, v2.vertex, minDist, maxDist, tessAmount);
             }
 
             sampler2D _DispTex;
