@@ -1,6 +1,8 @@
 Shader "Winterland/Fallen Snow Surface" {
     Properties{
         _MainTex("Base (RGB)", 2D) = "white" {}
+        _SinkShadowStrength("Sink Shadow Strength", Range(0,1)) = 1.0
+        _SinkColor("Sink Color", Color) = (1, 1, 1, 1)
         _Tess("Tessellation", Range(1,64)) = 4
         _Displacement("Displacement", float) = 1.0
         _TestDisplacement("Test Displacement", Range(0,1)) = 0.0
@@ -13,7 +15,7 @@ Shader "Winterland/Fallen Snow Surface" {
             #pragma surface surf SimpleLambert addshadow fullforwardshadows vertex:disp tessellate:tessDistance nolightmap
             #pragma target 4.6
             #include "Tessellation.cginc"
-            #define LIGHT_MULTIPLY 150.0
+            #define LIGHT_THRESHOLD 0.5
 
             float4 LightColor;
             float4 ShadowColor;
@@ -37,7 +39,12 @@ Shader "Winterland/Fallen Snow Surface" {
             }
 
             half4 LightingSimpleLambert(SurfaceOutputSnow s, half3 lightDir, half atten) {
-              half NdotL = saturate(dot(s.Normal, lightDir) * atten * LIGHT_MULTIPLY) * s.Shadow;
+              half NdotL = saturate(dot(s.Normal, lightDir) * atten);
+              if (NdotL > LIGHT_THRESHOLD)
+                  NdotL = 1.0;
+              else
+                  NdotL = 0.0;
+              NdotL *= s.Shadow;
               // atten is shadows!
               float4 lightColor = lerp(ShadowColor, LightColor, NdotL);
               half4 c;
@@ -88,13 +95,17 @@ Shader "Winterland/Fallen Snow Surface" {
             }
 
             sampler2D _MainTex;
+            float4 _SinkColor;
+            float _SinkShadowStrength;
 
             void surf(Input IN, inout SurfaceOutputSnow o) {
                 float2 depthUv = GetDepthUVAt(IN.worldPos.xz);
                 half4 c = tex2D(_MainTex, IN.uv_MainTex);
                 float d = saturate(GetDisplacementAmount(depthUv) * 1);
-                o.Albedo = c.rgb;
+                o.Albedo = lerp(c.rgb, _SinkColor.rgb, d);
+                d *= _SinkShadowStrength;
                 o.Shadow = (-d)+1;
+                
             }
             ENDCG
         }
