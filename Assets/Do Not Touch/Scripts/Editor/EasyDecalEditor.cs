@@ -175,7 +175,8 @@ class EasyDecalEditableFields : ScriptableObject {
         CalculateNormals = decal.CalculateNormals;
         Quality = decal.Quality;
         Alpha = decal.Alpha;
-        Material = decal.DecalMaterial;
+        Material = (Material)decal.GetType().GetField("material",
+            BindingFlags.NonPublic | BindingFlags.Instance).GetValue(decal);
     }
     internal void writeToEasyDecal() {
         decal.Baked = Baked;
