@@ -29,6 +29,7 @@ namespace Winterland.Plugin
 
         private void Awake() {
             Instance = this;
+            LightmapSettings.lightmaps = new LightmapData[] { };
             QualitySettings.shadowDistance = 150f;
         }
     }

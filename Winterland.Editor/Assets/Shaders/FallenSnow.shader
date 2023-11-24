@@ -12,7 +12,7 @@ Shader "Winterland/Fallen Snow Surface" {
             LOD 300
 
             CGPROGRAM
-            #pragma surface surf SimpleLambert addshadow fullforwardshadows vertex:disp tessellate:tessDistance nolightmap
+            #pragma surface surf SimpleLambert addshadow fullforwardshadows vertex:disp tessellate:tessDistance nolightmap noambient
             #pragma target 4.6
             #include "Tessellation.cginc"
             #define LIGHT_THRESHOLD 0.5

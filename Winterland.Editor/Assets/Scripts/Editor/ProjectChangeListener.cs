@@ -7,7 +7,6 @@ using UnityEditor;
 public class ProjectChangeListener
 {
     static ProjectChangeListener() {
-        Recompile();
         EditorApplication.projectChanged += Recompile;
     }
     private static void Recompile() {
