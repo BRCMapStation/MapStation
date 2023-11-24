@@ -9,6 +9,20 @@ public class BuildAssets {
     private const string OutputDirectory = "AssetBundles";
     private const string PluginName = "MilleniumWinterland";
 
+    [UnityEditor.Callbacks.OnOpenAsset]
+    private static bool OpenAssetCallback(int instanceID, int line) {
+        RebuildCallback();
+        return false;
+    }
+
+    [UnityEditor.Callbacks.DidReloadScripts]
+    private static void RebuildCallback() {
+        if (!PluginEditor.IsPluginOutOfDate())
+            return;
+        var rebuildProcess = PluginEditor.RebuildPlugin();
+        rebuildProcess.WaitForExit();
+    }
+
     [MenuItem("BRC/Build Assets and Run on Steam _F6", priority = -49)]
     private static void BuildAndRunSteam() {
         BuildAllAssetBundles();
