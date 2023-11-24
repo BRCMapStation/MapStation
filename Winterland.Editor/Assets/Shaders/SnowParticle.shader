@@ -1,4 +1,4 @@
-Shader "BRC/Ambient Environment"
+Shader "Winterland/Snow Particle"
 {
     Properties
     {
