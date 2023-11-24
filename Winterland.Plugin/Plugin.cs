@@ -8,6 +8,7 @@ using System.IO;
 using System.Reflection;
 using System.Linq;
 using Winterland.Common;
+using System.Runtime.CompilerServices;
 
 namespace Winterland.Plugin
 {
@@ -16,6 +17,10 @@ namespace Winterland.Plugin
         public static Plugin Instance;
         public static ManualLogSource Log = null;
         public static WinterConfig WinterConfig = null;
+
+        // Hack: we must reference dependent assemblies from a class that's guaranteed to execute or else they don't
+        // load and MonoBehaviours are missing.
+        private static Type ForceLoadMapStationCommonAssembly = typeof(Winterland.MapStation.Common.Dependencies.AssemblyDependencies);
 
         private void Awake() {
             Instance = this;

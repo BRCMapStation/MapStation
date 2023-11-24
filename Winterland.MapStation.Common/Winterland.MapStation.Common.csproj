@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
-    <AssemblyName>Winterland.Plugin</AssemblyName>
-    <Description>BepInEx Plugin Assembly for Millenium Winterland.</Description>
+    <AssemblyName>Winterland.MapStation.Common</AssemblyName>
+    <Description></Description>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
@@ -11,6 +11,7 @@
   
   <PropertyGroup>
 	<ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
+	<RootNamespace>Winterland.MapStation.Common</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,13 +25,7 @@
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\Winterland.MapStation.Common\Winterland.MapStation.Common.csproj" />
-    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
-    <ProjectReference Include="..\Winterland.Common\Winterland.Common.csproj" />
-  </ItemGroup>
-  
+
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(ManagedPath)/Assembly-CSharp.dll</HintPath>
@@ -38,8 +33,9 @@
 	  <Publicize>true</Publicize>
     </Reference>
   </ItemGroup>
-  
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="mkdir &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot;&#xD;&#xA;xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot; /E /H /C" />
+    <Exec Command="xcopy &quot;$(TargetDir)\$(TargetFileName)&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
+    <Exec Command="xcopy &quot;$(ManagedPath)\EasyDecal.Runtime.dll&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
   </Target>
 </Project>
