@@ -11,8 +11,14 @@ catch [System.Management.Automation.CommandNotFoundException]
 }
 try
 {
-    dotnet | Out-Null
-   ".NET SDK is installed"
+    $netsdks = dotnet --list-sdks
+    if (-not $netsdks -contains "sdk"){
+        winget install dotnet-sdk-8
+    }
+    else
+    {
+        ".NET SDK is installed"
+    }
 }
 catch [System.Management.Automation.CommandNotFoundException]
 {
