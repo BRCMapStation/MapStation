@@ -12,7 +12,7 @@ catch [System.Management.Automation.CommandNotFoundException]
 try
 {
     $netsdks = dotnet --list-sdks
-    if (-not $netsdks -contains "sdk"){
+    if (-not $netsdks -like "*sdk*"){
         winget install dotnet-sdk-8
     }
     else
