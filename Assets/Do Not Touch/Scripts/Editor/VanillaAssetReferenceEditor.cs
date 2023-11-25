@@ -7,14 +7,24 @@ using Microsoft.SqlServer.Server;
 using System;
 using System.Drawing;
 using Unity.VisualScripting.FullSerializer;
+using System.Collections.Generic;
 
 [CustomEditor(typeof(VanillaAssetReference))]
 public class VanillaAssetReferenceEditor : Editor {
+    /// <summary>
+    /// Prefixes to be stripped from asset paths.
+    /// Allows you to nest Reptile's vanilla assets within a subdirectory of
+    /// your project.
+    /// </summary>
+    public static List<string> StripPathPrefixes = new List<string> {
+        "MappingToolkit/Assets/Do Not Touch/ReptileAssets/"
+    };
+
     VanillaAssetReference t { get => target as VanillaAssetReference; }
     public override void OnInspectorGUI() {
         EditorGUILayout.HelpBox(
             "Repairs references to base game assets by re-assigning them at runtime.\n" +
-            "References from our asset bundles to vanilla game asset bundles have the wrong IDs and are null at runtime unless we fix them.\n"
+            "References from our asset bundles to vanilla game asset bundles have the wrong IDs and are null at runtime unless we fix them.\n" +
             "This component stores the assetbundle name and asset path so it can retrieve the assets at runtime.",
             MessageType.Info);
         base.OnInspectorGUI();
@@ -25,9 +35,6 @@ public class VanillaAssetReferenceEditor : Editor {
                 menu.AddItem(new GUIContent(iterator.propertyPath), false, onFieldSelected, iterator.propertyPath);
             }
             menu.ShowAsContext();
-        }
-        if(GUILayout.Button("Log JSON")) {
-            Debug.Log(JsonUtility.ToJson(t));
         }
     }
     private void onFieldSelected(object selected) {
@@ -46,6 +53,13 @@ public class VanillaAssetReferenceEditor : Editor {
         if (bundle == null || bundle == "") {
             Debug.LogError("Referenced asset is not assigned to an assetbundle.");
             return;
+        }
+        const string assetsDir = "Assets/";
+        foreach(var prefix in StripPathPrefixes) {
+            if(path.IndexOf(assetsDir + prefix) == 0) {
+                path = assetsDir + path.Substring(assetsDir.Length + prefix.Length);
+                break;
+            }
         }
         t.fields.Add(String.Format("{0}={1}:{2}", field, bundle, path));
     }
