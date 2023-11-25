@@ -40,6 +40,10 @@
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="mkdir &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot;&#xD;&#xA;xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot; /E /H /C" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/CommonAPI.dll&quot;" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.Common.dll&quot;" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.MapStation.Common.dll&quot;" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetPath)&quot;" />
+    <Exec Command="xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot; /E /H /C" />
   </Target>
 </Project>
