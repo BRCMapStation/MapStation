@@ -60,7 +60,7 @@ namespace Winterland.Common {
 
             if (snowParticles != null) {
                 var emission = snowParticles.emission;
-                if (OnSnow && player.IsGrounded() && player.GetVelocity().sqrMagnitude >= 5f) {
+                if (OnSnow && player.IsGrounded() && player.GetVelocity().sqrMagnitude >= FallenSnowController.Instance.MinimumSpeedForSnowParticles) {
                     emission.enabled = true;
                 } else
                     emission.enabled = false;
@@ -73,8 +73,9 @@ namespace Winterland.Common {
                 snowTargetSize = 1f;
                 snowTargetStrength = 0.5f;
             }
+            /*
             if (player.ability is SlideAbility && player.moveStyle != MoveStyle.BMX && player.moveStyle != MoveStyle.SKATEBOARD)
-                snowTargetSize = 1.5f;
+                snowTargetSize = 1.5f;*/
             if (player.moveStyle == MoveStyle.ON_FOOT && player.ability is not SlideAbility)
                 snowTargetStrength = 0.2f;
             if (player.ability is GroundTrickAbility)

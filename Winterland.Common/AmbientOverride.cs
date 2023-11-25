@@ -10,6 +10,8 @@ namespace Winterland.Common {
     [ExecuteAlways]
     public class AmbientOverride : MonoBehaviour {
         public static AmbientOverride Instance = null;
+        [Header("Skybox texture. Leave this at null to keep the original stage skybox.")]
+        public Texture Skybox = null;
         public Color LightColor = Color.white;
         public Color ShadowColor = Color.black;
 
@@ -27,6 +29,10 @@ namespace Winterland.Common {
             }
 
             void ReptileAwake() {
+
+                if (Skybox != null)
+                    RenderSettings.skybox.mainTexture = Skybox;
+
                 var sun = FindObjectOfType<AmbientManager>();
                 if (sun != null) {
                     sun.transform.rotation = transform.rotation;
