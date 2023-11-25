@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 namespace Winterland.Plugin
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency(WinterCharacters.CrewBoomGUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin {
         public static Plugin Instance;
         public static ManualLogSource Log = null;
@@ -36,6 +37,7 @@ namespace Winterland.Plugin
         private void Initialize() {
             var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
             new WinterAssets(assetBundlesFolder);
+            WinterCharacters.Initialize();
             Log = Logger;
             WinterConfig = new WinterConfig(Config);
             StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;

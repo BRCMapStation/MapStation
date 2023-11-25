@@ -10,7 +10,7 @@ namespace Winterland.Common {
     [ExecuteAlways]
     public class AmbientOverride : MonoBehaviour {
         public static AmbientOverride Instance = null;
-        [Header("Skybox texture. Leave this at null to keep the original stage skybox.")]
+        [Header("Skybox texture. Leave this set to nothing to keep the original stage skybox.")]
         public Texture Skybox = null;
         public Color LightColor = Color.white;
         public Color ShadowColor = Color.black;
@@ -39,7 +39,8 @@ namespace Winterland.Common {
                 }
 
                 var myLite = GetComponent<Light>();
-                Destroy(myLite);
+                if (myLite != null)
+                    Destroy(myLite);
             }
         }
 

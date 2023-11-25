@@ -25,6 +25,12 @@
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\libs\CrewBoomAPI\CrewBoomAPI.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
