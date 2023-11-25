@@ -10,18 +10,35 @@ using HarmonyLib;
 namespace Winterland.Plugin.Patches {
     [HarmonyPatch(typeof(WorldHandler))]
     internal class WorldHandlerPatch {
-        [HarmonyPostfix]
-        [HarmonyPatch(nameof(WorldHandler.CharacterIsAlreadyNPCInScene))]
-        private static void CharacterIsAlreadyNPCInScene_Postfix(ref bool __result, WorldHandler __instance, Characters c) {
-            var baseCharacter = WinterCharacters.GetBaseCharacter(c);
+
+        [HarmonyPrefix]
+        [HarmonyPatch(nameof(WorldHandler.SetNPCAvailabilityBasedOnPlayer))]
+        private static bool SetNPCAvailabilityBasedOnPlayer_Prefix(WorldHandler __instance) {
+            var baseCharacter = WinterCharacters.GetBaseCharacter(__instance.currentPlayer.character);
             if (baseCharacter == Characters.NONE)
-                return;
-            foreach (var npc in __instance.sceneObjectsRegister.NPCs) {
-                if (npc.character == baseCharacter && npc.isActive && npc.dialogueLevel <= npc.highestDialogLevel) {
-                    __result = true;
-                    return;
-                }
+                return true;
+            foreach(var npc in __instance.sceneObjectsRegister.NPCs) {
+                npc.SetAvailable(npc.character != baseCharacter);
             }
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(nameof(WorldHandler.CharacterIsAlreadyNPCInScene))]
+        private static bool CharacterIsAlreadyNPCInScene_Prefix(ref Characters c, WorldHandler __instance, ref bool __result) {
+            var baseCharacter = WinterCharacters.GetBaseCharacter(c);
+            if (baseCharacter != Characters.NONE)
+                c = baseCharacter;
+
+            var playerBaseCharacter = WinterCharacters.GetBaseCharacter(__instance.currentPlayer.character);
+            if (playerBaseCharacter == Characters.NONE)
+                playerBaseCharacter = __instance.currentPlayer.character;
+
+            if (playerBaseCharacter == c) {
+                __result = true;
+                return false;
+            }
+            return true;
         }
 
         [HarmonyPrefix]
