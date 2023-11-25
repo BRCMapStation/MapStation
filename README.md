@@ -17,3 +17,15 @@ Use `BRC -> Update Plugin` or press F6 to rebuild the plugin code. This runs the
 Press F5 In-Game to reload the plugin assets and the current stage, to test changes in realtime.
 
 When launching for the first time a `BepInEx/config/Winterland.Plugin.cfg` config file will be created. There is a QuickLaunch option that, when set to true, will make the game skip all intros and load straight into Millenium Square.
+
+### Attaching a debugger
+
+You can attach a debugger to the game if you first convert it to a debug build and download pdb2mdb.
+
+The script `./scripts/convert-to-debug-build.ps1` will convert your BRC installation to a debug build.
+
+Download pdb2mdb to `./scripts/pdb2mdb.exe`.
+
+Then build the solution using the "Debug" configuration.
+
+You should see `.dll.mdb` files in your `BepInEx/plugins/MilleniumWinterland`. The game should show "Development Build" in the lower-right corner. You should be able to "Attach Unity Debugger" in Visual Studio, or equivalent in other IDEs.
