@@ -24,8 +24,6 @@ catch [System.Management.Automation.CommandNotFoundException]
 {
     winget install dotnet-sdk-8
 }
-Write-Output "Initializing Submodules..."
-git submodule update --init --recursive
 Write-Output "====== Cleaning Projects ======="
 dotnet clean
 # CommonAPI

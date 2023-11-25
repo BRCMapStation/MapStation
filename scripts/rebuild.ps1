@@ -1,4 +1,6 @@
 cd ../
+Write-Output "====== Updating Submodules ======="
+git submodule update --init --recursive
 Write-Output "====== Restoring Assembly GUIDs ======="
 
 $metaPath = ".\Winterland.Editor\Assets\Scripts\Winterland.Common.dll.meta"
