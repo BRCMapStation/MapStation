@@ -55,12 +55,25 @@ namespace Winterland.Common {
             OffSnow = 1;
         }
 
+        public bool IsOnLevelGround() {
+            if (player.IsOnNonStableGround())
+                return false;
+            if (player.motor.groundRigidbody != null)
+                return false;
+            if (player.motor.isOnPlatform)
+                return false;
+            if (player.IsGrounded())
+                return true;
+            return false;
+        }
+
         private void FixedUpdate() {
-            snowSinker.Enabled = player.IsGrounded() && OnSnow;
+            var snowFX = IsOnLevelGround() && OnSnow;
+            snowSinker.Enabled = snowFX;
 
             if (snowParticles != null) {
                 var emission = snowParticles.emission;
-                if (OnSnow && player.IsGrounded() && player.GetVelocity().sqrMagnitude >= FallenSnowController.Instance.MinimumSpeedForSnowParticles) {
+                if (snowFX && player.GetVelocity().sqrMagnitude >= FallenSnowController.Instance.MinimumSpeedForSnowParticles) {
                     emission.enabled = true;
                 } else
                     emission.enabled = false;
