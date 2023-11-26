@@ -12,7 +12,7 @@ namespace Winterland.MapStation.Common.VanillaAssets {
     /// This component uses reflection to assign fields at startup, referencing vanilla assets.
     /// </summary>
     public class VanillaAssetReference : MonoBehaviour {
-        public MonoBehaviour component = null;
+        public Component component = null;
         // Structs don't deserialize from BepInEx plugins
         [TextArea(3,10)]
         public List<string> fields = new ();
@@ -21,15 +21,29 @@ namespace Winterland.MapStation.Common.VanillaAssets {
             AssignReferences();
         }
 
+        public const BindingFlags UseTheseBindingFlags =
+            BindingFlags.Instance
+            | BindingFlags.Public
+            | BindingFlags.NonPublic
+            | BindingFlags.FlattenHierarchy;
+
         public void AssignReferences() {
             if(component == null) return;
-            foreach(var f in fields) {
+            foreach(var fieldSyntax in fields) {
                 // Parse string into field, bundle, and asset path
-                var equalsIndex = f.IndexOf("=");
-                var colonIndex = f.IndexOf(":");
-                var name = f.Substring(0, equalsIndex);
-                var bundle = f.Substring(equalsIndex + 1, colonIndex - equalsIndex - 1);
-                var path = f.Substring(colonIndex + 1);
+                var equalsIndex = fieldSyntax.IndexOf("=");
+                var colonIndex = fieldSyntax.IndexOf(":");
+                var propertyPath = fieldSyntax.Substring(0, equalsIndex);
+                var index = -1;
+                var indexOfBracket = propertyPath.IndexOf("[");
+                if(indexOfBracket >=0) {
+                    index = int.Parse(propertyPath.Substring(indexOfBracket + 1, -1));
+                    name = propertyPath.Substring(0, indexOfBracket);
+                } else {
+                    name = propertyPath;
+                }
+                var bundle = fieldSyntax.Substring(equalsIndex + 1, colonIndex - equalsIndex - 1);
+                var path = fieldSyntax.Substring(colonIndex + 1);
 
                 // Get asset
                 var asset = Core.Instance.Assets.LoadAssetFromBundle<UnityEngine.Object>(bundle, path);
@@ -41,12 +55,21 @@ namespace Winterland.MapStation.Common.VanillaAssets {
 
                 // Check for both private and public fields
                 var componentType = component.GetType();
-                var field = componentType.GetField(name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                var member = componentType.GetMember(name, UseTheseBindingFlags)[0];
 
-                var message = string.Format(nameof(VanillaAssetReference) + ": Assigning {0}.{1} = asset {2}:{3} (asset found={4}, field found={5}, asset type={6})", componentType.Name, name, bundle, path, asset != null, field != null, asset != null ? asset.GetType().Name : "<not found>");
+                var message = string.Format(nameof(VanillaAssetReference) + ": Assigning {0}.{1} = asset {2}:{3} (asset found={4}, field found={5}, asset type={6})", componentType.Name, propertyPath, bundle, path, asset != null, member != null, asset != null ? asset.GetType().Name : "<not found>");
 
                 try {
-                    field.SetValue(component, asset);
+                    if(index >= 0) {
+                        var collection = member is PropertyInfo p ? p.GetValue(component) : ((FieldInfo)member).GetValue(component);
+                        collection.GetType().GetProperty("Item").SetValue(collection, asset, [index]);
+                    } else {
+                        if(member is PropertyInfo p) {
+                            p.SetValue(component, asset);
+                        } else {
+                            ((FieldInfo)member).SetValue(component, asset);
+                        }
+                    }
                 } catch(Exception e) {
                     Debug.Log(message + "\nFailed with error:\n" + e.Message + "\n" + e.StackTrace);
                 }
