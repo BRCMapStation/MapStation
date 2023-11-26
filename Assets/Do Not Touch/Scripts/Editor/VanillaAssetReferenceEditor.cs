@@ -62,5 +62,6 @@ public class VanillaAssetReferenceEditor : Editor {
             }
         }
         t.fields.Add(String.Format("{0}={1}:{2}", field, bundle, path));
+        EditorUtility.SetDirty(t);
     }
 }
