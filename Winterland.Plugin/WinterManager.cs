@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Winterland.Common;
+using Winterland.MapStation.Common;
 
 namespace Winterland.Plugin
 {
@@ -24,7 +25,8 @@ namespace Winterland.Plugin
             var stagePrefab = WinterAssets.Instance.GetPrefabForStage(stage);
             if (stagePrefab == null)
                 return;
-            GameObject.Instantiate(stagePrefab);
+            var stageAdditions = GameObject.Instantiate(stagePrefab);
+            Doctor.AnalyzeAndLog(stageAdditions);
         }
 
         private void Awake() {
