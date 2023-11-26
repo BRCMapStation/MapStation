@@ -56,9 +56,9 @@ MonoBehaviour:
   deferredFlags: 0
   inclusion: 0
   transformObserver:
-    lastPosition: {x: -43.029922, y: 9.961996, z: 172.47838}
+    lastPosition: {x: 0, y: 0, z: 0.1}
     lastScale: {x: 3, y: 0.5, z: 3}
-    lastRotation: {x: 0.7071068, y: -0.00000044184037, z: -0.00000044184037, w: -0.7071068}
+    lastRotation: {x: -0.000000030908623, y: -0.7071068, z: -0.7071068, w: 0.000000030908623}
     transform: {fileID: 6570047044160233728}
   needsDynamicGeometry: 1
   Mask:
@@ -152,7 +152,7 @@ MonoBehaviour:
   surfaceRotation: 0
   quality: 0
   sharedMesh: {fileID: 0}
-  instanceID: 289764
+  instanceID: 51966
 --- !u!1 &6570047044160194363
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,9 +309,9 @@ MonoBehaviour:
   deferredFlags: 0
   inclusion: 0
   transformObserver:
-    lastPosition: {x: -43.029922, y: 9.961996, z: 172.47838}
+    lastPosition: {x: 0, y: 0, z: 0.1}
     lastScale: {x: 3, y: 0.5, z: 3}
-    lastRotation: {x: 0.7071068, y: -0.00000044184037, z: -0.00000044184037, w: -0.7071068}
+    lastRotation: {x: -0.000000030908623, y: -0.7071068, z: -0.7071068, w: 0.000000030908623}
     transform: {fileID: 6570047044160233030}
   needsDynamicGeometry: 1
   Mask:
@@ -405,7 +405,7 @@ MonoBehaviour:
   surfaceRotation: 0
   quality: 0
   sharedMesh: {fileID: 0}
-  instanceID: 289762
+  instanceID: 51964
 --- !u!1 &6570047044160202124
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,13 +585,14 @@ GameObject:
   - component: {fileID: 6570047044160233103}
   - component: {fileID: 6570047044160244488}
   - component: {fileID: 6570047044160255043}
+  - component: {fileID: 247397895358284597}
   m_Layer: 0
   m_Name: ShineMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6570047044160233103
 Transform:
   m_ObjectHideFlags: 0
@@ -657,6 +658,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &247397895358284597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6570047044160223031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 42104060, guid: 7486338a3d7da87438ecab790990b00d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  component: {fileID: 6570047044160255043}
+  fields:
+  - sharedMaterial=common_assets:Assets/common assets/graffiti/MarkerShineMaterial.mat
 --- !u!1 &6570047044160223085
 GameObject:
   m_ObjectHideFlags: 0

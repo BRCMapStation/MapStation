@@ -347,13 +347,14 @@ GameObject:
   - component: {fileID: 2330866082535417773}
   - component: {fileID: 2330866082535425299}
   - component: {fileID: 2330866082535433880}
+  - component: {fileID: 6921781554498009533}
   m_Layer: 0
   m_Name: ShineMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2330866082535417773
 Transform:
   m_ObjectHideFlags: 0
@@ -419,6 +420,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6921781554498009533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2330866082535379725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 42104060, guid: 7486338a3d7da87438ecab790990b00d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  component: {fileID: 2330866082535433880}
+  fields:
+  - sharedMaterial=common_assets:Assets/common assets/graffiti/MarkerShineMaterial.mat
 --- !u!1 &2330866082535381517
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +619,7 @@ MonoBehaviour:
   surfaceRotation: 0
   quality: 0
   sharedMesh: {fileID: 0}
-  instanceID: 275688
+  instanceID: 60902
 --- !u!1 &2330866082535394042
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,4 +872,4 @@ MonoBehaviour:
   surfaceRotation: 0
   quality: 0
   sharedMesh: {fileID: 0}
-  instanceID: 275686
+  instanceID: 60900

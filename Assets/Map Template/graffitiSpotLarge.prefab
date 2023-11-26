@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 4971151875250495143}
   - component: {fileID: 4971151875250515215}
   - component: {fileID: 4971151875250508859}
+  - component: {fileID: 1750464893303694409}
   m_Layer: 0
   m_Name: ShineMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4971151875250495143
 Transform:
   m_ObjectHideFlags: 0
@@ -83,6 +84,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1750464893303694409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4971151875250462828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 42104060, guid: 7486338a3d7da87438ecab790990b00d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  component: {fileID: 4971151875250508859}
+  fields:
+  - sharedMaterial=common_assets:Assets/common assets/graffiti/MarkerShineMaterial.mat
 --- !u!1 &4971151875250468209
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,6 +366,7 @@ MonoBehaviour:
   component: {fileID: 4971151875250529966}
   fields:
   - emptyGraffitiMaterial=common_assets:Assets/common assets/graffiti/EmptyGraffitiSwirlMaterial.mat
+  - dynamicRepPickup=common_assets:Assets/common assets/gameplay/prefabs/pickups/dynamicRepPickup.prefab
 --- !u!1 &4971151875250470578
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,9 +423,9 @@ MonoBehaviour:
   deferredFlags: 0
   inclusion: 0
   transformObserver:
-    lastPosition: {x: 0, y: 0, z: 0.1}
+    lastPosition: {x: -45.203323, y: 14.5285425, z: 172.4617}
     lastScale: {x: 9, y: 0.5, z: 4.5}
-    lastRotation: {x: -0.000000030908623, y: -0.7071068, z: -0.7071068, w: 0.000000030908623}
+    lastRotation: {x: -0.7071068, y: 0.0000002837897, z: 0.0000002837897, w: 0.7071068}
     transform: {fileID: 4971151875250495019}
   needsDynamicGeometry: 1
   Mask:
@@ -502,7 +519,7 @@ MonoBehaviour:
   surfaceRotation: 0
   quality: 0
   sharedMesh: {fileID: 0}
-  instanceID: 272258
+  instanceID: 73112
 --- !u!1 &4971151875250470579
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,9 +576,9 @@ MonoBehaviour:
   deferredFlags: 0
   inclusion: 0
   transformObserver:
-    lastPosition: {x: 0, y: 0, z: 0.1}
+    lastPosition: {x: -45.203323, y: 14.5285425, z: 172.4617}
     lastScale: {x: 9, y: 0.5, z: 4.5}
-    lastRotation: {x: -0.000000030908623, y: -0.7071068, z: -0.7071068, w: 0.000000030908623}
+    lastRotation: {x: -0.7071068, y: 0.0000002837897, z: 0.0000002837897, w: 0.7071068}
     transform: {fileID: 4971151875250495016}
   needsDynamicGeometry: 1
   Mask:
@@ -655,7 +672,7 @@ MonoBehaviour:
   surfaceRotation: 0
   quality: 0
   sharedMesh: {fileID: 0}
-  instanceID: 272260
+  instanceID: 73114
 --- !u!1 &4971151875250471370
 GameObject:
   m_ObjectHideFlags: 0
