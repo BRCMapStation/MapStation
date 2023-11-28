@@ -5,7 +5,6 @@ using UnityEngine;
 /// Settings to control the editor experience for mapping, does not affect how the
 /// map plays.
 [FilePath("Assets/BRCMapToolkitPreferences.asset", FilePathAttribute.Location.ProjectFolder)]
-[CreateAssetMenu]
 public class Preferences : ScriptableSingleton<Preferences> { 
     public GeneralPreferences general = new(); 
     public GrindEditingPreferences grinds = new();
