@@ -11,8 +11,8 @@ namespace Winterland.Common {
     /// Holds custom data in players.
     /// </summary>
     public class WinterPlayer : MonoBehaviour {
-        public bool OnSnow => OffSnow <= 0;
-        public int OffSnow = 0;
+        public bool SnowFX = true;
+        public bool SnowDeform = true;
         public ToyLine CurrentToyLine = null;
         [NonSerialized]
         public Player player = null;
@@ -50,9 +50,21 @@ namespace Winterland.Common {
         private void OnTriggerStay(Collider other) {
             if (other.gameObject.layer != 19)
                 return;
-            if (other.gameObject.name != "Snowless Ground Volume")
+            if (other.gameObject.name.StartsWith("Snowless Ground Volume")) {
+                SnowFX = false;
+                SnowDeform = false;
                 return;
-            OffSnow = 1;
+            }
+            if (other.gameObject.name.StartsWith("No Snow Deform Ground Volume")) {
+                SnowFX = true;
+                SnowDeform = false;
+                return;
+            }
+            if (other.gameObject.name.StartsWith("No Snow FX Ground Volume")) {
+                SnowFX = false;
+                SnowDeform = true;
+                return;
+            }
         }
 
         public bool IsOnLevelGround() {
@@ -68,8 +80,9 @@ namespace Winterland.Common {
         }
 
         private void FixedUpdate() {
-            var snowFX = IsOnLevelGround() && OnSnow;
-            snowSinker.Enabled = snowFX;
+            var snowFX = IsOnLevelGround() && SnowFX;
+            var snowDeform = IsOnLevelGround() && SnowDeform;
+            snowSinker.Enabled = snowDeform;
 
             if (snowParticles != null) {
                 var emission = snowParticles.emission;
@@ -93,9 +106,8 @@ namespace Winterland.Common {
                 snowTargetStrength = 0.2f;
             if (player.ability is GroundTrickAbility)
                 snowTargetSize = 1.5f;
-            OffSnow -= 1;
-            if (OffSnow <= 0)
-                OffSnow = 0;
+            SnowDeform = true;
+            SnowFX = true;
         }
     }
 }
