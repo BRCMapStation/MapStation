@@ -8,7 +8,7 @@ using Scene = UnityEngine.SceneManagement.Scene;
 public class BuildWindow : EditorWindow {
     const string windowLabel = "Map Builder";
 
-    [MenuItem(Constants.menuLabel + "/" + windowLabel)]
+    [MenuItem(Constants.menuLabel + "/" + windowLabel, priority = Constants.defaultMenuPriority)]
     private static void ShowMyEditor() {
         EditorWindow wnd = GetWindow<BuildWindow>();
         wnd.titleContent = new GUIContent(windowLabel);
