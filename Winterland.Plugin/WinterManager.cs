@@ -29,10 +29,33 @@ namespace Winterland.Plugin
             Doctor.AnalyzeAndLog(stageAdditions);
         }
 
+        private void SetupUI() {
+            var winterBundle = WinterAssets.Instance.WinterBundle;
+            if (winterBundle == null)
+                return;
+            var uiPrefab = winterBundle.LoadAsset<GameObject>("WinterUI");
+            if (uiPrefab == null)
+                return;
+            var winterUIInstance = GameObject.Instantiate(uiPrefab);
+            var uiManager = Core.Instance.UIManager;
+            var gameplayUI = uiManager.transform.Find("GamePlayUI(Clone)");
+            winterUIInstance.transform.SetParent(gameplayUI, false);
+        }
+
         private void Awake() {
             Instance = this;
             LightmapSettings.lightmaps = new LightmapData[] { };
             QualitySettings.shadowDistance = 150f;
+            StageManager.OnStagePostInitialization += StageManager_OnStagePostInitialization;
+        }
+
+        private void OnDestroy() {
+            Instance = null;
+            StageManager.OnStagePostInitialization -= StageManager_OnStagePostInitialization;
+        }
+
+        private void StageManager_OnStagePostInitialization() {
+            SetupUI();
         }
     }
 }

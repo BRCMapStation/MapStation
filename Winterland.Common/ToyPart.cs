@@ -40,7 +40,15 @@ namespace Winterland.Common {
 
         private void Collect(Player player) {
             var winterPlayer = WinterPlayer.Get(player);
+            if (winterPlayer.CurrentToyLine != Line)
+                winterPlayer.CollectedToyParts = 0;
             winterPlayer.CurrentToyLine = Line;
+            winterPlayer.CollectedToyParts++;
+            if (WinterUI.Instance != null && winterPlayer.Local) {
+                var toyLineUI = WinterUI.Instance.ToyLineUI;
+                toyLineUI.Visible = true;
+                toyLineUI.SetCounter(winterPlayer.CollectedToyParts, Line.ToyParts.Length);
+            }
             gameObject.SetActive(false);
         }
 

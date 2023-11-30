@@ -11,9 +11,15 @@ namespace Winterland.Common {
     /// Holds custom data in players.
     /// </summary>
     public class WinterPlayer : MonoBehaviour {
+        public bool Local {
+            get {
+                return player == WorldHandler.instance.GetCurrentPlayer();
+            }
+        }
         public bool SnowFX = true;
         public bool SnowDeform = true;
         public ToyLine CurrentToyLine = null;
+        public int CollectedToyParts = 0;
         [NonSerialized]
         public Player player = null;
         private SnowSinker snowSinker = null;
@@ -97,13 +103,17 @@ namespace Winterland.Common {
                 snowTargetStrength = 1f;
             } else {
                 snowTargetSize = 1f;
-                snowTargetStrength = 0.5f;
+                snowTargetStrength = 0.75f;
             }
             /*
             if (player.ability is SlideAbility && player.moveStyle != MoveStyle.BMX && player.moveStyle != MoveStyle.SKATEBOARD)
                 snowTargetSize = 1.5f;*/
             if (player.moveStyle == MoveStyle.ON_FOOT && player.ability is not SlideAbility)
-                snowTargetStrength = 0.2f;
+                snowTargetStrength = 0.4f;
+
+            if (player.ability is SlideAbility)
+                snowTargetStrength = 1f;
+
             if (player.ability is GroundTrickAbility)
                 snowTargetSize = 1.5f;
             SnowDeform = true;

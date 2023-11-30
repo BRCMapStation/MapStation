@@ -27,6 +27,10 @@ namespace Winterland.Plugin.Patches {
                 if (winterPlayer.CurrentToyLine != null)
                     winterPlayer.CurrentToyLine.Respawn();
                 winterPlayer.CurrentToyLine = null;
+                if (WinterUI.Instance != null && winterPlayer.Local) {
+                    var toyLineUI = WinterUI.Instance.ToyLineUI;
+                    toyLineUI.Visible = false;
+                }
             }
         }
     }
