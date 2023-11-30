@@ -25,6 +25,10 @@ namespace Winterland.Common {
             toyLineLabel.text = $"{currentAmount}/{maxAmount}";
         }
 
+        private void Awake() {
+            Visible = false;
+        }
+
         [SerializeField]
         private TextMeshProUGUI toyLineLabel = null;
     }
