@@ -37,7 +37,7 @@ public class ComponentGuidFinderWindow : EditorWindow {
                     if(asset is MonoScript script) {
                         if(asset.name == ComponentName) {
                             AssetDatabase.TryGetGUIDAndLocalFileIdentifier(asset, out var Guid, out long localId);
-                            Output += string.Format("m_Script: {{fileID: {0}, guid: {1}, type: 3}} # {2}\n", localId, Guid, script.name);
+                            Output += string.Format("m_Script: {{fileID: {0}, guid: {1}, type: 3}} # {2} /{3}\n", localId, Guid, script.name, path);
                         }
                     }
                 }
