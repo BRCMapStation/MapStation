@@ -1,6 +1,8 @@
 Shader "Winterland/Fallen Snow Surface" {
     Properties{
         _MainTex("Base (RGB)", 2D) = "white" {}
+        [NoScaleOffset] _SinkDetail("Sink Detail (R)", 2D) = "white" {}
+        _SinkDetailScale("Sink Detail Scale", float) = 1.0
         _SinkShadowStrength("Sink Shadow Strength", Range(0,1)) = 1.0
         _SinkColor("Sink Color", Color) = (1, 1, 1, 1)
         _Tess("Tessellation", Range(1,64)) = 4
@@ -65,11 +67,13 @@ Shader "Winterland/Fallen Snow Surface" {
 
             float4 tessDistance(appdata v0, appdata v1, appdata v2) {
                 float minDist = 10.0;
-                float maxDist = 30.0;
+                float maxDist = 50.0;
                 float tessAmount = ((_Tess - 1) * v0.color.r) + 1;
                 return UnityDistanceBasedTess(v0.vertex, v1.vertex, v2.vertex, minDist, maxDist, tessAmount);
             }
 
+            sampler2D _SinkDetail;
+            float _SinkDetailScale;
             sampler2D _DispTex;
             sampler2D DepthTexture;
             float _Displacement;
@@ -80,17 +84,19 @@ Shader "Winterland/Fallen Snow Surface" {
                 float3 worldPos;
             };
 
-            float GetDisplacementAmount(float2 uv) {
-                if (uv.x < 0 || uv.y < 0 || uv.x > 1 || uv.y > 1)
-                    return _TestDisplacement;
-                return tex2Dlod(DepthTexture, float4(uv, 0, 0)).r + _TestDisplacement;
+            float GetDisplacementAmount(float2 worldPos) {
+                float2 depthuv = GetDepthUVAt(worldPos);
+                float2 detailUv = worldPos * _SinkDetailScale;
+                float detail = tex2Dlod(_SinkDetail, float4(detailUv, 0, 0)).r;
+                if (depthuv.x < 0 || depthuv.y < 0 || depthuv.x > 1 || depthuv.y > 1)
+                    return _TestDisplacement * detail;
+                return (tex2Dlod(DepthTexture, float4(depthuv, 0, 0)).r + _TestDisplacement) * detail;
             }
 
             void disp(inout appdata v)
             {
                 float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
-                float2 depthUv = GetDepthUVAt(worldPos.xz);
-                float d = GetDisplacementAmount(depthUv) * _Displacement;
+                float d = GetDisplacementAmount(worldPos.xz) * _Displacement;
                 v.vertex.y -= d;
             }
 
@@ -99,13 +105,17 @@ Shader "Winterland/Fallen Snow Surface" {
             float _SinkShadowStrength;
 
             void surf(Input IN, inout SurfaceOutputSnow o) {
-                float2 depthUv = GetDepthUVAt(IN.worldPos.xz);
                 half4 c = tex2D(_MainTex, IN.uv_MainTex);
-                float d = saturate(GetDisplacementAmount(depthUv) * 1);
+                float d = saturate(GetDisplacementAmount(IN.worldPos.xz) * 1);
+                if (d > 0.4)
+                    d = 1.0;
+                else if (d > 0.2)
+                    d = 0.5;
+                else
+                    d = 0.0;
                 o.Albedo = lerp(c.rgb, _SinkColor.rgb, d);
                 d *= _SinkShadowStrength;
                 o.Shadow = (-d)+1;
-                
             }
             ENDCG
         }

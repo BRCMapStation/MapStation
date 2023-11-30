@@ -62,7 +62,7 @@ namespace Winterland.MapStation.Common.VanillaAssets {
                 try {
                     if(index >= 0) {
                         var collection = member is PropertyInfo p ? p.GetValue(component) : ((FieldInfo)member).GetValue(component);
-                        collection.GetType().GetProperty("Item").SetValue(collection, asset, [index]);
+                        collection.GetType().GetProperty("Item").SetValue(collection, asset, new object[]{index});
                     } else {
                         if(member is PropertyInfo p) {
                             p.SetValue(component, asset);

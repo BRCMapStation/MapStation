@@ -14,9 +14,17 @@ public class BuildAssets {
         BuildAllAssetBundles();
         LaunchGameSteam();
     }
+
+    public static bool IsGameOpen()
+    {
+        if (Process.GetProcessesByName("Bomb Rush Cyberfunk").Length > 0)
+            return true;
+        return false;
+    }
+
     [MenuItem("BRC/Build Assets and Run on Steam _F6", true, priority = -49)]
     private static bool BuildAndRunSteamValidate() {
-        if (Process.GetProcessesByName("Bomb Rush Cyberfunk").Length > 0)
+        if (IsGameOpen())
             return false;
         var steamLoc = GetSteamExecutablePath();
         return !string.IsNullOrEmpty(steamLoc);
@@ -26,8 +34,11 @@ public class BuildAssets {
         if (PluginEditor.IsPluginOutOfDate()) {
             UnityEngine.Debug.Log("Winterland assemblies seem to be out of date, rebuilding!");
             try {
-                var rebuildProcess = PluginEditor.RebuildPlugin();
-                rebuildProcess.WaitForExit();
+                if (!IsGameOpen())
+                {
+                    var rebuildProcess = PluginEditor.RebuildPlugin();
+                    rebuildProcess.WaitForExit();
+                }
             }
             catch(Exception e) {
                 UnityEngine.Debug.LogError("There was a problem rebuilding assemblies.");
