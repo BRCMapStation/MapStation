@@ -3,6 +3,8 @@ Shader "Winterland/Fallen Snow Surface" {
         _MainTex("Base (RGB)", 2D) = "white" {}
         [NoScaleOffset] _SinkDetail("Sink Detail (R)", 2D) = "white" {}
         _SinkDetailScale("Sink Detail Scale", float) = 1.0
+        _SinkDetailDeformMultiplier("Sink Detail Deform Multiplier", Range(0,1)) = 1.0
+        _SinkDetailShadeMultiplier("Sink Detail Shade Multiplier", Range(0,1)) = 1.0
         _SinkShadowStrength("Sink Shadow Strength", Range(0,1)) = 1.0
         _SinkColor("Sink Color", Color) = (1, 1, 1, 1)
         _Tess("Tessellation", Range(1,64)) = 4
@@ -84,30 +86,33 @@ Shader "Winterland/Fallen Snow Surface" {
                 float3 worldPos;
             };
 
-            float GetDisplacementAmount(float2 worldPos) {
+            float GetDisplacementAmount(float2 worldPos, float multiplier) {
                 float2 depthuv = GetDepthUVAt(worldPos);
                 float2 detailUv = worldPos * _SinkDetailScale;
-                float detail = tex2Dlod(_SinkDetail, float4(detailUv, 0, 0)).r;
+                float detail = lerp(1.0, tex2Dlod(_SinkDetail, float4(detailUv, 0, 0)).r, multiplier);
                 if (depthuv.x < 0 || depthuv.y < 0 || depthuv.x > 1 || depthuv.y > 1)
                     return _TestDisplacement * detail;
                 return (tex2Dlod(DepthTexture, float4(depthuv, 0, 0)).r + _TestDisplacement) * detail;
             }
 
+            float _SinkDetailDeformMultiplier;
+
             void disp(inout appdata v)
             {
                 float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
-                float d = GetDisplacementAmount(worldPos.xz) * _Displacement;
+                float d = GetDisplacementAmount(worldPos.xz, _SinkDetailDeformMultiplier) * _Displacement;
                 v.vertex.y -= d;
             }
 
             sampler2D _MainTex;
             float4 _SinkColor;
             float _SinkShadowStrength;
+            float _SinkDetailShadeMultiplier;
 
             void surf(Input IN, inout SurfaceOutputSnow o) {
                 half4 c = tex2D(_MainTex, IN.uv_MainTex);
-                float d = saturate(GetDisplacementAmount(IN.worldPos.xz) * 1);
-                if (d > 0.4)
+                float d = saturate(GetDisplacementAmount(IN.worldPos.xz, _SinkDetailShadeMultiplier) * 1);
+                if (d > 0.5)
                     d = 1.0;
                 else if (d > 0.2)
                     d = 0.5;
