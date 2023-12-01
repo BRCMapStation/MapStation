@@ -1,6 +1,6 @@
 <!-- These targets apply to all projects in this directory -->
 <Project>
-  <Target Name="FixAssemblyInfo" BeforeTargets="BeforeCompile" DependsOnTargets="GenerateAssemblyInfo">
+  <Target Condition="$(GeneratedAssemblyInfoFile) != ''" Name="FixAssemblyInfo" BeforeTargets="BeforeCompile" DependsOnTargets="GenerateAssemblyInfo">
     <!-- Suppress warning CS0436 from generated AssemblyInfo.cs -->
     <ReadLinesFromFile File="$(GeneratedAssemblyInfoFile)">
     <Output TaskParameter="Lines" ItemName="Lines" />
