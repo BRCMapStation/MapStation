@@ -3,12 +3,12 @@ using UnityEditor;
 using UnityEngine;
 
 public class PreferencesWindow : EditorWindow {
-    const string windowLabel = "Preferences";
+    const string WindowLabel = "Preferences";
 
-    [MenuItem(Constants.menuLabel + "/" + windowLabel, priority = Constants.defaultMenuPriority)]
+    [MenuItem(Constants.menuLabel + "/" + WindowLabel, priority = Constants.defaultMenuPriority)]
     private static void ShowMyEditor() {
         EditorWindow wnd = GetWindow<PreferencesWindow>();
-        wnd.titleContent = new GUIContent(windowLabel);
+        wnd.titleContent = new GUIContent(WindowLabel);
     }
 
     private void OnInspectorUpdate() {

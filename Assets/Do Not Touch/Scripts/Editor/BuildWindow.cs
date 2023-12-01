@@ -6,18 +6,18 @@ using UnityEngine.SceneManagement;
 using Scene = UnityEngine.SceneManagement.Scene;
 
 public class BuildWindow : EditorWindow {
-    const string windowLabel = "Map Builder";
+    const string WindowLabel = "Map Builder";
 
-    [MenuItem(Constants.menuLabel + "/" + windowLabel, priority = Constants.defaultMenuPriority)]
+    [MenuItem(Constants.menuLabel + "/" + WindowLabel, priority = Constants.defaultMenuPriority)]
     private static void ShowMyEditor() {
         EditorWindow wnd = GetWindow<BuildWindow>();
-        wnd.titleContent = new GUIContent(windowLabel);
+        wnd.titleContent = new GUIContent(WindowLabel);
     }
 
     private Vector2 scrollbarPosition = Vector2.zero;
 
-    private BRCMap _brcMap;
-    private BRCMap brcMap => _brcMap = _brcMap != null ? _brcMap : FindObjectOfType<BRCMap>();
+    private BRCMap brcMap_;
+    private BRCMap brcMap => brcMap_ = brcMap_ != null ? brcMap_ : FindObjectOfType<BRCMap>();
 
     private Editor brcMapEditor = null;
 
@@ -33,7 +33,7 @@ public class BuildWindow : EditorWindow {
         EditorSceneManager.activeSceneChangedInEditMode -= onSceneChange;
     }
     private void onSceneChange(Scene s, Scene s2) {
-        _brcMap = null;
+        brcMap_ = null;
     }
 
     private void OnInspectorUpdate() {

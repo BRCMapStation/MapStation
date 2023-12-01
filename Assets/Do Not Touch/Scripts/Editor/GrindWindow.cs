@@ -6,13 +6,13 @@ using UnityEngine;
 
 public class GrindWindow : EditorWindow
 {
-    const string windowLabel = "Grind Inspector";
+    const string WindowLabel = "Grind Inspector";
 
-    [MenuItem(Constants.menuLabel + "/" + windowLabel, priority = Constants.defaultMenuPriority)]
+    [MenuItem(Constants.menuLabel + "/" + WindowLabel, priority = Constants.defaultMenuPriority)]
     private static void ShowMyEditor() {
         // This method is called when the user selects the menu item in the Editor
         EditorWindow wnd = GetWindow<GrindWindow>();
-        wnd.titleContent = new GUIContent(windowLabel);
+        wnd.titleContent = new GUIContent(WindowLabel);
 
         // Limit size of the window
         wnd.minSize = new Vector2(450, 200);

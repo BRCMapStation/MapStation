@@ -117,19 +117,19 @@ namespace Reptile
 
 		#if UNITY_EDITOR
 
-		private Grind _grind;
-        public Grind Grind => _grind = _grind != null ? _grind : GetComponentInParent<Grind>();
+		private Grind grind_;
+        public Grind Grind => grind_ = grind_ != null ? grind_ : GetComponentInParent<Grind>();
 
-		private bool _isControlledBySpline = false;
+		private bool isControlledBySpline_ = false;
 		/// <summary>
 		/// When this node is puppeteered by a spline, you cannot directly edit its position.
 		/// TODO this is a lie; you should be able to edit rotation.
 		/// </summary>
         public bool IsControlledBySpline {
-			get => _isControlledBySpline;
+			get => isControlledBySpline_;
 			set {
-				_isControlledBySpline = value;
-				if(_isControlledBySpline) transform.hideFlags |= HideFlags.NotEditable;
+				isControlledBySpline_ = value;
+				if(isControlledBySpline_) transform.hideFlags |= HideFlags.NotEditable;
 				else transform.hideFlags &= ~HideFlags.NotEditable;
 			}
 		}
