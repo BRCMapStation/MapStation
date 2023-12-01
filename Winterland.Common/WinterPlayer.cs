@@ -55,6 +55,8 @@ namespace Winterland.Common {
 
         // This is a lot faster to process per player than per individual item.
         private void ProcessPickupTriggers(Collider other) {
+            if (player.currentComboMascotSystem != null)
+                return;
             if (!Local)
                 return;
             var toyPart = other.GetComponent<ToyPart>();
