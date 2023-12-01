@@ -63,36 +63,44 @@ public class Grind : MonoBehaviour
 
     public void AddNode(GrindNode branchFromNode = null)
     {
+        AddNodes(new GrindNode[] {branchFromNode});
+    }
+
+    public void AddNodes(GrindNode[] branchFromNodes) {
         Undo.IncrementCurrentGroup();
         Undo.RegisterCompleteObjectUndo(gameObject, "");
 
-        if(branchFromNode == null) branchFromNode = nodes.LastOrDefault();
-        var cloneFromGameObject = branchFromNode != null ? branchFromNode.gameObject : NodePrefab;
-        var parent = branchFromNode != null ? branchFromNode.transform.parent : NodeParent;
+        List<GameObject> newNodeGameObjects = new();
+        foreach(var item in branchFromNodes) {
+            var branchFromNode = item != null ? item : nodes.LastOrDefault();
+            var cloneFromGameObject = branchFromNode != null ? branchFromNode.gameObject : NodePrefab;
+            var parent = branchFromNode != null ? branchFromNode.transform.parent : NodeParent;
 
-        var newNode = Instantiate(cloneFromGameObject, parent).GetComponent<GrindNode>();
+            var newNode = Instantiate(cloneFromGameObject, parent).GetComponent<GrindNode>();
 
-        // Undoing this will trigger newNode's `OnDestroy()`, which destroys
-        // attached lines.
-        // Null out all lines to ensure that `OnDestroy` will not destroy the wrong line.
-        for(int i = 0; i < newNode.grindLines.Count(); i++) {
-            newNode.grindLines[i] = null;
+            // Undoing this will trigger newNode's `OnDestroy()`, which destroys
+            // attached lines.
+            // Null out all lines to ensure that `OnDestroy` will not destroy the wrong line.
+            for(int i = 0; i < newNode.grindLines.Count(); i++) {
+                newNode.grindLines[i] = null;
+            }
+            Undo.RegisterCreatedObjectUndo(newNode.gameObject, "");
+
+            if(branchFromNode != null)
+                newNode.transform.position = branchFromNode.transform.position + Preferences.instance.grinds.newNodeOffset;
+            else
+                newNode.transform.position = transform.position;
+
+            newNode.name = getNameForNewNodeOrLine(nodes);
+
+            Undo.RegisterCompleteObjectUndo(branchFromNode.gameObject, "");
+            Undo.RegisterCompleteObjectUndo(branchFromNode, "");
+            AddLine(branchFromNode, newNode, branchFromNode.grindLines.Find(x => x != null));
+            newNodeGameObjects.Add(newNode.gameObject);
         }
-        Undo.RegisterCreatedObjectUndo(newNode.gameObject, "");
 
-        if(branchFromNode != null)
-            newNode.transform.position = branchFromNode.transform.position + branchFromNode.transform.forward;
-        else
-            newNode.transform.position = transform.position;
-
-        newNode.name = getNameForNewNodeOrLine(nodes);
-
-        Undo.RegisterCompleteObjectUndo(branchFromNode.gameObject, "");
-        Undo.RegisterCompleteObjectUndo(branchFromNode, "");
-        AddLine(branchFromNode, newNode, branchFromNode.grindLines.Find(x => x != null));
-
-        GrindUtils.autoSelectIfEnabled(newNode.gameObject);
-        Undo.SetCurrentGroupName("Add grind node");
+        GrindUtils.autoSelectIfEnabled(newNodeGameObjects);
+        Undo.SetCurrentGroupName("Add grind node(s)");
     }
 
     public void RemoveNode()

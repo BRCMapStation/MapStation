@@ -170,22 +170,11 @@ namespace Reptile
 			Gizmos.DrawLine(transform.position, transform.position + transform.up * prefs.nodePostureDirectionGizmoLength);
 		}
 
-		[ButtonInvoke(nameof(Button_OrientUp), displayIn: ButtonInvoke.DisplayIn.PlayAndEditModes, customLabel: "Orient upright")]
-		public bool dummy;
-
-		[ButtonInvoke(nameof(Button_OrientDown), displayIn: ButtonInvoke.DisplayIn.PlayAndEditModes, customLabel: "Orient upside-down")]
-		public bool dummy2;
-		[ButtonInvoke(nameof(Button_AddNode), displayIn: ButtonInvoke.DisplayIn.PlayAndEditModes, customLabel: "Add node")]
-		public bool dummy3;
-
-		private void Button_OrientUp() {
+		public void Button_OrientUp() {
 			transform.localRotation = Quaternion.identity;
 		}
-		private void Button_OrientDown() {
+		public void Button_OrientDown() {
 			transform.localRotation = Quaternion.FromToRotation(Vector3.forward, Vector3.back);
-		}
-		private void Button_AddNode() {
-			Grind.AddNode(this);
 		}
 
 		private void OnDestroy() {

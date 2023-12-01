@@ -8,13 +8,39 @@ using UnityEngine;
 class GrindNodeEditor : Editor
 {
     private GrindNode[] grindNodes;
+    private bool allSameGrind;
+    private Grind grind;
     private void Awake() {
         grindNodes = targets.Select(x => (GrindNode)x).ToArray();
+        grind = grindNodes[0]?.Grind;
+        allSameGrind = true;
+        for(var i = 1; i < grindNodes.Length; i++) {
+            if(grindNodes[i].Grind != grind) {
+                allSameGrind = false;
+                grind = null;
+                break;
+            }
+        }
     }
 
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
+
+        if(GUILayout.Button("Orient upright")) {
+            foreach(var grindNode in grindNodes) {
+                grindNode.Button_OrientUp();
+            }
+        }
+        if(GUILayout.Button("Orient upside-down")) {
+            foreach(var grindNode in grindNodes) {
+                grindNode.Button_OrientDown();
+            }
+        }
+        if(allSameGrind == true && GUILayout.Button("Add node")) {
+            grind.AddNodes(grindNodes);
+        }
+
         if(grindNodes.Count() > 1) {
             for(int i = 1; i < grindNodes.Count(); i++) {
                 if(grindNodes[i - 1].Grind != grindNodes[i].Grind) {

@@ -11,8 +11,6 @@ public class GrindEditingPreferences {
     [Help("This line indicates the direction characters will be standing when grinding.\n" +
     "Most grinds point up, ceiling grinds point down, and wall grinds point sideways.\n" +
     "Characters always stand perpendicular to the grind line, but their rotation about the line is controlled by the GrindNodes' rotation.")]
-    [HideValueInInspector]
-    public bool _dummy;
 
     // Remove this.
     // At first, I thought I wanted to enable hiding grindlines in the map that
@@ -43,6 +41,11 @@ public class GrindEditingPreferences {
 
     public bool autoSelectNewNodes = true;
     [Help("When adding a new node or splitting a grind line, will auto-select the newly-created node.")]
+
+    public Vector3 newNodeOffset;
+    [Help("When adding a new node, it will be spawned this far from the cloned node.")]
+
     [HideValueInInspector]
-    public bool _dummy2;
+    public bool _dummyLast;
+
 }
