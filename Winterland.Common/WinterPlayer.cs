@@ -53,7 +53,27 @@ namespace Winterland.Common {
             snowSinker.Strength = Mathf.Lerp(snowSinker.Strength, snowTargetStrength, snowLerpSpeed * Core.dt);
         }
 
-        private void OnTriggerStay(Collider other) {
+        // This is a lot faster to process per player than per individual item.
+        private void ProcessPickupTriggers(Collider other) {
+            if (!Local)
+                return;
+            var toyPart = other.GetComponent<ToyPart>();
+            if (toyPart == null)
+                return;
+            if (player.IsDead())
+                return;
+            if (player.IsBusyWithSequence())
+                return;
+            if (!player.IsComboing())
+                return;
+            if (CurrentToyLine != null) {
+                if (CurrentToyLine != toyPart.Line)
+                    return;
+            }
+            toyPart.Collect(player);
+        }
+
+        private void ProcessSnowTriggers(Collider other) {
             if (other.gameObject.layer != 19)
                 return;
             if (other.gameObject.name.StartsWith("Snowless Ground Volume")) {
@@ -73,6 +93,13 @@ namespace Winterland.Common {
             }
         }
 
+        private void OnTriggerStay(Collider other) {
+            ProcessPickupTriggers(other);
+            ProcessSnowTriggers(other);
+        }
+
+        
+
         public bool IsOnLevelGround() {
             if (player.IsOnNonStableGround())
                 return false;
@@ -86,6 +113,17 @@ namespace Winterland.Common {
         }
 
         private void FixedUpdate() {
+
+            if (!player.IsComboing()) {
+                if (CurrentToyLine != null)
+                    CurrentToyLine.Respawn();
+                CurrentToyLine = null;
+                if (WinterUI.Instance != null && Local) {
+                    var toyLineUI = WinterUI.Instance.ToyLineUI;
+                    toyLineUI.Visible = false;
+                }
+            }
+
             var snowFX = IsOnLevelGround() && SnowFX;
             var snowDeform = IsOnLevelGround() && SnowDeform;
             snowSinker.Enabled = snowDeform;
