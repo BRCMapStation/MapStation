@@ -12,6 +12,10 @@
   <PropertyGroup>
 	<ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;WINTER_DEBUG</DefineConstants>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
@@ -37,6 +41,9 @@
 	  <Private>false</Private>
 	  <Publicize>true</Publicize>
     </Reference>
+      <Reference Include="Unity.TextMeshPro">
+          <HintPath>$(ManagedPath)/Unity.TextMeshPro.dll</HintPath>
+      </Reference>
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

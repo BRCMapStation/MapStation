@@ -17,7 +17,6 @@ namespace Winterland.Plugin
     public class Plugin : BaseUnityPlugin {
         public static Plugin Instance;
         public static ManualLogSource Log = null;
-        public static WinterConfig WinterConfig = null;
 
         // Hack: we must reference dependent assemblies from a class that's guaranteed to execute or else they don't
         // load and MonoBehaviours are missing.
@@ -36,10 +35,13 @@ namespace Winterland.Plugin
 
         private void Initialize() {
             var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
-            new WinterAssets(assetBundlesFolder);
+            var winterAssets = new WinterAssets(assetBundlesFolder);
+            new WinterConfig(Config);
             WinterCharacters.Initialize();
+            ObjectiveDatabase.Initialize(winterAssets.WinterBundle);
+            new WinterProgress();
+
             Log = Logger;
-            WinterConfig = new WinterConfig(Config);
             StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();

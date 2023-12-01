@@ -5,16 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using BepInEx.Configuration;
 
-namespace Winterland.Plugin {
+namespace Winterland.Common {
     public class WinterConfig {
+        public static WinterConfig Instance { get; private set; }
+
+#if WINTER_DEBUG
         public ConfigEntry<bool> QuickLaunch;
-        public WinterConfig(ConfigFile file) {
+#endif
+        public WinterConfig() {
+            Instance = this;
+        }
+        public WinterConfig(ConfigFile file) : this() {
+#if WINTER_DEBUG
             QuickLaunch = file.Bind(
                 "Development",
                 "QuickLaunch",
                 false,
                 "Skip game intros and menu and launch directly into Millenium Square."
             );
+#endif
         }
     }
 }
