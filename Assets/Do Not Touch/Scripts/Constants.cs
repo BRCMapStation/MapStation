@@ -1,5 +1,5 @@
 public static class Constants {
-    public const string hotkeyGroupName = "BRC";
+    public const string hotkeyGroupName = "BRC Mapping Toolkit";
     public const string menuLabel = "BRC Mapping Toolkit";
     public const string experimentsSubmenuLabel = "Experiments";
 
