@@ -178,7 +178,8 @@ namespace Reptile
 			{
 				Vector3 vector = n1.transform.position - n0.transform.position;
 				base.transform.position = n0.transform.position + vector.normalized * vector.magnitude * 0.5f;
-				base.transform.rotation = Quaternion.LookRotation(vector.normalized);
+				if (vector.magnitude != 0)
+					base.transform.rotation = Quaternion.LookRotation(vector.normalized);
 				CapsuleCollider component = GetComponent<CapsuleCollider>();
 				component.isTrigger = true;
 				component.direction = 2;

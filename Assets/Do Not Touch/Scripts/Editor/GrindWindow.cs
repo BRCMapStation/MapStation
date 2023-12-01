@@ -19,23 +19,75 @@ public class GrindWindow : EditorWindow
         wnd.maxSize = new Vector2(1920, 720);
     }
 
-    private void OnInspectorUpdate() {
-        Repaint();
-    }
+    Grind[] grinds = {};
+    GrindPath[] grindPaths = {};
+    GrindNode[] grindNodes = {};
+    GrindLine[] grindLines = {};
+    SplineBasedGrindLineGenerator[] splineBasedGrindLineGenerators = {};
+    BezierSpline[] bezierSplines = {};
+
+    private Editor grindEditor = null;
+    private Editor grindPathEditor = null;
+    private Editor grindNodeEditor = null;
+    private Editor grindNodeTransformsEditor = null;
+    private Editor grindLineEditor = null;
+    private Editor splineBasedGrindLineGeneratorEditor = null;
+    private Editor bezierSplineEditor = null;
 
     private Vector2 inspectorScroll = Vector2.zero;
 
-    private void OnGUI()
-    {
-        // Restore defaults; we modify these elsewhere
-        EditorGUIUtility.labelWidth = 0;
-        EditorGUIUtility.fieldWidth = 0;
+    private void OnEnable() {
+        // delegate registration must be on OnEnable.
+        // OnEnable is called after domain reload; Awake is not
+        Selection.selectionChanged -= onSelectionChanged;
+        Selection.selectionChanged += onSelectionChanged; 
+        refreshSelectedComponentsAndEditors();
+    }
 
-        EditorGUI.BeginChangeCheck();
+    private void OnDestroy() {
+        Selection.selectionChanged -= onSelectionChanged;
+        DestroyImmediate(grindEditor);
+        DestroyImmediate(grindPathEditor);
+        DestroyImmediate(grindNodeEditor);
+        DestroyImmediate(grindNodeTransformsEditor);
+        DestroyImmediate(grindLineEditor);
+        DestroyImmediate(splineBasedGrindLineGeneratorEditor);
+        DestroyImmediate(bezierSplineEditor);
+    }
 
+    private void onSelectionChanged() {
+        refreshSelectedComponentsAndEditors();
+    }
+
+    private void refreshSelectedComponentsAndEditors() {
         var aos = Selection.gameObjects;
+        grinds = GetComponentInParentOfEach<Grind>(aos);
+        Editor.CreateCachedEditor(grinds, null, ref grindEditor);
 
-        T[] GetComponentInParentOfEach<T>(GameObject[] objects) {
+        if(grinds.Length == 0) {
+            grindPaths = new GrindPath[] {};
+            grindNodes = new GrindNode[] {};
+            grindLines = new GrindLine[] {};
+            splineBasedGrindLineGenerators = new SplineBasedGrindLineGenerator[] {};
+            bezierSplines = new BezierSpline[] {};
+        } else {
+            grindPaths = GetComponentInParentOfEach<GrindPath>(aos);
+            grindNodes = GetComponentInParentOfEach<GrindNode>(aos);
+            grindLines = GetComponentInParentOfEach<GrindLine>(aos);
+            splineBasedGrindLineGenerators = GetComponentInParentOfEach<SplineBasedGrindLineGenerator>(aos);
+            bezierSplines = GetComponentInParentOfEach<BezierSpline>(aos);
+
+            Editor.CreateCachedEditor(grindPaths, null, ref grindPathEditor);
+            Editor.CreateCachedEditor(grindNodes, null, ref grindNodeEditor);
+            var transforms = grindNodes.Select(x => x.transform).ToArray();
+            Editor.CreateCachedEditor(transforms, null, ref grindNodeTransformsEditor);
+            Editor.CreateCachedEditor(grindLines, null, ref grindLineEditor);
+            Editor.CreateCachedEditor(splineBasedGrindLineGenerators, null, ref splineBasedGrindLineGeneratorEditor);
+            Editor.CreateCachedEditor(bezierSplines, null, ref bezierSplineEditor);
+        }
+    }
+
+    static T[] GetComponentInParentOfEach<T>(GameObject[] objects) {
             List<T> results = new List<T>();
             foreach(var o in objects) {
                 try {
@@ -48,6 +100,19 @@ public class GrindWindow : EditorWindow
             return results.ToArray();
         }
 
+
+    private void OnInspectorUpdate() {
+        Repaint();
+    }
+
+    private void OnGUI()
+    {
+        // Restore defaults; we modify these elsewhere
+        EditorGUIUtility.labelWidth = 0;
+        EditorGUIUtility.fieldWidth = 0;
+
+        EditorGUI.BeginChangeCheck();
+
         void Header(string label, int height = 1) {
             GUILayout.Space(10);
             EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
@@ -57,49 +122,36 @@ public class GrindWindow : EditorWindow
             GUILayout.Space(2);
         }
 
-        void ShowEditor(Object[] objects) {
-            var e = Editor.CreateEditor(objects);
-            e.OnInspectorGUI();
-            // DestroyImmediate(e);
-        }
-
         inspectorScroll = EditorGUILayout.BeginScrollView(inspectorScroll);
 
-        var grinds = GetComponentInParentOfEach<Grind>(aos);
-        if(grinds.Count() == 0) {
+        if(grinds.Length == 0) {
             EditorGUILayout.HelpBox("Select any grind to see inspectors.  This panel will show only Grind, GrindPath, GrindNode, and GrindLine inspectors.", MessageType.Info);
         } else {
             Header("Grind");
-            ShowEditor(grinds);
+            grindEditor.OnInspectorGUI();
 
-            var grindPaths = GetComponentInParentOfEach<GrindPath>(aos);
-            if(grindPaths.Count() != 0) {
+            if(grindPaths.Length != 0) {
                 Header("Grind Path");
-                ShowEditor(grindPaths);
+                grindPathEditor.OnInspectorGUI();
             }
-            var grindNodes = GetComponentInParentOfEach<GrindNode>(aos);
-            if(grindNodes.Count() != 0) {
+            if(grindNodes.Length != 0) {
                 Header("Grind Node");
                 if(Preferences.instance.grinds.showNodeTransformsInGrindInspector) {
-                    var transforms = grindNodes.Select(x => x.transform).ToArray();
-                    ShowEditor(transforms);
+                    grindNodeTransformsEditor.OnInspectorGUI();
                 }
-                ShowEditor(grindNodes);
+                grindNodeEditor.OnInspectorGUI();
             }
-            var splineBasedGrindLineGenerators = GetComponentInParentOfEach<SplineBasedGrindLineGenerator>(aos);
-            if(splineBasedGrindLineGenerators.Count() != 0) {
+            if(splineBasedGrindLineGenerators.Length != 0) {
                 Header("Spline Based Grind Line Generator");
-                ShowEditor(splineBasedGrindLineGenerators);
+                splineBasedGrindLineGeneratorEditor.OnInspectorGUI();
             }
-            var bezierSplines = GetComponentInParentOfEach<BezierSpline>(aos);
-            if(bezierSplines.Count() != 0) {
+            if(bezierSplines.Length != 0) {
                 Header("Bezier Spline");
-                ShowEditor(bezierSplines);
+                bezierSplineEditor.OnInspectorGUI();
             }
-            var grindLines = GetComponentInParentOfEach<GrindLine>(aos);
-            if(grindLines.Count() != 0) {
+            if(grindLines.Length != 0) {
                 Header("Grind Line");
-                ShowEditor(grindLines);
+                grindLineEditor.OnInspectorGUI();
             }
         }
 

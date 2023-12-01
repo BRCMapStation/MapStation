@@ -19,6 +19,12 @@ public class BuildWindow : EditorWindow {
     private BRCMap _brcMap;
     private BRCMap brcMap => _brcMap = _brcMap != null ? _brcMap : FindObjectOfType<BRCMap>();
 
+    private Editor brcMapEditor = null;
+
+    private void OnDestroy() {
+        DestroyImmediate(brcMapEditor);
+    }
+
     private void OnEnable() {
         EditorSceneManager.activeSceneChangedInEditMode -= onSceneChange;
         EditorSceneManager.activeSceneChangedInEditMode += onSceneChange;
@@ -39,8 +45,8 @@ public class BuildWindow : EditorWindow {
         scrollbarPosition = EditorGUILayout.BeginScrollView(scrollbarPosition, false, false);
 
         if(brcMap) {
-            var e = Editor.CreateEditor(brcMap);
-            e.OnInspectorGUI();
+            Editor.CreateCachedEditor(brcMap, null, ref brcMapEditor);
+            brcMapEditor.OnInspectorGUI();
         }
 
         EditorGUILayout.EndScrollView();

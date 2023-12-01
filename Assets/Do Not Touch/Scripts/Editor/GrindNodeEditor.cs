@@ -25,6 +25,10 @@ class GrindNodeEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        if(!allSameGrind) {
+            EditorGUILayout.HelpBox("You have selected nodes from different Grinds. This is probably a mistake.", MessageType.Warning);
+        }
+
         DrawDefaultInspector();
 
         if(GUILayout.Button("Orient upright")) {
@@ -37,23 +41,24 @@ class GrindNodeEditor : Editor
                 grindNode.Button_OrientDown();
             }
         }
-        if(allSameGrind == true && GUILayout.Button("Add node")) {
-            grind.AddNodes(grindNodes);
+        if(CanDoAddNodeAction() && GUILayout.Button("Add node")) {
+            AddNodeAction();
         }
 
-        if(grindNodes.Count() > 1) {
-            for(int i = 1; i < grindNodes.Count(); i++) {
-                if(grindNodes[i - 1].Grind != grindNodes[i].Grind) {
-                    EditorGUILayout.HelpBox("You have selected nodes from different Grinds. This is probably a mistake.", MessageType.Warning);
-                }
-            }
-        }
-        if(grindNodes.Count() == 2) {
+        if(grindNodes.Length == 2) {
             var n0 = grindNodes[0];
             var n1 = grindNodes[1];
             if(n0.Grind == n1.Grind && !n0.IsConnectedTo(n1) && GUILayout.Button("Join nodes")) {
                 n0.Grind.AddLine(n0, n1, n0.grindLines.Find(x => x != null));
             }
         }
+    }
+
+    public bool CanDoAddNodeAction() {
+        return allSameGrind;
+    }
+
+    public void AddNodeAction() {
+        grind.AddNodes(grindNodes);
     }
 }

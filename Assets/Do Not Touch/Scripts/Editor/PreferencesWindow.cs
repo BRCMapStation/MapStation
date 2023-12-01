@@ -17,6 +17,8 @@ public class PreferencesWindow : EditorWindow {
 
     private Vector2 scrollbarPosition = Vector2.zero;
 
+    private Editor preferencesEditor = null;
+
     private void OnGUI() {
 
         EditorGUIUtility.labelWidth = EditorGUIUtility.currentViewWidth / 2;
@@ -25,8 +27,8 @@ public class PreferencesWindow : EditorWindow {
         scrollbarPosition = EditorGUILayout.BeginScrollView(scrollbarPosition, false, false);
 
         Preferences.instance.GetInstanceID();
-        var e = Editor.CreateEditor(Preferences.instance);
-        e.OnInspectorGUI();
+        Editor.CreateCachedEditor(Preferences.instance, null, ref preferencesEditor);
+        preferencesEditor.OnInspectorGUI();
 
         EditorGUILayout.EndScrollView();
     }

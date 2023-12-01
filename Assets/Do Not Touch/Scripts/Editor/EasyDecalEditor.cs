@@ -18,11 +18,17 @@ public class EasyDecalEditor : Editor {
     [SerializeField]
     private EasyDecalEditableFields proxy;
 
+    private Editor proxyEditor = null;
+
     private void Awake()
     {
         decal = target as EasyDecal;
         proxy = CreateInstance<EasyDecalEditableFields>();
         proxy.decal = decal;
+    }
+
+    private void OnDestroy() {
+        DestroyImmediate(proxyEditor);
     }
 
     public override void OnInspectorGUI() {
@@ -35,9 +41,9 @@ public class EasyDecalEditor : Editor {
             EditorUtility.SetDirty(decal);
         }
         proxy.readFromEasyDecal();
-        var editor = CreateEditor(proxy);
+        CreateCachedEditor(proxy, null, ref proxyEditor);
         EditorGUI.BeginChangeCheck();
-        editor.OnInspectorGUI();
+        proxyEditor.OnInspectorGUI();
         if(EditorGUI.EndChangeCheck()) {
             proxy.writeToEasyDecal();
             EditorUtility.SetDirty(decal);
