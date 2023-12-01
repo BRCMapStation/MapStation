@@ -11,6 +11,7 @@ namespace Winterland.Common {
 
 #if WINTER_DEBUG
         public ConfigEntry<bool> QuickLaunch;
+        public ConfigEntry<bool> DisableKBMInput;
 #endif
         public WinterConfig() {
             Instance = this;
@@ -22,6 +23,12 @@ namespace Winterland.Common {
                 "QuickLaunch",
                 false,
                 "Skip game intros and menu and launch directly into Millenium Square."
+            );
+            DisableKBMInput = file.Bind(
+                "Development",
+                "DisableKBMInput",
+                false,
+                "Disable keyboard and mouse inputs, making it easier to use Unity Explorer or tab between windows. If this is enabled, you MUST use a game controller."
             );
 #endif
         }

@@ -15,6 +15,9 @@ namespace Winterland.Plugin.Patches {
         private static void Init_Postfix(Player __instance) {
             var winterPlayer = __instance.gameObject.AddComponent<WinterPlayer>();
             winterPlayer.player = __instance;
+            if(WinterConfig.Instance.DisableKBMInput.Value) {
+                KBMInputDisabler.Disable();
+            }
         }
     }
 }

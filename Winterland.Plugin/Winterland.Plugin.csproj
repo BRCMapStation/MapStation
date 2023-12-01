@@ -44,6 +44,9 @@
       <Reference Include="Unity.TextMeshPro">
           <HintPath>$(ManagedPath)/Unity.TextMeshPro.dll</HintPath>
       </Reference>
+    <Reference Include="Rewired_Core">
+        <HintPath>$(ManagedPath)/Rewired_Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
