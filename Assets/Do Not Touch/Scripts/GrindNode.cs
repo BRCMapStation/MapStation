@@ -183,10 +183,9 @@ namespace Reptile
 			// But it's flaky when triggered in other scenarios.
 
 			// TODO find a better way to respond when user presses "delete"
-
 			foreach(var grindLine in new List<GrindLine>(grindLines)) {
 				if(grindLine != null)
-					DestroyImmediate(grindLine.gameObject);
+					Undo.DestroyObjectImmediate(grindLine.gameObject);
 			}
 		}
 
