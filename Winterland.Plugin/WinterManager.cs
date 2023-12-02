@@ -38,7 +38,8 @@ namespace Winterland.Plugin
                 return;
             var winterUIInstance = GameObject.Instantiate(uiPrefab);
             var uiManager = Core.Instance.UIManager;
-            var gameplayUI = uiManager.transform.Find("GamePlayUI(Clone)");
+            // putting it this deep down into gameplay ui makes it disappear during graffiti minigame and stuff which we want!
+            var gameplayUI = uiManager.transform.Find("GamePlayUI(Clone)").Find("GameplayUI").Find("gameplayUIScreen");
             winterUIInstance.transform.SetParent(gameplayUI, false);
         }
 
