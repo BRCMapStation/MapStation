@@ -22,7 +22,7 @@ namespace Winterland.Common {
         }
 
         public void SetCounter(int currentAmount, int maxAmount) {
-            toyLineLabel.text = $"{currentAmount}/{maxAmount}";
+            toyLineLabel.SetCounter(currentAmount, maxAmount);
         }
 
         private void Awake() {
@@ -30,6 +30,6 @@ namespace Winterland.Common {
         }
 
         [SerializeField]
-        private TextMeshProUGUI toyLineLabel = null;
+        private ToyLineLabel toyLineLabel = null;
     }
 }

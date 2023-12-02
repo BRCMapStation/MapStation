@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8395201186355884822}
   - component: {fileID: 1609371949569376900}
   - component: {fileID: 7080829280541904126}
+  - component: {fileID: 4557395119154865287}
   m_Layer: 5
   m_Name: ToyLineLabel
   m_TagString: Untagged
@@ -36,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 193.5, y: -110.1}
+  m_AnchoredPosition: {x: 199.3, y: -123.1}
   m_SizeDelta: {x: 100, y: 100.00001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8395201186355884822
@@ -151,6 +152,21 @@ MonoBehaviour:
   component: {fileID: 1609371949569376900}
   fields:
   - font=stable_fonts:Assets/fonts/latin/2070POLYESTER-ALP53 SDF Outline.asset
+--- !u!114 &4557395119154865287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007107434343989987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1370881620, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CompletedLineFontColor:
+    serializedVersion: 2
+    rgba: 4282053430
 --- !u!1 &2016858469886429874
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,4 +345,4 @@ MonoBehaviour:
   m_Script: {fileID: 1863141069, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toyLineLabel: {fileID: 1609371949569376900}
+  toyLineLabel: {fileID: 4557395119154865287}
