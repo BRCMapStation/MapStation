@@ -53,6 +53,7 @@ namespace Winterland.Common {
             snowSinker.Strength = Mathf.Lerp(snowSinker.Strength, snowTargetStrength, snowLerpSpeed * Core.dt);
         }
 
+        // TODO: sound effects and stuff for toy part picking up.
         // This is a lot faster to process per player than per individual item.
         private void ProcessPickupTriggers(Collider other) {
             if (player.currentComboMascotSystem != null)
@@ -114,16 +115,34 @@ namespace Winterland.Common {
             return false;
         }
 
+        // TODO: Just drops the line, doesn't actually finish it atm.
+        public void FinishCurrentToyLine() {
+            if (CurrentToyLine == null)
+                return;
+            CurrentToyLine.Respawn();
+            CurrentToyLine = null;
+            if (WinterUI.Instance != null && Local) {
+                var toyLineUI = WinterUI.Instance.ToyLineUI;
+                toyLineUI.Visible = false;
+            }
+        }
+
+        public void DropCurrentToyLine() {
+            if (CurrentToyLine == null)
+                return;
+            CurrentToyLine.Respawn();
+            CurrentToyLine = null;
+            if (WinterUI.Instance != null && Local) {
+                var toyLineUI = WinterUI.Instance.ToyLineUI;
+                toyLineUI.Visible = false;
+            }
+        }
+
         private void FixedUpdate() {
 
             if (!player.IsComboing()) {
                 if (CurrentToyLine != null)
-                    CurrentToyLine.Respawn();
-                CurrentToyLine = null;
-                if (WinterUI.Instance != null && Local) {
-                    var toyLineUI = WinterUI.Instance.ToyLineUI;
-                    toyLineUI.Visible = false;
-                }
+                    DropCurrentToyLine();
             }
 
             var snowFX = IsOnLevelGround() && SnowFX;
