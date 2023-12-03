@@ -8,6 +8,8 @@ using Reptile;
 
 namespace Winterland.Common {
     public class FallenSnowController : MonoBehaviour {
+        public float MinimumSpeedForSnowParticles = 5f;
+        public GameObject SnowFootstepParticlesPrefab = null;
         public Action OnUpdate = null;
         public Action OnUpdateOneShot = null;
         public static FallenSnowController Instance { get; private set; }

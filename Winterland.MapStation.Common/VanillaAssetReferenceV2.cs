@@ -1,0 +1,138 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Reptile;
+using UnityEngine;
+using UnityEngine.Audio;
+using Winterland.MapStation.Common.Serialization;
+
+namespace Winterland.MapStation.Common.VanillaAssets {
+    /// <summary>
+    /// We can't reference vanilla game assets from our asset bundles. The cross-bundle references
+    /// are broken.
+    /// 
+    /// This component uses reflection to assign fields at startup, referencing vanilla assets.
+    /// </summary>
+    public class VanillaAssetReferenceV2 : MonoBehaviour {
+
+        // BepInEx serialization workaround
+        private List<ComponentEntry> Components => components.items;
+        [SerializeReference] private SList_Components components = new ();
+        public class SList_Components : SList<ComponentEntry> {}
+
+        private void Awake() {
+            AssignReferences();
+        }
+
+        public const BindingFlags UseTheseBindingFlags =
+            BindingFlags.Instance
+            | BindingFlags.Public
+            | BindingFlags.NonPublic
+            | BindingFlags.FlattenHierarchy;
+
+        public void AssignReferences() {
+            foreach(var c in Components) {
+                var component = c.Component;
+                foreach(var f in c.Fields) {
+                    // Get asset(s) at path
+                    UnityEngine.Object asset = null;
+                    UnityEngine.Object[] assets = null;
+                    switch(f.SubAssetType) {
+                        case SubAssetType.FbxChild:
+                            assets = Core.Instance.Assets.availableBundles[f.BundleName].AssetBundle.LoadAssetWithSubAssets(f.Path);
+                            break;
+                        default:
+                            asset = Core.Instance.Assets.LoadAssetFromBundle<UnityEngine.Object>(f.BundleName, f.Path);
+                            break;
+                    }
+
+                    if(asset == null && assets == null) {
+                        Debug.Log(string.Format("{0}: Restoring reference to vanilla asset failed, asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\")", nameof(VanillaAssetReference), component.GetType().Name, f.Name, f.BundleName, f.Path));
+                        continue;
+                    }
+
+                    // Get sub-asset by name/subpath
+                    switch(f.SubAssetType) {
+                        case SubAssetType.FbxChild:
+                            foreach(var a in assets) {
+                                if(a.name == f.SubPath) {
+                                    asset = a;
+                                    break;
+                                }
+                            }
+                            break;
+                        case SubAssetType.MixerGroup:
+                            var mixer = (AudioMixer)asset;
+                            asset = mixer.FindMatchingGroups(f.SubPath)[0];
+                            break;
+                    }
+
+                    if(asset == null) {
+                        Debug.Log(string.Format("{0}: Restoring reference to vanilla asset failed, sub-asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\"); SubAssetType={5}; SubPath={6}", nameof(VanillaAssetReference), component.GetType().Name, f.Name, f.BundleName, f.Path, f.SubAssetType.ToString(), f.SubPath));
+                        continue;
+                    }
+
+                    // Check for both private and public fields
+                    var componentType = component.GetType();
+                    var member = componentType.GetMember(f.Name, UseTheseBindingFlags)[0];
+
+                    var message = string.Format(
+                        "{0}: Assigning {1}.{2} = asset {3}:{4} (asset found={5}, field found={6}, asset type={7})",
+                        nameof(VanillaAssetReference), componentType.Name, f.PropertyPath, f.BundleName, f.Path,
+                        asset != null, member != null, asset != null ? asset.GetType().Name : "<not found>"
+                    );
+
+                    try {
+                        if(f.Index >= 0) {
+                            var collection = member is PropertyInfo p ? p.GetValue(component) : ((FieldInfo)member).GetValue(component);
+                            collection.GetType().GetProperty("Item").SetValue(collection, asset, new object[] { f.Index });
+                        } else {
+                            if(member is PropertyInfo p) {
+                                p.SetValue(component, asset);
+                            } else {
+                                ((FieldInfo)member).SetValue(component, asset);
+                            }
+                        }
+                    } catch(Exception e) {
+                        Debug.Log(message + "\nFailed with error:\n" + e.Message + "\n" + e.StackTrace);
+                    }
+                }
+            }
+        }
+    }
+
+    [Serializable]
+    public class ComponentEntry {
+        [SerializeField]
+        public Component Component;
+
+        public List<FieldEntry> Fields => fields.items;
+        [SerializeReference] private SList_FieldEntry fields = new();
+        private class SList_FieldEntry : SList<FieldEntry> {}
+
+        public ComponentEntry() {}
+    }
+
+    [Serializable]
+    public class FieldEntry {
+        [HideInInspector]
+        [SerializeField] public bool Enabled = true;
+        [HideInInspector]
+        [SerializeField] public bool AutoSync = true;
+        [SerializeField] public string Name;
+        [HideInInspector]
+        [SerializeField] public int Index = -1;
+        [SerializeField] public string BundleName;
+        [SerializeField] public string Path;
+        [SerializeField] public SubAssetType SubAssetType = SubAssetType.None;
+        [SerializeField] public string SubPath = "";
+        public string PropertyPath => Index >= 0 ? $"{Name}[{Index}]" : Name;
+        public FieldEntry() {}
+    }
+
+    public enum SubAssetType {
+        None,
+        MixerGroup,
+        FbxChild
+    }
+}

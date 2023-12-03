@@ -13,6 +13,10 @@
 	<ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
 	<RootNamespace>Winterland.Common</RootNamespace>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;WINTER_DEBUG</DefineConstants>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
@@ -25,12 +29,21 @@
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\libs\CrewBoomAPI\CrewBoomAPI.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(ManagedPath)/Assembly-CSharp.dll</HintPath>
 	  <Private>false</Private>
 	  <Publicize>true</Publicize>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(ManagedPath)/Unity.TextMeshPro.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -24,11 +24,6 @@ catch [System.Management.Automation.CommandNotFoundException]
 {
     winget install dotnet-sdk-8
 }
-Write-Output "Initializing Submodules..."
-git submodule update --init --recursive
-Write-Output "Restoring Unity GUID for Winterland.Common.dll..."
-$metaPath = ".\Winterland.Editor\Assets\Scripts\Winterland.Common.dll.meta"
-git checkout $metaPath
 Write-Output "====== Cleaning Projects ======="
 dotnet clean
 # CommonAPI
