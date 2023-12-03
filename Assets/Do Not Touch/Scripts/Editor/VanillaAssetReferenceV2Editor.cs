@@ -5,13 +5,22 @@ using Unity.VisualScripting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections.ObjectModel;
+using UnityEngine.Audio;
 
 namespace Winterland.MapStation.Common.VanillaAssets {
-    [CustomEditor(typeof(VanillaAssetReference))]
-    public class VanillaAssetReferenceEditor : UnityEditor.Editor {
-        VanillaAssetReference t { get => target as VanillaAssetReference; }
+    public static class Configuration {
+        /// <summary>
+        /// Prefixes to be stripped from asset paths.
+        /// Allows you to nest Reptile's vanilla assets within a subdirectory of
+        /// your project.
+        /// </summary>
+        public static List<string> StripPathPrefixes = new() {
+            "MappingToolkit/Assets/Do Not Touch/ReptileAssets/"
+        };
+    }
 
+    [CustomEditor(typeof(VanillaAssetReferenceV2))]
+    public class VanillaAssetReferenceV2Editor : UnityEditor.Editor {
         public override void OnInspectorGUI() {
             EditorGUILayout.HelpBox(
                 "Repairs references to base game assets by re-assigning them at runtime.\n" +
@@ -19,16 +28,47 @@ namespace Winterland.MapStation.Common.VanillaAssets {
                 "This component stores the assetbundle name and asset path so it can retrieve the assets at runtime.",
                 MessageType.Info);
             base.OnInspectorGUI();
-            if(GUILayout.Button("Add field")) {
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(ComponentEntry))]
+    public class VanillaAssetReferenceV2ComponentEntryDrawer : PropertyDrawer {
+
+        private VanillaAssetReferenceV2 getOwner(SerializedProperty property) {
+            return (VanillaAssetReferenceV2)property.serializedObject.targetObject;
+        }
+
+        private ComponentEntry getValue(SerializedProperty property) {
+            return (ComponentEntry)property.managedReferenceValue;
+        }
+
+        private const int ButtonHeight = 20;
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
+            return EditorGUI.GetPropertyHeight(property, label, true) + ButtonHeight;
+        }
+
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+            VanillaAssetReferenceV2 owner = getOwner(property);
+            ComponentEntry t = getValue(property);
+
+            var positionAbove = new Rect(position.x, position.y, position.width, position.height - ButtonHeight);
+            var positionBelow = new Rect(position.x, position.yMax - ButtonHeight, position.width, ButtonHeight);
+
+            // Default inspector
+            EditorGUI.PropertyField(positionAbove, property, true);
+
+            if(GUI.Button(positionBelow, "Add field")) {
                 var menu = new GenericMenu();
-                var items = new List<string>();
-                var members = t.component.GetType().GetMembers(VanillaAssetReference.UseTheseBindingFlags).Where(m =>
+
+                var members = t.Component.GetType().GetMembers(VanillaAssetReference.UseTheseBindingFlags).Where(m =>
                     m.IsAccessor() &&
                         m.DeclaringType != typeof(MonoBehaviour) &&
                         m.DeclaringType != typeof(Behaviour) &&
                         m.DeclaringType != typeof(Component) &&
                         m.DeclaringType != typeof(UnityEngine.Object)
                 ).OrderBy(m => m.Name).ToList();
+
                 foreach(var member in members) {
                     Type accessedType = member.GetAccessorType();
 
@@ -54,6 +94,8 @@ namespace Winterland.MapStation.Common.VanillaAssets {
                     // }
 
                     var item = new MenuItemValue {
+                        Owner = owner,
+                        ComponentEntry = t,
                         Name = member.Name,
                         Index = -1
                     };
@@ -64,34 +106,37 @@ namespace Winterland.MapStation.Common.VanillaAssets {
         }
 
         private struct MenuItemValue {
+            public VanillaAssetReferenceV2 Owner;
+            public ComponentEntry ComponentEntry;
             public string Name;
             public int Index;
-            public string PropertyPath { get => Index >= 0 ? Name + "[" + Index + "]" : Name; }
+            public readonly string PropertyPath => Index >= 0 ? Name + "[" + Index + "]" : Name;
         }
 
-        private void onFieldSelected(object selected) {
-            var s = (MenuItemValue)selected;
+        private void onFieldSelected(object selected_) {
+            var selected = (MenuItemValue)selected_;
+            var component = selected.ComponentEntry.Component;
             
-            var f = t.component.GetType().GetMember(s.Name, 
+            var member = component.GetType().GetMember(selected.Name, 
                 VanillaAssetReference.UseTheseBindingFlags
             )[0].ToManipulator();
-            var value = f.Get(t.component);
-            if(s.Index >= 0) {
+            var value = member.Get(component);
+            if(selected.Index >= 0) {
                 if(value is List<object> l) {
-                    value = l[s.Index];
+                    value = l[selected.Index];
                 } else if(value is object[] a) {
-                    value = a[s.Index];
+                    value = a[selected.Index];
                 } else {
                     throw new Exception("Unexpected collection type");
                 }
             }
 
             if(value is not UnityEngine.Object) {
-                Debug.LogError(string.Format("Field {0} does not refer to an asset.", s.PropertyPath));
+                Debug.LogError(string.Format("Field {0} does not refer to an asset.", selected.PropertyPath));
             }
             var path = AssetDatabase.GetAssetPath(value as UnityEngine.Object);
             if(path == null || path == "") {
-                Debug.LogError(string.Format("Field {0} does not refer to an asset.", s.PropertyPath));
+                Debug.LogError(string.Format("Field {0} does not refer to an asset.", selected.PropertyPath));
                 return;
             }
             var bundle = AssetImporter.GetAtPath(path).assetBundleName;
@@ -99,6 +144,7 @@ namespace Winterland.MapStation.Common.VanillaAssets {
                 Debug.LogError("Referenced asset is not assigned to an assetbundle.");
                 return;
             }
+
             const string assetsDir = "Assets/";
             foreach(var prefix in Configuration.StripPathPrefixes) {
                 if(path.IndexOf(assetsDir + prefix) == 0) {
@@ -106,13 +152,27 @@ namespace Winterland.MapStation.Common.VanillaAssets {
                     break;
                 }
             }
-            
-            t.fields.Add(String.Format("{0}={1}:{2}", s.PropertyPath, bundle, path));
-            EditorUtility.SetDirty(t);
+
+            var type = SubAssetType.None;
+            var SubPath = "";
+            if(value is AudioMixerGroup audioMixerGroup) {
+                type = SubAssetType.MixerGroup;
+                SubPath = audioMixerGroup.name;
+            }
+
+            selected.ComponentEntry.Fields.Add(new () {
+                Name = selected.Name,
+                BundleName = bundle,
+                Path = path,
+                Index = selected.Index,
+                SubAssetType = type,
+                SubPath = SubPath
+            });
+            EditorUtility.SetDirty(selected.Owner);
         }
     }
 
-    class MemberCompareByName : IComparer<MemberInfo> {
+    class MemberInfoCompareByName : IComparer<MemberInfo> {
         public int Compare(MemberInfo a, MemberInfo b) {
             return a.Name.CompareTo(b.Name);
         }
