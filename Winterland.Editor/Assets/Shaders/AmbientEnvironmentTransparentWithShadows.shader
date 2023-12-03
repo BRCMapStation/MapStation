@@ -8,7 +8,7 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
     }
     SubShader
     {
-        Tags { "Queue"="AlphaTest" }
+        Tags { "Queue"="AlphaTest+50" }
         LOD 100
 
         Pass
@@ -70,6 +70,5 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
             }
             ENDCG
         }
-        UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
     }
 }
