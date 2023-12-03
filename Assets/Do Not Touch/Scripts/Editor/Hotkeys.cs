@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 using Reptile;
+using Winterland.MapStation.Components;
 
 /// <summary>
 /// global hotkey bindings, logic should live elsewhere

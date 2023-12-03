@@ -2,6 +2,7 @@ using System.Linq;
 using Reptile;
 using UnityEditor;
 using UnityEngine;
+using Winterland.MapStation.Components;
 
 [CustomEditor(typeof(GrindNode))]
 [CanEditMultipleObjects]
