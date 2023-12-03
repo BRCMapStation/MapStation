@@ -36,7 +36,7 @@ public class CSProjPostprocessor : AssetPostprocessor
         if(applyModifications) {
             contents = contents.Replace("<ProjectCapability Remove=\"AssemblyReferences\" />", "<!-- <ProjectCapability Remove=\"AssemblyReferences\" /> -->");
             contents = contents.Replace("<TargetFramework>netstandard2.1</TargetFramework>", "<TargetFramework>net46</TargetFramework>");
-            contents = contents.Replace("<LangVersion>9.0</LangVersion>", "<LangVersion>latest</LangVersion>");
+            contents = contents.Replace("<LangVersion>9.0</LangVersion>", "<LangVersion>11</LangVersion>");
         }
         return contents;
     }
