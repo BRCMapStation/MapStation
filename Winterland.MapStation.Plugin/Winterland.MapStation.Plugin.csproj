@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
-    <AssemblyName>Winterland.MapStation.Common</AssemblyName>
+    <AssemblyName>Winterland.MapStation.Plugin</AssemblyName>
     <Description></Description>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -11,7 +11,7 @@
   
   <PropertyGroup>
 	<ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
-	<RootNamespace>Winterland.MapStation.Common</RootNamespace>
+	<RootNamespace>Winterland.MapStation.Plugin</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,11 +19,15 @@
     <PackageReference Include="BepInEx.Core" Version="5.*" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
     <PackageReference Include="UnityEngine.Modules" Version="2021.3.27" IncludeAssets="compile" />
-	<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
+	  <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Winterland.MapStation.Common\Winterland.MapStation.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,9 +37,4 @@
 	  <Publicize>true</Publicize>
     </Reference>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(TargetDir)\$(TargetFileName)&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
-    <Exec Command="xcopy &quot;$(ManagedPath)\EasyDecal.Runtime.dll&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
-  </Target>
 </Project>
