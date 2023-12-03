@@ -54,6 +54,7 @@
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/CommonAPI.dll&quot;" />
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.Common.dll&quot;" />
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.MapStation.Common.dll&quot;" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.MapStation.Plugin.dll&quot;" />
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetPath)&quot;" />
     <Exec Command="xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot; /E /H /C" />
   </Target>
