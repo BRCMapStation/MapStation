@@ -47,6 +47,10 @@ public class AddPrefabsToContextMenu {
     private static void CreateWallrun(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "WallRunPrefab");
     }
+    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Vending Machine", priority = Priority)]
+    private static void CreateVendingMachine(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "VendingMachinePrefab");
+    }
 
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
