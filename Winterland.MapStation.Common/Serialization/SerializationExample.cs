@@ -1,3 +1,4 @@
+#pragma warning disable CS0649 // Field is never assigned
 using System;
 using System.Collections.Generic;
 using UnityEngine;
