@@ -21,7 +21,7 @@ namespace Winterland.Common {
         }
         public const string CrewBoomGUID = "CrewBoom";
         private static bool IsCrewBoomInstalled = false;
-        private static Guid WinterBelGUID = new("adab3b42-6989-4ca4-81c4-901334a43a30");
+        private static Guid WinterBelGUID = new("4572e982-13ca-4d12-933e-ff0317444078");
         private static Guid WinterRiseGUID = new("bdb2f2cd-4ff2-483c-b43f-9f23bb287c68");
         private static Guid WinterShineGUID = new("ae9bdb5e-663c-43b2-9567-f0d73daa6e86");
         private static Dictionary<Guid, Characters> BaseCharacterByCustomCharacter = new();
