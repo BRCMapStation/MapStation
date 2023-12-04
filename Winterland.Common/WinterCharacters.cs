@@ -14,7 +14,7 @@ namespace Winterland.Common {
                 if (!IsCrewBoomInstalled)
                     return false;
                 return CheckCrewBoomAPI();
-                bool CheckCrewBoomAPI() {
+                static bool CheckCrewBoomAPI() {
                     return CrewBoomAPIDatabase.IsInitialized;
                 }
             }

@@ -16,11 +16,7 @@ namespace Winterland.Plugin.Patches {
             var currentObjective = WinterProgress.Instance?.LocalProgress?.Objective;
             if (currentObjective == null)
                 return;
-            var beatTheGame = __instance.saveManager.CurrentSaveSlot.CurrentStoryObjective == Story.ObjectiveID.HangOut;
-            if (!beatTheGame && currentObjective.OnlyInPostGame)
-                return;
-            var currentStage = Core.Instance.BaseModule.CurrentStage.ToString();
-            if (currentObjective.HasSpecificStage && currentObjective.Stage != currentStage)
+            if (!currentObjective.Test())
                 return;
             if (string.IsNullOrEmpty(currentObjective.Description))
                 return;

@@ -73,9 +73,9 @@ namespace Winterland.Common {
             Shader.SetGlobalTexture(DepthTextureProp, depthRenderTexture);
         }
 
-        void TransformTexture(Vector2 previousCameraPosition, Vector2 currentCameraPosition) {
+        private void TransformTexture(Vector2 previousCameraPosition, Vector2 currentCameraPosition) {
             Graphics.Blit(depthRenderTexture, backBufferRenderTexture);
-            var offset = ((currentCameraPosition - previousCameraPosition) / (depthRadiusHalf * 2f)) * new Vector2(depthRenderTexture.width, depthRenderTexture.height);
+            var offset = (currentCameraPosition - previousCameraPosition) / (depthRadiusHalf * 2f) * new Vector2(depthRenderTexture.width, depthRenderTexture.height);
             offset.x = -offset.x;
             RenderTexture.active = depthRenderTexture;
             GL.PushMatrix();
