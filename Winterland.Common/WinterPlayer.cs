@@ -145,6 +145,11 @@ namespace Winterland.Common {
                     DropCurrentToyLine();
             }
 
+            if (WinterUI.Instance != null && Local) {
+                var toyLineUI = WinterUI.Instance.ToyLineUI;
+                toyLineUI.Visible = CurrentToyLine != null;
+            }
+
             var snowFX = IsOnLevelGround() && SnowFX;
             var snowDeform = IsOnLevelGround() && SnowDeform;
             snowSinker.Enabled = snowDeform;
