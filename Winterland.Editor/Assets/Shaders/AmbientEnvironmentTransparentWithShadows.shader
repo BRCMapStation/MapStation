@@ -46,12 +46,13 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
             float4 LightColor;
             float4 ShadowColor;
             sampler2D _MainTex;
+            float4 _MainTex_ST;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.normal = UnityObjectToWorldNormal(v.normal);
                 TRANSFER_SHADOW(o)
                 return o;
