@@ -11,13 +11,14 @@ namespace Winterland.Plugin.Patches {
     [HarmonyPatch(typeof(GraffitiSpot))]
     internal class GraffitiSpotPatch {
         [HarmonyPostfix]
-        [HarmonyPatch(nameof(GraffitiSpot.SetState))]
-        private static void SetState_Postfix(GraffitiState setState, GraffitiSpot __instance) {
-            if (setState == GraffitiState.FINISHED && __instance.ClaimedByPlayableCrew()) {
+        [HarmonyPatch(nameof(GraffitiSpot.Paint))]
+        private static void Paint_Postfix(GraffitiSpot __instance) {
+            if (__instance.ClaimedByPlayableCrew()) {
                 var toyGraff = ToyGraffitiSpot.Get(__instance);
                 if (toyGraff == null)
                     return;
                 toyGraff.ToyMachine.FinishToyLine();
+                __instance.allowRedo = true;
             }
         }
 
