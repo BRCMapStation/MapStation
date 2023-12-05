@@ -59,17 +59,29 @@ MonoBehaviour:
           rid: 1053790704879272200
         items:
         - rid: 1053790704879272201
+        - rid: 4497070851952214061
     - rid: 1053790704879272200
       type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
       data:
         value:
           rid: 1053790704879272201
         next:
-          rid: -2
+          rid: 4497070851952214062
     - rid: 1053790704879272201
       type: {class: DeleteVanillaGameObjectsV1/Deletion, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
       data:
         Path: /SceneElements/FailSafeTeleporter
+    - rid: 4497070851952214061
+      type: {class: DeleteVanillaGameObjectsV1/Deletion, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Path: /Square_Chunks/Square_Entrance/Square_Entrance_Buildings/SquareGarage/SquareGarageGates
+    - rid: 4497070851952214062
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 4497070851952214061
+        next:
+          rid: -2
 --- !u!1 &5981679612781473100
 GameObject:
   m_ObjectHideFlags: 0
