@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Stub class for custom chunks.
 /// </summary>
-public class StageChunk : MonoBehaviour
-{
+namespace Reptile {
+    public class StageChunk : MonoBehaviour {
+    }
 }
