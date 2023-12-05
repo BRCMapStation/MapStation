@@ -167,7 +167,7 @@ namespace Winterland.Common {
                 snowTargetStrength = 1f;
             } else {
                 snowTargetSize = 1f;
-                snowTargetStrength = 0.75f;
+                snowTargetStrength = 1.0f;
             }
             /*
             if (player.ability is SlideAbility && player.moveStyle != MoveStyle.BMX && player.moveStyle != MoveStyle.SKATEBOARD)
