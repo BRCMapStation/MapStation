@@ -26,6 +26,10 @@ namespace Winterland.Plugin
             if (stagePrefab == null)
                 return;
             var stageAdditions = GameObject.Instantiate(stagePrefab);
+            var stageObjects = stageAdditions.GetComponentsInChildren<StageObject>(true);
+            foreach(var stageObject in stageObjects) {
+                stageObject.PutInChunk();
+            }
             Doctor.AnalyzeAndLog(stageAdditions);
         }
 
