@@ -85,7 +85,8 @@ Shader "Winterland/Snow Gradient"
                 fixed4 col = tex2D(_MainTex, i.uv) * lightColor * _LightColor0.a;
                 float detail = tex2D(_DetailTex, i.detailuv).r * _DetailStrength;
                 col.a = pow(col.a, (-detail)+1);
-                col.a -= _AlphaCutoff;
+                if (col.a <= _AlphaCutoff)
+                    col.a = 0;
                 col.a = min(1, pow(max(0, col.a), (-_AlphaSharpness) + 1));
                 col.a *= _AlphaMultiplier;
                 return col;
