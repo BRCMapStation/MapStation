@@ -6,7 +6,14 @@ using Winterland.Common;
 namespace Reptile {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(StageObject))]
+
+    [ExecuteAlways]
     public class Junk : MonoBehaviour {
+
+        private void Reset() {
+            gameObject.layer = 21;
+        }
+
         // Token: 0x04000E72 RID: 3698
         public Junk.Interact interactOn = Junk.Interact.ON_RUN_IN_AND_HITBOX;
 
