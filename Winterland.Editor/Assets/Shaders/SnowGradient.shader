@@ -7,6 +7,9 @@ Shader "Winterland/Snow Gradient"
         _MainTex ("Gradient Texture", 2D) = "white" {}
         _DetailTex ("Detail Texture", 2D) = "black" {}
         _DetailStrength ("Detail Strength", Range(0,1)) = 1
+        _AlphaCutoff ("Alpha Cutoff", Range(0,1)) = 0
+        _AlphaSharpness ("Alpha Sharpness", Range(0,0.999)) = 0
+        _AlphaMultiplier ("Alpha Multiplier", Range(0,1)) = 1
     }
     SubShader
     {
@@ -67,6 +70,9 @@ Shader "Winterland/Snow Gradient"
             }
 
             float _DetailStrength;
+            float _AlphaCutoff;
+            float _AlphaSharpness;
+            float _AlphaMultiplier;
 
             fixed4 frag(v2f i) : SV_Target
             {
@@ -79,6 +85,9 @@ Shader "Winterland/Snow Gradient"
                 fixed4 col = tex2D(_MainTex, i.uv) * lightColor * _LightColor0.a;
                 float detail = tex2D(_DetailTex, i.detailuv).r * _DetailStrength;
                 col.a = pow(col.a, (-detail)+1);
+                col.a -= _AlphaCutoff;
+                col.a = min(1, pow(max(0, col.a), (-_AlphaSharpness) + 1));
+                col.a *= _AlphaMultiplier;
                 return col;
             }
             ENDCG
