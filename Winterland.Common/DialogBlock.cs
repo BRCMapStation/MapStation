@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace Winterland.Common {
     public class DialogBlock : MonoBehaviour {
+        [HideInInspector]
+        public DialogSequenceAction Owner;
         public enum SpeakerMode {
             None,
             NPC,

@@ -8,6 +8,7 @@ using CommonAPI;
 using Reptile;
 
 namespace Winterland.Common {
+    [ExecuteAlways]
     public class CustomNPC : MonoBehaviour {
         public bool PlacePlayerAtSnapPosition = true;
         public bool LookAt = true;
@@ -17,12 +18,27 @@ namespace Winterland.Common {
         private DialogueBranch[] dialogueBranches;
 
         private void Awake() {
-            dialogueBranches = GetComponentsInChildren<DialogueBranch>();
-            interactable = gameObject.AddComponent<EventDrivenInteractable>();
-            interactable.OnInteract = Interact;
-            interactable.PlacePlayerAtSnapPosition = PlacePlayerAtSnapPosition;
-            interactable.ShowRep = ShowRep;
-            interactable.LookAt = LookAt;
+            if (Application.isEditor)
+                return;
+            ReptileAwake();
+
+            void ReptileAwake() {
+                dialogueBranches = GetComponentsInChildren<DialogueBranch>();
+                interactable = gameObject.AddComponent<EventDrivenInteractable>();
+                interactable.OnInteract = Interact;
+                interactable.PlacePlayerAtSnapPosition = PlacePlayerAtSnapPosition;
+                interactable.ShowRep = ShowRep;
+                interactable.LookAt = LookAt;
+            }
+        }
+
+        private void OnDestroy() {
+            if (!Application.isEditor)
+                return;
+            var branches = GetComponentsInChildren<DialogueBranch>();
+            foreach(var branch in branches) {
+                DestroyImmediate(branch);
+            }
         }
 
         public void Interact(Player player) {
