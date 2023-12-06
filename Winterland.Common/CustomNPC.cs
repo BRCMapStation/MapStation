@@ -7,11 +7,7 @@ using UnityEngine;
 using CommonAPI;
 
 namespace Winterland.Common {
-    public class CustomNPC : MonoBehaviour {
+    public class CustomNPC : CustomInteractable {
         public string Name = "";
-
-        private void Awake() {
-
-        }
     }
 }
