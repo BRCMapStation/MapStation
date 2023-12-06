@@ -14,5 +14,9 @@ namespace Winterland.Common {
             LocalProgress = new LocalProgress();
             GlobalProgress = new MockGlobalProgress();
         }
+
+        public void Save() {
+            LocalProgress.Save();
+        }
     }
 }
