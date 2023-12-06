@@ -12,6 +12,9 @@ git checkout $metaPath
 $metaPath = ".\Winterland.Editor\Assets\Scripts\Winterland.MapStation.Common.dll.meta"
 git checkout $metaPath
 
+$metaPath = ".\Winterland.Editor\Assets\Scripts\CommonAPI.dll.meta"
+git checkout $metaPath
+
 Write-Output "====== Building Assemblies ======="
 
 dotnet build
