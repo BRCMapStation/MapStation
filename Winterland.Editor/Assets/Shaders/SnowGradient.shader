@@ -63,7 +63,7 @@ Shader "Winterland/Snow Gradient"
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                o.detailuv = TRANSFORM_TEX(v.uv, _DetailTex);
+                o.detailuv = TRANSFORM_TEX(mul(unity_ObjectToWorld, v.vertex).xz, _DetailTex);
                 o.normal = UnityObjectToWorldNormal(v.normal);
                 TRANSFER_SHADOW(o)
                 return o;
