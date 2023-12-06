@@ -10,6 +10,7 @@ Shader "Winterland/Snow Gradient"
         _AlphaCutoff ("Alpha Cutoff", Range(0,1)) = 0
         _AlphaSharpness ("Alpha Sharpness", Range(0,0.999)) = 0
         _AlphaMultiplier ("Alpha Multiplier", Range(0,1)) = 1
+        _NormalOffset("Normal Offset", float) = 0
     }
     SubShader
     {
@@ -56,11 +57,13 @@ Shader "Winterland/Snow Gradient"
             sampler2D _DetailTex;
             float4 _MainTex_ST;
             float4 _DetailTex_ST;
+            float _NormalOffset;
             
 
             v2f vert (appdata v)
             {
                 v2f o;
+                v.vertex.xyz += v.normal * _NormalOffset;
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.detailuv = TRANSFORM_TEX(mul(unity_ObjectToWorld, v.vertex).xz, _DetailTex);
