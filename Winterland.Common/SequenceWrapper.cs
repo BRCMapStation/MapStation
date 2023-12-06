@@ -28,6 +28,10 @@ namespace Winterland.Common {
             }
 
             SetCamera(Sequence.Camera.gameObject);
+
+            var actions = Sequence.GetActions();
+            if (actions.Length > 0)
+                actions[0].Run();
         }
 
         public override void Stop() {

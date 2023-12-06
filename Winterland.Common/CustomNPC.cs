@@ -35,7 +35,7 @@ namespace Winterland.Common {
             }
             if (sequence == null)
                 return;
-            var sequenceWrapper = sequence.GetCustomSequence();
+            var sequenceWrapper = sequence.GetCustomSequence(this);
             if (sequenceWrapper == null)
                 return;
             interactable.StartEnteringSequence(sequenceWrapper, sequence.HidePlayer, true, false, true, true, sequence.Skippable, true, false);

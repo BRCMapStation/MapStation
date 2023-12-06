@@ -24,21 +24,31 @@ namespace Winterland.Common {
 
         private SequenceWrapper actualSequence;
         private bool initialized = false;
+        private SequenceAction[] actions;
 
-        private void Awake() {
-            Initialize();
-        }
-
-        private void Initialize() {
+        private void Initialize(CustomNPC npc) {
             if (initialized)
                 return;
             initialized = true;
             actualSequence = new SequenceWrapper(this);
+            actions = gameObject.GetComponents<SequenceAction>();
+            for(var i = 0; i < actions.Length; i++) {
+                var action = actions[i];
+                action.NPC = npc;
+                action.Sequence = actualSequence;
+                if (i < actions.Length - 1) {
+                    action.NextAction = actions[i + 1];
+                }
+            }
         }
 
-        public SequenceWrapper GetCustomSequence() {
-            Initialize();
+        public SequenceWrapper GetCustomSequence(CustomNPC npc) {
+            Initialize(npc);
             return actualSequence;
+        }
+
+        public SequenceAction[] GetActions() {
+            return actions;
         }
     }
 }

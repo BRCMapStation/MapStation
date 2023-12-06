@@ -4115,7 +4115,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6190312050004629473}
   - component: {fileID: 1727636672512945079}
-  m_Layer: 19
+  - component: {fileID: 6766591265576458175}
+  - component: {fileID: 2699087856593549274}
+  - component: {fileID: 7190283914627576594}
+  m_Layer: 0
   m_Name: Hello Dialogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4159,6 +4162,51 @@ MonoBehaviour:
   ActivateOnEnd: []
   DeactivateOnEnd: []
   SetObjectiveOnEnd: {fileID: 0}
+--- !u!114 &6766591265576458175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612690911798104486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 0}
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+--- !u!114 &2699087856593549274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612690911798104486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Mode: 1
+  SpeakerName: ???
+  Text: Hello
+--- !u!114 &7190283914627576594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612690911798104486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Mode: 1
+  SpeakerName: ???
+  Text: My tummy hurts...
 --- !u!1 &6665714519892134861
 GameObject:
   m_ObjectHideFlags: 0
@@ -4944,7 +4992,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7296396003365598038}
-  m_Layer: 19
+  m_Layer: 0
   m_Name: Dialogues
   m_TagString: Untagged
   m_Icon: {fileID: 0}

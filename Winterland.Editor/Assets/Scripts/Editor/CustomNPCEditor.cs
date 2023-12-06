@@ -14,16 +14,19 @@ public class CustomNPCEditor : Editor {
         var dialogBranches = npc.GetComponents<DialogueBranch>();
         if (dialogBranches.Length <= 0)
             EditorGUILayout.HelpBox("No dialogue branches - Nothing will happen when you interact with this NPC.", MessageType.Warning);
+        if (npc.PlacePlayerAtSnapPosition && npc.transform.Find("PlayerSnapPosition") == null)
+            EditorGUILayout.HelpBox("Please create an empty child GameObject named PlayerSnapPosition positioned where you would like the player to get placed at.", MessageType.Warning);
         DrawDefaultInspector();
+
         EditorGUILayout.Space();
-       
-        
-        
+
+        GUILayout.BeginVertical("box");
         showBranches = GUILayout.Toggle(showBranches, $"Dialogue Branches ({dialogBranches.Length})", "DropDownButton");
         if (showBranches) {
+            
             EditorGUILayout.HelpBox("Dialogue branch priority is from top to bottom.", MessageType.Info);
-            EditorGUI.indentLevel++;
             for(var i=0;i<dialogBranches.Length;i++) {
+                EditorGUILayout.Space();
                 var branch = dialogBranches[i];
                 GUILayout.BeginVertical($"Branch #{i}", "window");
                 var editor = Editor.CreateEditor(branch);
@@ -47,9 +50,10 @@ public class CustomNPCEditor : Editor {
                 var newBranch = npc.gameObject.AddComponent<DialogueBranch>();
                 newBranch.hideFlags = HideFlags.HideInInspector;
             }
-            EditorGUI.indentLevel--;
-            EditorGUILayout.Separator();
+            
         }
-        //EditorGUILayout.LabelField(serializedObject.targetObject.GetType().ToString(), EditorStyles.boldLabel);
+        EditorGUILayout.EndVertical();
+
+        //EditorGUILayout.Space();
     }
 }
