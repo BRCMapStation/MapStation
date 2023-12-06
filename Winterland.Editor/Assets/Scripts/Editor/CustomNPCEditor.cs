@@ -10,16 +10,22 @@ using UnityEditorInternal;
 public class CustomNPCEditor : Editor {
     private bool showBranches = false;
     public override void OnInspectorGUI() {
+        var npc = serializedObject.targetObject as CustomNPC;
+        var dialogBranches = npc.GetComponents<DialogueBranch>();
+        if (dialogBranches.Length <= 0)
+            EditorGUILayout.HelpBox("No dialogue branches - Nothing will happen when you interact with this NPC.", MessageType.Warning);
         DrawDefaultInspector();
         EditorGUILayout.Space();
        
-        var npc = serializedObject.targetObject as CustomNPC;
-        var dialogBranches = npc.GetComponents<DialogueBranch>();
-        showBranches = GUILayout.Toggle(showBranches, "Dialogue Branches", "DropDownButton");
+        
+        
+        showBranches = GUILayout.Toggle(showBranches, $"Dialogue Branches ({dialogBranches.Length})", "DropDownButton");
         if (showBranches) {
+            EditorGUILayout.HelpBox("Dialogue branch priority is from top to bottom.", MessageType.Info);
             EditorGUI.indentLevel++;
-            foreach (var branch in dialogBranches) {
-                EditorGUILayout.Separator();
+            for(var i=0;i<dialogBranches.Length;i++) {
+                var branch = dialogBranches[i];
+                GUILayout.BeginVertical($"Branch #{i}", "window");
                 var editor = Editor.CreateEditor(branch);
 
                 editor.OnInspectorGUI();
@@ -34,13 +40,15 @@ public class CustomNPCEditor : Editor {
                     ComponentUtility.MoveComponentDown(branch);
                 }
                 EditorGUILayout.EndHorizontal();
-                EditorGUILayout.Separator();
+                EditorGUILayout.EndVertical();
             }
-            if (GUILayout.Button("Add")) {
+            EditorGUILayout.Space();
+            if (GUILayout.Button("Add Branch")) {
                 var newBranch = npc.gameObject.AddComponent<DialogueBranch>();
                 newBranch.hideFlags = HideFlags.HideInInspector;
             }
             EditorGUI.indentLevel--;
+            EditorGUILayout.Separator();
         }
         //EditorGUILayout.LabelField(serializedObject.targetObject.GetType().ToString(), EditorStyles.boldLabel);
     }
