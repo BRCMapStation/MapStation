@@ -46,6 +46,11 @@ namespace Winterland.Common {
             snowSinker = gameObject.AddComponent<SnowSinker>();
             snowSinker.Size = 1f;
             snowSinker.Strength = 0.5f;
+            Core.OnFixedUpdate += OnFixedUpdate;
+        }
+
+        private void OnDestroy() {
+            Core.OnFixedUpdate -= OnFixedUpdate;
         }
 
         private void Update() {
@@ -138,7 +143,7 @@ namespace Winterland.Common {
             }
         }
 
-        private void FixedUpdate() {
+        private void OnFixedUpdate() {
 
             if (!player.IsComboing()) {
                 if (CurrentToyLine != null)
