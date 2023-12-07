@@ -23,7 +23,7 @@ public class AssemblyLocatorWindow : EditorWindow {
             foreach(var asm in AppDomain.CurrentDomain.GetAssemblies()) {
                 foreach(var type in asm.GetTypes()) {
                     if(type.Name == TypeName) {
-                        Debug.LogFormat("Found {0}", type.AssemblyQualifiedName);
+                        Debug.LogFormat("Found {0} {1}", type.AssemblyQualifiedName, type.Assembly.Location);
                     }
                 }
             }
