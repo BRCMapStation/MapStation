@@ -8,10 +8,6 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(BuildForUnityEditor) == 'true'">
-    <DefineConstants>$(DefineConstants);UNITY_EDITOR</DefineConstants>
-  </PropertyGroup>
-  
   <PropertyGroup>
     <ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
     <RootNamespace>Winterland.Common</RootNamespace>
@@ -42,18 +38,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- <Reference Include="Assembly-CSharp">
+    <Reference Include="Assembly-CSharp">
       <HintPath>$(ManagedPath)/Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
       <Publicize>true</Publicize>
-    </Reference> -->
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>$(ManagedPath)/Unity.TextMeshPro.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$(BuildForUnityEditor) == 'true'">
-    <Exec Command="xcopy &quot;$(TargetDir)\$(TargetFileName)&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
-    <Exec Command="xcopy &quot;$(TargetDir)\CommonAPI.dll&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
-  </Target>
 </Project>

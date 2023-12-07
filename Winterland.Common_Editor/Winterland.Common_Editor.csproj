@@ -1,14 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <!-- Build identical copy of Winterland.Common DLL, but w/UNITY_EDITOR defined -->
+  <!-- Build Winterland.Common w/UNITY_EDITOR defined -->
 
   <PropertyGroup>
+    <!-- This prop is currently unused, but could be useful for conditional logic in <Import>ed .csproj -->
     <BuildForUnityEditor>true</BuildForUnityEditor>
+
+    <DefineConstants>$(DefineConstants);UNITY_EDITOR</DefineConstants>
   </PropertyGroup>
 
+  <!-- Reference .cs from another directory -->
   <ItemGroup>
     <Compile Include="../Winterland.Common/**/*.cs" Exclude="../Winterland.Common/obj/**/*.cs"/>
   </ItemGroup>
 
   <Import Project="../Winterland.Common/Winterland.Common.shared" />
+
+  <!-- Reference Unity Editor assemblies -->
+  <ItemGroup>
+    <Reference Include="UnityEditor">
+      <HintPath>$(UnityEditorAssemblyDir)/UnityEditor.dll</HintPath>
+      <Private>false</Private>
+      <Publicize>true</Publicize>
+    </Reference>
+    <Reference Include="UnityEditor.CoreModule">
+      <HintPath>$(UnityEditorAssemblyDir)/UnityEditor.CoreModule.dll</HintPath>
+      <Private>false</Private>
+      <Publicize>true</Publicize>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Copy DLLs into Unity Editor project -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(TargetDir)\$(TargetFileName)&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
+    <Exec Command="xcopy &quot;$(TargetDir)\CommonAPI.dll&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
+  </Target>
 
 </Project>

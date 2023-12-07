@@ -1,15 +1,3 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <BuildForUnityEditor>false</BuildForUnityEditor>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(ManagedPath)/Assembly-CSharp.dll</HintPath>
-      <Private>false</Private>
-      <Publicize>true</Publicize>
-    </Reference>
-  </ItemGroup>
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="Winterland.Common.shared" />
 </Project>
