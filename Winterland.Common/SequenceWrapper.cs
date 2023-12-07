@@ -28,7 +28,7 @@ namespace Winterland.Common {
 
             var actions = Sequence.GetActions();
             if (actions.Length > 0)
-                actions[0].Run();
+                actions[0].Run(false);
         }
 
         public override void Stop() {
@@ -42,7 +42,7 @@ namespace Winterland.Common {
             if (!string.IsNullOrEmpty(CurrentActionToRunOnEnd)) {
                 var action = Sequence.GetActionByName(CurrentActionToRunOnEnd);
                 if (action != null) {
-                    action.Run();
+                    action.Run(true);
                 }
             }
         }

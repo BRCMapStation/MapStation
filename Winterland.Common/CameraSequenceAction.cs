@@ -8,12 +8,13 @@ using Reptile;
 
 namespace Winterland.Common {
     public class CameraSequenceAction : SequenceAction {
-        public override bool SequenceOnly => true;
         [Header("Leave this on None to keep the current camera.")]
         public CameraRegisterer Camera;
 
-        public override void Run() {
-            base.Run();
+        public override void Run(bool immediate) {
+            base.Run(immediate);
+            if (immediate)
+                return;
             if (Camera != null)
                 Sequence.SetCamera(Camera.gameObject);
         }

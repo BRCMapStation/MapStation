@@ -20,8 +20,10 @@ namespace Winterland.Common {
         public string YesTarget = "";
         [HideInInspector]
         public string NahTarget = "";
-        public override void Run() {
-            base.Run();
+        public override void Run(bool immediate) {
+            base.Run(immediate);
+            if (immediate)
+                return;
             var dialogs = GetComponents<DialogBlock>().Where((block) => block.Owner == this).ToArray();
             var customDialogs = new List<CustomDialogue>();
             for(var i=0;i<dialogs.Length;i++) {
@@ -60,19 +62,19 @@ namespace Winterland.Common {
                             var noTarget = Sequence.Sequence.GetActionByName(NahTarget);
                             if (customDialog.AnsweredYes) {
                                 if (yesTarget == null)
-                                    Finish();
+                                    Finish(immediate);
                                 else
-                                    yesTarget.Run();
+                                    yesTarget.Run(immediate);
                             }
                             else {
                                 if (noTarget == null)
-                                    Finish();
+                                    Finish(immediate);
                                 else
-                                    noTarget.Run();
+                                    noTarget.Run(immediate);
                             }
                         }
                         else
-                            Finish();
+                            Finish(immediate);
                     };
                 }
             }

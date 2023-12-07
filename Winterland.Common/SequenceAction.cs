@@ -11,8 +11,6 @@ namespace Winterland.Common {
 
     [ExecuteAlways]
     public abstract class SequenceAction : MonoBehaviour {
-        // Unused ATM but should be set to true on actions that only make sense during the cutscene, not when skipped, such as dialogues and such. This is for actions that can run on cutscene start and end.
-        public virtual bool SequenceOnly => false;
         [Header("Name used to point to this action when branching. Used in Yes/Nah prompts.")]
         public string Name = "";
         [HideInInspector]
@@ -31,15 +29,18 @@ namespace Winterland.Common {
                 DestroyImmediate(this);
         }
 
-        public virtual void Run() {
+        public virtual void Run(bool immediate) {
             
         }
 
-        protected void Finish() {
-            if (NextAction == null)
+        protected void Finish(bool immediate) {
+            if (NextAction == null) {
+                if (immediate)
+                    return;
                 Sequence.ExitSequence();
-            else
-                NextAction.Run();
+            } else {
+                NextAction.Run(immediate);
+            }
         }
     }
 }
