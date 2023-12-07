@@ -1,3 +1,4 @@
+#pragma warning disable CS0649
 using System;
 using System.Collections.Generic;
 using System.Linq;
