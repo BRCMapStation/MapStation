@@ -18,6 +18,7 @@ namespace Winterland.Plugin.Patches {
                 if (toyGraff == null)
                     return;
                 toyGraff.ToyMachine.FinishToyLine();
+                toyGraff.ToyMachine.TeleportPlayerToExit();
                 __instance.allowRedo = true;
             }
         }

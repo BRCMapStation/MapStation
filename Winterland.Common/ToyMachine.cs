@@ -7,7 +7,9 @@ using UnityEngine;
 using Reptile;
 
 namespace Winterland.Common {
-    public class ToyMachine : MonoBehaviour{
+    public class ToyMachine : MonoBehaviour {
+        public float PlayerExitSpeed = 10f;
+        public Transform PlayerExitLocation = null;
         // TODO: Sounds, polish and all.
         public void FinishToyLine() {
             var player = WorldHandler.instance.GetCurrentPlayer();
@@ -20,6 +22,12 @@ namespace Winterland.Common {
                 winterPlayer.DropCurrentToyLine();
             else
                 winterPlayer.FinishCurrentToyLine();
+        }
+
+        public void TeleportPlayerToExit() {
+            var player = WorldHandler.instance.GetCurrentPlayer();
+            WorldHandler.instance.PlaceCurrentPlayerAt(PlayerExitLocation);
+            player.SetVelocity(PlayerExitLocation.forward * PlayerExitSpeed);
         }
     }
 }
