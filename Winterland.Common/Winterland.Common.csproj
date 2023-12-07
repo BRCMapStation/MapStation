@@ -46,6 +46,12 @@
     <Reference Include="Unity.TextMeshPro">
       <HintPath>$(ManagedPath)/Unity.TextMeshPro.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>$(ManagedPath)/DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(ManagedPath)/UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

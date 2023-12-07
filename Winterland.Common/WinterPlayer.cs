@@ -20,6 +20,7 @@ namespace Winterland.Common {
         public bool SnowDeform = true;
         public ToyLine CurrentToyLine = null;
         public int CollectedToyParts = 0;
+        public ToyMachineAbility ToyMachineAbility = null;
         [NonSerialized]
         public Player player = null;
         private SnowSinker snowSinker = null;
@@ -81,6 +82,17 @@ namespace Winterland.Common {
             toyPart.Collect(player);
         }
 
+        private void ProcessToyMachineTriggers(Collider other) {
+            if (other.gameObject.layer != 19)
+                return;
+            var toyMachineFreeze = other.GetComponent<ToyMachineFreeze>();
+            if (toyMachineFreeze == null)
+                return;
+            if (player.isAI)
+                return;
+            toyMachineFreeze.Activate(player);
+        }
+
         private void ProcessSnowTriggers(Collider other) {
             if (other.gameObject.layer != 19)
                 return;
@@ -104,6 +116,7 @@ namespace Winterland.Common {
         private void OnTriggerStay(Collider other) {
             ProcessPickupTriggers(other);
             ProcessSnowTriggers(other);
+            ProcessToyMachineTriggers(other);
         }
 
         

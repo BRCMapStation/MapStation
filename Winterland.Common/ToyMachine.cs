@@ -8,8 +8,10 @@ using Reptile;
 
 namespace Winterland.Common {
     public class ToyMachine : MonoBehaviour {
-        public float PlayerExitSpeed = 10f;
+        public float TimeInSecondsToSpray = 2f;
+        public float PlayerExitSpeed = 20f;
         public Transform PlayerExitLocation = null;
+        public float FadeInDuration = 0.2f;
         // TODO: Sounds, polish and all.
         public void FinishToyLine() {
             var player = WorldHandler.instance.GetCurrentPlayer();
@@ -24,10 +26,14 @@ namespace Winterland.Common {
                 winterPlayer.FinishCurrentToyLine();
         }
 
-        public void TeleportPlayerToExit() {
+        public void TeleportPlayerToExit(bool graffiti) {
             var player = WorldHandler.instance.GetCurrentPlayer();
             WorldHandler.instance.PlaceCurrentPlayerAt(PlayerExitLocation);
             player.SetVelocity(PlayerExitLocation.forward * PlayerExitSpeed);
+            if (!graffiti) {
+                var effects = Core.Instance.UIManager.effects;
+                effects.FullBlackToFadeOut(0f, FadeInDuration);
+            }
         }
     }
 }
