@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Build identical copy of Winterland.Common DLL, but w/UNITY_EDITOR defined -->
+
+  <PropertyGroup>
+    <BuildForUnityEditor>true</BuildForUnityEditor>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../Winterland.Common/**/*.cs" Exclude="../Winterland.Common/obj/**/*.cs"/>
+  </ItemGroup>
+
+  <Import Project="../Winterland.Common/Winterland.Common.shared" />
+
+</Project>

@@ -12,6 +12,8 @@ Write-Output `
     .\Winterland.MapStation.Plugin\obj `
     .\Winterland.Common\obj `
     .\Winterland.Common\bin `
+    .\Winterland.Common_Editor\obj `
+    .\Winterland.Common_Editor\bin `
     .\Winterland.Plugin\obj `
     .\Winterland.Plugin\bin `
 | ForEach-Object {
