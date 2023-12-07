@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project>
   <!-- Build Winterland.Common w/UNITY_EDITOR defined -->
 
   <PropertyGroup>
@@ -13,7 +13,7 @@
     <Compile Include="../Winterland.Common/**/*.cs" Exclude="../Winterland.Common/obj/**/*.cs"/>
   </ItemGroup>
 
-  <Import Project="../Winterland.Common/Winterland.Common.shared" />
+  <Import Project="../Winterland.Common/Winterland.Common.csproj" />
 
   <!-- Reference Unity Editor assemblies -->
   <ItemGroup>
