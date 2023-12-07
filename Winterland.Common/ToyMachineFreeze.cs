@@ -26,6 +26,7 @@ namespace Winterland.Common {
             var toyMachineAbility = winterPlayer.ToyMachineAbility;
             if (toyMachineAbility == null)
                 return;
+            owner.PlayEnterToyMachineSound();
             toyMachineAbility.SetMachine(owner, transform.forward);
         }
     }
