@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Winterland.Common {
     public enum Condition {
         None,
-        HasWantedLevel
+        HasWantedLevel,
+        CollectedAllToyLines
     }
 }

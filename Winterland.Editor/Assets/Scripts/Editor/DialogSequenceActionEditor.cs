@@ -14,10 +14,11 @@ public class DialogSequenceActionEditor : Editor {
     private bool showDialogs = false;
     public override void OnInspectorGUI() {
         var action = serializedObject.targetObject as DialogSequenceAction;
+        var sequence = action.gameObject.GetComponent<Sequence>();
         var dialogs = action.gameObject.GetComponents<DialogBlock>().Where((block) => (block.Owner == action)).ToArray();
         if (dialogs.Length <= 0)
             EditorGUILayout.HelpBox("Dialogue doesn't have any dialogues. That doesn't make any sense!", MessageType.Error);
-
+        
         DrawDefaultInspector();
 
         if (action.Type == DialogSequenceAction.DialogType.YesNah) {
@@ -25,6 +26,12 @@ public class DialogSequenceActionEditor : Editor {
             var yesProp = serializedObject.FindProperty("YesTarget");
             var newYesTarget = EditorGUILayout.PropertyField(yesProp);
             var newNahTarget = EditorGUILayout.PropertyField(noProp);
+            if (!string.IsNullOrEmpty(action.YesTarget)) {
+                if (sequence.GetActionByName(action.YesTarget) == null)
+                    EditorGUILayout.HelpBox($"Action {action.YesTarget} doesn't exist!", MessageType.Error);
+                if (sequence.GetActionByName(action.NahTarget) == null)
+                    EditorGUILayout.HelpBox($"Action {action.NahTarget} doesn't exist!", MessageType.Error);
+            }
         }
         EditorGUILayout.Space();
         GUILayout.BeginVertical("window");

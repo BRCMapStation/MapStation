@@ -10,10 +10,14 @@ using Reptile;
 namespace Winterland.Common {
     [ExecuteAlways]
     public class CustomNPC : MonoBehaviour {
+        [Header("General")]
+        public string Name = "";
         public bool PlacePlayerAtSnapPosition = true;
         public bool LookAt = true;
         public bool ShowRep = false;
-        public string Name = "";
+        public int MaxDialogueLevel = 1;
+        [HideInInspector]
+        public int CurrentDialogueLevel = 0;
         private EventDrivenInteractable interactable;
         private DialogueBranch[] dialogueBranches;
 
@@ -23,6 +27,7 @@ namespace Winterland.Common {
             ReptileAwake();
 
             void ReptileAwake() {
+                CurrentDialogueLevel = 0;
                 dialogueBranches = GetComponentsInChildren<DialogueBranch>();
                 interactable = gameObject.AddComponent<EventDrivenInteractable>();
                 interactable.OnInteract = Interact;
@@ -41,10 +46,15 @@ namespace Winterland.Common {
             }
         }
 
+        public void AddDialogueLevel(int dialogueLevelToAdd) {
+            CurrentDialogueLevel += dialogueLevelToAdd;
+            CurrentDialogueLevel = Mathf.Clamp(CurrentDialogueLevel, 0, MaxDialogueLevel);
+        }
+
         public void Interact(Player player) {
             Sequence sequence = null;
             foreach (var branch in dialogueBranches) {
-                if (branch.Test()) {
+                if (branch.Test(this)) {
                     sequence = branch.Sequence;
                     break;
                 }

@@ -13,13 +13,11 @@ namespace Winterland.Common {
         public bool ClearWantedLevel = true;
         public bool HidePlayer = false;
         public bool Skippable = true;
-        [Header("On Begin")]
-        public GameObject[] ActivateOnBegin;
-        public GameObject[] DeactivateOnBegin;
-        [Header("On End")]
-        public GameObject[] ActivateOnEnd;
-        public GameObject[] DeactivateOnEnd;
+        public int DialogueLevelToAdd = 0;
+
+        [Header("Events")]
         public WinterObjective SetObjectiveOnEnd;
+        public string RunActionOnEnd;
 
         private SequenceWrapper actualSequence;
         private bool initialized = false;
@@ -30,6 +28,7 @@ namespace Winterland.Common {
                 return;
             initialized = true;
             actualSequence = new SequenceWrapper(this);
+            actualSequence.NPC = npc;
             actions = gameObject.GetComponents<SequenceAction>();
             for(var i = 0; i < actions.Length; i++) {
                 var action = actions[i];
@@ -47,7 +46,21 @@ namespace Winterland.Common {
         }
 
         public SequenceAction[] GetActions() {
+            if (Application.isEditor)
+                actions = gameObject.GetComponents<SequenceAction>();
             return actions;
+        }
+
+        public SequenceAction GetActionByName(string name) {
+            if (Application.isEditor)
+                actions = gameObject.GetComponents<SequenceAction>();
+            if (string.IsNullOrEmpty(name))
+                return null;
+            foreach (var action in actions) {
+                if (action.Name == name)
+                    return action;
+            }
+            return null;
         }
     }
 }

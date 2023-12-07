@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 namespace Winterland.Common {
     public class SequenceWrapper : CustomSequence {
         public Sequence Sequence;
+        public CustomNPC NPC;
+        public string CurrentActionToRunOnEnd;
 
         public SequenceWrapper(Sequence sequence) {
             Sequence = sequence;
@@ -16,16 +18,13 @@ namespace Winterland.Common {
 
         public override void Play() {
             base.Play();
+
+            NPC.CurrentDialogueLevel += Sequence.DialogueLevelToAdd;
+
+            CurrentActionToRunOnEnd = Sequence.RunActionOnEnd;
+
             if (Sequence.ClearWantedLevel)
                 WantedManager.instance.StopPlayerWantedStatus(false);
-
-            foreach(var thing in Sequence.ActivateOnBegin) {
-                thing.SetActive(true);
-            }
-
-            foreach(var thing in Sequence.DeactivateOnBegin) {
-                thing.SetActive(false);
-            }
 
             var actions = Sequence.GetActions();
             if (actions.Length > 0)
@@ -35,17 +34,16 @@ namespace Winterland.Common {
         public override void Stop() {
             base.Stop();
 
-            foreach (var thing in Sequence.ActivateOnEnd) {
-                thing.SetActive(true);
-            }
-
-            foreach (var thing in Sequence.DeactivateOnEnd) {
-                thing.SetActive(false);
-            }
-
             if (Sequence.SetObjectiveOnEnd != null) {
                 WinterProgress.Instance.LocalProgress.Objective = Sequence.SetObjectiveOnEnd;
                 WinterProgress.Instance.Save();
+            }
+
+            if (!string.IsNullOrEmpty(CurrentActionToRunOnEnd)) {
+                var action = Sequence.GetActionByName(CurrentActionToRunOnEnd);
+                if (action != null) {
+                    action.Run();
+                }
             }
         }
     }

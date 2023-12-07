@@ -13,7 +13,8 @@ public class SequenceEditor : Editor {
     private bool showActions = false;
     private Type[] actionTypes = new Type[] {
         typeof(DialogSequenceAction),
-        typeof(EndSequenceAction)
+        typeof(EndSequenceAction),
+        typeof(SetActionToRunOnEndAction)
     };
     private Dictionary<SequenceAction, Editor> cachedEditors = new();
     public override void OnInspectorGUI() {
@@ -22,7 +23,10 @@ public class SequenceEditor : Editor {
         if (actions.Length <= 0)
             EditorGUILayout.HelpBox("Sequence doesn't have any actions. That is not okay!", MessageType.Error);
         DrawDefaultInspector();
-
+        if (!string.IsNullOrEmpty(sequence.RunActionOnEnd)) {
+            if (sequence.GetActionByName(sequence.RunActionOnEnd) == null)
+                EditorGUILayout.HelpBox($"Action {sequence.RunActionOnEnd} doesn't exist!", MessageType.Error);
+        }
         EditorGUILayout.Space();
 
         GUILayout.BeginVertical("window");

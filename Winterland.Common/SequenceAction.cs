@@ -11,10 +11,10 @@ namespace Winterland.Common {
 
     [ExecuteAlways]
     public abstract class SequenceAction : MonoBehaviour {
+        // Unused ATM but should be set to true on actions that only make sense during the cutscene, not when skipped, such as dialogues and such. This is for actions that can run on cutscene start and end.
+        public virtual bool SequenceOnly => false;
         [Header("Name used to point to this action when branching. Used in Yes/Nah prompts.")]
         public string Name = "";
-        [Header("Leave this on None to keep the current camera.")]
-        public CameraRegisterer Camera;
         [HideInInspector]
         public CustomNPC NPC;
         [HideInInspector]
@@ -32,8 +32,7 @@ namespace Winterland.Common {
         }
 
         public virtual void Run() {
-            if (Camera != null)
-                Sequence.SetCamera(Camera.gameObject);
+            
         }
 
         protected void Finish() {
@@ -41,17 +40,6 @@ namespace Winterland.Common {
                 Sequence.ExitSequence();
             else
                 NextAction.Run();
-        }
-
-        protected SequenceAction GetActionByName(string name) {
-            if (string.IsNullOrEmpty(name))
-                return null;
-            var actions = Sequence.Sequence.GetActions();
-            foreach(var action in actions) {
-                if (action.Name == name)
-                    return action;
-            }
-            return null;
         }
     }
 }

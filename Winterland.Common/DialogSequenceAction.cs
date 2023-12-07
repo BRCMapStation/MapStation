@@ -8,7 +8,7 @@ using CommonAPI;
 using UnityEngine;
 
 namespace Winterland.Common {
-    public class DialogSequenceAction : SequenceAction {
+    public class DialogSequenceAction : CameraSequenceAction {
         public enum DialogType {
             Normal,
             YesNah
@@ -48,8 +48,8 @@ namespace Winterland.Common {
                     }
                     customDialog.OnDialogueEnd = () => {
                         if (Type == DialogType.YesNah) {
-                            var yesTarget = GetActionByName(YesTarget);
-                            var noTarget = GetActionByName(NahTarget);
+                            var yesTarget = Sequence.Sequence.GetActionByName(YesTarget);
+                            var noTarget = Sequence.Sequence.GetActionByName(NahTarget);
                             if (customDialog.AnsweredYes) {
                                 if (yesTarget == null)
                                     Finish();

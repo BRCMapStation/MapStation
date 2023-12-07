@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Winterland.Common {
     public class EndSequenceAction : SequenceAction {
+        public override bool SequenceOnly => true;
         public override void Run() {
             Sequence.ExitSequence();
         }

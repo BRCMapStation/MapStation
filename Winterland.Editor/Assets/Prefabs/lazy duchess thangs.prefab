@@ -246,11 +246,9 @@ MonoBehaviour:
   ClearWantedLevel: 0
   HidePlayer: 1
   Skippable: 1
-  ActivateOnBegin: []
-  DeactivateOnBegin: []
-  ActivateOnEnd: []
-  DeactivateOnEnd: []
+  DialogueLevelToAdd: 0
   SetObjectiveOnEnd: {fileID: 0}
+  RunActionOnEnd: 
 --- !u!114 &1487978093267121997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,9 +262,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Question
-  Camera: {fileID: 5282183997226329631}
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
+  Camera: {fileID: 5282183997226329631}
   Type: 1
   YesTarget: End
   NahTarget: NahResult
@@ -299,9 +297,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: NahResult
-  Camera: {fileID: 0}
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
+  Camera: {fileID: 0}
   Type: 0
   YesTarget: 
   NahTarget: 
@@ -334,7 +332,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: End
-  Camera: {fileID: 0}
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
 --- !u!1 &495622282243311077
@@ -3219,6 +3216,7 @@ MonoBehaviour:
   Sequence: {fileID: 5982098366064511016}
   RequiredObjective: {fileID: 0}
   Condition: 1
+  MinimumDialogueLevel: 0
 --- !u!114 &6124195261895542750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3234,6 +3232,7 @@ MonoBehaviour:
   Sequence: {fileID: 1727636672512945079}
   RequiredObjective: {fileID: 11400000, guid: cca139cc5458f2244ae8c9be5ea33401, type: 2}
   Condition: 0
+  MinimumDialogueLevel: 0
 --- !u!114 &6103712979213465857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3246,10 +3245,12 @@ MonoBehaviour:
   m_Script: {fileID: 1830641799, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Dummy
   PlacePlayerAtSnapPosition: 1
   LookAt: 1
   ShowRep: 0
-  Name: Dummy
+  MaxDialogueLevel: 1
+  CurrentDialogueLevel: 0
 --- !u!1 &5563120655618826391
 GameObject:
   m_ObjectHideFlags: 0
@@ -4314,9 +4315,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: 
-  Camera: {fileID: 5282183997226329631}
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
+  Camera: {fileID: 5282183997226329631}
   Type: 0
   YesTarget: 
   NahTarget: 
@@ -4335,11 +4336,9 @@ MonoBehaviour:
   ClearWantedLevel: 1
   HidePlayer: 0
   Skippable: 1
-  ActivateOnBegin: []
-  DeactivateOnBegin: []
-  ActivateOnEnd: []
-  DeactivateOnEnd: []
+  DialogueLevelToAdd: 0
   SetObjectiveOnEnd: {fileID: 0}
+  RunActionOnEnd: 
 --- !u!114 &4475859554199387957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6097,7 +6096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962065569, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: instanceID
-      value: -466744
+      value: -510092
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962065569, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: sharedMesh
@@ -6149,7 +6148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962069071, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: instanceID
-      value: -466764
+      value: -510112
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962069071, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: sharedMesh
