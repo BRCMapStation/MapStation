@@ -4,7 +4,7 @@ using Reptile;
 using UnityEngine;
 using Winterland.Common;
 
-namespace Winterland.Plugin {
+namespace Winterland.Common {
     public class DebugUI : MonoBehaviour {
         private const int Width = 400;
         private const int Height = 800;
@@ -20,9 +20,6 @@ namespace Winterland.Plugin {
         }
 
         public Action OnDebugUI;
-
-        private void OnEnable() {
-        }
 
         private void OnGUI () {
             Cursor.visible = true;

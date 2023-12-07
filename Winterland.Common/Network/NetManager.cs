@@ -1,6 +1,7 @@
 using UnityEngine;
 using SlopCrew.API;
 using System.Runtime.Serialization;
+using System;
 
 namespace Winterland.Common {
     /// <summary>
@@ -18,30 +19,36 @@ namespace Winterland.Common {
 
         private ISlopCrewAPI slopCrewApi;
 
-        public delegate void OnPacketDelegate(Packet packet);
+        public delegate void OnPacketHandler(Packet packet);
 
-        public OnPacketDelegate OnPacket;
+        public OnPacketHandler OnPacket;
 
         private void Awake() {
             Instance = this;
             APIManager.OnAPIRegistered += OnSlopCrewAPIRegistered;
             var api = APIManager.API;
-            if(api != null)
+            if(api != null) {
                 OnSlopCrewAPIRegistered(api);
+            }
         }
 
         private void OnDestroy() {
             APIManager.OnAPIRegistered -= OnSlopCrewAPIRegistered;
-            if(slopCrewApi != null) slopCrewApi.OnCustomPacketReceived -= OnCustomPacketReceived;
+            if(slopCrewApi != null) slopCrewApi.OnCustomPacketReceived -= OnPacketReceived;
         }
 
         private void OnSlopCrewAPIRegistered(ISlopCrewAPI slopCrewApi) {
             if(this.slopCrewApi != null) return;
             this.slopCrewApi = slopCrewApi;
-            slopCrewApi.OnCustomPacketReceived += OnCustomPacketReceived;
+            slopCrewApi.OnCustomPacketReceived += OnPacketReceived;
         }
 
-        private void OnCustomPacketReceived(uint player, string id, byte[] data) {
+        public void DispatchPacket(Packet packet) {
+            Debug.Log($"Winterland packet received: {packet}");
+            OnPacket?.Invoke(packet);
+        }
+
+        public void OnPacketReceived(uint player, string id, byte[] data) {
             Packet packet = PacketFactory.CreateBlankFromId(id);
             if (packet != null) {
                 packet.PlayerID = player;
@@ -51,7 +58,7 @@ namespace Winterland.Common {
                     Debug.Log(e.Message);
                     // Drop the packet, don't crash
                 }
-                OnPacket?.Invoke(packet);
+                DispatchPacket(packet);
             }
         }
     }
