@@ -150,6 +150,9 @@ public class BuildAssets {
     private static void BuildAssetBundles(string directory) {
         if (!Directory.Exists(directory))
             Directory.CreateDirectory(directory);
-        BuildPipeline.BuildAssetBundles(directory, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows64);
+        var manifest = BuildPipeline.BuildAssetBundles(directory, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows64);
+        if(manifest == null) {
+            throw new Exception("Building asset bundles failed!");
+        }
     }
 }

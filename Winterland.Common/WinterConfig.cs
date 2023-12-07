@@ -13,6 +13,7 @@ namespace Winterland.Common {
 #if WINTER_DEBUG
         public ConfigEntry<bool> QuickLaunch;
         public ConfigEntry<bool> DisableKBMInput;
+        public ConfigEntry<bool> DebugUI;
 #endif
         public WinterConfig() {
             Instance = this;
@@ -30,6 +31,12 @@ namespace Winterland.Common {
                 "DisableKBMInput",
                 false,
                 "Disable keyboard and mouse inputs, making it easier to use Unity Explorer or tab between windows. If this is enabled, you MUST use a game controller."
+            );
+            DebugUI = file.Bind(
+                "Development",
+                "DebugUI",
+                true,
+                "Show IMGui debug UI"
             );
 #endif
         }
