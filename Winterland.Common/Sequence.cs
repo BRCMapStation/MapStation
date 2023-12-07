@@ -10,7 +10,6 @@ using CommonAPI;
 namespace Winterland.Common {
     public class Sequence : MonoBehaviour {
         [Header("General")]
-        public CameraRegisterer Camera;
         public bool ClearWantedLevel = true;
         public bool HidePlayer = false;
         public bool Skippable = true;

@@ -27,8 +27,6 @@ namespace Winterland.Common {
                 thing.SetActive(false);
             }
 
-            SetCamera(Sequence.Camera.gameObject);
-
             var actions = Sequence.GetActions();
             if (actions.Length > 0)
                 actions[0].Run();

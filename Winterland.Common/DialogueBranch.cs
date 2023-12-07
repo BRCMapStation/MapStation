@@ -7,10 +7,17 @@ using UnityEngine;
 using Reptile;
 
 namespace Winterland.Common {
+    [ExecuteAlways]
     public class DialogueBranch : MonoBehaviour {
         public Sequence Sequence;
         public WinterObjective RequiredObjective;
         public Condition Condition;
+
+        private void Awake() {
+            if (!Application.isEditor)
+                return;
+            hideFlags = HideFlags.HideInInspector;
+        }
 
         public bool Test() {
             switch (Condition) {

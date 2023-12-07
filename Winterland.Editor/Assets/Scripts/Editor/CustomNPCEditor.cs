@@ -20,7 +20,7 @@ public class CustomNPCEditor : Editor {
 
         EditorGUILayout.Space();
 
-        GUILayout.BeginVertical("box");
+        GUILayout.BeginVertical("window");
         showBranches = GUILayout.Toggle(showBranches, $"Dialogue Branches ({dialogBranches.Length})", "DropDownButton");
         if (showBranches) {
             
@@ -32,6 +32,7 @@ public class CustomNPCEditor : Editor {
                 var editor = Editor.CreateEditor(branch);
 
                 editor.OnInspectorGUI();
+                EditorGUILayout.Separator();
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("Remove")) {
                     DestroyImmediate(branch);
