@@ -42,17 +42,15 @@ namespace Winterland.Common {
         }
 
         private void OnCustomPacketReceived(uint player, string id, byte[] data) {
-            Packet packet = null;
-            switch(id) {
-                case PlayerCollectGiftsPacket.PacketId:
-                    packet = new PlayerCollectGiftsPacket();
-                    break;
-                case EventProgressPacket.PacketId:
-                    packet = new EventProgressPacket();
-                    break;
-            }
+            Packet packet = PacketFactory.CreateBlankFromId(id);
             if (packet != null) {
-                packet.Deserialize(data);
+                packet.PlayerID = player;
+                try {
+                    packet.Deserialize(data);
+                } catch(PacketParseException e) {
+                    Debug.Log(e.Message);
+                    // Drop the packet, don't crash
+                }
                 OnPacket?.Invoke(packet);
             }
         }
