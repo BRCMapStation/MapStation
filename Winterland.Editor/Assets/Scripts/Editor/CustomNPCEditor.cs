@@ -5,6 +5,7 @@ using UnityEditor;
 using Winterland.Common;
 using UnityEngine.UIElements;
 using UnityEditorInternal;
+using System;
 
 [CustomEditor(typeof(CustomNPC))]
 public class CustomNPCEditor : Editor {
@@ -16,6 +17,12 @@ public class CustomNPCEditor : Editor {
             EditorGUILayout.HelpBox("No dialogue branches - Nothing will happen when you interact with this NPC.", MessageType.Warning);
         if (npc.PlacePlayerAtSnapPosition && npc.transform.Find("PlayerSnapPosition") == null)
             EditorGUILayout.HelpBox("Please create an empty child GameObject named PlayerSnapPosition positioned where you would like the player to get placed at.", MessageType.Warning);
+        
+        if (GUILayout.Button("Generate GUID")) {
+            npc.GUID = Guid.NewGuid();
+            EditorUtility.SetDirty(serializedObject.targetObject);
+        }
+
         DrawDefaultInspector();
 
         EditorGUILayout.Space();
@@ -54,7 +61,7 @@ public class CustomNPCEditor : Editor {
             
         }
         EditorGUILayout.EndVertical();
-
+        
         //EditorGUILayout.Space();
     }
 }

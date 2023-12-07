@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommonAPI;
+using Reptile;
 using UnityEngine;
 
 namespace Winterland.Common {
@@ -40,13 +41,20 @@ namespace Winterland.Common {
                         prevDialogue.NextDialogue = customDialog;
                 }
 
-                if (i >= dialogs.Length - 1) {
-                    if (Type == DialogType.YesNah) {
-                        customDialog.OnDialogueBegin = () => {
-                            Sequence.RequestYesNoPrompt();
-                        };
+                customDialog.OnDialogueBegin += () => {
+                    if (dialog.AudioClips != null && dialog.AudioClips.Length > 0) {
+                        var audioManager = Core.Instance.AudioManager;
+                        var clip = dialog.AudioClips[UnityEngine.Random.Range(0, dialog.AudioClips.Length)];
+                        audioManager.PlayNonloopingSfx(audioManager.audioSources[5], clip, audioManager.mixerGroups[5], 0f);
                     }
-                    customDialog.OnDialogueEnd = () => {
+                };
+
+                if (i >= dialogs.Length - 1) {
+                    customDialog.OnDialogueBegin += () => {
+                        if (Type == DialogType.YesNah)
+                            Sequence.RequestYesNoPrompt();
+                    };
+                    customDialog.OnDialogueEnd += () => {
                         if (Type == DialogType.YesNah) {
                             var yesTarget = Sequence.Sequence.GetActionByName(YesTarget);
                             var noTarget = Sequence.Sequence.GetActionByName(NahTarget);

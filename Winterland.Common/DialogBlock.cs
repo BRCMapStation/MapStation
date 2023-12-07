@@ -19,6 +19,8 @@ namespace Winterland.Common {
         [HideInInspector]
         public string SpeakerName = "???";
         public string Text = "...";
+        [Header("Random clips to play when character talks.")]
+        public AudioClip[] AudioClips;
 
         private void Awake() {
             if (!Application.isEditor)

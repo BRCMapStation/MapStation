@@ -11,6 +11,16 @@ namespace Winterland.Common {
     [ExecuteAlways]
     public class CustomNPC : MonoBehaviour {
         [Header("General")]
+        [SerializeField]
+        private string guid = "";
+        public Guid GUID {
+            get {
+                return Guid.Parse(guid);
+            }
+            set {
+                guid = value.ToString();
+            }
+        }
         public string Name = "";
         public bool PlacePlayerAtSnapPosition = true;
         public bool LookAt = true;
@@ -20,6 +30,13 @@ namespace Winterland.Common {
         public int CurrentDialogueLevel = 0;
         private EventDrivenInteractable interactable;
         private DialogueBranch[] dialogueBranches;
+
+        private void Reset() {
+            if (!Application.isEditor)
+                return;
+            gameObject.layer = 19;
+            GUID = Guid.NewGuid();
+        }
 
         private void Awake() {
             if (Application.isEditor)
