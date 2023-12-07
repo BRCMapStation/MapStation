@@ -35,7 +35,7 @@ namespace Winterland.Common {
 
     [Serializable]
     public class PlayerCollectGiftsPacket : Packet {
-        public const string PacketId = "WinterlandPlayerCollectGifts";
+        public const string PacketId = "3a216613-5a19-4801-bd3c-392d149435ad";
 
         public int giftDepositedCount;
 
@@ -49,7 +49,7 @@ namespace Winterland.Common {
 
     [Serializable]
     public class EventProgressPacket : Packet {
-        public const string PacketId = "WinterlandEventProgress";
+        public const string PacketId = "f202151d-6723-49f4-a011-a2a41e89d4b3";
 
         // Int from 0 to 100, 100 == tree is completely grown
         public int treeGrowthPercentage;
