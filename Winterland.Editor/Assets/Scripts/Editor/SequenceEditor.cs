@@ -63,7 +63,6 @@ public class SequenceEditor : Editor {
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();
-                editor.serializedObject.ApplyModifiedProperties();
             }
             var possibleActions = new string[actionTypes.Length + 1];
             possibleActions[0] = "Add Action";

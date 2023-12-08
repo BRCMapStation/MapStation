@@ -2709,6 +2709,7 @@ GameObject:
   - component: {fileID: 4434872749283717624}
   - component: {fileID: 3085774747454565182}
   - component: {fileID: 4439189945162800699}
+  - component: {fileID: 5838030270428693589}
   m_Layer: 0
   m_Name: Switch Dialogue
   m_TagString: Untagged
@@ -2837,6 +2838,22 @@ MonoBehaviour:
   DialogueLevelToAdd: 0
   SetObjectiveOnEnd: {fileID: 0}
   RunActionOnEnd: SwitchCharacter
+--- !u!114 &5838030270428693589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4056648053126400696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1438341381, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 4
+  Name: 
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
 --- !u!1 &4132594717978353409
 GameObject:
   m_ObjectHideFlags: 0
@@ -6966,7 +6983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962065569, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: instanceID
-      value: -268928
+      value: -275570
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962065569, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: sharedMesh
@@ -7014,7 +7031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962069071, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: instanceID
-      value: -268948
+      value: -275590
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962069071, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: sharedMesh

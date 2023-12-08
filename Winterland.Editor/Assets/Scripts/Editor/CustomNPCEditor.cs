@@ -52,7 +52,6 @@ public class CustomNPCEditor : Editor {
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();
-                editor.serializedObject.ApplyModifiedProperties();
             }
             EditorGUILayout.Space();
             if (GUILayout.Button("Add Branch")) {
