@@ -45,13 +45,14 @@ public class CustomNPCEditor : Editor {
                     DestroyImmediate(branch);
                 }
                 if (GUILayout.Button("Move Up")) {
-                    branch.MoveUp();
+                    EditorHelper.MoveUp(editor.serializedObject);
                 }
                 if (GUILayout.Button("Move Down")) {
-                    branch.MoveDown();
+                    EditorHelper.MoveDown(editor.serializedObject);
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();
+                editor.serializedObject.ApplyModifiedProperties();
             }
             EditorGUILayout.Space();
             if (GUILayout.Button("Add Branch")) {
@@ -61,7 +62,7 @@ public class CustomNPCEditor : Editor {
             
         }
         EditorGUILayout.EndVertical();
-        
+        serializedObject.ApplyModifiedProperties();
         //EditorGUILayout.Space();
     }
 }

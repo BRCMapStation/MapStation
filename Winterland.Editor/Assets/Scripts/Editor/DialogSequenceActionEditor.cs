@@ -50,13 +50,14 @@ public class DialogSequenceActionEditor : Editor {
                     DestroyImmediate(dialog);
                 }
                 if (GUILayout.Button("Move Up")) {
-                    dialog.MoveUp();
+                    EditorHelper.MoveUp(editor.serializedObject);
                 }
                 if (GUILayout.Button("Move Down")) {
-                    dialog.MoveDown();
+                    EditorHelper.MoveDown(editor.serializedObject);
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();
+                editor.serializedObject.ApplyModifiedProperties();
             }
             EditorGUILayout.Space();
             if (GUILayout.Button("Add Dialogue")) {

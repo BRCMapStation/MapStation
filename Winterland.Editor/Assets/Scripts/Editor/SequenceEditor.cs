@@ -54,13 +54,16 @@ public class SequenceEditor : Editor {
                     DestroyImmediate(action);
                 }
                 if (GUILayout.Button("Move Up")) {
-                    action.MoveUp();
+                    EditorHelper.MoveUp(editor.serializedObject);
+                    EditorUtility.SetDirty(editor.serializedObject.targetObject);
                 }
                 if (GUILayout.Button("Move Down")) {
-                    action.MoveDown();
+                    EditorHelper.MoveDown(editor.serializedObject);
+                    EditorUtility.SetDirty(editor.serializedObject.targetObject);
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();
+                editor.serializedObject.ApplyModifiedProperties();
             }
             var possibleActions = new string[actionTypes.Length + 1];
             possibleActions[0] = "Add Action";
@@ -75,5 +78,6 @@ public class SequenceEditor : Editor {
             }
         }
         EditorGUILayout.EndVertical();
+        serializedObject.ApplyModifiedProperties();
     }
 }
