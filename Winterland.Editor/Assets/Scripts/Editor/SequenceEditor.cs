@@ -20,7 +20,7 @@ public class SequenceEditor : Editor {
     private Dictionary<SequenceAction, Editor> cachedEditors = new();
     public override void OnInspectorGUI() {
         var sequence = serializedObject.targetObject as Sequence;
-        var actions = sequence.gameObject.GetComponents<SequenceAction>();
+        var actions = SequenceAction.GetComponentsOrdered<SequenceAction>(sequence.gameObject);
         if (actions.Length <= 0)
             EditorGUILayout.HelpBox("Sequence doesn't have any actions. That is not okay!", MessageType.Error);
         DrawDefaultInspector();
@@ -54,10 +54,10 @@ public class SequenceEditor : Editor {
                     DestroyImmediate(action);
                 }
                 if (GUILayout.Button("Move Up")) {
-                    ComponentUtility.MoveComponentUp(action);
+                    action.MoveUp();
                 }
                 if (GUILayout.Button("Move Down")) {
-                    ComponentUtility.MoveComponentDown(action);
+                    action.MoveDown();
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();

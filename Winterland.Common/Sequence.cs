@@ -29,7 +29,7 @@ namespace Winterland.Common {
             initialized = true;
             actualSequence = new SequenceWrapper(this);
             actualSequence.NPC = npc;
-            actions = gameObject.GetComponents<SequenceAction>();
+            actions = SequenceAction.GetComponentsOrdered<SequenceAction>(gameObject);
             for(var i = 0; i < actions.Length; i++) {
                 var action = actions[i];
                 action.NPC = npc;

@@ -10,7 +10,7 @@ using Reptile;
 namespace Winterland.Common {
 
     [ExecuteAlways]
-    public abstract class SequenceAction : MonoBehaviour {
+    public abstract class SequenceAction : OrderedComponent {
         [Header("Name used to point to this action when branching. Used in Yes/Nah prompts.")]
         public string Name = "";
         [HideInInspector]
@@ -27,6 +27,10 @@ namespace Winterland.Common {
             var sequence = GetComponent<Sequence>();
             if (sequence == null)
                 DestroyImmediate(this);
+        }
+
+        public override bool IsPeer(Component other) {
+            return other is SequenceAction;
         }
 
         public virtual void Run(bool immediate) {

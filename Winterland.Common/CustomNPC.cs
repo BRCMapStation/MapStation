@@ -45,7 +45,7 @@ namespace Winterland.Common {
 
             void ReptileAwake() {
                 CurrentDialogueLevel = 0;
-                dialogueBranches = GetComponentsInChildren<DialogueBranch>();
+                dialogueBranches = DialogueBranch.GetComponentsOrdered<DialogueBranch>(gameObject);
                 interactable = gameObject.AddComponent<EventDrivenInteractable>();
                 interactable.OnInteract = Interact;
                 interactable.PlacePlayerAtSnapPosition = PlacePlayerAtSnapPosition;
@@ -57,7 +57,7 @@ namespace Winterland.Common {
         private void OnDestroy() {
             if (!Application.isEditor)
                 return;
-            var branches = GetComponentsInChildren<DialogueBranch>();
+            var branches = GetComponents<DialogueBranch>();
             foreach(var branch in branches) {
                 DestroyImmediate(branch);
             }

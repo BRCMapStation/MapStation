@@ -12,7 +12,7 @@ public class CustomNPCEditor : Editor {
     private bool showBranches = false;
     public override void OnInspectorGUI() {
         var npc = serializedObject.targetObject as CustomNPC;
-        var dialogBranches = npc.GetComponents<DialogueBranch>();
+        var dialogBranches = DialogueBranch.GetComponentsOrdered<DialogueBranch>(npc.gameObject);
         if (dialogBranches.Length <= 0)
             EditorGUILayout.HelpBox("No dialogue branches - Nothing will happen when you interact with this NPC.", MessageType.Warning);
         if (npc.PlacePlayerAtSnapPosition && npc.transform.Find("PlayerSnapPosition") == null)
@@ -45,10 +45,10 @@ public class CustomNPCEditor : Editor {
                     DestroyImmediate(branch);
                 }
                 if (GUILayout.Button("Move Up")) {
-                    ComponentUtility.MoveComponentUp(branch);
+                    branch.MoveUp();
                 }
                 if (GUILayout.Button("Move Down")) {
-                    ComponentUtility.MoveComponentDown(branch);
+                    branch.MoveDown();
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();

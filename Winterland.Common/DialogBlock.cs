@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Winterland.Common {
     [ExecuteAlways]
-    public class DialogBlock : MonoBehaviour {
+    public class DialogBlock : OrderedComponent {
         [HideInInspector]
         public DialogSequenceAction Owner;
         public enum SpeakerMode {
@@ -29,6 +29,15 @@ namespace Winterland.Common {
             var dialogSequenceAction = GetComponent<DialogSequenceAction>();
             if (dialogSequenceAction == null)
                 DestroyImmediate(this);
+        }
+
+        public override bool IsPeer(Component other) {
+            var otherBlock = other as DialogBlock;
+            if (otherBlock == null)
+                return false;
+            if (otherBlock.Owner == Owner)
+                return true;
+            return false;
         }
 
         private void Start() {

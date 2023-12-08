@@ -24,7 +24,7 @@ namespace Winterland.Common {
             base.Run(immediate);
             if (immediate)
                 return;
-            var dialogs = GetComponents<DialogBlock>().Where((block) => block.Owner == this).ToArray();
+            var dialogs = DialogBlock.GetComponentsOrdered<DialogBlock>(gameObject).Where((block) => block.Owner == this).ToArray();
             var customDialogs = new List<CustomDialogue>();
             for(var i=0;i<dialogs.Length;i++) {
                 var dialog = dialogs[i];

@@ -15,7 +15,7 @@ public class DialogSequenceActionEditor : Editor {
     public override void OnInspectorGUI() {
         var action = serializedObject.targetObject as DialogSequenceAction;
         var sequence = action.gameObject.GetComponent<Sequence>();
-        var dialogs = action.gameObject.GetComponents<DialogBlock>().Where((block) => (block.Owner == action)).ToArray();
+        var dialogs = DialogBlock.GetComponentsOrdered<DialogBlock>(action.gameObject).Where((block) => (block.Owner == action)).ToArray();
         if (dialogs.Length <= 0)
             EditorGUILayout.HelpBox("Dialogue doesn't have any dialogues. That doesn't make any sense!", MessageType.Error);
         
@@ -50,10 +50,10 @@ public class DialogSequenceActionEditor : Editor {
                     DestroyImmediate(dialog);
                 }
                 if (GUILayout.Button("Move Up")) {
-                    ComponentUtility.MoveComponentUp(dialog);
+                    dialog.MoveUp();
                 }
                 if (GUILayout.Button("Move Down")) {
-                    ComponentUtility.MoveComponentDown(dialog);
+                    dialog.MoveDown();
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();

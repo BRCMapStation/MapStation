@@ -8,7 +8,7 @@ using Reptile;
 
 namespace Winterland.Common {
     [ExecuteAlways]
-    public class DialogueBranch : MonoBehaviour {
+    public class DialogueBranch : OrderedComponent {
         public Sequence Sequence;
         public WinterObjective RequiredObjective;
         public Condition Condition;
@@ -18,6 +18,10 @@ namespace Winterland.Common {
             if (!Application.isEditor)
                 return;
             hideFlags = HideFlags.HideInInspector;
+        }
+
+        public override bool IsPeer(Component other) {
+            return other is DialogueBranch;
         }
 
         public bool Test(CustomNPC npc) {
