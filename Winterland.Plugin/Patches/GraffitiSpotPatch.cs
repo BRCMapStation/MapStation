@@ -18,5 +18,18 @@ namespace Winterland.Plugin.Patches {
                 return false;
             return true;
         }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(nameof(GraffitiSpot.CanDoGraffiti))]
+        private static bool CanDoGraffiti_Prefix(ref bool __result, Player byPlayer) {
+            if (byPlayer.ability is ToyMachineAbility) {
+                var toyMachineAbility = byPlayer.ability as ToyMachineAbility;
+                if (!toyMachineAbility.CanTag) {
+                    __result = false;
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

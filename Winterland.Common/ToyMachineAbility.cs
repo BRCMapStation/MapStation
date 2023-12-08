@@ -8,8 +8,10 @@ using UnityEngine;
 
 namespace Winterland.Common {
     public class ToyMachineAbility : Ability {
+        public bool CanTag = true;
         private ToyMachine machine = null;
         private Vector3 forward = Vector3.zero;
+        private bool fadingOut = false;
 
         public ToyMachineAbility(Player player) : base(player) {
 
@@ -22,6 +24,7 @@ namespace Winterland.Common {
             canStartGrind = false;
             canStartWallrun = false;
             treatPlayerAsSortaGrounded = true;
+            canUseSpraycan = false;
         }
 
         public void SetMachine(ToyMachine toyMachine, Vector3 machineForward) {
@@ -32,10 +35,22 @@ namespace Winterland.Common {
             customVelocity = machineForward * 10f;
         }
 
+        public override void OnStartAbility() {
+            CanTag = true;
+            fadingOut = false;
+        }
+
         public override void FixedUpdateAbility() {
+            var actualDuration = machine.TimeInSecondsToSpray + machine.FadeOutDuration + machine.BlackScreenDuration;
+            if (!fadingOut && p.abilityTimer >= machine.TimeInSecondsToSpray) {
+                CanTag = false;
+                fadingOut = true;
+                var effects = Core.Instance.UIManager.effects;
+                effects.FadeToBlack(machine.FadeOutDuration);
+            }
             p.SetVelocity(forward * 10f);
             customVelocity = forward * 10f;
-            if (p.abilityTimer >= machine.TimeInSecondsToSpray) {
+            if (p.abilityTimer >= actualDuration) {
                 p.StopCurrentAbility();
                 machine.TeleportPlayerToExit(false);
             }

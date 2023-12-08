@@ -13,6 +13,8 @@ namespace Winterland.Common {
         public float PlayerExitUpwardsSpeed = 0f;
         public Transform PlayerExitLocation = null;
         public float FadeInDuration = 0.2f;
+        public float FadeOutDuration = 0.2f;
+        public float BlackScreenDuration = 0.1f;
         public AudioClip EnterToyMachineAudioClip = null;
         public AudioClip SuccessAudioClip = null;
         public AudioClip FailureAudioClip = null;
