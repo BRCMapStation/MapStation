@@ -22,5 +22,22 @@ namespace Winterland.Plugin.Patches {
                 KBMInputDisabler.Disable();
             }
         }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(nameof(Player.EndGraffitiMode))]
+        private static void EndGraffitiMode_Postfix(Player __instance, GraffitiSpot graffitiSpot) {
+            if (graffitiSpot.state != GraffitiState.FINISHED)
+                return;
+            if (__instance.isAI)
+                return;
+            if (graffitiSpot.ClaimedByPlayableCrew()) {
+                var toyGraff = ToyGraffitiSpot.Get(graffitiSpot);
+                if (toyGraff == null)
+                    return;
+                toyGraff.ToyMachine.FinishToyLine();
+                toyGraff.ToyMachine.TeleportPlayerToExit(true);
+                graffitiSpot.allowRedo = true;
+            }
+        }
     }
 }

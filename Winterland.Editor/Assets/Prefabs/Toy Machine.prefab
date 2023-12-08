@@ -224,7 +224,7 @@ Transform:
   m_GameObject: {fileID: 1055171313709420336}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 5.0954275}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 5.0989866}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1055171313333369022}
@@ -714,7 +714,7 @@ Transform:
   m_GameObject: {fileID: 3530539925418530176}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 2.5900006}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 2.5700002}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3287688160391187702}
@@ -1218,8 +1218,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeInSecondsToSpray: 1
   PlayerExitSpeed: 20
+  PlayerExitUpwardsSpeed: 0
   PlayerExitLocation: {fileID: 7609551723697548824}
-  FadeInDuration: 0.2
+  FadeInDuration: 0.4
+  EnterToyMachineAudioClip: {fileID: 0}
+  SuccessAudioClip: {fileID: 0}
+  FailureAudioClip: {fileID: 0}
 --- !u!1 &9072186583222720933
 GameObject:
   m_ObjectHideFlags: 0
@@ -1470,7 +1474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6570047044160264128, guid: dcdead1ad46b8764f94ae4ee21c2301b, type: 3}
       propertyPath: instanceID
-      value: -12004
+      value: -35596
       objectReference: {fileID: 0}
     - target: {fileID: 6570047044160264128, guid: dcdead1ad46b8764f94ae4ee21c2301b, type: 3}
       propertyPath: sharedMesh
@@ -1518,7 +1522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6570047044160264494, guid: dcdead1ad46b8764f94ae4ee21c2301b, type: 3}
       propertyPath: instanceID
-      value: -11984
+      value: -35576
       objectReference: {fileID: 0}
     - target: {fileID: 6570047044160264494, guid: dcdead1ad46b8764f94ae4ee21c2301b, type: 3}
       propertyPath: sharedMesh
