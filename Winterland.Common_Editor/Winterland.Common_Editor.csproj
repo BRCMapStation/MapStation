@@ -15,20 +15,6 @@
 
   <Import Project="../Winterland.Common/Winterland.Common.csproj" />
 
-  <!-- Reference Unity Editor assemblies -->
-  <ItemGroup>
-    <Reference Include="UnityEditor">
-      <HintPath>$(UnityEditorAssemblyDir)/UnityEditor.dll</HintPath>
-      <Private>false</Private>
-      <Publicize>true</Publicize>
-    </Reference>
-    <Reference Include="UnityEditor.CoreModule">
-      <HintPath>$(UnityEditorAssemblyDir)/UnityEditor.CoreModule.dll</HintPath>
-      <Private>false</Private>
-      <Publicize>true</Publicize>
-    </Reference>
-  </ItemGroup>
-
   <!-- Copy DLLs into Unity Editor project -->
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy &quot;$(TargetDir)\$(TargetFileName)&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
