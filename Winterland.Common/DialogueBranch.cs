@@ -38,7 +38,7 @@ namespace Winterland.Common {
                     return false;
             }
             if (RequiredObjective != null) {
-                if (WinterProgress.Instance.LocalProgress.Objective != RequiredObjective)
+                if (WinterProgress.Instance.LocalProgress.Objective.name != RequiredObjective.name)
                     return false;
             }
             return true;
