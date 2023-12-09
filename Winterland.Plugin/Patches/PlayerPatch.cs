@@ -18,7 +18,7 @@ namespace Winterland.Plugin.Patches {
             if (!__instance.isAI) {
                 winterPlayer.ToyMachineAbility = new ToyMachineAbility(__instance);
             }
-            if(WinterConfig.Instance.DisableKBMInput.Value) {
+            if(WinterConfig.Instance.DisableKBMInputValue) {
                 KBMInputDisabler.Disable();
             }
         }
