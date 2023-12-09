@@ -6,6 +6,10 @@ $ErrorActionPreference = 'Stop'
 Write-Output `
     .\libs\BRC-CommonAPI\bin `
     .\libs\BRC-CommonAPI\obj `
+    .\libs\CrewBoomAPI\bin `
+    .\libs\CrewBoomAPI\obj `
+    .\libs\SlopCrew\SlopCrew.API\bin `
+    .\libs\SlopCrew\SlopCrew.API\obj `
     .\Winterland.MapStation.Common\bin `
     .\Winterland.MapStation.Common\obj `
     .\Winterland.MapStation.Plugin\bin `
