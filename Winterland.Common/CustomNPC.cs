@@ -8,27 +8,70 @@ using CommonAPI;
 using Reptile;
 
 namespace Winterland.Common {
+    [ExecuteAlways]
     public class CustomNPC : MonoBehaviour {
+        [Header("General")]
+        [SerializeField]
+        private string guid = "";
+        public Guid GUID {
+            get {
+                return Guid.Parse(guid);
+            }
+            set {
+                guid = value.ToString();
+            }
+        }
+        public string Name = "";
         public bool PlacePlayerAtSnapPosition = true;
         public bool LookAt = true;
         public bool ShowRep = false;
-        public string Name = "";
+        public int MaxDialogueLevel = 1;
+        [HideInInspector]
+        public int CurrentDialogueLevel = 0;
         private EventDrivenInteractable interactable;
         private DialogueBranch[] dialogueBranches;
 
+        private void Reset() {
+            if (!Application.isEditor)
+                return;
+            gameObject.layer = 19;
+            GUID = Guid.NewGuid();
+        }
+
         private void Awake() {
-            dialogueBranches = GetComponentsInChildren<DialogueBranch>();
-            interactable = gameObject.AddComponent<EventDrivenInteractable>();
-            interactable.OnInteract = Interact;
-            interactable.PlacePlayerAtSnapPosition = PlacePlayerAtSnapPosition;
-            interactable.ShowRep = ShowRep;
-            interactable.LookAt = LookAt;
+            if (Application.isEditor)
+                return;
+            ReptileAwake();
+
+            void ReptileAwake() {
+                CurrentDialogueLevel = 0;
+                dialogueBranches = DialogueBranch.GetComponentsOrdered<DialogueBranch>(gameObject);
+                interactable = gameObject.AddComponent<EventDrivenInteractable>();
+                interactable.OnInteract = Interact;
+                interactable.PlacePlayerAtSnapPosition = PlacePlayerAtSnapPosition;
+                interactable.ShowRep = ShowRep;
+                interactable.LookAt = LookAt;
+            }
+        }
+
+        private void OnDestroy() {
+            if (!Application.isEditor)
+                return;
+            var branches = GetComponents<DialogueBranch>();
+            foreach(var branch in branches) {
+                DestroyImmediate(branch);
+            }
+        }
+
+        public void AddDialogueLevel(int dialogueLevelToAdd) {
+            CurrentDialogueLevel += dialogueLevelToAdd;
+            CurrentDialogueLevel = Mathf.Clamp(CurrentDialogueLevel, 0, MaxDialogueLevel);
         }
 
         public void Interact(Player player) {
             Sequence sequence = null;
             foreach (var branch in dialogueBranches) {
-                if (branch.Test()) {
+                if (branch.Test(this)) {
                     sequence = branch.Sequence;
                     break;
                 }

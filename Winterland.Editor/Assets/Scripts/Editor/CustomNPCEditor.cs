@@ -5,22 +5,29 @@ using UnityEditor;
 using Winterland.Common;
 using UnityEngine.UIElements;
 using UnityEditorInternal;
+using System;
 
 [CustomEditor(typeof(CustomNPC))]
 public class CustomNPCEditor : Editor {
     private bool showBranches = false;
     public override void OnInspectorGUI() {
         var npc = serializedObject.targetObject as CustomNPC;
-        var dialogBranches = npc.GetComponents<DialogueBranch>();
+        var dialogBranches = DialogueBranch.GetComponentsOrdered<DialogueBranch>(npc.gameObject);
         if (dialogBranches.Length <= 0)
             EditorGUILayout.HelpBox("No dialogue branches - Nothing will happen when you interact with this NPC.", MessageType.Warning);
         if (npc.PlacePlayerAtSnapPosition && npc.transform.Find("PlayerSnapPosition") == null)
             EditorGUILayout.HelpBox("Please create an empty child GameObject named PlayerSnapPosition positioned where you would like the player to get placed at.", MessageType.Warning);
+        
+        if (GUILayout.Button("Generate GUID")) {
+            npc.GUID = Guid.NewGuid();
+            EditorUtility.SetDirty(serializedObject.targetObject);
+        }
+
         DrawDefaultInspector();
 
         EditorGUILayout.Space();
 
-        GUILayout.BeginVertical("box");
+        GUILayout.BeginVertical("window");
         showBranches = GUILayout.Toggle(showBranches, $"Dialogue Branches ({dialogBranches.Length})", "DropDownButton");
         if (showBranches) {
             
@@ -32,15 +39,16 @@ public class CustomNPCEditor : Editor {
                 var editor = Editor.CreateEditor(branch);
 
                 editor.OnInspectorGUI();
+                EditorGUILayout.Separator();
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("Remove")) {
                     DestroyImmediate(branch);
                 }
                 if (GUILayout.Button("Move Up")) {
-                    ComponentUtility.MoveComponentUp(branch);
+                    EditorHelper.MoveUp(editor.serializedObject);
                 }
                 if (GUILayout.Button("Move Down")) {
-                    ComponentUtility.MoveComponentDown(branch);
+                    EditorHelper.MoveDown(editor.serializedObject);
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.EndVertical();
@@ -53,7 +61,7 @@ public class CustomNPCEditor : Editor {
             
         }
         EditorGUILayout.EndVertical();
-
+        serializedObject.ApplyModifiedProperties();
         //EditorGUILayout.Space();
     }
 }

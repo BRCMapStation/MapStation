@@ -15,7 +15,7 @@ namespace Winterland.Plugin.Patches {
         private static bool Update_Prefix(AmbientManager __instance) {
             if (AmbientOverride.Instance == null)
                 return true;
-            __instance.ApplyAmbientChange(AmbientOverride.Instance.LightColor, AmbientOverride.Instance.ShadowColor);
+            __instance.ApplyAmbientChange(AmbientOverride.Instance.CurrentLightColor, AmbientOverride.Instance.CurrentShadowColor);
             return false;
         }
     }

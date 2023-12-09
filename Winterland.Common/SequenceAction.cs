@@ -8,23 +8,43 @@ using UnityEngine;
 using Reptile;
 
 namespace Winterland.Common {
-    public abstract class SequenceAction : MonoBehaviour {
-        public CameraRegisterer Camera;
+
+    [ExecuteAlways]
+    public abstract class SequenceAction : OrderedComponent {
+        [Header("Name used to point to this action when branching. Used in Yes/Nah prompts.")]
+        public string Name = "";
         [HideInInspector]
         public CustomNPC NPC;
         [HideInInspector]
         public SequenceWrapper Sequence;
         [HideInInspector]
         public SequenceAction NextAction;
-        public virtual void Run() {
-            if (Camera != null)
-                Sequence.SetCamera(Camera.gameObject);
+
+        private void Awake() {
+            if (!Application.isEditor)
+                return;
+            hideFlags = HideFlags.HideInInspector;
+            var sequence = GetComponent<Sequence>();
+            if (sequence == null)
+                DestroyImmediate(this);
         }
 
-        protected void Finish() {
-            if (NextAction == null)
-                return;
-            NextAction.Run();
+        public override bool IsPeer(Component other) {
+            return other is SequenceAction;
+        }
+
+        public virtual void Run(bool immediate) {
+            
+        }
+
+        protected void Finish(bool immediate) {
+            if (NextAction == null) {
+                if (immediate)
+                    return;
+                Sequence.ExitSequence();
+            } else {
+                NextAction.Run(immediate);
+            }
         }
     }
 }

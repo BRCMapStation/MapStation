@@ -16,7 +16,7 @@ namespace Winterland.Plugin.Patches {
         [HarmonyPatch(nameof(Bootstrap.LaunchGame))]
         private static bool LaunchGame_Prefix(Bootstrap __instance) {
 #if WINTER_DEBUG
-            if (!WinterConfig.Instance.QuickLaunch.Value)
+            if (!WinterConfig.Instance.QuickLaunchValue)
                 return true;
             Plugin.UpdateEvent += QuickLaunchUpdate;
             __instance.StartCoroutine(__instance.SetupGameToStage(Stage.square));

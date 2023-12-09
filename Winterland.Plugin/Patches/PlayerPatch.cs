@@ -15,8 +15,28 @@ namespace Winterland.Plugin.Patches {
         private static void Init_Postfix(Player __instance) {
             var winterPlayer = __instance.gameObject.AddComponent<WinterPlayer>();
             winterPlayer.player = __instance;
-            if(WinterConfig.Instance.DisableKBMInput.Value) {
+            if (!__instance.isAI) {
+                winterPlayer.ToyMachineAbility = new ToyMachineAbility(__instance);
+            }
+            if(WinterConfig.Instance.DisableKBMInputValue) {
                 KBMInputDisabler.Disable();
+            }
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(nameof(Player.EndGraffitiMode))]
+        private static void EndGraffitiMode_Postfix(Player __instance, GraffitiSpot graffitiSpot) {
+            if (graffitiSpot.state != GraffitiState.FINISHED)
+                return;
+            if (__instance.isAI)
+                return;
+            if (graffitiSpot.ClaimedByPlayableCrew()) {
+                var toyGraff = ToyGraffitiSpot.Get(graffitiSpot);
+                if (toyGraff == null)
+                    return;
+                toyGraff.ToyMachine.FinishToyLine();
+                toyGraff.ToyMachine.TeleportPlayerToExit(true);
+                graffitiSpot.allowRedo = true;
             }
         }
     }

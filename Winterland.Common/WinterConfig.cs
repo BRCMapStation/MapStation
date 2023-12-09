@@ -11,15 +11,26 @@ namespace Winterland.Common {
 
         // doing conditional compilation here cause we're probs gonna have settings to test growth and progress stuff and we don't want to let people cheat so easily lol
 #if WINTER_DEBUG
+#if UNITY_EDITOR
+        public bool QuickLaunchValue => false;
+        public bool DisableKBMInputValue => false;
+        public bool DebugUIValue => false;
+#else
         public ConfigEntry<bool> QuickLaunch;
         public ConfigEntry<bool> DisableKBMInput;
         public ConfigEntry<bool> DebugUI;
+
+        public bool QuickLaunchValue => QuickLaunch.Value;
+        public bool DisableKBMInputValue => DisableKBMInput.Value;
+        public bool DebugUIValue => DebugUI.Value;
 #endif
+#endif
+
         public WinterConfig() {
             Instance = this;
         }
         public WinterConfig(ConfigFile file) : this() {
-#if WINTER_DEBUG
+#if WINTER_DEBUG && !UNITY_EDITOR
             QuickLaunch = file.Bind(
                 "Development",
                 "QuickLaunch",
