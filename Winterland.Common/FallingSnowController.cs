@@ -41,10 +41,11 @@ namespace Winterland.Common {
 
         public void AddKillTrigger(Collider trigger) {
             foreach(var particle in allParticles) {
-                var emitter = particle.GetComponentInChildren<ParticleSystem>(true);
-                if (emitter == null)
+                var emitters = particle.GetComponentsInChildren<ParticleSystem>(true);
+                if (emitters == null)
                     continue;
-                emitter.trigger.AddCollider(trigger);
+                foreach(var emitter in emitters)
+                    emitter.trigger.AddCollider(trigger);
             }
         }
 
