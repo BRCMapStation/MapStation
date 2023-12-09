@@ -14,14 +14,22 @@ namespace Winterland.Common {
             DontDestroyOnLoad(gameObject);
         }
 
+        void Awake() {
+            DebugUI.Instance.OnDebugUI += OnDebugUI;
+        }
+
         string eventProgressTreePercentageString;
         private void OnDebugUI() {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(nameof(EventProgressPacket.treeGrowthPercentage));
             eventProgressTreePercentageString = GUILayout.TextField(eventProgressTreePercentageString);
+            GUILayout.EndHorizontal();
             if (GUILayout.Button("Simulate receiving event progress packet")) {
-                NetManager.Instance.DispatchPacket(new EventProgressPacket {
+                var packet = new EventProgressPacket {
                     PlayerID = 0,
                     treeGrowthPercentage = UInt16.Parse(eventProgressTreePercentageString)
-                });
+                };
+                NetManager.Instance.DispatchPacket(packet);
             }
         }
     }

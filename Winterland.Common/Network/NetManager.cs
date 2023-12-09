@@ -44,7 +44,7 @@ namespace Winterland.Common {
         }
 
         public void DispatchPacket(Packet packet) {
-            Debug.Log($"Winterland packet received: {packet}");
+            Debug.Log($"Winterland packet received: {packet} {JsonUtility.ToJson(packet)}");
             OnPacket?.Invoke(packet);
         }
 

@@ -26,8 +26,9 @@ namespace Winterland.Common {
             Cursor.lockState = CursorLockMode.None;
             GUILayout.BeginArea(new Rect(0, 0, Width, Height));
             GUILayout.BeginVertical("Debug UI", GUI.skin.box);
+            GUILayout.Space(20);
             try {
-                if(GUILayout.Button("Log message")) {
+                if(GUILayout.Button("Log message to console")) {
                     Debug.Log("Message from DebugUI");
                 }
                 OnDebugUI?.Invoke();
