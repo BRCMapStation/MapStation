@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <AssemblyName>Winterland.Common</AssemblyName>
     <Description>Common code for Millenium Winterland.</Description>
     <Version>1.0.0</Version>
@@ -34,6 +34,7 @@
     <ProjectReference Include="..\libs\CrewBoomAPI\CrewBoomAPI.csproj">
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="..\libs\SlopCrew\SlopCrew.API\SlopCrew.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>
