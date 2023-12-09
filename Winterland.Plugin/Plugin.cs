@@ -43,6 +43,7 @@ namespace Winterland.Plugin
             new WinterProgress();
             DebugUI.Create(WinterConfig.Instance.DebugUI.Value);
             NetManager.Create();
+            NetManagerDebugUI.Create();
 
             Log = Logger;
             StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;

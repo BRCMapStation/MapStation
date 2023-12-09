@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <AssemblyName>Winterland.Plugin</AssemblyName>
     <Description>BepInEx Plugin Assembly for Millenium Winterland.</Description>
     <Version>1.0.0</Version>
@@ -44,9 +44,11 @@
     </Reference>
       <Reference Include="Unity.TextMeshPro">
           <HintPath>$(ManagedPath)/Unity.TextMeshPro.dll</HintPath>
+          <Private>false</Private>
       </Reference>
     <Reference Include="Rewired_Core">
         <HintPath>$(ManagedPath)/Rewired_Core.dll</HintPath>
+        <Private>false</Private>
     </Reference>
   </ItemGroup>
   

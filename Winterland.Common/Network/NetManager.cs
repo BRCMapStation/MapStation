@@ -1,6 +1,7 @@
 using UnityEngine;
 using SlopCrew.API;
 using System.Runtime.Serialization;
+using System;
 
 namespace Winterland.Common {
     /// <summary>
@@ -18,42 +19,46 @@ namespace Winterland.Common {
 
         private ISlopCrewAPI slopCrewApi;
 
-        public delegate void OnPacketDelegate(Packet packet);
+        public delegate void OnPacketHandler(Packet packet);
 
-        public OnPacketDelegate OnPacket;
+        public OnPacketHandler OnPacket;
 
         private void Awake() {
             Instance = this;
             APIManager.OnAPIRegistered += OnSlopCrewAPIRegistered;
             var api = APIManager.API;
-            if(api != null)
+            if(api != null) {
                 OnSlopCrewAPIRegistered(api);
+            }
         }
 
         private void OnDestroy() {
             APIManager.OnAPIRegistered -= OnSlopCrewAPIRegistered;
-            if(slopCrewApi != null) slopCrewApi.OnCustomPacketReceived -= OnCustomPacketReceived;
+            if(slopCrewApi != null) slopCrewApi.OnCustomPacketReceived -= OnPacketReceived;
         }
 
         private void OnSlopCrewAPIRegistered(ISlopCrewAPI slopCrewApi) {
             if(this.slopCrewApi != null) return;
             this.slopCrewApi = slopCrewApi;
-            slopCrewApi.OnCustomPacketReceived += OnCustomPacketReceived;
+            slopCrewApi.OnCustomPacketReceived += OnPacketReceived;
         }
 
-        private void OnCustomPacketReceived(uint player, string id, byte[] data) {
-            Packet packet = null;
-            switch(id) {
-                case PlayerCollectGiftsPacket.PacketId:
-                    packet = new PlayerCollectGiftsPacket();
-                    break;
-                case EventProgressPacket.PacketId:
-                    packet = new EventProgressPacket();
-                    break;
-            }
+        public void DispatchPacket(Packet packet) {
+            Debug.Log($"Winterland packet received: {packet}");
+            OnPacket?.Invoke(packet);
+        }
+
+        public void OnPacketReceived(uint player, string id, byte[] data) {
+            Packet packet = PacketFactory.CreateBlankFromId(id);
             if (packet != null) {
-                packet.Deserialize(data);
-                OnPacket?.Invoke(packet);
+                packet.PlayerID = player;
+                try {
+                    packet.Deserialize(data);
+                } catch(PacketParseException e) {
+                    Debug.Log(e.Message);
+                    // Drop the packet, don't crash
+                }
+                DispatchPacket(packet);
             }
         }
     }
