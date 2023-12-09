@@ -20,10 +20,19 @@ namespace Winterland.Common {
         public string YesTarget = "";
         [HideInInspector]
         public string NahTarget = "";
+        [Header("Random clips to play when the character starts talking.")]
+        public AudioClip[] AudioClips;
         public override void Run(bool immediate) {
             base.Run(immediate);
             if (immediate)
                 return;
+
+            if (AudioClips != null && AudioClips.Length > 0) {
+                var audioManager = Core.Instance.AudioManager;
+                var clip = AudioClips[UnityEngine.Random.Range(0, AudioClips.Length)];
+                audioManager.PlayNonloopingSfx(audioManager.audioSources[5], clip, audioManager.mixerGroups[5], 0f);
+            }
+
             var dialogs = DialogBlock.GetComponentsOrdered<DialogBlock>(gameObject).Where((block) => block.Owner == this).ToArray();
             var customDialogs = new List<CustomDialogue>();
             for(var i=0;i<dialogs.Length;i++) {
