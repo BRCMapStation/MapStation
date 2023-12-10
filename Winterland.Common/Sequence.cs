@@ -10,9 +10,9 @@ using CommonAPI;
 namespace Winterland.Common {
     public class Sequence : MonoBehaviour {
         [Header("General")]
-        public bool ClearWantedLevel = true;
         public bool HidePlayer = false;
         public bool Skippable = true;
+        public bool StandDownEnemies = true;
         public int DialogueLevelToAdd = 0;
 
         [Header("Events")]

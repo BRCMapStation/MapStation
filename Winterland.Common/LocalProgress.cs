@@ -39,6 +39,12 @@ namespace Winterland.Common {
             npcs[npc.GUID] = new SerializedNPC(npc);
         }
 
+        public SerializedNPC GetNPCProgress(CustomNPC npc) {
+            if (!npcs.TryGetValue(npc.GUID, out var progress))
+                return null;
+            return progress;
+        }
+
         public void Load() {
             if (!File.Exists(savePath)) {
                 Debug.Log("No Winterland save to load, starting a new game.");

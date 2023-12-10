@@ -27,8 +27,8 @@ namespace Winterland.Common {
 
             CurrentActionToRunOnEnd = Sequence.RunActionOnEnd;
 
-            if (Sequence.ClearWantedLevel)
-                WantedManager.instance.StopPlayerWantedStatus(false);
+            if (Sequence.StandDownEnemies)
+                WantedManager.instance.StandDownEnemies();
 
             var actions = Sequence.GetActions();
             if (actions.Length > 0)

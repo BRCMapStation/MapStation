@@ -13,5 +13,6 @@ namespace Winterland.Common {
         public void Save();
         public void Load();
         public void SetNPCDirty(CustomNPC npc);
+        public SerializedNPC GetNPCProgress(CustomNPC npc);
     }
 }
