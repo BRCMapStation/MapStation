@@ -19,12 +19,10 @@ namespace Reptile {
 
         // Token: 0x0400049E RID: 1182
         [SerializeField]
-        [HideInInspector]
         public SfxCollectionID collectionId;
 
         // Token: 0x0400049F RID: 1183
         [SerializeField]
-        [HideInInspector]
         public AudioClipID audioClipId;
     }
 }

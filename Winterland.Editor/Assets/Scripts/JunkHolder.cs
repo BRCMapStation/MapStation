@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
+using Winterland.Common;
 
 namespace Reptile {
-    // Token: 0x020001D2 RID: 466
+    [RequireComponent(typeof(StageObject))]
+    [ExecuteAlways]
     public class JunkHolder : MonoBehaviour {
         // Token: 0x04000E8B RID: 3723
         internal bool moved;
@@ -15,5 +17,9 @@ namespace Reptile {
 
         // Token: 0x04000E8E RID: 3726
         public SfxClip audioClips = SfxCollectionID.EnvironmentSfx;
+
+        private void Reset() {
+            gameObject.layer = 21;
+        }
     }
 }
