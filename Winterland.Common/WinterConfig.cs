@@ -74,7 +74,7 @@ namespace Winterland.Common {
                 "Development",
                 "MockGlobalProgressStartTreeAt",
                 0f,
-                "When mocking global progress locally, start the tree at this percentage construction. (decimal number, a float)"
+                "When MockGlobalProgressLocally is true, start the tree at this percentage construction. (a number between 0 and 1)"
             );
 #endif
         }
