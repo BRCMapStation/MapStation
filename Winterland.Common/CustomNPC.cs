@@ -33,8 +33,9 @@ namespace Winterland.Common {
         private Transform head;
 
         private const float MaxHeadYaw = 75f;
+        private const float MaxHeadPitch = 60f;
         private const float LookAtDuration = 2f;
-        private const float LookAtSpeed = 2.5f;
+        private const float LookAtSpeed = 4f;
         private float currentLookAtAmount = 0f;
         private float lookAtTimer = 0f;
 #if !UNITY_EDITOR
@@ -117,8 +118,10 @@ namespace Winterland.Common {
             var heading = (head.position - targetHead.position).normalized;
             var targetRotation = Quaternion.LookRotation(heading, Vector3.up).eulerAngles;
             var referenceRotation = Quaternion.LookRotation(-transform.forward, Vector3.up).eulerAngles;
-            var forwardDifference = Mathf.DeltaAngle(targetRotation.y, referenceRotation.y);
-            targetRotation.y = referenceRotation.y - Mathf.Clamp(forwardDifference, -MaxHeadYaw, MaxHeadYaw);
+            var yawDifference = Mathf.DeltaAngle(targetRotation.y, referenceRotation.y);
+            var pitchDifference = Mathf.DeltaAngle(targetRotation.x, referenceRotation.x);
+            targetRotation.y = referenceRotation.y - Mathf.Clamp(yawDifference, -MaxHeadYaw, MaxHeadYaw);
+            targetRotation.x = referenceRotation.x - Mathf.Clamp(pitchDifference, -MaxHeadPitch, MaxHeadPitch);
             head.transform.rotation = Quaternion.Lerp(head.transform.rotation, Quaternion.Euler(targetRotation), currentLookAtAmount);
         }
 
