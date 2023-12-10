@@ -306,7 +306,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!64 &281453193949963019
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -333,6 +333,21 @@ MonoBehaviour:
   m_Script: {fileID: 194650164, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4411070534193334785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8194136210636028999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1090035485, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enabled: 1
+  Size: 0.3
+  Strength: 0.5
 --- !u!114 &6049120126978475350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +365,22 @@ MonoBehaviour:
   audioClips:
     collectionId: 50
     audioClipId: 488
+--- !u!114 &7914128873173465607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8194136210636028999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1264009270, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Mask:
+    serializedVersion: 2
+    m_Bits: 1
+  RayDistance: 1
 --- !u!114 &8848986211998063117
 MonoBehaviour:
   m_ObjectHideFlags: 0

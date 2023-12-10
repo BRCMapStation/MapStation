@@ -13,7 +13,7 @@ namespace Winterland.Common {
         public float Strength = 0.1f;
         private FallenSnowController snowController = null;
 
-        private void Awake() {
+        private void Start() {
             snowController = FallenSnowController.Instance;
             if (snowController != null)
                 snowController.OnUpdate += OnUpdate;
