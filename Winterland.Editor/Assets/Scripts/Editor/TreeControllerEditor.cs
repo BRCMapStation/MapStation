@@ -15,8 +15,8 @@ class TreeControllerEditor : Editor {
         );
         EditorGUILayout.TextArea(
             "Pressing Play will:\n" +
-            $"Start at {t.unityEditorPlayButtonStart * 10}% event progress, which is {t.unityEditorPlayButtonStart} seconds on the TreeConstruction timeline.\n" +
-            $"Animate to {t.unityEditorPlayButtonEnd * 10}% event progress, which is {t.unityEditorPlayButtonEnd} seconds on the TreeConstruction timeline.",
+            $"Start at {t.unityEditorPlayButtonStart * 100}% event progress, which is {t.unityEditorPlayButtonStart * TreeController.TimelineLength} seconds on the TreeConstruction timeline.\n" +
+            $"Animate to {t.unityEditorPlayButtonEnd * 100}% event progress, which is {t.unityEditorPlayButtonEnd * TreeController.TimelineLength} seconds on the TreeConstruction timeline.",
             GUI.skin.label
         );
     }

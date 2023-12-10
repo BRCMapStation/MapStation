@@ -1,13 +1,10 @@
 using UnityEngine;
-using SlopCrew.API;
-using System.Runtime.Serialization;
-using System;
 
 namespace Winterland.Common {
     public class NetManagerDebugUI : MonoBehaviour {
         public static NetManagerDebugUI Instance {get; private set;}
 
-        float TreeConstructionPercentageSlider;
+        float treeConstructionPercentageSlider;
 
         public static void Create() {
             if(Instance != null) return;
@@ -26,11 +23,11 @@ namespace Winterland.Common {
             GUILayout.Label($"Current {nameof(EventProgressPacket.TreeConstructionPercentage)} = {WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage}");
             GUILayout.BeginHorizontal();
             GUILayout.Label(nameof(EventProgressPacket.TreeConstructionPercentage));
-            TreeConstructionPercentageSlider = GUILayout.HorizontalSlider(TreeConstructionPercentageSlider, 0, 1);
+            treeConstructionPercentageSlider = GUILayout.HorizontalSlider(treeConstructionPercentageSlider, 0, 1);
             GUILayout.EndHorizontal();
-            GUILayout.Label($"{TreeConstructionPercentageSlider}");
+            GUILayout.Label($"{treeConstructionPercentageSlider}");
             if (GUILayout.Button("Set event progress locally")) {
-                WinterProgress.Instance.WritableGlobalProgress.SetTreeConstructionPercentage(TreeConstructionPercentageSlider);
+                WinterProgress.Instance.WritableGlobalProgress.SetTreeConstructionPercentage(treeConstructionPercentageSlider);
             }
             if (GUILayout.Button("Simulate receiving event progress packet")) {
                 NetManager.Instance.DispatchReceivedPacket(createEventProgressPacket());
@@ -46,7 +43,7 @@ namespace Winterland.Common {
         private EventProgressPacket createEventProgressPacket() {
             return new EventProgressPacket {
                 PlayerID = 0,
-                TreeConstructionPercentage = TreeConstructionPercentageSlider
+                TreeConstructionPercentage = treeConstructionPercentageSlider
             };
         }
     }

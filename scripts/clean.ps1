@@ -14,6 +14,8 @@ Write-Output `
     .\Winterland.MapStation.Common\obj `
     .\Winterland.MapStation.Plugin\bin `
     .\Winterland.MapStation.Plugin\obj `
+    .\Winterland.MustLoadInEditor\obj `
+    .\Winterland.MustLoadInEditor\bin `
     .\Winterland.Common\obj `
     .\Winterland.Common\bin `
     .\Winterland.Common_Editor\obj `

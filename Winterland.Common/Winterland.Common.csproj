@@ -34,6 +34,7 @@
     <ProjectReference Include="..\libs\CrewBoomAPI\CrewBoomAPI.csproj">
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Winterland.MustLoadInEditor\Winterland.MustLoadInEditor.csproj" />
     <ProjectReference Include="..\libs\SlopCrew\SlopCrew.API\SlopCrew.API.csproj" />
   </ItemGroup>
 
@@ -52,6 +53,9 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>$(ManagedPath)/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Timeline">
+      <HintPath>$(ManagedPath)/Unity.Timeline.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

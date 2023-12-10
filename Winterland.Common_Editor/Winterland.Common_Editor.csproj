@@ -18,6 +18,7 @@
   <!-- Copy DLLs into Unity Editor project -->
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy &quot;$(TargetDir)\$(TargetFileName)&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts\Winterland.Common.dll&quot; /y" />
+    <Exec Command="copy &quot;$(TargetDir)\SlopCrew.API.dll&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts\SlopCrew.API.dll&quot; /y" />
     <Exec Command="xcopy &quot;$(TargetDir)\CommonAPI.dll&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
   </Target>
 

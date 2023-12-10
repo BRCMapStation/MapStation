@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -6,14 +7,28 @@ namespace Winterland.Common {
     /// <summary>
     /// Exists only on the Square stage, connects to the TreeManager and drives the tree's animations, visuals, behavior.
     /// </summary>
-    public class TreeController : MonoBehaviour {
+    public class TreeController : MonoBehaviour, ITreeState {
+        public static TreeController Instance { get; private set; }
+
         [SerializeField]
         private PlayableDirector director = null;
 
-        private const float MinTime = 0.1f;
-        private const float TimelineLength = 10;
+        private const float MinTime = 0f;
+        public const float TimelineLength = 10;
 
         private float timelinePosition;
+
+        public bool isFastForwarding {get; private set;}
+
+    [HideInInspector]
+        public HashSet<MonoBehaviour> reasonsToBePaused = new ();
+
+        void Awake() {
+            Instance = this;
+        }
+        void OnDestroy() {
+            Instance = null;
+        }
 
         void OnEnable() {
             #if UNITY_EDITOR
@@ -22,7 +37,6 @@ namespace Winterland.Common {
                 return;
             }
             #endif
-
             timelinePosition = TargetTimelinePosition();
             initializeTimelineToPosition(timelinePosition);
         }
@@ -47,10 +61,15 @@ namespace Winterland.Common {
         }
 
         void initializeTimelineToPosition(float position) {
-            director.Stop();
-            director.Play();
-            director.playableGraph.Evaluate();
-            director.playableGraph.Evaluate(position);
+            try {
+                isFastForwarding = true;
+                director.Stop();
+                director.Play();
+                director.playableGraph.Evaluate();
+                director.playableGraph.Evaluate(position);
+            } finally {
+                isFastForwarding = false;
+            }
         }
 
         void advanceTimelineToPosition(float position) {
@@ -83,13 +102,13 @@ namespace Winterland.Common {
         }
 
         void EditorOnEnable() {
-            initializeTimelineToPosition(unityEditorPlayButtonStart);
+            initializeTimelineToPosition(unityEditorPlayButtonStart * TimelineLength);
         }
 
         void EditorUpdate() {
             if(!unityEditorDidFirstUpdate) {
                 unityEditorDidFirstUpdate = true;
-                advanceTimelineToPosition(unityEditorPlayButtonEnd);
+                advanceTimelineToPosition(unityEditorPlayButtonEnd * TimelineLength);
             }
         }
 
