@@ -63,6 +63,7 @@ public class DialogSequenceActionEditor : Editor {
                 var newDialogue = action.gameObject.AddComponent<DialogBlock>();
                 newDialogue.Owner = action;
                 newDialogue.hideFlags = HideFlags.HideInInspector;
+                newDialogue.SetHighestOrder();
             }
         }
         EditorGUILayout.EndVertical();

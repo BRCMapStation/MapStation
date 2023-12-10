@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Winterland.Common {
     public abstract class OrderedComponent : MonoBehaviour{
-        //[HideInInspector]
+        [HideInInspector]
         public int Order = -1;
 
         public virtual bool IsPeer(Component other) {
@@ -19,6 +19,10 @@ namespace Winterland.Common {
         protected virtual void OnValidate() {
             if (Order < 0 || GetOrderCollision(Order))
                 Order = GetHighestOrder() + 1;
+        }
+
+        public void SetHighestOrder() {
+            Order = GetHighestOrder() + 1;
         }
 
         public OrderedComponent MoveUp() {

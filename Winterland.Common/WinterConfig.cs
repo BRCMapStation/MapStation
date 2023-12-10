@@ -15,14 +15,17 @@ namespace Winterland.Common {
         public bool QuickLaunchValue => false;
         public bool DisableKBMInputValue => false;
         public bool DebugUIValue => false;
+        public bool ResetLocalSaveValue => false;
 #else
         public ConfigEntry<bool> QuickLaunch;
         public ConfigEntry<bool> DisableKBMInput;
         public ConfigEntry<bool> DebugUI;
+        public ConfigEntry<bool> ResetLocalSave;
 
         public bool QuickLaunchValue => QuickLaunch.Value;
         public bool DisableKBMInputValue => DisableKBMInput.Value;
         public bool DebugUIValue => DebugUI.Value;
+        public bool ResetLocalSaveValue => ResetLocalSave.Value;
 #endif
 #endif
 
@@ -48,6 +51,12 @@ namespace Winterland.Common {
                 "DebugUI",
                 true,
                 "Show IMGui debug UI"
+            );
+            ResetLocalSave = file.Bind(
+                "Development",
+                "ResetLocalSave",
+                false,
+                "Reset our local Winterland progress."
             );
 #endif
         }

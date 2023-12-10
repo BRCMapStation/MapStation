@@ -11,5 +11,6 @@ namespace Winterland.Common {
     public interface ILocalProgress {
         public WinterObjective Objective { get; set; }
         public void Save();
+        public void Load();
     }
 }

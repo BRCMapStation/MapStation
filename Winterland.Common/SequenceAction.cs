@@ -20,13 +20,14 @@ namespace Winterland.Common {
         [HideInInspector]
         public SequenceAction NextAction;
 
-        private void Awake() {
+        protected override void OnValidate() {
+            base.OnValidate();
             if (!Application.isEditor)
                 return;
             hideFlags = HideFlags.HideInInspector;
-            var sequence = GetComponent<Sequence>();
+            var sequence = gameObject.GetComponent<Sequence>();
             if (sequence == null)
-                DestroyImmediate(this);
+                Destroy(this);
         }
 
         public override bool IsPeer(Component other) {

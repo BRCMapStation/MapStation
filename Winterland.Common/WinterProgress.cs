@@ -13,10 +13,11 @@ namespace Winterland.Common {
             Instance = this;
             LocalProgress = new LocalProgress();
             GlobalProgress = new MockGlobalProgress();
-        }
 
-        public void Save() {
-            LocalProgress.Save();
+#if WINTER_DEBUG
+            if (!WinterConfig.Instance.ResetLocalSaveValue)
+#endif
+                LocalProgress.Load();
         }
     }
 }

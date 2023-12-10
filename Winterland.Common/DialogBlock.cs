@@ -22,10 +22,16 @@ namespace Winterland.Common {
         [Header("Random clips to play when the character says this line.")]
         public AudioClip[] AudioClips;
 
-        private void Awake() {
+        protected override void OnValidate() {
+            base.OnValidate();
             if (!Application.isEditor)
                 return;
             hideFlags = HideFlags.HideInInspector;
+        }
+
+        private void Awake() {
+            if (!Application.isEditor)
+                return;
             var dialogSequenceAction = GetComponent<DialogSequenceAction>();
             if (dialogSequenceAction == null)
                 DestroyImmediate(this);

@@ -14,7 +14,8 @@ namespace Winterland.Common {
         public Condition Condition;
         public int MinimumDialogueLevel = 0;
 
-        private void Awake() {
+        protected override void OnValidate() {
+            base.OnValidate();
             if (!Application.isEditor)
                 return;
             hideFlags = HideFlags.HideInInspector;

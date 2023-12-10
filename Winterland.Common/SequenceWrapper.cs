@@ -36,7 +36,7 @@ namespace Winterland.Common {
 
             if (Sequence.SetObjectiveOnEnd != null) {
                 WinterProgress.Instance.LocalProgress.Objective = Sequence.SetObjectiveOnEnd;
-                WinterProgress.Instance.Save();
+                WinterProgress.Instance.LocalProgress.Save();
             }
 
             if (!string.IsNullOrEmpty(CurrentActionToRunOnEnd)) {
