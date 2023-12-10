@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5612608417489818905}
-  m_Layer: 0
+  - component: {fileID: 8266532997640904725}
+  - component: {fileID: 5062222393438381181}
+  m_Layer: 21
   m_Name: snowTryce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,6 +34,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8266532997640904725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172527343070402771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -793220228, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkName: 
+--- !u!114 &5062222393438381181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172527343070402771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e479cd06725321e4790cbaf61659aedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stuffToLaunchAway:
+  - {fileID: 3774340902827381091}
+  - {fileID: 6666977661287850972}
+  audioClips:
+    collectionId: 19
+    audioClipId: 382
 --- !u!1001 &2536788853787944853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83,6 +116,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7317257661995686976, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: -4748190208713621887, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
       propertyPath: m_Name
       value: snowTryce
@@ -101,8 +142,157 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 0c2412d87032fce479475d40ac1bc3e7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
+--- !u!1 &2103029483019802900 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4748190208713621887, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
+  m_PrefabInstance: {fileID: 2536788853787944853}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &3774340902827381091
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103029483019802900}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &4263110386192138301
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103029483019802900}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3334157629307374497, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
+--- !u!114 &3640780640574349897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103029483019802900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505df2d4d2823d546badd58457fb8694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactOn: 1
+  destroyTimer: -1
+  audioClips:
+    collectionId: 19
+    audioClipId: 506
+--- !u!114 &3662024985970647325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103029483019802900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -793220228, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkName: 
 --- !u!4 &2647770753793917054 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
   m_PrefabInstance: {fileID: 2536788853787944853}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4127440109703169109 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7317257661995686976, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
+  m_PrefabInstance: {fileID: 2536788853787944853}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &6666977661287850972
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127440109703169109}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &2541242596173826230
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127440109703169109}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5336040159868258621, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
+--- !u!114 &6178193237461544878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127440109703169109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -793220228, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkName: 
+--- !u!114 &7677779046712305107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127440109703169109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505df2d4d2823d546badd58457fb8694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactOn: 1
+  destroyTimer: -1
+  audioClips:
+    collectionId: 19
+    audioClipId: 377
+--- !u!1 &4899990925671756483 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1786733003607763626, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
+  m_PrefabInstance: {fileID: 2536788853787944853}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &8860138847565361583
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4899990925671756483}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3121876910932044971, guid: 21b5efe11b92d694b942c8f5dff5b0f9, type: 3}
