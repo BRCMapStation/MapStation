@@ -15,7 +15,8 @@ public class SequenceEditor : Editor {
         typeof(DialogSequenceAction),
         typeof(EndSequenceAction),
         typeof(SetActionToRunOnEndAction),
-        typeof(SwitchCharacterSequenceAction)
+        typeof(SwitchCharacterSequenceAction),
+        typeof(NotificationSequenceAction)
     };
     private Dictionary<SequenceAction, Editor> cachedEditors = new();
     public override void OnInspectorGUI() {

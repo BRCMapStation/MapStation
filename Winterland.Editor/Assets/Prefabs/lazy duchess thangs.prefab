@@ -496,9 +496,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4796075793172492655}
   - component: {fileID: 927518540985508610}
+  - component: {fileID: 8279304364570919757}
   - component: {fileID: 7556522494044310689}
   - component: {fileID: 5166354665050304471}
-  - component: {fileID: 8279304364570919757}
   m_Layer: 19
   m_Name: LV Unit NPC
   m_TagString: Untagged
@@ -545,6 +545,19 @@ LODGroup:
     renderers:
     - renderer: {fileID: 6936073383679280459}
   m_Enabled: 1
+--- !u!135 &8279304364570919757
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806923135650066037}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 0.57, z: 0}
 --- !u!114 &7556522494044310689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,19 +594,6 @@ MonoBehaviour:
   RequiredObjective: {fileID: 0}
   Condition: 0
   MinimumDialogueLevel: 0
---- !u!135 &8279304364570919757
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806923135650066037}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.5
-  m_Center: {x: 0, y: 0.57, z: 0}
 --- !u!1 &1237990482785848665
 GameObject:
   m_ObjectHideFlags: 0
@@ -5749,6 +5749,8 @@ GameObject:
   - component: {fileID: 86888624159153806}
   - component: {fileID: 368986016929406552}
   - component: {fileID: 3385589924308523378}
+  - component: {fileID: 5785934522835653952}
+  - component: {fileID: 364759704478343034}
   m_Layer: 0
   m_Name: LV Hello Dialogue
   m_TagString: Untagged
@@ -5788,7 +5790,7 @@ MonoBehaviour:
   StandDownEnemies: 1
   DialogueLevelToAdd: 0
   SetObjectiveOnEnd: {fileID: 0}
-  RunActionOnEnd: 
+  RunActionOnEnd: OnEnd
 --- !u!114 &753273585967275670
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -5867,6 +5869,39 @@ MonoBehaviour:
   SpeakerName: ???
   Text: Well, you better get to it then.
   AudioClips: []
+--- !u!114 &5785934522835653952
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7645868177881558800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2074840497, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 3
+  Name: OnEnd
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  NotificationText: Wow that was a cool conversation you guys had.
+--- !u!114 &364759704478343034
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7645868177881558800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1438341381, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 2
+  Name: 
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
 --- !u!1 &7689122667637336177
 GameObject:
   m_ObjectHideFlags: 0
@@ -7641,7 +7676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962065569, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: instanceID
-      value: -326692
+      value: -341160
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962065569, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: sharedMesh
@@ -7689,7 +7724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962069071, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: instanceID
-      value: -326712
+      value: -341180
       objectReference: {fileID: 0}
     - target: {fileID: 3490897990962069071, guid: 4ddef8bd41b173a4c86b66e26277c9c7, type: 3}
       propertyPath: sharedMesh
