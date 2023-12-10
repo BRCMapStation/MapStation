@@ -1,3 +1,4 @@
+using Reptile;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,10 @@ namespace Winterland.MapStation.Common.VanillaAssets {
     /// </summary>
     public class DeleteVanillaGameObjectsV1 : MonoBehaviour {
 
+        public static DeleteVanillaGameObjectsV1 Instance { get; private set; }
+        // We can't just destroy some things because by the time we inject our prefab a bunch of other things depend on them, such as streetlife.
+        // To work around this we just disable them, and make a patch so that they don't get re-activated if they're on this hashset.
+        private HashSet<GameObject> disabledGameObjects = [];
         // BepInEx serialization workaround
         private List<Deletion> Deletions => deletions.items;
         [SerializeReference] private SList_Deletion deletions = new ();
@@ -17,6 +22,7 @@ namespace Winterland.MapStation.Common.VanillaAssets {
 
         private void Awake() {
             if(!Application.isEditor) {
+                Instance = this;
                 DeleteGameObjects();
             }
         }
@@ -27,10 +33,32 @@ namespace Winterland.MapStation.Common.VanillaAssets {
                 if(go == null) {
                     Debug.Log($"{nameof(DeleteVanillaGameObjectsV1)} could not find GameObject to delete at path: {d.Path}");
                 } else {
-                    Destroy(go);
+                    HandleDeleteGameObject(go);
                 }
             }
         }
+
+        // Putting special cases here for things that might crash or break the game in some way if deleted.
+        private void HandleDeleteGameObject(GameObject gameObject) {
+            var streetLifeCluster = gameObject.GetComponent<StreetLifeCluster>();
+            if (streetLifeCluster != null) {
+                DisableGameObject(gameObject);
+                return;
+            }
+            Destroy(gameObject);
+        }
+
+        private void DisableGameObject(GameObject gameObject) {
+            gameObject.SetActive(false);
+            disabledGameObjects.Add(gameObject);
+        }
+
+        public bool IsDisabled(GameObject gameObject) {
+            if (disabledGameObjects.Contains(gameObject))
+                return true;
+            return false;
+        }
+
         [Serializable]
         public class Deletion {
             public string Path;
