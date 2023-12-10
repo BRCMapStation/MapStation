@@ -114,6 +114,8 @@ namespace Winterland.Common {
             if (visual == null) return;
             var targetHead = visual.head;
             if (head == null) return;
+            if (visual.VFX.phone.activeSelf)
+                targetHead = visual.VFX.phone.transform;
 
             var heading = (head.position - targetHead.position).normalized;
             var targetRotation = Quaternion.LookRotation(heading, Vector3.up).eulerAngles;
