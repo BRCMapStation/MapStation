@@ -16,7 +16,9 @@ namespace Winterland.MapStation.Common.VanillaAssets {
         public class SList_Deletion : SList<Deletion> {}
 
         private void Awake() {
-            DeleteGameObjects();
+            if(!Application.isEditor) {
+                DeleteGameObjects();
+            }
         }
 
         public void DeleteGameObjects() {
