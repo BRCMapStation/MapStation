@@ -34,21 +34,16 @@ namespace Winterland.Common {
 
         private void OnDestroy() {
             APIManager.OnAPIRegistered -= OnSlopCrewAPIRegistered;
-            if(slopCrewApi != null) slopCrewApi.OnCustomPacketReceived -= OnPacketReceived;
+            if(slopCrewApi != null) slopCrewApi.OnCustomPacketReceived -= onSlopCrewPacketReceived;
         }
 
         private void OnSlopCrewAPIRegistered(ISlopCrewAPI slopCrewApi) {
             if(this.slopCrewApi != null) return;
             this.slopCrewApi = slopCrewApi;
-            slopCrewApi.OnCustomPacketReceived += OnPacketReceived;
+            slopCrewApi.OnCustomPacketReceived += onSlopCrewPacketReceived;
         }
 
-        public void DispatchPacket(Packet packet) {
-            Debug.Log($"Winterland packet received: {packet} {JsonUtility.ToJson(packet)}");
-            OnPacket?.Invoke(packet);
-        }
-
-        public void OnPacketReceived(uint player, string id, byte[] data) {
+        public void onSlopCrewPacketReceived(uint player, string id, byte[] data) {
             Packet packet = PacketFactory.CreateBlankFromId(id);
             if (packet != null) {
                 packet.PlayerID = player;
@@ -58,8 +53,19 @@ namespace Winterland.Common {
                     Debug.Log(e.Message);
                     // Drop the packet, don't crash
                 }
-                DispatchPacket(packet);
+                DispatchReceivedPacket(packet);
             }
         }
+
+        public void DispatchReceivedPacket(Packet packet) {
+            Debug.Log($"Winterland packet received: {packet} {JsonUtility.ToJson(packet)}");
+            OnPacket?.Invoke(packet);
+        }
+
+        public void SendPacket(Packet packet) {
+            Debug.Log($"Sending Winterland packet: {packet} {JsonUtility.ToJson(packet)}");
+            slopCrewApi.SendCustomPacket(packet.GetPacketId(), packet.Serialize());
+        }
+
     }
 }

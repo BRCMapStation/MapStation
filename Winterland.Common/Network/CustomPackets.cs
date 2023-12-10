@@ -79,15 +79,15 @@ namespace Winterland.Common {
         public override string GetPacketId() { return PlayerCollectGiftsPacket.PacketId; }
         protected override uint LatestVersion => 1;
 
-        public int giftDepositedCount;
+        public int giftsDepositedCount;
 
         protected override void Write(BinaryWriter writer) {
-            writer.Write((UInt16)giftDepositedCount);
+            writer.Write((UInt16)giftsDepositedCount);
         }
         protected override void Read(BinaryReader reader) {
             switch(Version) {
                 case 1:
-                    giftDepositedCount = reader.ReadUInt16();
+                    giftsDepositedCount = reader.ReadUInt16();
                     break;
                 default:
                     UnexpectedVersion();
@@ -102,16 +102,16 @@ namespace Winterland.Common {
         public override string GetPacketId() { return EventProgressPacket.PacketId; }
         protected override uint LatestVersion => 1;
 
-        // Int from 0 to 100, 100 == tree is completely grown
-        public int treeGrowthPercentage;
+        // float from 0 to 1, 1 == completed tree
+        public float TreeConstructionPercentage;
 
         protected override void Write(BinaryWriter writer) {
-            writer.Write((UInt16)treeGrowthPercentage);
+            writer.Write(TreeConstructionPercentage);
         }
         protected override void Read(BinaryReader reader) {
             switch(Version) {
                 case 1:
-                    treeGrowthPercentage = reader.ReadUInt16();
+                    TreeConstructionPercentage = reader.ReadSingle();
                     break;
                 default:
                     UnexpectedVersion();

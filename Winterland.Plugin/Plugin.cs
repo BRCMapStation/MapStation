@@ -40,10 +40,10 @@ namespace Winterland.Plugin
             new WinterConfig(Config);
             WinterCharacters.Initialize();
             ObjectiveDatabase.Initialize(winterAssets.WinterBundle);
-            new WinterProgress();
             DebugUI.Create(WinterConfig.Instance.DebugUI.Value);
             NetManager.Create();
             NetManagerDebugUI.Create();
+            new WinterProgress();
 
             Log = Logger;
             StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;

@@ -9,5 +9,19 @@ namespace Winterland.Common {
     /// Serverside progress.
     /// </summary>
     public interface IGlobalProgress {
+        float TreeConstructionPercentage {get;}
+        delegate void OnTreeConstructionPercentageChangedHandler();
+        event OnTreeConstructionPercentageChangedHandler OnTreeConstructionPercentageChanged;
+    }
+
+    public class WritableGlobalProgress : IGlobalProgress {
+        public float TreeConstructionPercentage {get; private set;}
+
+        public event IGlobalProgress.OnTreeConstructionPercentageChangedHandler OnTreeConstructionPercentageChanged;
+
+        public void SetTreeConstructionPercentage(float value) {
+            TreeConstructionPercentage = value;
+            OnTreeConstructionPercentageChanged?.Invoke();
+        }
     }
 }

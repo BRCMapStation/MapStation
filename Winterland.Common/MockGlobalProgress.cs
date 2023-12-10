@@ -8,6 +8,9 @@ namespace Winterland.Common {
     /// <summary>
     /// Local, not networked global progress, for testing.
     /// </summary>
-    public class MockGlobalProgress : IGlobalProgress {
+    public class MockGlobalProgress : WritableGlobalProgress {
+        public MockGlobalProgress() {
+            SetTreeConstructionPercentage(WinterConfig.Instance.MockGlobalProgressStartTreeAtValue);
+        }
     }
 }

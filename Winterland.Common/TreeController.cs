@@ -10,13 +10,67 @@ namespace Winterland.Common {
         [SerializeField]
         private PlayableDirector director = null;
 
+        private const float MinTime = 0.1f;
+        private const float TimelineLength = 10;
+
+        private float timelinePosition;
+
+        void OnEnable() {
+            #if UNITY_EDITOR
+            if(Application.isEditor) {
+                EditorOnEnable();
+                return;
+            }
+            #endif
+
+            timelinePosition = TargetTimelinePosition();
+            initializeTimelineToPosition(timelinePosition);
+        }
+
+        void Update() {
+            #if UNITY_EDITOR
+            if(Application.isEditor) {
+                EditorUpdate();
+                return;
+            }
+            #endif
+
+            var target = TargetTimelinePosition();
+            if(target < timelinePosition) {
+                // Rewinding might break animations, so fully reset from the beginning.
+                initializeTimelineToPosition(target);
+            } else if(target > timelinePosition) {
+                advanceTimelineToPosition(target);
+            }
+            // advanceTimelineToPosition(target);
+            timelinePosition = target;
+        }
+
+        void initializeTimelineToPosition(float position) {
+            director.Stop();
+            director.Play();
+            director.playableGraph.Evaluate();
+            director.playableGraph.Evaluate(position);
+        }
+
+        void advanceTimelineToPosition(float position) {
+            var deltaTime = position - (float)director.time;
+            director.playableGraph.Evaluate(deltaTime);
+            Debug.Log($"director time {director.time}");
+        }
+
+        float TargetTimelinePosition() {
+            return WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage * TimelineLength;
+        }
+
+        #if UNITY_EDITOR
+
         [SerializeField]
         public float unityEditorPlayButtonStart = 0;
         [SerializeField]
         public float unityEditorPlayButtonEnd = 0;
 
-        private bool didFirstUpdate = false;
-        private const float MinTime = 0.1f;
+        private bool unityEditorDidFirstUpdate = false;
 
         void OnValidate() {
             if(director == null) director = GetComponent<PlayableDirector>();
@@ -28,34 +82,18 @@ namespace Winterland.Common {
             }
         }
 
-        void OnEnable() {
-            if(Application.isEditor) {
-                EditorOnEnable();
-                return;
-            }
-        }
-
-        void Update() {
-            if(Application.isEditor) {
-                EditorUpdate();
-                return;
-            }
-        }
-
         void EditorOnEnable() {
-            director.Play();
-            director.playableGraph.Evaluate();
-            director.playableGraph.Evaluate(unityEditorPlayButtonStart);
+            initializeTimelineToPosition(unityEditorPlayButtonStart);
         }
 
         void EditorUpdate() {
-            var deltaTime = 0f;
-            if(!didFirstUpdate) {
-                deltaTime = unityEditorPlayButtonEnd - (float)director.time;
-                didFirstUpdate = true;
+            if(!unityEditorDidFirstUpdate) {
+                unityEditorDidFirstUpdate = true;
+                advanceTimelineToPosition(unityEditorPlayButtonEnd);
             }
-            director.playableGraph.Evaluate(deltaTime);
-            Debug.Log($"director time {director.time}");
         }
+
+        #endif
+
     }
 }

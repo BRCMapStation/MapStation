@@ -16,16 +16,22 @@ namespace Winterland.Common {
         public bool DisableKBMInputValue => false;
         public bool DebugUIValue => false;
         public bool ResetLocalSaveValue => false;
+        public bool MockGlobalProgressLocallyValue => false;
+        public float MockGlobalProgressStartTreeAtValue => 0;
 #else
         public ConfigEntry<bool> QuickLaunch;
         public ConfigEntry<bool> DisableKBMInput;
         public ConfigEntry<bool> DebugUI;
         public ConfigEntry<bool> ResetLocalSave;
+        public ConfigEntry<bool> MockGlobalProgressLocally;
+        public ConfigEntry<float> MockGlobalProgressStartTreeAt;
 
         public bool QuickLaunchValue => QuickLaunch.Value;
         public bool DisableKBMInputValue => DisableKBMInput.Value;
         public bool DebugUIValue => DebugUI.Value;
         public bool ResetLocalSaveValue => ResetLocalSave.Value;
+        public bool MockGlobalProgressLocallyValue => MockGlobalProgressLocally.Value;
+        public float MockGlobalProgressStartTreeAtValue => MockGlobalProgressStartTreeAt.Value;
 #endif
 #endif
 
@@ -57,6 +63,18 @@ namespace Winterland.Common {
                 "ResetLocalSave",
                 false,
                 "Reset our local Winterland progress."
+            );
+            MockGlobalProgressLocally = file.Bind(
+                "Development",
+                "MockGlobalProgressLocally",
+                false,
+                "Do *not* sync global event progress to SlopCrew, for local testing."
+            );
+            MockGlobalProgressStartTreeAt = file.Bind(
+                "Development",
+                "MockGlobalProgressStartTreeAt",
+                0f,
+                "When mocking global progress locally, start the tree at this percentage construction. (decimal number, a float)"
             );
 #endif
         }
