@@ -14,11 +14,13 @@ namespace Winterland.Common {
     /// </summary>
     public class LocalProgress : ILocalProgress {
         public WinterObjective Objective { get; set; }
-        private const byte Version = 0;
+        private const byte Version = 1;
         private string savePath;
+        private Dictionary<Guid, SerializedNPC> npcs;
 
         // Default values for a blank save!
         public LocalProgress() {
+            npcs = new();
             Objective = ObjectiveDatabase.StartingObjective;
             savePath = Path.Combine(Paths.ConfigPath, "MilleniumWinterland/localprogress.mwp");
         }
@@ -31,6 +33,10 @@ namespace Winterland.Common {
                 // Enqueue async file write.
                 CustomStorage.Instance.WriteFile(stream.ToArray(), savePath);
             }
+        }
+
+        public void SetNPCDirty(CustomNPC npc) {
+            npcs[npc.GUID] = new SerializedNPC(npc);
         }
 
         public void Load() {
@@ -54,9 +60,14 @@ namespace Winterland.Common {
             //version
             writer.Write(Version);
             writer.Write(Objective.name);
+            writer.Write(npcs.Count);
+            foreach(var npc in npcs.Values) {
+                npc.Write(writer);
+            }
         }
 
         private void Read(BinaryReader reader) {
+            npcs.Clear();
             var version = reader.ReadByte();
             if (version > Version) {
                 Debug.LogError($"Attemped to read a Winterland save that's too new (version {version}), current version is {Version}.");
@@ -68,6 +79,15 @@ namespace Winterland.Common {
                 Objective = objective;
             else
                 Objective = ObjectiveDatabase.StartingObjective;
+            if (version > 0) {
+                var npcCount = reader.ReadInt32();
+                for(var i = 0; i < npcCount; i++) {
+                    var npc = new SerializedNPC(reader);
+                    if (npc.GUID != Guid.Empty) {
+                        npcs[npc.GUID] = npc;
+                    }
+                }
+            }
         }
     }
 }

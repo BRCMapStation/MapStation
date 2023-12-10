@@ -19,7 +19,11 @@ namespace Winterland.Common {
         public override void Play() {
             base.Play();
 
-            NPC.CurrentDialogueLevel += Sequence.DialogueLevelToAdd;
+            if (NPC != null) {
+                NPC.CurrentDialogueLevel += Sequence.DialogueLevelToAdd;
+                WinterProgress.Instance.LocalProgress.SetNPCDirty(NPC);
+                WinterProgress.Instance.LocalProgress.Save();
+            }
 
             CurrentActionToRunOnEnd = Sequence.RunActionOnEnd;
 
