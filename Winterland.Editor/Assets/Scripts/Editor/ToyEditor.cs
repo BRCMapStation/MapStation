@@ -35,6 +35,9 @@ public class ToyEditor {
         GameObjectUtility.SetParentAndAlign(toyPart, menuCommand.context as GameObject);
         Selection.activeObject = toyPart;
         toyPart.transform.position = SceneView.lastActiveSceneView.pivot;
+        var toyPartComponent = toyPart.GetComponent<ToyPart>();
+        if (toyPartComponent != null)
+            ToyPartEditor.Randomize(toyPartComponent);
     }
 
     private static ToyLine CreateToyLineUnderContext(Object context) {
