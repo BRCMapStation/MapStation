@@ -41,8 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 341683340093676935}
-  - component: {fileID: 3113575874988724712}
-  - component: {fileID: 3434778640459943132}
+  - component: {fileID: 7091261230869413600}
   m_Layer: 0
   m_Name: Square Center Chunk
   m_TagString: Untagged
@@ -76,7 +75,7 @@ Transform:
   m_Father: {fileID: 2379774226453559604}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3113575874988724712
+--- !u!114 &7091261230869413600
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,22 +84,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7966064554035306682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65a83e8fe5ae38b43adf0df8ee2ee27d, type: 3}
+  m_Script: {fileID: -793220228, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &3434778640459943132
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7966064554035306682}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 165.29616, y: 176.4, z: 107.38699}
-  m_Center: {x: -2.0922012, y: 0, z: 32.455154}
+  chunkName: Square_InnerCenter
 --- !u!1001 &2465181469950002821
 PrefabInstance:
   m_ObjectHideFlags: 0
