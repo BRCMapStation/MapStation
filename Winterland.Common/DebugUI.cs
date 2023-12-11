@@ -21,6 +21,8 @@ namespace Winterland.Common {
 
         public Action OnDebugUI;
 
+        private bool show = true;
+
         private void OnGUI () {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -28,10 +30,12 @@ namespace Winterland.Common {
             GUILayout.BeginVertical("Debug UI", GUI.skin.box);
             GUILayout.Space(20);
             try {
-                if(GUILayout.Button("Log message to console")) {
-                    Debug.Log("Message from DebugUI");
+                if(GUILayout.Button("Show/Hide")) {
+                    show = !show;
                 }
-                OnDebugUI?.Invoke();
+                if(show) {
+                    OnDebugUI?.Invoke();
+                }
             } finally {
                 GUILayout.EndVertical();
                 GUILayout.EndArea();

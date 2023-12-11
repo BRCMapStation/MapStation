@@ -2,5 +2,6 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <DebugType>Full</DebugType>
     <Pdb2mdbPath Condition="Exists('$(SolutionDir)scripts\pdb2mdb.exe')">$(SolutionDir)\scripts\pdb2mdb.exe</Pdb2mdbPath>
+    <NoWarn>$(NoWarn);CS0649;CS0414</NoWarn>
   </PropertyGroup>
 </Project>

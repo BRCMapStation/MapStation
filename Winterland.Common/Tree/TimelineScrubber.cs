@@ -45,7 +45,9 @@ class TimelineScrubber {
         var deltaTime = position - (float)director.time;
         // Rounding errors might happen? I'm not sure
         if(deltaTime <= 0) return;
-        director.playableGraph.Evaluate(deltaTime);
+        if(director.state == PlayState.Playing) {
+            director.playableGraph.Evaluate(deltaTime);
+        }
     }
 
     float getTimeForPercent(float percent) {

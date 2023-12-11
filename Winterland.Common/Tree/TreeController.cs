@@ -110,7 +110,7 @@ namespace Winterland.Common {
             return WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage;
         }
 
-        void ResetTo(float percentage) {
+        public void ResetTo(float percentage) {
             progress = percentage;
             isFastForwarding = true;
             activePhase?.Exit();
@@ -126,7 +126,7 @@ namespace Winterland.Common {
             isFastForwarding = false;
         }
 
-        void AdvanceTo(float percentage) {
+        public void AdvanceTo(float percentage) {
             progress = percentage;
             timeline.SetPercentComplete(percentage);
             while(nextPhase != null && nextPhase.StartAt <= percentage) {
