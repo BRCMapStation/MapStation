@@ -25,7 +25,7 @@ public class TreePart : MonoBehaviour, ITreePauseReason {
 
     public void Appear() {
         BeforeAppear();
-        if(!Application.isEditor && !state.isFastForwarding && StartAppearAnimation()) {
+        if(!Application.isEditor && !state.IsFastForwarding && StartAppearAnimation()) {
             // Wait for appearance animation
             state.ReasonsToBePaused.Add(this);
         } else {
@@ -38,7 +38,7 @@ public class TreePart : MonoBehaviour, ITreePauseReason {
     public void Disappear() {
         StopIdleAnimation();
         BeforeDisappear();
-        if(!Application.isEditor && !state.isFastForwarding && StartDisappearAnimation()) {
+        if(!Application.isEditor && !state.IsFastForwarding && StartDisappearAnimation()) {
             // Wait for disappearance animation
             state.ReasonsToBePaused.Add(this);
         } else {
@@ -68,17 +68,20 @@ public class TreePart : MonoBehaviour, ITreePauseReason {
         state.ReasonsToBePaused.Remove(this);
         waitingForAppearDirectorToFinish = false;
         waitingForDisappearDirectorToFinish = false;
-        animator?.StopPlayback();
-        animator?.SetBoolString("Appear", false);
-        animator?.SetBoolString("Idle", false);
-        animator?.SetBoolString("Disappear", false);
+        if(animator != null) {
+            animator.SetBoolString("Appear", false);
+            animator.SetBoolString("Idle", false);
+            animator.SetBoolString("Disappear", false);
+            animator.Rebind();
+            animator.Update(0f);
+        }
         gameObject.SetActive(false);
     }
 
     void BeforeAppear() {
         gameObject.SetActive(true);
         animator?.SetBoolString("Appear", true);
-        animator?.StartPlayback();
+        animator?.Update(0f);
     }
     bool StartAppearAnimation() {
         var shouldWait = false;
@@ -94,6 +97,7 @@ public class TreePart : MonoBehaviour, ITreePauseReason {
     }
     void StartIdleAnimation() {
         animator?.SetBoolString("Idle", true);
+        animator?.Update(0f);
         if(idleAnimationDirector != null) idleAnimationDirector.Play();
         foreach(var go in idleAnimationGameObjects) {
             go.SetActive(true);
@@ -107,6 +111,7 @@ public class TreePart : MonoBehaviour, ITreePauseReason {
     }
     void BeforeDisappear() {
         animator?.SetBoolString("Disappear", true);
+        animator?.Update(0f);
     }
     bool StartDisappearAnimation() {
         var shouldWait = false;

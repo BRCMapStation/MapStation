@@ -8,14 +8,15 @@ public class TreePhase : MonoBehaviour {
 
     public float StartAt;
 
-    public TreePart treePart;
+    public TreePart[] showTreeParts;
+    public TreePart[] hideTreeParts;
     public List<PlayableDirector> progressTimelines;
     private List<TimelineScrubber> scrubbers;
 
     [HideInInspector]
     public bool IsActivePhase;
 
-    void Awake() {
+    public void Init() {
         scrubbers = new();
         foreach(var timeline in progressTimelines) {
             scrubbers.Add(new TimelineScrubber(timeline));
@@ -34,13 +35,23 @@ public class TreePhase : MonoBehaviour {
     public void Enter() {
         IsActivePhase = true;
         UpdateScrubbers();
-        treePart.Appear();
+        foreach(var part in showTreeParts) {
+            part.Appear();
+        }
     }
 
     public void Exit() {
         IsActivePhase = false;
         UpdateScrubbers();
-        treePart.Disappear();
+        foreach(var part in hideTreeParts) {
+            part.Disappear();
+        }
+    }
+
+    public void ResetPhase() {
+        IsActivePhase = false;
+        Progress = 0;
+        UpdateScrubbers();
     }
 
     void UpdateScrubbers() {

@@ -7,12 +7,13 @@ using UnityEngine.Playables;
 class TimelineScrubber {
     PlayableDirector director;
     private bool started = false;
-    private float position = 0;
-
-    public float Position => position;
+    private float percent = 0;
 
     public TimelineScrubber(PlayableDirector director) {
         this.director = director;
+        if(director.timeUpdateMode != DirectorUpdateMode.Manual) {
+            Debug.LogError($"TimelineScrubber instantiated for a PlayableDirector that's not in manual mode: {director.gameObject.name}");
+        }
     }
 
     public void ResetTimeline() {
@@ -21,16 +22,16 @@ class TimelineScrubber {
         started = false;
     }
 
-    public void SetPercentComplete(float percent) {
-        var target = (float)director.duration * percent;
-        if(!started || target < position) {
+    public void SetPercentComplete(float newPercent) {
+        var target = newPercent;
+        if(!this.started || target < percent) {
             // Rewinding might break animations, so fully reset from the beginning.
-            started = true;
-            initializeTimelineToPosition(target);
+            this.started = true;
+            this.initializeTimelineToPosition(getTimeForPercent(target));
         } else {
-            advanceTimelineToPosition(target);
+            this.advanceTimelineToPosition(getTimeForPercent(target));
         }
-        position = target;
+        percent = target;
     }
 
     void initializeTimelineToPosition(float position) {
@@ -42,7 +43,12 @@ class TimelineScrubber {
 
     void advanceTimelineToPosition(float position) {
         var deltaTime = position - (float)director.time;
+        // Rounding errors might happen? I'm not sure
+        if(deltaTime <= 0) return;
         director.playableGraph.Evaluate(deltaTime);
-        Debug.Log($"{nameof(TimelineScrubber)} director time to {director.time}");
+    }
+
+    float getTimeForPercent(float percent) {
+        return (float)director.duration * percent;
     }
 }

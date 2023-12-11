@@ -16,7 +16,7 @@ namespace Winterland.Common {
         }
 
         private void OnDebugUI() {
-            GUILayout.Label("Tree state");
+            GUILayout.Label("Tree State");
             var t = TreeController.Instance;
             if(!t) {
                 GUILayout.Label("<tree does not exist>");
@@ -26,6 +26,24 @@ namespace Winterland.Common {
             foreach(var phase in t.treePhases) {
                 GUILayout.Label($"Phase {phase.gameObject.name} progress = {phase.Progress}");
             }
+            GUILayout.Label($"ReasonsToBePaused.Count = {t.ReasonsToBePaused.Count}");
+            foreach(var part in t.treeParts) {
+                if(part.animator != null) {
+                    GUILayout.Label($"Part {part.gameObject.name} animator params: {summarizeAnimatorParams(part.animator)}");
+                    // I tried to log animator state names, but apparently you can't do that easily?
+                    // GUILayout.Label($"{part.animator.GetCurrentAnimatorStateInfo(0).nameHash}->{part.animator.GetNextAnimatorStateInfo(0).nameHash}");
+                }
+            }
+        }
+        
+        private string summarizeAnimatorParams(Animator animator) {
+            var summary = "";
+            foreach(var p in animator.parameters) {
+                if(animator.GetBoolString(p.name)) {
+                    summary += $"{p.name},";
+                }
+            }
+            return summary.ToString().TrimEnd(',');
         }
     }
 }

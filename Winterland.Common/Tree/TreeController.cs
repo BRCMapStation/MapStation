@@ -20,7 +20,7 @@ namespace Winterland.Common {
         private float maxStepSize = 0.01f;
 
         [SerializeField]
-        private TreePart[] treeParts;
+        public TreePart[] treeParts;
         [SerializeField]
         public TreePhase[] treePhases;
 
@@ -29,7 +29,8 @@ namespace Winterland.Common {
         public TreePhase activePhase => activePhaseIndex >= 0 && activePhaseIndex < treePhases.Length ? treePhases[activePhaseIndex] : null;
         public TreePhase nextPhase => activePhaseIndex >= -1 && activePhaseIndex < treePhases.Length - 1 ? treePhases[activePhaseIndex + 1] : null;
 
-        public bool isFastForwarding {
+        private bool isFastForwarding;
+        public bool IsFastForwarding {
             get => isFastForwarding;
             private set {
                 isFastForwarding = value;
@@ -39,8 +40,10 @@ namespace Winterland.Common {
             }
         }
 
+        private float progress = 0;
+
         [HideInInspector]
-        public HashSet<ITreePauseReason> reasonsToBePaused = new ();
+        private HashSet<ITreePauseReason> reasonsToBePaused = new ();
         public HashSet<ITreePauseReason> ReasonsToBePaused => reasonsToBePaused;
 
         private TimelineScrubber timeline;
@@ -63,6 +66,7 @@ namespace Winterland.Common {
             }
             foreach(var treePhase in treePhases) {
                 treePhase.state = this;
+                treePhase.Init();
             }
 
             timeline = new TimelineScrubber(director);
@@ -92,9 +96,9 @@ namespace Winterland.Common {
             #endif
 
             if(reasonsToBePaused.Count == 0) {
-                var target = Math.Min(timeline.Position + maxStepSize, TargetProgress());
+                var target = Math.Min(progress + maxStepSize, TargetProgress());
                 // If rewinding, treat it like a fast-forward reset, skip animations
-                if(target < timeline.Position) {
+                if(target < progress) {
                     ResetTo(target);
                 } else {
                     AdvanceTo(target);
@@ -107,10 +111,14 @@ namespace Winterland.Common {
         }
 
         void ResetTo(float percentage) {
+            progress = percentage;
+            isFastForwarding = true;
             activePhase?.Exit();
             activePhaseIndex = -1;
-            isFastForwarding = true;
             timeline.ResetTimeline();
+            foreach(var phase in treePhases) {
+                phase.ResetPhase();
+            }
             foreach(var treePart in treeParts) {
                 treePart.ResetPart();
             }
@@ -119,9 +127,9 @@ namespace Winterland.Common {
         }
 
         void AdvanceTo(float percentage) {
+            progress = percentage;
             timeline.SetPercentComplete(percentage);
             while(nextPhase != null && nextPhase.StartAt <= percentage) {
-                Debug.Log("advancing to next phase");
                 if(activePhase != null) {
                     activePhase.Progress = 1;
                     activePhase.Exit();
@@ -129,7 +137,6 @@ namespace Winterland.Common {
                 activePhaseIndex++;
                 activePhase.Enter();
             }
-            Debug.Log("done checking for next phase");
             if(activePhase != null && nextPhase != null) {
                 var phaseProgress = (percentage - activePhase.StartAt) / (nextPhase.StartAt - activePhase.StartAt);
                 activePhase.Progress = phaseProgress;
@@ -138,8 +145,10 @@ namespace Winterland.Common {
 
 #if UNITY_EDITOR
 
+        [HideInInspector]    
         [SerializeField]
         public float unityEditorPlayButtonStart = 0;
+        [HideInInspector]    
         [SerializeField]
         public float unityEditorPlayButtonEnd = 0;
 

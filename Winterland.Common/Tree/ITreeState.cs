@@ -18,7 +18,7 @@ namespace Winterland.Common {
         /// When the tree is "fast-forwarding" animations are skipped.
         /// This avoids re-playing cutscenes when you load the game mid-event.
         /// </summary>        
-        public bool isFastForwarding { get; }
+        public bool IsFastForwarding { get; }
 
         public HashSet<ITreePauseReason> ReasonsToBePaused {get;}
     }
