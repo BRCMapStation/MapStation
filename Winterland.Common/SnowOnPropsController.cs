@@ -12,6 +12,8 @@ namespace Winterland.Common {
     /// </summary>
     public class SnowOnPropsController : MonoBehaviour {
         [SerializeField]
+        private Texture2D glassAtlas = null;
+        [SerializeField]
         private Material snowMaterial = null;
         [SerializeField]
         private float variation = 0.15f;
@@ -21,6 +23,18 @@ namespace Winterland.Common {
             var snowDetailProperty = Shader.PropertyToID("_SnowDetail");
             var defaultStrength = snowMaterial.GetFloat(strengthProperty);
             managedResources = new();
+
+            var renderers = FindObjectsOfType<Renderer>();
+
+            foreach(var renderer in renderers) {
+                if (renderer.sharedMaterial == null)
+                    continue;
+                var texture = renderer.sharedMaterial.mainTexture;
+                if (texture == null)
+                    continue;
+                if (texture.name == "GlassAtlasTex")
+                    renderer.sharedMaterial.mainTexture = glassAtlas;
+            }
 
             var cars = FindObjectsOfType<Car>();
             foreach(var car in cars) {
