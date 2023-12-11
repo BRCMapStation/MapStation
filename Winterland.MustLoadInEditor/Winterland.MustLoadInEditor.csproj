@@ -34,4 +34,9 @@
       <HintPath>$(ManagedPath)/Unity.Timeline.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <!-- Copy DLLs into Unity Editor project -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(TargetDir)\$(TargetFileName)&quot; &quot;$(ProjectDir)..\Winterland.Editor\Assets\Scripts&quot; /y" />
+  </Target>
 </Project>

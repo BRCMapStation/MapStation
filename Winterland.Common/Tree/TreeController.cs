@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -11,21 +11,63 @@ namespace Winterland.Common {
         public static TreeController Instance { get; private set; }
 
         [SerializeField]
-        private PlayableDirector director = null;
+        public PlayableDirector director = null;
 
         private const float MinTime = 0f;
-        public const float TimelineLength = 10;
+        [HideInInspector]
+        private float maxStepSpeed = 0.01f;
+        [HideInInspector]
+        private float maxStepSize = 0.01f;
 
-        private float timelinePosition;
+        [SerializeField]
+        private TreePart[] treeParts;
+        [SerializeField]
+        public TreePhase[] treePhases;
 
-        public bool isFastForwarding {get; private set;}
+        private int activePhaseIndex = -1;
 
-    [HideInInspector]
-        public HashSet<MonoBehaviour> reasonsToBePaused = new ();
+        public TreePhase activePhase => activePhaseIndex >= 0 && activePhaseIndex < treePhases.Length ? treePhases[activePhaseIndex] : null;
+        public TreePhase nextPhase => activePhaseIndex >= -1 && activePhaseIndex < treePhases.Length - 1 ? treePhases[activePhaseIndex + 1] : null;
+
+        public bool isFastForwarding {
+            get => isFastForwarding;
+            private set {
+                isFastForwarding = value;
+                foreach(var treePart in treeParts) {
+                    treePart.animator?.SetBoolString("IsFastForwarding", value);
+                }
+            }
+        }
+
+        [HideInInspector]
+        public HashSet<ITreePauseReason> reasonsToBePaused = new ();
+        public HashSet<ITreePauseReason> ReasonsToBePaused => reasonsToBePaused;
+
+        private TimelineScrubber timeline;
+
+        void OnValidate() {
+            treeParts = GetComponentsInChildren<TreePart>();
+            treePhases = GetComponentsInChildren<TreePhase>();
+            if(director == null) director = GetComponent<PlayableDirector>();
+#if UNITY_EDITOR
+            EditorOnValidate();
+#endif
+        }
 
         void Awake() {
             Instance = this;
+
+            foreach(var treePart in treeParts) {
+                treePart.state = this;
+                treePart.ResetPart();
+            }
+            foreach(var treePhase in treePhases) {
+                treePhase.state = this;
+            }
+
+            timeline = new TimelineScrubber(director);
         }
+
         void OnDestroy() {
             Instance = null;
         }
@@ -37,8 +79,8 @@ namespace Winterland.Common {
                 return;
             }
             #endif
-            timelinePosition = TargetTimelinePosition();
-            initializeTimelineToPosition(timelinePosition);
+
+            ResetTo(TargetProgress());
         }
 
         void Update() {
@@ -49,40 +91,52 @@ namespace Winterland.Common {
             }
             #endif
 
-            var target = TargetTimelinePosition();
-            if(target < timelinePosition) {
-                // Rewinding might break animations, so fully reset from the beginning.
-                initializeTimelineToPosition(target);
-            } else if(target > timelinePosition) {
-                advanceTimelineToPosition(target);
-            }
-            // advanceTimelineToPosition(target);
-            timelinePosition = target;
-        }
-
-        void initializeTimelineToPosition(float position) {
-            try {
-                isFastForwarding = true;
-                director.Stop();
-                director.Play();
-                director.playableGraph.Evaluate();
-                director.playableGraph.Evaluate(position);
-            } finally {
-                isFastForwarding = false;
+            if(reasonsToBePaused.Count == 0) {
+                var target = Math.Min(timeline.Position + maxStepSize, TargetProgress());
+                // If rewinding, treat it like a fast-forward reset, skip animations
+                if(target < timeline.Position) {
+                    ResetTo(target);
+                } else {
+                    AdvanceTo(target);
+                }
             }
         }
 
-        void advanceTimelineToPosition(float position) {
-            var deltaTime = position - (float)director.time;
-            director.playableGraph.Evaluate(deltaTime);
-            Debug.Log($"director time {director.time}");
+        float TargetProgress() {
+            return WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage;
         }
 
-        float TargetTimelinePosition() {
-            return WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage * TimelineLength;
+        void ResetTo(float percentage) {
+            activePhase?.Exit();
+            activePhaseIndex = -1;
+            isFastForwarding = true;
+            timeline.ResetTimeline();
+            foreach(var treePart in treeParts) {
+                treePart.ResetPart();
+            }
+            AdvanceTo(percentage);
+            isFastForwarding = false;
         }
 
-        #if UNITY_EDITOR
+        void AdvanceTo(float percentage) {
+            timeline.SetPercentComplete(percentage);
+            while(nextPhase != null && nextPhase.StartAt <= percentage) {
+                Debug.Log("advancing to next phase");
+                if(activePhase != null) {
+                    activePhase.Progress = 1;
+                    activePhase.Exit();
+                }
+                activePhaseIndex++;
+                activePhase.Enter();
+            }
+            Debug.Log("done checking for next phase");
+            if(activePhase != null && nextPhase != null) {
+                var phaseProgress = (percentage - activePhase.StartAt) / (nextPhase.StartAt - activePhase.StartAt);
+                activePhase.Progress = phaseProgress;
+            }
+        }
+
+#if UNITY_EDITOR
 
         [SerializeField]
         public float unityEditorPlayButtonStart = 0;
@@ -91,8 +145,7 @@ namespace Winterland.Common {
 
         private bool unityEditorDidFirstUpdate = false;
 
-        void OnValidate() {
-            if(director == null) director = GetComponent<PlayableDirector>();
+        void EditorOnValidate() {
             if(unityEditorPlayButtonStart < MinTime) {
                 unityEditorPlayButtonStart = MinTime;
             }
@@ -102,17 +155,19 @@ namespace Winterland.Common {
         }
 
         void EditorOnEnable() {
-            initializeTimelineToPosition(unityEditorPlayButtonStart * TimelineLength);
+            isFastForwarding = true;
+            timeline.SetPercentComplete(unityEditorPlayButtonStart);
+            isFastForwarding = false;
         }
 
         void EditorUpdate() {
             if(!unityEditorDidFirstUpdate) {
                 unityEditorDidFirstUpdate = true;
-                advanceTimelineToPosition(unityEditorPlayButtonEnd * TimelineLength);
+                timeline.SetPercentComplete(unityEditorPlayButtonEnd);
             }
         }
 
-        #endif
+#endif
 
     }
 }
