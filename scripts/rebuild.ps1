@@ -15,6 +15,12 @@ git checkout $metaPath
 $metaPath = ".\Winterland.Editor\Assets\Scripts\CommonAPI.dll.meta"
 git checkout $metaPath
 
+$metaPath = ".\Winterland.Editor\Assets\Scripts\SlopCrew.API.dll.meta"
+git checkout $metaPath
+
+$metaPath = ".\Winterland.Editor\Assets\Scripts\Winterland.MustLoadInEditor.dll.meta"
+git checkout $metaPath
+
 Write-Output "====== Building Assemblies ======="
 
 dotnet build
