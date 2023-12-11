@@ -31,7 +31,6 @@ namespace Winterland.Common {
                     globalProgress.SetTreeConstructionPercentage(progressSlider);
                 }
                 if(GUILayout.Button("Animate Tree")) {
-                    t.AdvanceTo(progressSlider);
                     globalProgress.SetTreeConstructionPercentage(progressSlider);
                 }
             }
