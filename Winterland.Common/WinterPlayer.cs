@@ -133,11 +133,10 @@ namespace Winterland.Common {
             return false;
         }
 
-        // TODO: Just drops the line, doesn't actually finish it atm.
         public void FinishCurrentToyLine() {
             if (CurrentToyLine == null)
                 return;
-            CurrentToyLine.Respawn();
+            CurrentToyLine.Collect();
             CurrentToyLine = null;
             if (WinterUI.Instance != null && Local) {
                 var toyLineUI = WinterUI.Instance.ToyLineUI;

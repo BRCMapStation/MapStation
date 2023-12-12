@@ -10,9 +10,12 @@ namespace Winterland.Common {
     /// </summary>
     public interface ILocalProgress {
         public WinterObjective Objective { get; set; }
+        public int Gifts { get; set; }
         public void Save();
         public void Load();
         public void SetNPCDirty(CustomNPC npc);
         public SerializedNPC GetNPCProgress(CustomNPC npc);
+        public void SetToyLineCollected(Guid guid, bool collected);
+        public bool IsToyLineCollected(Guid guid);
     }
 }

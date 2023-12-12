@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BepInEx;
 using UnityEngine;
 using CommonAPI;
+using UnityEngine.XR.WSA;
 
 namespace Winterland.Common {
     /// <summary>
@@ -14,13 +15,16 @@ namespace Winterland.Common {
     /// </summary>
     public class LocalProgress : ILocalProgress {
         public WinterObjective Objective { get; set; }
-        private const byte Version = 1;
+        public int Gifts { get; set; } = 0;
+        private const byte Version = 2;
         private string savePath;
         private Dictionary<Guid, SerializedNPC> npcs;
+        private HashSet<Guid> collectedToyLines;
 
         // Default values for a blank save!
         public LocalProgress() {
             npcs = new();
+            collectedToyLines = new();
             Objective = ObjectiveDatabase.StartingObjective;
             savePath = Path.Combine(Paths.ConfigPath, "MilleniumWinterland/localprogress.mwp");
         }
@@ -37,6 +41,17 @@ namespace Winterland.Common {
 
         public void SetNPCDirty(CustomNPC npc) {
             npcs[npc.GUID] = new SerializedNPC(npc);
+        }
+
+        public void SetToyLineCollected(Guid guid, bool collected) {
+            if (collected)
+                collectedToyLines.Add(guid);
+            else
+                collectedToyLines.Remove(guid);
+        }
+
+        public bool IsToyLineCollected(Guid guid) {
+            return collectedToyLines.Contains(guid);
         }
 
         public SerializedNPC GetNPCProgress(CustomNPC npc) {
@@ -70,6 +85,11 @@ namespace Winterland.Common {
             foreach(var npc in npcs.Values) {
                 npc.Write(writer);
             }
+            writer.Write(Gifts);
+            writer.Write(collectedToyLines.Count);
+            foreach(var toyLine in collectedToyLines) {
+                writer.Write(toyLine.ToString());
+            }
         }
 
         private void Read(BinaryReader reader) {
@@ -92,6 +112,14 @@ namespace Winterland.Common {
                     if (npc.GUID != Guid.Empty) {
                         npcs[npc.GUID] = npc;
                     }
+                }
+            }
+            if (version > 1) {
+                Gifts = reader.ReadInt32();
+                var collectedToyLineCount = reader.ReadInt32();
+                for(var i = 0; i < collectedToyLineCount; i++) {
+                    var toyLineGUID = Guid.Parse(reader.ReadString());
+                    SetToyLineCollected(toyLineGUID, true);
                 }
             }
         }

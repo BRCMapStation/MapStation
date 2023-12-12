@@ -18,7 +18,7 @@ namespace Winterland.Common {
         public AudioClip EnterToyMachineAudioClip = null;
         public AudioClip SuccessAudioClip = null;
         public AudioClip FailureAudioClip = null;
-        // TODO: Sounds, polish and all.
+
         public void FinishToyLine() {
             var player = WorldHandler.instance.GetCurrentPlayer();
             var winterPlayer = WinterPlayer.Get(player);

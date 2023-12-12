@@ -7,7 +7,7 @@ using Winterland.Common;
 namespace Winterland.Common {
     public class DebugUI : MonoBehaviour {
         private const int Width = 400;
-        private const int Height = 800;
+        private const int Height = 1200;
 
         public static DebugUI Instance {get; private set;}
 

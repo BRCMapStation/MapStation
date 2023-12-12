@@ -18,7 +18,9 @@ namespace Winterland.Plugin
 
         public static WinterManager Create() {
             var gameObject = new GameObject("Winter Manager");
-            return gameObject.AddComponent<WinterManager>();
+            var winterManager = gameObject.AddComponent<WinterManager>();
+            gameObject.AddComponent<ToyLineManager>();
+            return winterManager;
         }
 
         public void SetupStage(Stage stage) {

@@ -36,7 +36,9 @@ namespace Winterland.Common {
                         return false;
                     break;
                 case Condition.CollectedAllToyLines:
-                    return false;
+                    if (!ToyLineManager.Instance.GetCollectedAllToyLines())
+                        return false;
+                    break;
             }
             if (RequiredObjective != null) {
                 if (WinterProgress.Instance.LocalProgress.Objective.name != RequiredObjective.name)
