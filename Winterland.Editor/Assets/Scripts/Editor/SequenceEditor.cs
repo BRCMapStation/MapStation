@@ -40,7 +40,7 @@ public class SequenceEditor : Editor {
                 var action = actions[i];
                 var actionName = $"{action.GetType().Name} - Action #{i}";
                 if (!string.IsNullOrEmpty(action.Name))
-                    actionName = $"{action.Name} - Action #{i}";
+                    actionName = $"{action.Name} - Action #{i} ({action.GetType().Name})";
                 GUILayout.BeginVertical(actionName, "window");
                 if (!cachedEditors.TryGetValue(action, out var editor)) {
                     editor = CreateEditor(action);
