@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using Reptile;
 using UnityEngine;
@@ -19,9 +20,15 @@ namespace Winterland.Common {
             DontDestroyOnLoad(gameObject);
         }
 
-        public Action OnDebugUI;
+        private List<DebugMenu> debugMenus = [];
 
         private bool show = true;
+        private DebugMenu currentDebugMenu = null;
+
+        public void RegisterMenu(string name, Action onDebugUI) {
+            var menu = new DebugMenu() { Name = name, OnGUI = onDebugUI };
+            debugMenus.Add(menu);
+        }
 
         private void OnGUI () {
             Cursor.visible = true;
@@ -34,12 +41,27 @@ namespace Winterland.Common {
                     show = !show;
                 }
                 if(show) {
-                    OnDebugUI?.Invoke();
+                    if (currentDebugMenu != null) {
+                        if (GUILayout.Button("Back")) {
+                            currentDebugMenu = null;
+                        }
+                        currentDebugMenu.OnGUI.Invoke();
+                    } else {
+                        foreach (var debugMenu in debugMenus) {
+                            if (GUILayout.Button(debugMenu.Name))
+                                currentDebugMenu = debugMenu;
+                        }
+                    }
                 }
             } finally {
                 GUILayout.EndVertical();
                 GUILayout.EndArea();
             }
+        }
+
+        private class DebugMenu {
+            public string Name;
+            public Action OnGUI;
         }
     }
 }

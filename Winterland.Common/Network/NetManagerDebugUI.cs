@@ -14,7 +14,7 @@ namespace Winterland.Common {
         }
 
         void Awake() {
-            DebugUI.Instance.OnDebugUI += OnDebugUI;
+            DebugUI.Instance.RegisterMenu("Net Manager", OnDebugUI);
         }
 
         private void OnDebugUI() {

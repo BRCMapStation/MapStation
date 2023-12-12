@@ -14,7 +14,7 @@ namespace Winterland.Common {
         private float progressSlider;
 
         void Awake() {
-            DebugUI.Instance.OnDebugUI += OnDebugUI;
+            DebugUI.Instance.RegisterMenu("Tree", OnDebugUI);
         }
 
         private void OnDebugUI() {

@@ -17,7 +17,7 @@ namespace Winterland.Common {
             DontDestroyOnLoad(gameObject);
         }
         void Awake() {
-            DebugUI.Instance.OnDebugUI += OnDebugUI;
+            DebugUI.Instance.RegisterMenu("Local Progress", OnDebugUI);
         }
         private void OnDebugUI() {
             var localProgress = WinterProgress.Instance.LocalProgress;
