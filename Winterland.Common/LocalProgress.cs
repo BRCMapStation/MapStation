@@ -15,16 +15,21 @@ namespace Winterland.Common {
     /// </summary>
     public class LocalProgress : ILocalProgress {
         public WinterObjective Objective { get; set; }
-        public int Gifts { get; set; } = 0;
+        public int Gifts { get; set; }
         private const byte Version = 2;
         private string savePath;
         private Dictionary<Guid, SerializedNPC> npcs;
         private HashSet<Guid> collectedToyLines;
 
-        // Default values for a blank save!
         public LocalProgress() {
+            InitializeNew();
+        }
+
+        // Default values for a blank save!
+        public void InitializeNew() {
             npcs = new();
             collectedToyLines = new();
+            Gifts = 0;
             Objective = ObjectiveDatabase.StartingObjective;
             savePath = Path.Combine(Paths.ConfigPath, "MilleniumWinterland/localprogress.mwp");
         }

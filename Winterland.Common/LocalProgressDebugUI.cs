@@ -27,11 +27,23 @@ namespace Winterland.Common {
                 GUILayout.Label($"Using {localProgress.GetType().Name}");
                 GUILayout.Label($"[ILocalProgress] Gifts wrapped: {localProgress.Gifts}");
                 GUILayout.Label($"[ILocalProgress] Current objective: {localProgress.Objective.name}");
+                if (GUILayout.Button("Reset Progress")) {
+                    localProgress.InitializeNew();
+                    localProgress.Save();
+                }
             }
             if (toyLineManager != null) {
                 GUILayout.Label("Toy Line Manager");
-                GUILayout.Label($"[ToyLineManager] Collected all Toy Lines: {ToyLineManager.Instance.GetCollectedAllToyLines()}");
-                GUILayout.Label($"[ToyLineManager] Toy Lines in this stage: {ToyLineManager.Instance.ToyLines.Count}");
+                GUILayout.Label($"[ToyLineManager] Collected all Toy Lines: {toyLineManager.GetCollectedAllToyLines()}");
+                GUILayout.Label($"[ToyLineManager] Toy Lines in this stage: {toyLineManager.ToyLines.Count}");
+                if (GUILayout.Button("Respawn Toy Lines")) {
+                    toyLineManager.RespawnAllToyLines();
+                }
+                if (GUILayout.Button("Collect all Toy Lines")) {
+                    foreach(var toyLine in toyLineManager.ToyLines) {
+                        toyLine.Collect();
+                    }
+                }
             }
             
         }
