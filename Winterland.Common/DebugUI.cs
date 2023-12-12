@@ -44,8 +44,9 @@ namespace Winterland.Common {
                     if (currentDebugMenu != null) {
                         if (GUILayout.Button("Back")) {
                             currentDebugMenu = null;
+                        } else {
+                            currentDebugMenu.OnGUI.Invoke();
                         }
-                        currentDebugMenu.OnGUI.Invoke();
                     } else {
                         foreach (var debugMenu in debugMenus) {
                             if (GUILayout.Button(debugMenu.Name))
