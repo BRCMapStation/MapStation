@@ -35,12 +35,8 @@ class TreePauseTrigger : MonoBehaviour, ITreePauseReason {
     }
 
     void OnTriggerStay(Collider other) {
-        // See also: player detection logic in CommonAPI.CustomInteractable.CheckForInteraction
-        var player = other.GetComponentInChildren<Player>();
-        if (!player)
-                player = other.GetComponentInParent<Player>();
+        var player = PlayerCollisionUtility.GetPlayer(other);
         if(player == null) return;
-        if(player.isAI) return;
         touchedPlayerThisFrame = true;
     }
 }
