@@ -3213,7 +3213,7 @@ PlayableDirector:
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: -6514738395765135993, guid: 115160ab2dd313d4fbad115e2d012aca, type: 2}
-    value: {fileID: 2781877213598439882}
+    value: {fileID: 542311138410310805}
   - key: {fileID: -1248200493085671825, guid: 115160ab2dd313d4fbad115e2d012aca, type: 2}
     value: {fileID: 7490182246158579837}
   m_ExposedReferences:
@@ -8169,6 +8169,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4164852870211735550, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -3309566171981233220, guid: 11464f01fd12f8142aa55076ac542b8f, type: 3}
+    - target: {fileID: -4164852870211735550, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
       propertyPath: m_Quality
       value: 0
       objectReference: {fileID: 0}
@@ -8183,7 +8187,7 @@ PrefabInstance:
     - target: {fileID: -4164852870211735550, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 071680e7128cc784ab1335be58219207, type: 2}
+      objectReference: {fileID: 2100000, guid: 31c30f0c10bab6c41808483dfca20886, type: 2}
     - target: {fileID: 919132149155446097, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
       propertyPath: m_Name
       value: LVModel (9)
@@ -8209,7 +8213,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3077067189286635544}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
+  m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 8dcc1ae7fd28c964b96bc3f492ded543, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -9062,13 +9066,17 @@ PrefabInstance:
       value: 0.030447682
       objectReference: {fileID: 0}
     - target: {fileID: -4164852870211735550, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -3309566171981233220, guid: 11464f01fd12f8142aa55076ac542b8f, type: 3}
+    - target: {fileID: -4164852870211735550, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4164852870211735550, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: 31c30f0c10bab6c41808483dfca20886, type: 2}
     - target: {fileID: -4080682194562628838, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.023625e-11
@@ -9816,13 +9824,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
---- !u!95 &2781877213598439882 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
-  m_PrefabInstance: {fileID: 8642868654344070235}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8105100828109702064 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
   m_PrefabInstance: {fileID: 8642868654344070235}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8876817989811591434 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fe99772916dff644585559c5b83b7eb4, type: 3}
+  m_PrefabInstance: {fileID: 8642868654344070235}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &542311138410310805
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8876817989811591434}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
