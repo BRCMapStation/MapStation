@@ -16,7 +16,7 @@ namespace Winterland.Common {
         bool visible = WinterConfig.Instance.ShowRedDebugShapesValue;
 
         void Awake() {
-            DebugUI.Instance.OnDebugUI += OnDebugUI;
+            DebugUI.Instance.RegisterMenu("Debug Shapes", OnDebugUI);
         }
 
         private void OnDebugUI() {
