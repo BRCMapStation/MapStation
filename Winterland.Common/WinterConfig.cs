@@ -18,6 +18,7 @@ namespace Winterland.Common {
         public bool ResetLocalSaveValue => false;
         public bool MockGlobalProgressLocallyValue => false;
         public float MockGlobalProgressStartTreeAtValue => 0;
+        public bool ShowRedDebugShapesValue => false;
 #else
         public ConfigEntry<bool> QuickLaunch;
         public ConfigEntry<bool> DisableKBMInput;
@@ -25,6 +26,7 @@ namespace Winterland.Common {
         public ConfigEntry<bool> ResetLocalSave;
         public ConfigEntry<bool> MockGlobalProgressLocally;
         public ConfigEntry<float> MockGlobalProgressStartTreeAt;
+        public ConfigEntry<bool> ShowRedDebugShapes;
 
         public bool QuickLaunchValue => QuickLaunch.Value;
         public bool DisableKBMInputValue => DisableKBMInput.Value;
@@ -32,6 +34,7 @@ namespace Winterland.Common {
         public bool ResetLocalSaveValue => ResetLocalSave.Value;
         public bool MockGlobalProgressLocallyValue => MockGlobalProgressLocally.Value;
         public float MockGlobalProgressStartTreeAtValue => MockGlobalProgressStartTreeAt.Value;
+        public bool ShowRedDebugShapesValue => ShowRedDebugShapes.Value;
 #endif
 #endif
 
@@ -75,6 +78,12 @@ namespace Winterland.Common {
                 "MockGlobalProgressStartTreeAt",
                 0f,
                 "When MockGlobalProgressLocally is true, start the tree at this percentage construction. (a number between 0 and 1)"
+            );
+            ShowRedDebugShapes = file.Bind(
+                "Development",
+                "ShowRedDebugShapes",
+                true,
+                "Show the semi-transparent red meshes from Unity Editor along grind lines, etc."
             );
 #endif
         }

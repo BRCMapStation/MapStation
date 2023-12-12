@@ -16,6 +16,8 @@ namespace Winterland.Plugin
     public class WinterManager : MonoBehaviour {
         public static WinterManager Instance { get; private set; }
 
+        public GameObject stageAdditions;
+
         public static WinterManager Create() {
             var gameObject = new GameObject("Winter Manager");
             var winterManager = gameObject.AddComponent<WinterManager>();
@@ -27,10 +29,13 @@ namespace Winterland.Plugin
             var stagePrefab = WinterAssets.Instance.GetPrefabForStage(stage);
             if (stagePrefab == null)
                 return;
-            var stageAdditions = GameObject.Instantiate(stagePrefab);
+            stageAdditions = GameObject.Instantiate(stagePrefab);
             var stageObjects = stageAdditions.GetComponentsInChildren<StageObject>(true);
             foreach(var stageObject in stageObjects) {
                 stageObject.PutInChunk();
+            }
+            if(!WinterConfig.Instance.ShowRedDebugShapesValue) {
+                DebugShapeUtility.SetDebugShapesVisibility(stageAdditions, false);
             }
             Doctor.AnalyzeAndLog(stageAdditions);
         }

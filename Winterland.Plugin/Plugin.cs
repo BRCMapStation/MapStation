@@ -45,6 +45,7 @@ namespace Winterland.Plugin
             NetManagerDebugUI.Create();
             TreeDebugUI.Create();
             LocalProgressDebugUI.Create();
+            DebugShapeDebugUI.Create();
             new WinterProgress();
 
             Log = Logger;
