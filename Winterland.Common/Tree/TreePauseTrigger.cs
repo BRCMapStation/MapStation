@@ -8,6 +8,7 @@ namespace Winterland.Common;
 /// Tree construction will resume when the player has left the trigger, preventing tree construction
 /// from glitching player into the ground.
 /// </summary>
+[SelectionBase]
 class TreePauseTrigger : MonoBehaviour, ITreePauseReason {
     ITreeState state;
 

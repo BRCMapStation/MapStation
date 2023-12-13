@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Winterland.Common;
 
+[SelectionBase]
 class WinterTrampoline : MonoBehaviour {
 
     public float Power;
