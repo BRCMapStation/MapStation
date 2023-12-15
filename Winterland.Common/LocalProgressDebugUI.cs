@@ -26,6 +26,7 @@ namespace Winterland.Common {
                 GUILayout.Label("Local Progress");
                 GUILayout.Label($"Using {localProgress.GetType().Name}");
                 GUILayout.Label($"[ILocalProgress] Gifts wrapped: {localProgress.Gifts}");
+                GUILayout.Label($"[ILocalProgress] Faux head juggle high score: {localProgress.FauxJuggleHighScore}");
                 GUILayout.Label($"[ILocalProgress] Current objective: {localProgress.Objective.name}");
                 if (GUILayout.Button("Reset Progress")) {
                     localProgress.InitializeNew();

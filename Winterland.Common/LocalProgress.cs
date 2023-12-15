@@ -16,7 +16,8 @@ namespace Winterland.Common {
     public class LocalProgress : ILocalProgress {
         public WinterObjective Objective { get; set; }
         public int Gifts { get; set; }
-        private const byte Version = 2;
+        public int FauxJuggleHighScore { get; set; }
+        private const byte Version = 3;
         private string savePath;
         private Dictionary<Guid, SerializedNPC> npcs;
         private HashSet<Guid> collectedToyLines;
@@ -30,6 +31,7 @@ namespace Winterland.Common {
             npcs = new();
             collectedToyLines = new();
             Gifts = 0;
+            FauxJuggleHighScore = 0;
             Objective = ObjectiveDatabase.StartingObjective;
             savePath = Path.Combine(Paths.ConfigPath, "MilleniumWinterland/localprogress.mwp");
         }
@@ -95,6 +97,7 @@ namespace Winterland.Common {
             foreach(var toyLine in collectedToyLines) {
                 writer.Write(toyLine.ToString());
             }
+            writer.Write(FauxJuggleHighScore);
         }
 
         private void Read(BinaryReader reader) {
@@ -126,6 +129,9 @@ namespace Winterland.Common {
                     var toyLineGUID = Guid.Parse(reader.ReadString());
                     SetToyLineCollected(toyLineGUID, true);
                 }
+            }
+            if (version > 2) {
+                FauxJuggleHighScore = reader.ReadInt32();
             }
         }
     }

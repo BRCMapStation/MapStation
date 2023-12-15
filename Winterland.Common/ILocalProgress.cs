@@ -11,6 +11,7 @@ namespace Winterland.Common {
     public interface ILocalProgress {
         public WinterObjective Objective { get; set; }
         public int Gifts { get; set; }
+        public int FauxJuggleHighScore { get; set; }
         public void InitializeNew();
         public void Save();
         public void Load();
