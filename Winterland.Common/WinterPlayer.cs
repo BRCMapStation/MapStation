@@ -122,6 +122,8 @@ namespace Winterland.Common {
         
 
         public bool IsOnLevelGround() {
+            if (player.ability is WallrunLineAbility || player.ability is GrindAbility || player.ability is HandplantAbility)
+                return false;
             if (player.IsOnNonStableGround())
                 return false;
             if (player.motor.groundRigidbody != null)
