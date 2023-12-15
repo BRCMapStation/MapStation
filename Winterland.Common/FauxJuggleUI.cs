@@ -38,16 +38,15 @@ namespace Winterland.Common {
         private float highScoreLabelDisplayDuration = 2f;
 
         private float highScoreLabelDefaultSize = 0f;
-        private Color counterLabelOriginalColor;
+        private float counterLabelDefaultSize = 0f;
 
         private void Awake() {
             Visible = false;
             highScoreLabelDefaultSize = highScoreLabel.fontSize;
-            counterLabelOriginalColor = counterLabel.color;
+            counterLabelDefaultSize = counterLabel.fontSize;
         }
 
         public void EndJuggle() {
-            counterLabel.color = counterLabelOriginalColor;
             StopAllCoroutines();
             var progress = WinterProgress.Instance.LocalProgress;
             if (CurrentJuggleAmount > progress.FauxJuggleHighScore) {
@@ -55,24 +54,23 @@ namespace Winterland.Common {
                 progress.Save();
                 UpdateHighScoreLabelNew();
                 StartCoroutine(PlayHighScoreAnimation());
-                StartCoroutine(PlayDisableUIAnimation());
-            } else
-                StartCoroutine(PlayDisableUIAnimation());
+            }
+            StartCoroutine(PlayCounterAnimation());
+            StartCoroutine(PlayDisableUIAnimation());
             CurrentJuggleAmount = 0;
         }
 
         private void UpdateHighScoreLabel() {
             var progress = WinterProgress.Instance.LocalProgress;
-            highScoreLabel.text = $"High score: <color=white>{progress.FauxJuggleHighScore}</color>";
+            highScoreLabel.text = $"High score: {progress.FauxJuggleHighScore}";
         }
 
         private void UpdateHighScoreLabelNew() {
             var progress = WinterProgress.Instance.LocalProgress;
-            highScoreLabel.text = $"High score: <color=white>{progress.FauxJuggleHighScore}</color> (NEW!)";
+            highScoreLabel.text = $"High score: {progress.FauxJuggleHighScore}(NEW!)";
         }
 
         public void UpdateCounter(int number) {
-            counterLabel.color = Color.white;
             StopAllCoroutines();
             Visible = true;
             UpdateHighScoreLabel();
@@ -93,6 +91,17 @@ namespace Winterland.Common {
                 animationTimer += Core.dt;
                 var function = animationCurve.Evaluate(Mathf.Min(1f, animationTimer / highScoreLabelAnimationDuration));
                 highScoreLabel.fontSize = highScoreLabelDefaultSize + (highScoreLabelGrowSize * function);
+                yield return null;
+            }
+        }
+        
+        private IEnumerator PlayCounterAnimation() {
+            var animationTimer = 0f;
+            var animationCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+            while (animationTimer < highScoreLabelDisplayDuration) {
+                animationTimer += Core.dt;
+                var function = animationCurve.Evaluate(Mathf.Min(1f, animationTimer / highScoreLabelAnimationDuration));
+                counterLabel.fontSize = counterLabelDefaultSize + (highScoreLabelGrowSize * function);
                 yield return null;
             }
         }

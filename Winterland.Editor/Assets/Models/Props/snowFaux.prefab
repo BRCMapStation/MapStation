@@ -321,6 +321,23 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 736143414208782484, guid: f18c2e7a46f06304885fa464926c5023, type: 3}
+--- !u!114 &1397625664954515797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8194136210636028999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1311921049, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 10486801
+  groundRayLength: 0.1
+  kickCooldownInSeconds: 0.25
 --- !u!114 &3221713274302972618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,23 +411,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkName: 
---- !u!114 &1397625664954515797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8194136210636028999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1311921049, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 10486801
-  groundRayLength: 0.1
-  kickCooldownInSeconds: 0.5
 --- !u!1 &8251758041114449433 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2970703642241341057, guid: f18c2e7a46f06304885fa464926c5023, type: 3}
