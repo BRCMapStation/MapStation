@@ -8,6 +8,8 @@ namespace Winterland.Common {
     public class RespawnToyLinesSequenceAction : SequenceAction {
         public override void Run(bool immediate) {
             base.Run(immediate);
+            var giftCollectPacket = new ClientCollectGiftPacket();
+            NetManager.Instance.SendPacket(giftCollectPacket);
             var progress = WinterProgress.Instance.LocalProgress;
             ToyLineManager.Instance.RespawnAllToyLines();
             progress.Gifts++;

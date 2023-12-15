@@ -10,6 +10,12 @@ using UnityEngine.UI;
 namespace Winterland.Common {
     public class FauxHead : MonoBehaviour {
         [SerializeField]
+        private float timeIdleToConsiderGrounded = 0.2f;
+        [SerializeField]
+        private float maximumDistanceTravelledToConsiderGrounded = 0.05f;
+        private Vector3 lastMovedPosition = Vector3.zero;
+        private float currentTimeIdle = 0f;
+        [SerializeField]
         private LayerMask groundMask;
         [SerializeField]
         private float groundRayLength = 0.5f;
@@ -22,6 +28,7 @@ namespace Winterland.Common {
 
         private void Awake() {
             body = GetComponent<Rigidbody>();
+            lastMovedPosition = transform.position;
         }
 
         private void OnTriggerStay(Collider other) {
@@ -41,6 +48,7 @@ namespace Winterland.Common {
                 return;
             currentKickCooldown = kickCooldownInSeconds;
             currentJuggles++;
+            currentTimeIdle = 0f;
             if (currentJuggles >= 2)
                 fauxJuggleUI.UpdateCounter(currentJuggles);
         }
@@ -60,6 +68,20 @@ namespace Winterland.Common {
                     onGround = false;
             } else
                 onGround = false;
+
+            if (onGround)
+                currentTimeIdle = 0f;
+
+            var positionDelta = (transform.position - lastMovedPosition).sqrMagnitude;
+            if (positionDelta > maximumDistanceTravelledToConsiderGrounded) {
+                currentTimeIdle = 0f;
+                lastMovedPosition = transform.position;
+            }
+            else {
+                currentTimeIdle += Core.dt;
+                if (currentTimeIdle > timeIdleToConsiderGrounded)
+                    onGround = true;
+            }
 
             if (onGround) {
                 currentJuggles = 0;

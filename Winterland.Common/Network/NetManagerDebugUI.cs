@@ -20,9 +20,9 @@ namespace Winterland.Common {
         private void OnDebugUI() {
             GUILayout.Label("Progress is measured from 0 to 1, a decimal / float");
             GUILayout.Label($"Using {WinterProgress.Instance.GlobalProgress.GetType().Name}");
-            GUILayout.Label($"Current {nameof(EventProgressPacket.TreeConstructionPercentage)} = {WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage}");
+            GUILayout.Label($"Current {nameof(ServerEventProgressPacket.TreeConstructionPercentage)} = {WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage}");
             GUILayout.BeginHorizontal();
-            GUILayout.Label(nameof(EventProgressPacket.TreeConstructionPercentage));
+            GUILayout.Label(nameof(ServerEventProgressPacket.TreeConstructionPercentage));
             treeConstructionPercentageSlider = GUILayout.HorizontalSlider(treeConstructionPercentageSlider, 0, 1);
             GUILayout.EndHorizontal();
             GUILayout.Label($"{treeConstructionPercentageSlider}");
@@ -40,8 +40,8 @@ namespace Winterland.Common {
             }
         }
 
-        private EventProgressPacket createEventProgressPacket() {
-            return new EventProgressPacket {
+        private ServerEventProgressPacket createEventProgressPacket() {
+            return new ServerEventProgressPacket {
                 PlayerID = 0,
                 TreeConstructionPercentage = treeConstructionPercentageSlider
             };

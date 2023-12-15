@@ -7,10 +7,14 @@ namespace Winterland.Common {
     public class PacketFactory {
         public static Packet CreateBlankFromId(string id) {
             switch(id) {
-                case PlayerCollectGiftsPacket.PacketId:
-                    return new PlayerCollectGiftsPacket();
-                case EventProgressPacket.PacketId:
-                    return new EventProgressPacket();
+                case ServerAcceptGiftPacket.PacketId:
+                    return new ServerAcceptGiftPacket();
+                case ServerRejectGiftPacket.PacketId:
+                    return new ServerRejectGiftPacket();
+                case ClientCollectGiftPacket.PacketId:
+                    return new ClientCollectGiftPacket();
+                case ServerEventProgressPacket.PacketId:
+                    return new ServerEventProgressPacket();
                 default:
                     return null;
             }
@@ -74,32 +78,52 @@ namespace Winterland.Common {
     }
 
     [Serializable]
-    public class PlayerCollectGiftsPacket : Packet {
-        public const string PacketId = "b5874188-d86c-4780-8091-fe24c197ef70";
-        public override string GetPacketId() { return PlayerCollectGiftsPacket.PacketId; }
+    public class ClientCollectGiftPacket : Packet {
+        public const string PacketId = "Xmas-Client-CollectGift";
+        public override string GetPacketId() { return ClientCollectGiftPacket.PacketId; }
         protected override uint LatestVersion => 1;
 
-        public int giftsDepositedCount;
-
         protected override void Write(BinaryWriter writer) {
-            writer.Write((UInt16)giftsDepositedCount);
+
         }
+
         protected override void Read(BinaryReader reader) {
-            switch(Version) {
-                case 1:
-                    giftsDepositedCount = reader.ReadUInt16();
-                    break;
-                default:
-                    UnexpectedVersion();
-                    break;
-            }
+
         }
     }
 
     [Serializable]
-    public class EventProgressPacket : Packet {
-        public const string PacketId = "d5ca0185-8444-40de-97aa-32b282daad4f";
-        public override string GetPacketId() { return EventProgressPacket.PacketId; }
+    public class ServerAcceptGiftPacket : Packet {
+        public const string PacketId = "Xmas-Server-AcceptGift";
+        public override string GetPacketId() { return ServerAcceptGiftPacket.PacketId; }
+        protected override uint LatestVersion => 1;
+        protected override void Write(BinaryWriter writer) {
+
+        }
+
+        protected override void Read(BinaryReader reader) {
+
+        }
+    }
+
+    [Serializable]
+    public class ServerRejectGiftPacket : Packet {
+        public const string PacketId = "Xmas-Server-RejectGift";
+        public override string GetPacketId() { return ServerRejectGiftPacket.PacketId; }
+        protected override uint LatestVersion => 1;
+        protected override void Write(BinaryWriter writer) {
+
+        }
+
+        protected override void Read(BinaryReader reader) {
+
+        }
+    }
+
+    [Serializable]
+    public class ServerEventProgressPacket : Packet {
+        public const string PacketId = "Xmas-Server-EventProgress";
+        public override string GetPacketId() { return ServerEventProgressPacket.PacketId; }
         protected override uint LatestVersion => 1;
 
         // float from 0 to 1, 1 == completed tree

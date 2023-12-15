@@ -44,6 +44,7 @@ namespace Winterland.Common {
         }
 
         public void onSlopCrewPacketReceived(uint player, string id, byte[] data) {
+            Debug.Log($"Received packet id {id} from player {player}. Data length is {data.Length}");
             Packet packet = PacketFactory.CreateBlankFromId(id);
             if (packet != null) {
                 packet.PlayerID = player;
