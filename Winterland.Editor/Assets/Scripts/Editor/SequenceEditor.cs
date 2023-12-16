@@ -17,7 +17,8 @@ public class SequenceEditor : Editor {
         typeof(SetActionToRunOnEndAction),
         typeof(SwitchCharacterSequenceAction),
         typeof(NotificationSequenceAction),
-        typeof(RespawnToyLinesSequenceAction)
+        typeof(RespawnToyLinesSequenceAction),
+        typeof(JumpSequenceAction)
     };
     private Dictionary<SequenceAction, Editor> cachedEditors = new();
     public override void OnInspectorGUI() {
