@@ -30,6 +30,17 @@ namespace Winterland.Plugin.Patches {
                 return false;
             }
             if (byPlayer.ability is ToyMachineAbility) {
+                var winterPlayer = WinterPlayer.Get(byPlayer);
+                if (winterPlayer != null) {
+                    if (winterPlayer.CurrentToyLine == null) {
+                        __result = false;
+                        return false;
+                    }
+                    if (winterPlayer.CollectedToyParts != winterPlayer.CurrentToyLine.ToyParts.Length) {
+                        __result = false;
+                        return false;
+                    }
+                }
                 var toyMachineAbility = byPlayer.ability as ToyMachineAbility;
                 if (!toyMachineAbility.CanTag) {
                     __result = false;
