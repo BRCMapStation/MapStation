@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SlopCrew.Server.XmasEvent;
 
 namespace Winterland.Common {
     public class NetworkedGlobalProgress : WritableGlobalProgress, IDisposable {
@@ -14,8 +15,8 @@ namespace Winterland.Common {
             NetManager.Instance.OnPacket -= OnPacket;
         }
 
-        public void OnPacket(Packet packet) {
-            if(packet is ServerEventProgressPacket p) {
+        public void OnPacket(XmasPacket packet) {
+            if(packet is XmasServerEventProgressPacket p) {
                 WinterProgress.Instance.WritableGlobalProgress.SetTreeConstructionPercentage(p.TreeConstructionPercentage);
             }
         }

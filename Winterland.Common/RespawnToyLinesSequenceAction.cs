@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using SlopCrew.API;
+using SlopCrew.Server.XmasEvent;
 
 namespace Winterland.Common {
     public class RespawnToyLinesSequenceAction : SequenceAction {
@@ -18,7 +19,7 @@ namespace Winterland.Common {
             base.Run(immediate);
             var api = APIManager.API;
             if (api.Connected) {
-                var giftCollectPacket = new ClientCollectGiftPacket();
+                var giftCollectPacket = new XmasClientCollectGiftPacket();
                 NetManager.Instance.SendPacket(giftCollectPacket);
                 RunSuccess(immediate);
             }
