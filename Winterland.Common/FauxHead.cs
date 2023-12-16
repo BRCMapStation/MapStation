@@ -72,7 +72,7 @@ namespace Winterland.Common {
             if (onGround)
                 currentTimeIdle = 0f;
 
-            var positionDelta = transform.position.y - lastMovedHeight;
+            var positionDelta = Mathf.Abs(transform.position.y - lastMovedHeight);
             if (positionDelta > maximumDistanceTravelledToConsiderGrounded) {
                 currentTimeIdle = 0f;
                 lastMovedHeight = transform.position.y;
