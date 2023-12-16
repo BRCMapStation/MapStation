@@ -23,7 +23,12 @@ namespace Winterland.Plugin.Patches {
 
         [HarmonyPrefix]
         [HarmonyPatch(nameof(GraffitiSpot.CanDoGraffiti))]
-        private static bool CanDoGraffiti_Prefix(ref bool __result, Player byPlayer) {
+        private static bool CanDoGraffiti_Prefix(ref bool __result, Player byPlayer, GraffitiSpot __instance) {
+            var toyGraff = ToyGraffitiSpot.Get(__instance);
+            if (toyGraff != null && byPlayer.ability is not ToyMachineAbility) {
+                __result = false;
+                return false;
+            }
             if (byPlayer.ability is ToyMachineAbility) {
                 var toyMachineAbility = byPlayer.ability as ToyMachineAbility;
                 if (!toyMachineAbility.CanTag) {

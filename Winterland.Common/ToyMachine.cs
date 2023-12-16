@@ -8,13 +8,19 @@ using Reptile;
 
 namespace Winterland.Common {
     public class ToyMachine : MonoBehaviour {
-        public float TimeInSecondsToSpray = 1f;
+        [Header("Exit")]
         public float PlayerExitSpeed = 20f;
         public float PlayerExitUpwardsSpeed = 0f;
         public Transform PlayerExitLocation = null;
+        public bool EquipGearOnExit = true;
+        public bool TrickOnExit = true;
+        [Header("General")]
+        public float TimeInSecondsToSpray = 1f;
+        [Header("Visuals")]
         public float FadeInDuration = 0.2f;
         public float FadeOutDuration = 0.2f;
         public float BlackScreenDuration = 0.1f;
+        [Header("Sounds")]
         public AudioClip EnterToyMachineAudioClip = null;
         public AudioClip SuccessAudioClip = null;
         public AudioClip FailureAudioClip = null;
@@ -62,6 +68,8 @@ namespace Winterland.Common {
             var velocity = PlayerExitLocation.forward * PlayerExitSpeed;
             velocity += Vector3.up * PlayerExitUpwardsSpeed;
             player.SetVelocity(velocity);
+            player.ForceUnground();
+            player.SwitchToEquippedMovestyle(EquipGearOnExit, TrickOnExit, true, true);
             if (!graffiti) {
                 var effects = Core.Instance.UIManager.effects;
                 effects.FullBlackToFadeOut(0f, FadeInDuration);
