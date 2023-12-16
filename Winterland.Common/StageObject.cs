@@ -15,11 +15,11 @@ namespace Winterland.Common {
         [SerializeField]
         private string chunkName = "";
         public void PutInChunk() {
-            var myChunk = GetComponentInParent<StageChunk>();
+            var myChunk = GetComponentInParent<StageChunk>(true);
             if (myChunk != null)
                 return;
-            var parentStageObject = GetComponentInParent<StageObject>();
-            if (parentStageObject != this) {
+            var parentStageObject = GetComponentInParent<StageObject>(true);
+            if (parentStageObject != this && parentStageObject != null) {
                 parentStageObject.PutInChunk();
                 return;
             }
