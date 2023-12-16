@@ -13,6 +13,8 @@ namespace Winterland.Plugin.Patches {
         [HarmonyPrefix]
         [HarmonyPatch(nameof(GraffitiSpot.GiveRep))]
         private static bool GiveRep_Prefix(GraffitiSpot __instance) {
+            if (REPLessGraffiti.IsREPLess(__instance))
+                return false;
             var toyGraff = ToyGraffitiSpot.Get(__instance);
             if (toyGraff != null)
                 return false;

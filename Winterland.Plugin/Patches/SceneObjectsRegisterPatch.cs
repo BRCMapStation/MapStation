@@ -18,6 +18,8 @@ namespace Winterland.Plugin.Patches {
                 if (!(__instance.grafSpots[i] is GraffitiSpotFinisher)) {
                     if (ToyGraffitiSpot.Get(__instance.grafSpots[i]) != null)
                         continue;
+                    if (REPLessGraffiti.IsREPLess(__instance.grafSpots[i]))
+                        continue;
                     rep += GraffitiSpot.GetREP(__instance.grafSpots[i].size);
                 }
             }
