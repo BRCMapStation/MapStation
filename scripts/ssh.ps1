@@ -1,14 +1,29 @@
+param(
+    [switch]$restart
+)
+
 # ssh key WinterlandSlopCrew.pem should be stored at ./scripts/credentials/WinterlandSlopCrew.pem
 # Get it from cspotcode
 
-ssh -i $PSScriptRoot/credentials/WinterlandSlopCrew.pem ubuntu@winterland.cspotcode.com
+if($restart) {
+    ssh -i $PSScriptRoot/credentials/WinterlandSlopCrew.pem ubuntu@winterland.cspotcode.com 'cd Winterland && ./run-slopcrew.ps1'
+} else {
+    ssh -i $PSScriptRoot/credentials/WinterlandSlopCrew.pem ubuntu@winterland.cspotcode.com
+}
 
-# Once you're in, you'll be in a bash shell.  `pwsh` (powershell) is installed if you prefer
-# All Winterland code and server is stored in `Winterland`
-
-# To pull latest server code and restart the server:
+# Once you're in, you'll be in a bash shell.  `pwsh` (powershell) is installed if you prefer that.
+# 
+# `cd Winterland` cuz everything is in there.
 #
-#     cd Winterland
-#     ./update-server.ps1
-
-
+# Two scripts start everything:
+#   ./run-slopcrew.ps1
+#   ./run-slopnet.ps1
+#
+# SlopNet runs inside a "screen" session, which is like an interactive terminal
+# that runs in the background that you can attach to.
+#
+# To attach to the screen session, run `screen -R`
+# To detach, press Ctrl+a then d
+#
+# https://askubuntu.com/questions/124897/how-do-i-detach-a-screen-session-from-a-terminal
+#

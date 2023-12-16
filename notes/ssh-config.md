@@ -21,3 +21,45 @@ rm packages-microsoft-prod.deb
 sudo apt update
 ```
 
+Also deprioritized the ubuntu sources so everything installed from MS:
+
+https://learn.microsoft.com/en-us/dotnet/core/install/linux-package-mixup?pivots=os-linux-ubuntu#i-need-a-version-of-net-that-isnt-provided-by-my-linux-distribution
+
+My `/etc/apt/preferences`
+```
+Package: dotnet* aspnet* netstandard*
+Pin: origin "archive.ubuntu.com"
+Pin-Priority: -10
+
+Package: dotnet* aspnet* netstandard*
+Pin: origin "security.ubuntu.com"
+Pin-Priority: -10
+
+Package: dotnet* aspnet* netstandard*
+Pin: origin "us-east-1.ec2.archive.ubuntu.com"
+Pin-Priority: -10
+```
+
+```
+sudo apt install dotnet-runtime-7.0
+sudo apt install dotnet-sdk-8.0
+sudo apt install powershell
+```
+
+# Installing GameNetworkingSockets
+
+```
+sudo apt install libssl-dev
+sudo apt install libprotobuf-dev protobuf-compiler
+sudo apt-get install pkg-config
+cd ~/Winterland
+git clone https://github.com/microsoft/vcpkg/
+./vcpkg/bootstrap-vcpkg.sh
+```
+
+Then from SlopCrew code:
+
+```
+cd ~/Winterland/SlopCrew
+../vcpkg/vcpkg install
+```
