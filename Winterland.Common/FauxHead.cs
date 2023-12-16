@@ -13,7 +13,7 @@ namespace Winterland.Common {
         private float timeIdleToConsiderGrounded = 0.2f;
         [SerializeField]
         private float maximumDistanceTravelledToConsiderGrounded = 0.05f;
-        private Vector3 lastMovedPosition = Vector3.zero;
+        private float lastMovedHeight = 0f;
         private float currentTimeIdle = 0f;
         [SerializeField]
         private LayerMask groundMask;
@@ -28,7 +28,7 @@ namespace Winterland.Common {
 
         private void Awake() {
             body = GetComponent<Rigidbody>();
-            lastMovedPosition = transform.position;
+            lastMovedHeight = transform.position.y;
         }
 
         private void OnTriggerStay(Collider other) {
@@ -72,10 +72,10 @@ namespace Winterland.Common {
             if (onGround)
                 currentTimeIdle = 0f;
 
-            var positionDelta = (transform.position - lastMovedPosition).sqrMagnitude;
+            var positionDelta = transform.position.y - lastMovedHeight;
             if (positionDelta > maximumDistanceTravelledToConsiderGrounded) {
                 currentTimeIdle = 0f;
-                lastMovedPosition = transform.position;
+                lastMovedHeight = transform.position.y;
             }
             else {
                 currentTimeIdle += Core.dt;
