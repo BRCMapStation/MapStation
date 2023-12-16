@@ -509,6 +509,7 @@ Transform:
   m_Children:
   - {fileID: 8245473077980261603}
   - {fileID: 3090728773581920258}
+  - {fileID: 8825282453336377555}
   m_Father: {fileID: 8751001019363197966}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -525,6 +526,7 @@ GameObject:
   - component: {fileID: 4228389697067340342}
   - component: {fileID: 6229743539181581589}
   - component: {fileID: 5502755470295136182}
+  - component: {fileID: 7487033652695643521}
   m_Layer: 19
   m_Name: Santa NPC
   m_TagString: Untagged
@@ -607,6 +609,351 @@ MonoBehaviour:
   RequiredObjective: {fileID: 11400000, guid: cca139cc5458f2244ae8c9be5ea33401, type: 2}
   Condition: 0
   MinimumDialogueLevel: 0
+--- !u!114 &7487033652695643521
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174309057720842691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1587337743, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 1
+  Sequence: {fileID: 4296117634675571795}
+  RequiredObjective: {fileID: 0}
+  Condition: 2
+  MinimumDialogueLevel: 0
+--- !u!1 &9198837488609701058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8825282453336377555}
+  - component: {fileID: 4296117634675571795}
+  - component: {fileID: 8994631682923658056}
+  - component: {fileID: 412883355137320465}
+  - component: {fileID: 8630746148961491212}
+  - component: {fileID: 7261157416608722836}
+  - component: {fileID: 217614884764931582}
+  - component: {fileID: 203242155213009082}
+  - component: {fileID: 8111321635378878639}
+  - component: {fileID: 2218593572832550342}
+  - component: {fileID: 812368337359759472}
+  - component: {fileID: 5934417618250231633}
+  - component: {fileID: 2275683894335699866}
+  - component: {fileID: 7405124341745487923}
+  - component: {fileID: 7957142491597464949}
+  - component: {fileID: 8782879032260963441}
+  m_Layer: 19
+  m_Name: Collect Gifts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8825282453336377555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4338912150754813107}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4296117634675571795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -233999229, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HidePlayer: 0
+  Skippable: 1
+  StandDownEnemies: 1
+  DialogueLevelToAdd: 0
+  SetObjectiveOnEnd: {fileID: 0}
+  RunActionOnEnd: 
+--- !u!114 &8994631682923658056
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2027406547, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 0
+  Name: 
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  SuccessTarget: 
+  RejectedTarget: Reject
+  NoConnectionTarget: Disconnected
+--- !u!114 &412883355137320465
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 1
+  Name: 
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  Camera: {fileID: 1566642659916028063}
+  Type: 0
+  YesTarget: 
+  NahTarget: 
+  AudioClips: []
+--- !u!114 &8630746148961491212
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1438341381, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 2
+  Name: 
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+--- !u!114 &7261157416608722836
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 1
+  Owner: {fileID: 412883355137320465}
+  Speaker: 1
+  SpeakerName: ???
+  Text: 'Yo-ho-ho! Santa''s little helper! That''s all the toys i can fit in <color=yellow>this
+    gift</color>, great job! '
+  AudioClips: []
+--- !u!114 &217614884764931582
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 2
+  Owner: {fileID: 412883355137320465}
+  Speaker: 1
+  SpeakerName: ???
+  Text: Everyone working together brings a tear to my eye... or it would, if I had
+    tear ducts! Yohohohoho.
+  AudioClips: []
+--- !u!114 &203242155213009082
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 3
+  Owner: {fileID: 412883355137320465}
+  Speaker: 1
+  SpeakerName: ???
+  Text: If you want to keep helping, I'm sure there's more toys to build, and the
+    LVs can keep busy with construction.
+  AudioClips: []
+--- !u!114 &8111321635378878639
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 4
+  Owner: {fileID: 412883355137320465}
+  Speaker: 1
+  SpeakerName: ???
+  Text: Whad'ya say? Up for more? Y'know, for the kids! Ho ho!
+  AudioClips: []
+--- !u!114 &2218593572832550342
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 3
+  Name: Reject
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  Camera: {fileID: 1566642659916028063}
+  Type: 0
+  YesTarget: 
+  NahTarget: 
+  AudioClips: []
+--- !u!114 &812368337359759472
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1438341381, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 4
+  Name: 
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+--- !u!114 &5934417618250231633
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 1
+  Owner: {fileID: 2218593572832550342}
+  Speaker: 1
+  SpeakerName: ???
+  Text: 'Woah there.... '
+  AudioClips: []
+--- !u!114 &2275683894335699866
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 2
+  Owner: {fileID: 2218593572832550342}
+  Speaker: 1
+  SpeakerName: ???
+  Text: Hmmmm... you sure you got these toys <color=yello>legit</color>? We gotta
+    set a good example and do things the right way 'round here. Y'know, for the kids!
+  AudioClips: []
+--- !u!114 &7405124341745487923
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 5
+  Name: Disconnected
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  Camera: {fileID: 1566642659916028063}
+  Type: 0
+  YesTarget: 
+  NahTarget: 
+  AudioClips: []
+--- !u!114 &7957142491597464949
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 1
+  Owner: {fileID: 7405124341745487923}
+  Speaker: 1
+  SpeakerName: ???
+  Text: Oh no! You did a great job, but it looks like one of the LVs <color=yellow>lost
+    connection to the server</color> and misplaced your package.
+  AudioClips: []
+--- !u!114 &8782879032260963441
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 2
+  Owner: {fileID: 7405124341745487923}
+  Speaker: 1
+  SpeakerName: ???
+  Text: Once they <color=yellow>reconnect</color>, you should try gathering the toys
+    again. Sorry about that!
+  AudioClips: []
 --- !u!1001 &3415948425321845381
 PrefabInstance:
   m_ObjectHideFlags: 0
