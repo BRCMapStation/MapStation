@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Reptile;
 using HarmonyLib;
 using Winterland.Common;
+using System.Runtime.CompilerServices;
 
 namespace Winterland.Plugin.Patches {
     [HarmonyPatch(typeof(GraffitiGame))]
@@ -17,6 +18,24 @@ namespace Winterland.Plugin.Patches {
             if (toyGraff == null)
                 return;
             __instance.distanceToGrafSpot = 1.75f;
+            var interiorLighting = toyGraff.ToyMachine.InteriorLighting;
+            var ambientOverride = AmbientOverride.Instance;
+            if (interiorLighting != null && ambientOverride != null) {
+                ambientOverride.TransitionAmbient(interiorLighting);
+            }
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(nameof(GraffitiGame.End))]
+        private static void End_Postfix(GraffitiGame __instance) {
+            var toyGraff = ToyGraffitiSpot.Get(__instance.gSpot);
+            if (toyGraff == null)
+                return;
+            var interiorLighting = toyGraff.ToyMachine.InteriorLighting;
+            var ambientOverride = AmbientOverride.Instance;
+            if (interiorLighting != null && ambientOverride != null) {
+                ambientOverride.StopAmbient(interiorLighting);
+            }
         }
     }
 }

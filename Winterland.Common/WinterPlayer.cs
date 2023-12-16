@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Reptile;
@@ -155,6 +156,13 @@ namespace Winterland.Common {
                 var toyLineUI = WinterUI.Instance.ToyLineUI;
                 toyLineUI.Visible = false;
             }
+        }
+
+        public static WinterPlayer GetLocal() {
+            var localPlayer = WorldHandler.instance.GetCurrentPlayer();
+            if (localPlayer == null)
+                return null;
+            return Get(localPlayer);
         }
 
         private void OnFixedUpdate() {

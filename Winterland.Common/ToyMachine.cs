@@ -20,6 +20,7 @@ namespace Winterland.Common {
         public float FadeInDuration = 0.2f;
         public float FadeOutDuration = 0.2f;
         public float BlackScreenDuration = 0.1f;
+        public AmbientOverrideTrigger InteriorLighting = null;
         [Header("Sounds")]
         public AudioClip EnterToyMachineAudioClip = null;
         public AudioClip SuccessAudioClip = null;
