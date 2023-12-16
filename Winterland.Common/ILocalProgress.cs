@@ -12,6 +12,7 @@ namespace Winterland.Common {
         public WinterObjective Objective { get; set; }
         public int Gifts { get; set; }
         public int FauxJuggleHighScore { get; set; }
+        public int ToyLinesCollected { get; }
         public void InitializeNew();
         public void Save();
         public void Load();

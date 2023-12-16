@@ -8,6 +8,7 @@ namespace Winterland.Common {
     public enum Condition {
         None,
         HasWantedLevel,
-        CollectedAllToyLines
+        CollectedAllToyLines,
+        CollectedSomeToyLines
     }
 }

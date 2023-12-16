@@ -17,6 +17,7 @@ namespace Winterland.Common {
         public WinterObjective Objective { get; set; }
         public int Gifts { get; set; }
         public int FauxJuggleHighScore { get; set; }
+        public int ToyLinesCollected => collectedToyLines.Count;
         private const byte Version = 3;
         private string savePath;
         private Dictionary<Guid, SerializedNPC> npcs;
