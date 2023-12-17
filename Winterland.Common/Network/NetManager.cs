@@ -2,6 +2,7 @@ using UnityEngine;
 using SlopCrew.API;
 using System.Runtime.Serialization;
 using System;
+using SlopCrew.Server.XmasEvent;
 
 namespace Winterland.Common {
     /// <summary>
@@ -19,7 +20,7 @@ namespace Winterland.Common {
 
         private ISlopCrewAPI slopCrewApi;
 
-        public delegate void OnPacketHandler(Packet packet);
+        public delegate void OnPacketHandler(XmasPacket packet);
 
         public OnPacketHandler OnPacket;
 
@@ -45,25 +46,24 @@ namespace Winterland.Common {
 
         public void onSlopCrewPacketReceived(uint player, string id, byte[] data) {
             Debug.Log($"Received packet id {id} from player {player}. Data length is {data.Length}");
-            Packet packet = PacketFactory.CreateBlankFromId(id);
+            XmasPacket packet = null;
+            try {
+                packet = XmasPacketFactory.ParsePacket(player, id, data);
+            } catch(XmasPacketParseException e) {
+                Debug.Log(e.Message);
+                // Drop the packet, don't crash
+            }
             if (packet != null) {
-                packet.PlayerID = player;
-                try {
-                    packet.Deserialize(data);
-                } catch(PacketParseException e) {
-                    Debug.Log(e.Message);
-                    // Drop the packet, don't crash
-                }
                 DispatchReceivedPacket(packet);
             }
         }
 
-        public void DispatchReceivedPacket(Packet packet) {
+        public void DispatchReceivedPacket(XmasPacket packet) {
             Debug.Log($"Winterland packet received: {packet} {JsonUtility.ToJson(packet)}");
             OnPacket?.Invoke(packet);
         }
 
-        public void SendPacket(Packet packet) {
+        public void SendPacket(XmasPacket packet) {
             Debug.Log($"Sending Winterland packet: {packet} {JsonUtility.ToJson(packet)}");
             slopCrewApi.SendCustomPacket(packet.GetPacketId(), packet.Serialize());
         }
