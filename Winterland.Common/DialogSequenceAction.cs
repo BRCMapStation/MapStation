@@ -38,7 +38,10 @@ namespace Winterland.Common {
             for(var i=0;i<dialogs.Length;i++) {
                 var dialog = dialogs[i];
 
-                var customDialog = new CustomDialogue(dialog.SpeakerName, dialog.Text);
+                var parsedText = dialog.Text;
+                var toyLinesLeft = ToyLineManager.Instance.ToyLines.Count - WinterProgress.Instance.LocalProgress.ToyLinesCollected;
+                parsedText = parsedText.Replace("$TOYS_LEFT", toyLinesLeft.ToString());
+                var customDialog = new CustomDialogue(dialog.SpeakerName, parsedText);
                 customDialogs.Add(customDialog);
 
                 if (dialog.Speaker == DialogBlock.SpeakerMode.None)
