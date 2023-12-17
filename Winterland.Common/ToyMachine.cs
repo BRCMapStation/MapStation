@@ -35,11 +35,12 @@ namespace Winterland.Common {
             currentToyVisual = null;
         }
 
-        public void ShowBuiltToy(Toys toy) {
+        public void ShowBuiltToy(Toys toy, GraffitiArt graffiti) {
             HideBuiltToy();
             if (toyVisualByToy.TryGetValue(toy, out var builtToy)) {
                 builtToy.gameObject.SetActive(true);
                 currentToyVisual = builtToy;
+                builtToy.SetGraffiti(graffiti);
             }
         }
 

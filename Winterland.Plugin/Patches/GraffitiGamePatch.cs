@@ -34,7 +34,7 @@ namespace Winterland.Plugin.Patches {
             if (setState == GraffitiGame.GraffitiGameState.SHOW_PIECE) {
                 var player = WinterPlayer.GetLocal();
                 if (player.CurrentToyLine != null) {
-                    toyGraff.ToyMachine.ShowBuiltToy(player.CurrentToyLine.Toy);
+                    toyGraff.ToyMachine.ShowBuiltToy(player.CurrentToyLine.Toy, __instance.grafArt);
                 }
             }
         }
