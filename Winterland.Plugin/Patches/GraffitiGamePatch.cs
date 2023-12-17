@@ -26,11 +26,26 @@ namespace Winterland.Plugin.Patches {
         }
 
         [HarmonyPostfix]
+        [HarmonyPatch(nameof(GraffitiGame.SetState))]
+        private static void SetState_Postfix(GraffitiGame.GraffitiGameState setState, GraffitiGame __instance) {
+            var toyGraff = ToyGraffitiSpot.Get(__instance.gSpot);
+            if (toyGraff == null)
+                return;
+            if (setState == GraffitiGame.GraffitiGameState.SHOW_PIECE) {
+                var player = WinterPlayer.GetLocal();
+                if (player.CurrentToyLine != null) {
+                    toyGraff.ToyMachine.ShowBuiltToy(player.CurrentToyLine.Toy);
+                }
+            }
+        }
+
+        [HarmonyPostfix]
         [HarmonyPatch(nameof(GraffitiGame.End))]
         private static void End_Postfix(GraffitiGame __instance) {
             var toyGraff = ToyGraffitiSpot.Get(__instance.gSpot);
             if (toyGraff == null)
                 return;
+            toyGraff.ToyMachine.HideBuiltToy();
             var interiorLighting = toyGraff.ToyMachine.InteriorLighting;
             var ambientOverride = AmbientOverride.Instance;
             if (interiorLighting != null && ambientOverride != null) {

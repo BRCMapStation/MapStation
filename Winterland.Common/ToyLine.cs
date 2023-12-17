@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Winterland.Common {
     public class ToyLine : MonoBehaviour {
+        public Toys Toy;
         // We can use this to mark this line as complete between scene transitions and saving/loading.
         public string GUID;
         public Guid Guid => Guid.Parse(GUID);

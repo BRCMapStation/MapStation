@@ -26,6 +26,31 @@ namespace Winterland.Common {
         public AudioClip SuccessAudioClip = null;
         public AudioClip FailureAudioClip = null;
 
+        private Dictionary<Toys, BuiltToy> toyVisualByToy = [];
+        private BuiltToy currentToyVisual = null;
+
+        public void HideBuiltToy() {
+            if (currentToyVisual != null)
+                currentToyVisual.gameObject.SetActive(false);
+            currentToyVisual = null;
+        }
+
+        public void ShowBuiltToy(Toys toy) {
+            HideBuiltToy();
+            if (toyVisualByToy.TryGetValue(toy, out var builtToy)) {
+                builtToy.gameObject.SetActive(true);
+                currentToyVisual = builtToy;
+            }
+        }
+
+        private void Awake() {
+            var toys = GetComponentsInChildren<BuiltToy>();
+            foreach(var toy in toys) {
+                toyVisualByToy[toy.Toy] = toy;
+                toy.gameObject.SetActive(false);
+            }
+        }
+
         public void FinishToyLine() {
             var player = WorldHandler.instance.GetCurrentPlayer();
             var winterPlayer = WinterPlayer.Get(player);
