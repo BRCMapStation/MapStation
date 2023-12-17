@@ -38,6 +38,10 @@ namespace Winterland.Common {
             
         }
 
+        public virtual void Stop() {
+
+        }
+
         protected void Finish(bool immediate) {
             if (NextAction == null) {
                 if (immediate)

@@ -10,6 +10,7 @@ namespace Winterland.Common {
     public class SequenceWrapper : CustomSequence {
         public Sequence Sequence;
         public CustomNPC NPC;
+        public SequenceAction CurrentAction;
         public string CurrentActionToRunOnEnd;
 
         public SequenceWrapper(Sequence sequence) {
@@ -37,7 +38,8 @@ namespace Winterland.Common {
 
         public override void Stop() {
             base.Stop();
-
+            CurrentAction?.Stop();
+            CurrentAction = null;
             if (Sequence.SetObjectiveOnEnd != null) {
                 WinterProgress.Instance.LocalProgress.Objective = Sequence.SetObjectiveOnEnd;
                 WinterProgress.Instance.LocalProgress.Save();

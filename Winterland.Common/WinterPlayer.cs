@@ -123,6 +123,10 @@ namespace Winterland.Common {
         
 
         public bool IsOnLevelGround() {
+            if (player.motor.groundCollider != null) {
+                if (player.motor.groundCollider.gameObject.GetComponentInParent<SnowlessSurface>() != null || player.motor.groundCollider.gameObject.GetComponent<SnowlessSurface>() != null)
+                    return false;
+            }
             if (player.ability is WallrunLineAbility || player.ability is GrindAbility || player.ability is HandplantAbility)
                 return false;
             if (player.IsOnNonStableGround())
