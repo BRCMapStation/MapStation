@@ -28,7 +28,10 @@ namespace Winterland.Common {
                 stateDescription += $"Phase #{i}: {phase.GiftsCollected}/{phase.GiftsGoal} gifts. {(phase.Active ? "Active" : "")} {(phase.ActivateNextPhaseAutomatically ? nameof(phase.ActivateNextPhaseAutomatically) : "")}\n";
             }
             GUILayout.TextArea(stateDescription);
-            GUILayout.BeginHorizontal();
+            if (GUILayout.Button($"Send {nameof(XmasClientCollectGiftPacket)}")) {
+                NetManager.Instance.SendPacket(new XmasClientCollectGiftPacket());
+            }
+            // GUILayout.BeginHorizontal();
             // GUILayout.Label(nameof(XmasServerEventStatePacket.TreeConstructionPercentage));
             // treeConstructionPercentageSlider = GUILayout.HorizontalSlider(treeConstructionPercentageSlider, 0, 1);
             // GUILayout.EndHorizontal();
