@@ -21,30 +21,36 @@ namespace Winterland.Common {
         private void OnDebugUI() {
             GUILayout.Label("Progress is measured from 0 to 1, a decimal / float");
             GUILayout.Label($"Using {WinterProgress.Instance.GlobalProgress.GetType().Name}");
-            GUILayout.Label($"Current {nameof(XmasServerEventProgressPacket.TreeConstructionPercentage)} = {WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage}");
+            var state = WinterProgress.Instance.GlobalProgress.State;
+            var stateDescription = "";
+            for (var i = 0; i < state.Phases.Count; i++) {
+                var phase = state.Phases[i];
+                stateDescription += $"Phase #{i}: {phase.GiftsCollected}/{phase.GiftsGoal} gifts. {(phase.Active ? "Active" : "")} {(phase.ActivateNextPhaseAutomatically ? nameof(phase.ActivateNextPhaseAutomatically) : "")}\n";
+            }
+            GUILayout.TextArea(stateDescription);
             GUILayout.BeginHorizontal();
-            GUILayout.Label(nameof(XmasServerEventProgressPacket.TreeConstructionPercentage));
-            treeConstructionPercentageSlider = GUILayout.HorizontalSlider(treeConstructionPercentageSlider, 0, 1);
-            GUILayout.EndHorizontal();
-            GUILayout.Label($"{treeConstructionPercentageSlider}");
-            if (GUILayout.Button("Set event progress locally")) {
-                WinterProgress.Instance.WritableGlobalProgress.SetTreeConstructionPercentage(treeConstructionPercentageSlider);
-            }
-            if (GUILayout.Button("Simulate receiving event progress packet")) {
-                NetManager.Instance.DispatchReceivedPacket(createEventProgressPacket());
-            }
-            GUILayout.Label("Broadcasting event progress will affect ALL WINTERLAND TESTERS!");
-            if (GUILayout.Button("BROADCAST EVENT PROGRESS TO ALL PLAYERS")) {
-                var packet = createEventProgressPacket();
-                NetManager.Instance.SendPacket(packet);
-                NetManager.Instance.DispatchReceivedPacket(packet);
-            }
+            // GUILayout.Label(nameof(XmasServerEventStatePacket.TreeConstructionPercentage));
+            // treeConstructionPercentageSlider = GUILayout.HorizontalSlider(treeConstructionPercentageSlider, 0, 1);
+            // GUILayout.EndHorizontal();
+            // GUILayout.Label($"{treeConstructionPercentageSlider}");
+            // if (GUILayout.Button("Set event progress locally")) {
+            //     WinterProgress.Instance.WritableGlobalProgress.SetTreeConstructionPercentage(treeConstructionPercentageSlider);
+            // }
+            // if (GUILayout.Button("Simulate receiving event progress packet")) {
+            //     NetManager.Instance.DispatchReceivedPacket(createEventProgressPacket());
+            // }
+            // GUILayout.Label("Broadcasting event progress will affect ALL WINTERLAND TESTERS!");
+            // if (GUILayout.Button("BROADCAST EVENT PROGRESS TO ALL PLAYERS")) {
+            //     var packet = createEventProgressPacket();
+            //     NetManager.Instance.SendPacket(packet);
+            //     NetManager.Instance.DispatchReceivedPacket(packet);
+            // }
         }
 
-        private XmasServerEventProgressPacket createEventProgressPacket() {
-            return new XmasServerEventProgressPacket {
+        private XmasServerEventStatePacket createEventProgressPacket() {
+            return new XmasServerEventStatePacket {
                 PlayerID = 0,
-                TreeConstructionPercentage = treeConstructionPercentageSlider
+                
             };
         }
     }

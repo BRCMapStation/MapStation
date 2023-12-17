@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SlopCrew.Server.XmasEvent;
 
 namespace Winterland.Common {
     /// <summary>
@@ -10,7 +11,7 @@ namespace Winterland.Common {
     /// </summary>
     public class MockGlobalProgress : WritableGlobalProgress {
         public MockGlobalProgress() {
-            SetTreeConstructionPercentage(WinterConfig.Instance.MockGlobalProgressStartTreeAtValue);
+            SetState(new XmasServerEventStatePacket());
         }
     }
 }

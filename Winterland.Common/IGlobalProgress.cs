@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SlopCrew.Server.XmasEvent;
 
 namespace Winterland.Common {
     /// <summary>
     /// Serverside progress.
     /// </summary>
     public interface IGlobalProgress {
-        float TreeConstructionPercentage {get;}
-        delegate void OnTreeConstructionPercentageChangedHandler();
-        event OnTreeConstructionPercentageChangedHandler OnTreeConstructionPercentageChanged;
+        XmasServerEventStatePacket State { get; }
+        delegate void OnGlobalStageChangedHandler();
+        event OnGlobalStageChangedHandler OnGlobalStateChanged;
     }
 
     public class WritableGlobalProgress : IGlobalProgress {
-        public float TreeConstructionPercentage {get; private set;}
+        public XmasServerEventStatePacket State { get; private set; }
 
-        public event IGlobalProgress.OnTreeConstructionPercentageChangedHandler OnTreeConstructionPercentageChanged;
+        public event IGlobalProgress.OnGlobalStageChangedHandler OnGlobalStateChanged;
 
-        public void SetTreeConstructionPercentage(float value) {
-            TreeConstructionPercentage = value;
-            OnTreeConstructionPercentageChanged?.Invoke();
+        public void SetState(XmasServerEventStatePacket state) {
+            State = state;
+            this.OnGlobalStateChanged?.Invoke();
         }
     }
 }

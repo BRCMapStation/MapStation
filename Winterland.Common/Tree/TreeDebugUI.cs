@@ -24,16 +24,16 @@ namespace Winterland.Common {
                 GUILayout.Label("<tree does not exist>");
                 return;
             }
-            if(WinterProgress.Instance.GlobalProgress is MockGlobalProgress globalProgress) {
-                progressSlider = GUILayout.HorizontalSlider(progressSlider, 0, 1);
-                if(GUILayout.Button("Reset Tree")) {
-                    t.ResetTo(progressSlider);
-                    globalProgress.SetTreeConstructionPercentage(progressSlider);
-                }
-                if(GUILayout.Button("Animate Tree")) {
-                    globalProgress.SetTreeConstructionPercentage(progressSlider);
-                }
-            }
+            // if(WinterProgress.Instance.GlobalProgress is MockGlobalProgress globalProgress) {
+            //     progressSlider = GUILayout.HorizontalSlider(progressSlider, 0, 1);
+            //     if(GUILayout.Button("Reset Tree")) {
+            //         t.ResetTo(progressSlider);
+            //         globalProgress.SetState(progressSlider);
+            //     }
+            //     if(GUILayout.Button("Animate Tree")) {
+            //         globalProgress.SetTreeConstructionPercentage(progressSlider);
+            //     }
+            // }
             GUILayout.Label($"Active phase: {t.activePhase?.gameObject.name}");
             foreach(var phase in t.treePhases) {
                 GUILayout.Label($"Phase {phase.gameObject.name} progress = {phase.Progress}");

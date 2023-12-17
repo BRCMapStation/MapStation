@@ -16,8 +16,8 @@ namespace Winterland.Common {
         }
 
         public void OnPacket(XmasPacket packet) {
-            if(packet is XmasServerEventProgressPacket p) {
-                WinterProgress.Instance.WritableGlobalProgress.SetTreeConstructionPercentage(p.TreeConstructionPercentage);
+            if(packet is XmasServerEventStatePacket p) {
+                this.SetState(p);
             }
         }
     }

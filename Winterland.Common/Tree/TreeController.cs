@@ -107,7 +107,8 @@ namespace Winterland.Common {
         }
 
         float TargetProgress() {
-            return WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage;
+            return 1f;
+            // return WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage;
         }
 
         public void ResetTo(float percentage) {
