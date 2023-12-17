@@ -44,7 +44,7 @@ namespace Winterland.Common {
         }
 
         private void Awake() {
-            var toys = GetComponentsInChildren<BuiltToy>();
+            var toys = GetComponentsInChildren<BuiltToy>(true);
             foreach(var toy in toys) {
                 toyVisualByToy[toy.Toy] = toy;
                 toy.gameObject.SetActive(false);
