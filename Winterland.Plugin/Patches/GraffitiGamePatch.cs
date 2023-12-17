@@ -32,6 +32,7 @@ namespace Winterland.Plugin.Patches {
             if (toyGraff == null)
                 return;
             if (setState == GraffitiGame.GraffitiGameState.SHOW_PIECE) {
+                __instance.showPieceCamSpeed = 5f;
                 var player = WinterPlayer.GetLocal();
                 if (player.CurrentToyLine != null) {
                     toyGraff.ToyMachine.ShowBuiltToy(player.CurrentToyLine.Toy, __instance.grafArt);
