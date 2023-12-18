@@ -9,7 +9,7 @@ namespace Winterland.Common;
 /// from glitching player into the ground.
 /// </summary>
 [SelectionBase]
-class TreePauseTrigger : MonoBehaviour, ITreePauseReason {
+class TreePauseTrigger : MonoBehaviour, ITreeConstructionBlocker {
     ITreeState state;
 
     bool touchedPlayerLastFrame = false;
@@ -20,8 +20,8 @@ class TreePauseTrigger : MonoBehaviour, ITreePauseReason {
         // If tree exists
         if(state != null) {
             // If touch state changed
-            if(!touchedPlayerLastFrame && touchedPlayerThisFrame) state.ReasonsToBePaused.Add(this);
-            if(touchedPlayerLastFrame && !touchedPlayerThisFrame) state.ReasonsToBePaused.Remove(this);
+            if(!touchedPlayerLastFrame && touchedPlayerThisFrame) state.ConstructionBlockers.Add(this);
+            if(touchedPlayerLastFrame && !touchedPlayerThisFrame) state.ConstructionBlockers.Remove(this);
         }
         touchedPlayerLastFrame = touchedPlayerThisFrame;
         touchedPlayerThisFrame = false;
@@ -29,7 +29,7 @@ class TreePauseTrigger : MonoBehaviour, ITreePauseReason {
 
     void OnDisable() {
         if(state != null) {
-            state.ReasonsToBePaused.Remove(this);
+            state.ConstructionBlockers.Remove(this);
         }
         touchedPlayerLastFrame = false;
         touchedPlayerThisFrame = false;

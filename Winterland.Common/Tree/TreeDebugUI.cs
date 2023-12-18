@@ -11,7 +11,8 @@ namespace Winterland.Common {
             DontDestroyOnLoad(gameObject);
         }
 
-        private float progressSlider;
+        int chosenPhase = -1;
+        float progressSlider = 0;
 
         void Awake() {
             DebugUI.Instance.RegisterMenu("Tree", OnDebugUI);
@@ -23,6 +24,15 @@ namespace Winterland.Common {
             if(!t) {
                 GUILayout.Label("<tree does not exist>");
                 return;
+            }
+            for(var i = 0; i < t.treePhases.Length; i++) {
+                var isActivePhase = i == t.CurrentProgress.ActivePhaseIndex;
+                var label = $"#{i} {(isActivePhase ? "> " : " ")} {t.treePhases[i].gameObject.name} {(isActivePhase ? $" - {(int)t.CurrentProgress.ActivePhaseProgress * 100}%" : "")}";
+                GUILayout.Label(label);
+            }
+            t.SyncToGlobalProgress = !GUILayout.Toggle(!t.SyncToGlobalProgress, "Test tree animations manually");
+            if(!t.SyncToGlobalProgress) {
+
             }
             // if(WinterProgress.Instance.GlobalProgress is MockGlobalProgress globalProgress) {
             //     progressSlider = GUILayout.HorizontalSlider(progressSlider, 0, 1);
@@ -38,7 +48,7 @@ namespace Winterland.Common {
             foreach(var phase in t.treePhases) {
                 GUILayout.Label($"Phase {phase.gameObject.name} progress = {phase.Progress}");
             }
-            GUILayout.Label($"ReasonsToBePaused.Count = {t.ConstructionBlockers.Count}");
+            GUILayout.Label($"{nameof(t.ConstructionBlockers)}.Count = {t.ConstructionBlockers.Count}");
             foreach(var part in t.treeParts) {
                 if(part.animator != null) {
                     GUILayout.Label($"Part {part.gameObject.name} animator params: {summarizeAnimatorParams(part.animator)}");

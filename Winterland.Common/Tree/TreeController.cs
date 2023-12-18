@@ -19,7 +19,7 @@ namespace Winterland.Common {
         [SerializeField]
         public TreePhase[] treePhases;
 
-        private TreeProgress CurrentProgress = new ();
+        public TreeProgress CurrentProgress = new ();
         public TreeProgress TargetProgress { get; set; }
 
         public int ActivePhaseIndex => this.CurrentProgress.ActivePhaseIndex;
@@ -48,7 +48,14 @@ namespace Winterland.Common {
         private TimelineScrubber timeline;
         
         // Set false for manual animation testing
-        public bool ListenToGlobalProgressUpdates = true;
+        private bool syncToGlobalProgress = true;
+        public bool SyncToGlobalProgress {
+            get => syncToGlobalProgress;
+            set {
+                syncToGlobalProgress = value;
+                UpdateGlobalProgressBinding();
+            }
+        }
 
         void OnValidate() {
             treeParts = GetComponentsInChildren<TreePart>();
@@ -86,15 +93,13 @@ namespace Winterland.Common {
             }
             #endif
 
-            WinterProgress.Instance.GlobalProgress.OnGlobalStateChanged -= OnGlobalStateChanged;
-            WinterProgress.Instance.GlobalProgress.OnGlobalStateChanged += OnGlobalStateChanged;
-            TargetProgress = TreeProgressFromGlobalProgress();
+            UpdateGlobalProgressBinding();
 
             ResetTo(TargetProgress);
         }
 
         void OnDisable() {
-            WinterProgress.Instance.GlobalProgress.OnGlobalStateChanged -= OnGlobalStateChanged;
+            UpdateGlobalProgressBinding();
         }
 
         void Update() {
@@ -159,10 +164,17 @@ namespace Winterland.Common {
         private float OverallProgress(TreeProgress progress) {
             return (progress.ActivePhaseIndex + progress.ActivePhaseProgress) / this.treePhases.Length;
         }
+
+        private void UpdateGlobalProgressBinding() {
+            WinterProgress.Instance.GlobalProgress.OnGlobalStateChanged -= OnGlobalStateChanged;
+            if(syncToGlobalProgress && isActiveAndEnabled) {
+                WinterProgress.Instance.GlobalProgress.OnGlobalStateChanged += OnGlobalStateChanged;
+                TargetProgress = TreeProgressFromGlobalProgress();
+            }
+        }
         
         private void OnGlobalStateChanged() {
-            if (!this.ListenToGlobalProgressUpdates) return;
-            TargetProgress = TreeProgressFromGlobalProgress();
+            TargetProgress = TreeController.TreeProgressFromGlobalProgress();
         }
 
         public static TreeProgress TreeProgressFromGlobalProgress() {
@@ -180,6 +192,7 @@ namespace Winterland.Common {
                     };
                 }
             }
+            return new TreeProgress();
         }
 
 #if UNITY_EDITOR
