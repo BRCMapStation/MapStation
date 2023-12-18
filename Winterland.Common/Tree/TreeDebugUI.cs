@@ -34,11 +34,11 @@ namespace Winterland.Common {
             //         globalProgress.SetTreeConstructionPercentage(progressSlider);
             //     }
             // }
-            GUILayout.Label($"Active phase: {t.activePhase?.gameObject.name}");
+            GUILayout.Label($"Active phase: {t.ActivePhase?.gameObject.name}");
             foreach(var phase in t.treePhases) {
                 GUILayout.Label($"Phase {phase.gameObject.name} progress = {phase.Progress}");
             }
-            GUILayout.Label($"ReasonsToBePaused.Count = {t.ReasonsToBePaused.Count}");
+            GUILayout.Label($"ReasonsToBePaused.Count = {t.ConstructionBlockers.Count}");
             foreach(var part in t.treeParts) {
                 if(part.animator != null) {
                     GUILayout.Label($"Part {part.gameObject.name} animator params: {summarizeAnimatorParams(part.animator)}");

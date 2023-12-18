@@ -6,8 +6,6 @@ namespace Winterland.Common;
 public class TreePhase : MonoBehaviour {
     public ITreeState state;
 
-    public float StartAt;
-
     public TreePart[] showTreeParts;
     public TreePart[] hideTreeParts;
     public List<PlayableDirector> progressTimelines;
