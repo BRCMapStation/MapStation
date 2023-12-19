@@ -35,4 +35,12 @@ public class TreeProgress {
     public TreeProgress Clone() {
         return (TreeProgress) this.MemberwiseClone();
     }
+    
+    /// <summary>
+    /// True if the other progress is in the past, we would have to rewind to reach it
+    /// </summary>
+    public bool IsPrecededBy(TreeProgress other) {
+        return this.ActivePhaseIndex > other.ActivePhaseIndex ||
+               this.ActivePhaseProgress > other.ActivePhaseProgress;
+    }
 }
