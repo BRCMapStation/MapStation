@@ -47,7 +47,7 @@ namespace Winterland.MapStation.Common.VanillaAssets {
                     }
 
                     if(asset == null && assets == null) {
-                        Debug.Log(string.Format("{0}: Restoring reference to vanilla asset failed, asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\")", nameof(VanillaAssetReference), component.GetType().Name, f.Name, f.BundleName, f.Path));
+                        Debug.Log(string.Format("{0}: Restoring reference to vanilla asset failed, asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\")", nameof(VanillaAssetReferenceV2), component.GetType().Name, f.Name, f.BundleName, f.Path));
                         continue;
                     }
 
@@ -68,36 +68,54 @@ namespace Winterland.MapStation.Common.VanillaAssets {
                     }
 
                     if(asset == null) {
-                        Debug.Log(string.Format("{0}: Restoring reference to vanilla asset failed, sub-asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\"); SubAssetType={5}; SubPath={6}", nameof(VanillaAssetReference), component.GetType().Name, f.Name, f.BundleName, f.Path, f.SubAssetType.ToString(), f.SubPath));
+                        Debug.Log(string.Format("{0}: Restoring reference to vanilla asset failed, sub-asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\"); SubAssetType={5}; SubPath={6}", nameof(VanillaAssetReferenceV2), component.GetType().Name, f.Name, f.BundleName, f.Path, f.SubAssetType.ToString(), f.SubPath));
                         continue;
                     }
 
-                    // Check for both private and public fields
-                    var componentType = component.GetType();
-                    var member = componentType.GetMember(f.Name, UseTheseBindingFlags)[0];
-
-                    var message = string.Format(
-                        "{0}: Assigning {1}.{2} = asset {3}:{4} (asset found={5}, field found={6}, asset type={7})",
-                        nameof(VanillaAssetReference), componentType.Name, f.PropertyPath, f.BundleName, f.Path,
-                        asset != null, member != null, asset != null ? asset.GetType().Name : "<not found>"
-                    );
+                    var message = "";
 
                     try {
-                        if(f.Index >= 0) {
-                            var collection = member is PropertyInfo p ? p.GetValue(component) : ((FieldInfo)member).GetValue(component);
-                            collection.GetType().GetProperty("Item").SetValue(collection, asset, new object[] { f.Index });
+                        if(component is Animation && f.Name == "AddClip") {
+                            AddAnimationClip(asset, component, f, out message);
                         } else {
-                            if(member is PropertyInfo p) {
-                                p.SetValue(component, asset);
-                            } else {
-                                ((FieldInfo)member).SetValue(component, asset);
-                            }
+                            AssignMember(asset, component, f, out message);
                         }
                     } catch(Exception e) {
                         Debug.Log(message + "\nFailed with error:\n" + e.Message + "\n" + e.StackTrace);
                     }
                 }
             }
+        }
+
+        public static void AssignMember(UnityEngine.Object asset, Component component, FieldEntry f, out string message) {
+            // Check for both private and public fields
+            var componentType = component.GetType();
+            var member = componentType.GetMember(f.Name, UseTheseBindingFlags)[0];
+
+            message = string.Format(
+                "{0}: Assigning {1}.{2} = asset {3}:{4} (asset found={5}, field found={6}, asset type={7})",
+                nameof(VanillaAssetReferenceV2), componentType.Name, f.PropertyPath, f.BundleName, f.Path,
+                asset != null, member != null, asset != null ? asset.GetType().Name : "<not found>"
+            );
+
+            if(f.Index >= 0) {
+                var collection = member is PropertyInfo p ? p.GetValue(component) : ((FieldInfo)member).GetValue(component);
+                collection.GetType().GetProperty("Item").SetValue(collection, asset, new object[] { f.Index });
+            } else {
+                if(member is PropertyInfo p) {
+                    p.SetValue(component, asset);
+                } else {
+                    ((FieldInfo)member).SetValue(component, asset);
+                }
+            }
+        }
+
+        public static void AddAnimationClip(UnityEngine.Object asset, Component component, FieldEntry f, out string message) {
+            message = 
+                $"{nameof(VanillaAssetReferenceV2)}: Animation.AddClip(asset, {asset.name}) " + 
+                $"where asset is {f.BundleName}:{f.Path}{(f.SubPath != null ? ":" + f.SubPath : "")} " +
+                $"(asset type={(asset != null ? asset.GetType().Name : "<not found>")})";
+            (component as Animation).AddClip(asset as AnimationClip, asset.name);
         }
     }
 
