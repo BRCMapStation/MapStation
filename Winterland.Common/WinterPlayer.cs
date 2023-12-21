@@ -22,6 +22,9 @@ namespace Winterland.Common {
         public ToyLine CurrentToyLine = null;
         public int CollectedToyParts = 0;
         public ToyMachineAbility ToyMachineAbility = null;
+        // If we exceed the max amount of tree trampoline bounces in a row we break our combo. To stop infinite scoring.
+        public int TimesTrampolined = 0;
+        public const int MaxTimesTrampolined = 1;
         [NonSerialized]
         public Player player = null;
         private SnowSinker snowSinker = null;
@@ -175,6 +178,9 @@ namespace Winterland.Common {
                 if (CurrentToyLine != null)
                     DropCurrentToyLine();
             }
+
+            if (player.IsGrounded() || player.ability is WallrunLineAbility || player.ability is GrindAbility)
+                TimesTrampolined = 0;
 
             if (WinterUI.Instance != null && Local) {
                 var toyLineUI = WinterUI.Instance.ToyLineUI;

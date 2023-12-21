@@ -18,6 +18,14 @@ class WinterTrampoline : MonoBehaviour {
             if(audioSource != null) {
                 audioSource.Play();
             }
+            var winterPlayer = WinterPlayer.Get(player);
+            if (winterPlayer != null) {
+                winterPlayer.TimesTrampolined++;
+                if (winterPlayer.TimesTrampolined > WinterPlayer.MaxTimesTrampolined) {
+                    player.LandCombo();
+                    winterPlayer.TimesTrampolined = 0;
+                }
+            }
         }
     }
 }
