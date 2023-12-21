@@ -11,11 +11,21 @@ namespace Winterland.Common.Challenge {
         public static ChallengeLevel CurrentChallengeLevel = null;
         public Transform SpawnPoint = null;
         public bool StartWithGear = false;
+        public float Timer => timer;
         private Transform currentRespawnPoint = null;
         private float timer = 0f;
         private bool timerStarted = false;
 
+        private void Awake() {
+            Core.OnUpdate += Core_Update;
+        }
+
+        private void OnDestroy() {
+            Core.OnUpdate -= Core_Update;
+        }
+
         public void StartChallenge() {
+            WinterUI.Instance.ChallengeUI.Visible = true;
             var player = WorldHandler.instance.GetCurrentPlayer();
             player.phone.TurnOff();
             currentRespawnPoint = SpawnPoint;
@@ -27,6 +37,7 @@ namespace Winterland.Common.Challenge {
         }
 
         public void EndChallenge() {
+            WinterUI.Instance.ChallengeUI.Visible = false;
             var player = WorldHandler.instance.GetCurrentPlayer();
         }
 
