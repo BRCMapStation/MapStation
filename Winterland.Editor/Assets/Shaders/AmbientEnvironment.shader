@@ -5,6 +5,7 @@ Shader "BRC/Ambient Environment"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Emission ("Emission", 2D) = "black" {}
     }
     SubShader
     {
@@ -39,18 +40,22 @@ Shader "BRC/Ambient Environment"
                 float4 pos : SV_POSITION;
                 float3 normal : TEXCOORD1;
                 SHADOW_COORDS(2) // put shadows data into TEXCOORD1
+                float2 uv2 : TEXCOORD3;
             };
 
             float4 LightColor;
             float4 ShadowColor;
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            sampler2D _Emission;
+            float4 _Emission_ST;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv2 = TRANSFORM_TEX(v.uv, _Emission);
                 o.normal = UnityObjectToWorldNormal(v.normal);
                 TRANSFER_SHADOW(o)
                 return o;
@@ -65,6 +70,9 @@ Shader "BRC/Ambient Environment"
                     lighting = 0.0;
                 float4 lightColor = lerp(ShadowColor, LightColor, lighting);
                 fixed4 col = tex2D(_MainTex, i.uv) * lightColor * _LightColor0.a;
+                fixed3 emissionCol = tex2D(_Emission, i.uv2).rgb;
+                if (emissionCol.r > 0 && emissionCol.g > 0 && emissionCol.b > 0)
+                    col.rgb = emissionCol;
                 return col;
             }
             ENDCG
