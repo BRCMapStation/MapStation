@@ -12,12 +12,15 @@ namespace Winterland.Common.Challenge {
         public Transform SpawnPoint = null;
         public bool StartWithGear = false;
         public float Timer => timer;
+        public Action OnStart;
         private Transform currentRespawnPoint = null;
         private float timer = 0f;
         private bool timerStarted = false;
+        public ChallengeCheckpoint[] Checkpoints = null;
 
         private void Awake() {
             Core.OnUpdate += Core_Update;
+            Checkpoints = GetComponentsInChildren<ChallengeCheckpoint>(true);
         }
 
         private void OnDestroy() {
@@ -34,9 +37,10 @@ namespace Winterland.Common.Challenge {
             timerStarted = false;
             WorldHandler.instance.PlacePlayerAt(player, currentRespawnPoint);
             player.SwitchToEquippedMovestyle(StartWithGear, false, true, false);
+            OnStart?.Invoke();
         }
 
-        public void EndChallenge() {
+        public void FinishChallenge() {
             WinterUI.Instance.ChallengeUI.Visible = false;
             var player = WorldHandler.instance.GetCurrentPlayer();
         }
