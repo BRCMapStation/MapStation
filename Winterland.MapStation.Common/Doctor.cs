@@ -62,7 +62,7 @@ namespace Winterland.MapStation.Common {
             return problems;
         }
 
-        private static readonly string[] VendingMachineAnimations = new[] {"none", "shake", "emptyShake", "close_0", "drop"};
+        private static readonly string[] VendingMachineAnimations = new[] {"none", "shake", "emptyShake", "close", "drop"};
 
         public static void AnalyzeAndLog(GameObject root) {
             var results = Analyze(root);

@@ -7,8 +7,7 @@ using SlopCrew.Server.XmasEvent;
 
 namespace Winterland.Common {
     /// <summary>
-    /// Global tree controller, instantiated on all stages.
-    /// Tracks networked tree state at all times.
+    /// Global networking controller, talks to slopcrew API, sends packets, fires an event on received Xmas packets.
     /// </summary>
     public class NetManager : MonoBehaviour {
         public static NetManager Instance {get; private set;}

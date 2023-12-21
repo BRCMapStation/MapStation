@@ -12,7 +12,7 @@ namespace Winterland.Common;
 /// Tree construction timeline tells this component to activate and deactivate.
 /// This component tells the timeline to pause till it's finished animating.
 /// </summary>
-public class TreePart : MonoBehaviour, ITreePauseReason {
+public class TreePart : MonoBehaviour, ITreeConstructionBlocker {
     public ITreeState state;
     public PlayableDirector appearanceDirector = null;
     public PlayableDirector disappearanceDirector = null;
@@ -27,7 +27,7 @@ public class TreePart : MonoBehaviour, ITreePauseReason {
         BeforeAppear();
         if(!Application.isEditor && !state.IsFastForwarding && StartAppearAnimation()) {
             // Wait for appearance animation
-            state.ReasonsToBePaused.Add(this);
+            state.ConstructionBlockers.Add(this);
         } else {
             // No appearance animation
             AfterAppear();
@@ -40,7 +40,7 @@ public class TreePart : MonoBehaviour, ITreePauseReason {
         BeforeDisappear();
         if(!Application.isEditor && !state.IsFastForwarding && StartDisappearAnimation()) {
             // Wait for disappearance animation
-            state.ReasonsToBePaused.Add(this);
+            state.ConstructionBlockers.Add(this);
         } else {
             // No disappearance animation
             AfterDisappear();
@@ -50,13 +50,13 @@ public class TreePart : MonoBehaviour, ITreePauseReason {
     void Update() {
         if(waitingForAppearDirectorToFinish && appearanceDirector.state != PlayState.Playing) {
             waitingForAppearDirectorToFinish = false;
-            state.ReasonsToBePaused.Remove(this);
+            state.ConstructionBlockers.Remove(this);
             AfterAppear();
             StartIdleAnimation();
         }
         if(waitingForDisappearDirectorToFinish && disappearanceDirector.state != PlayState.Playing) {
             waitingForDisappearDirectorToFinish = false;
-            state.ReasonsToBePaused.Remove(this);
+            state.ConstructionBlockers.Remove(this);
             AfterDisappear();
         }
     }
@@ -65,7 +65,7 @@ public class TreePart : MonoBehaviour, ITreePauseReason {
         appearanceDirector?.Stop();
         disappearanceDirector?.Stop();
         StopIdleAnimation();
-        state.ReasonsToBePaused.Remove(this);
+        state.ConstructionBlockers.Remove(this);
         waitingForAppearDirectorToFinish = false;
         waitingForDisappearDirectorToFinish = false;
         if(animator != null) {

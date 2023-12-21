@@ -9,35 +9,35 @@ namespace Winterland.Common;
 /// from glitching player into the ground.
 /// </summary>
 [SelectionBase]
-class TreePauseTrigger : MonoBehaviour, ITreePauseReason {
+class TreePauseTrigger : MonoBehaviour, ITreeConstructionBlocker {
     ITreeState state;
 
-    bool touchedPlayerLastFrame = false;
-    bool touchedPlayerThisFrame = false;
+    bool touchedPlayerLastTick = false;
+    bool touchedPlayerThisTick = false;
 
-    void Update() {
+    void FixedUpdate() {
         if(state == null) state = TreeController.Instance;
         // If tree exists
         if(state != null) {
             // If touch state changed
-            if(!touchedPlayerLastFrame && touchedPlayerThisFrame) state.ReasonsToBePaused.Add(this);
-            if(touchedPlayerLastFrame && !touchedPlayerThisFrame) state.ReasonsToBePaused.Remove(this);
+            if(!this.touchedPlayerLastTick && this.touchedPlayerThisTick) state.ConstructionBlockers.Add(this);
+            if(this.touchedPlayerLastTick && !this.touchedPlayerThisTick) state.ConstructionBlockers.Remove(this);
         }
-        touchedPlayerLastFrame = touchedPlayerThisFrame;
-        touchedPlayerThisFrame = false;
+        this.touchedPlayerLastTick = this.touchedPlayerThisTick;
+        this.touchedPlayerThisTick = false;
     }
 
     void OnDisable() {
         if(state != null) {
-            state.ReasonsToBePaused.Remove(this);
+            state.ConstructionBlockers.Remove(this);
         }
-        touchedPlayerLastFrame = false;
-        touchedPlayerThisFrame = false;
+        this.touchedPlayerLastTick = false;
+        this.touchedPlayerThisTick = false;
     }
 
     void OnTriggerStay(Collider other) {
         var player = PlayerCollisionUtility.GetPlayer(other);
         if(player == null) return;
-        touchedPlayerThisFrame = true;
+        this.touchedPlayerThisTick = true;
     }
 }

@@ -34,6 +34,9 @@ namespace Winterland.Common {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             GUILayout.BeginArea(new Rect(0, 0, Width, Height));
+            // HACK call it multiple times to increase the opacity (yes the internet recommended this)
+            GUILayout.BeginVertical(GUI.skin.box);
+            GUILayout.BeginVertical(GUI.skin.box);
             GUILayout.BeginVertical("Debug UI", GUI.skin.box);
             GUILayout.Space(20);
             try {
@@ -55,6 +58,8 @@ namespace Winterland.Common {
                     }
                 }
             } finally {
+                GUILayout.EndVertical();
+                GUILayout.EndVertical();
                 GUILayout.EndVertical();
                 GUILayout.EndArea();
             }

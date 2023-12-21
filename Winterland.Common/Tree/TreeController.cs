@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Reptile;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -13,21 +14,25 @@ namespace Winterland.Common {
         [SerializeField]
         public PlayableDirector director = null;
 
-        private const float MinTime = 0f;
-        [HideInInspector]
-        private float maxStepSpeed = 0.01f;
-        [HideInInspector]
-        private float maxStepSize = 0.01f;
-
         [SerializeField]
         public TreePart[] treeParts;
         [SerializeField]
         public TreePhase[] treePhases;
 
-        private int activePhaseIndex = -1;
+        public TreeProgress CurrentProgress = new ();
+        public TreeProgress TargetProgress { get; set; }
 
-        public TreePhase activePhase => activePhaseIndex >= 0 && activePhaseIndex < treePhases.Length ? treePhases[activePhaseIndex] : null;
-        public TreePhase nextPhase => activePhaseIndex >= -1 && activePhaseIndex < treePhases.Length - 1 ? treePhases[activePhaseIndex + 1] : null;
+        /// <summary>
+        /// Set to true after tree has received starting position and reset itself to that position.
+        /// Necessary because there may be a delay before first tree position is received from network.
+        /// </summary>
+        private bool InitializedTreeProgress = false;
+
+        public int ActivePhaseIndex => this.CurrentProgress.ActivePhaseIndex;
+        public float ActivePhaseProgress => this.CurrentProgress.ActivePhaseProgress;
+        
+        public TreePhase ActivePhase => ActivePhaseIndex >= 0 && ActivePhaseIndex < treePhases.Length ? treePhases[ActivePhaseIndex] : null;
+        public TreePhase NextPhase => ActivePhaseIndex >= -1 && ActivePhaseIndex < treePhases.Length - 1 ? treePhases[ActivePhaseIndex + 1] : null;
 
         private bool isFastForwarding;
         public bool IsFastForwarding {
@@ -39,14 +44,24 @@ namespace Winterland.Common {
                 }
             }
         }
-
-        private float progress = 0;
-
+        
         [HideInInspector]
-        private HashSet<ITreePauseReason> reasonsToBePaused = new ();
-        public HashSet<ITreePauseReason> ReasonsToBePaused => reasonsToBePaused;
+        private HashSet<ITreeConstructionBlocker> constructionBlockers = new ();
+        public HashSet<ITreeConstructionBlocker> ConstructionBlockers => this.constructionBlockers;
+
+        private bool IsConstructionBlocked => this.constructionBlockers.Count > 0;
 
         private TimelineScrubber timeline;
+        
+        // Set false for manual animation testing
+        private bool syncToGlobalProgress = true;
+        public bool SyncToGlobalProgress {
+            get => syncToGlobalProgress;
+            set {
+                syncToGlobalProgress = value;
+                UpdateGlobalProgressBinding();
+            }
+        }
 
         void OnValidate() {
             treeParts = GetComponentsInChildren<TreePart>();
@@ -65,7 +80,7 @@ namespace Winterland.Common {
                 treePart.ResetPart();
             }
             foreach(var treePhase in treePhases) {
-                treePhase.state = this;
+                treePhase.Tree = this;
                 treePhase.Init();
             }
 
@@ -84,7 +99,11 @@ namespace Winterland.Common {
             }
             #endif
 
-            ResetTo(TargetProgress());
+            UpdateGlobalProgressBinding();
+        }
+
+        void OnDisable() {
+            UpdateGlobalProgressBinding();
         }
 
         void Update() {
@@ -95,27 +114,43 @@ namespace Winterland.Common {
             }
             #endif
 
-            if(reasonsToBePaused.Count == 0) {
-                var target = Math.Min(progress + maxStepSize, TargetProgress());
-                // If rewinding, treat it like a fast-forward reset, skip animations
-                if(target < progress) {
-                    ResetTo(target);
+            if (this.TargetProgress != null) {
+                if (this.InitializedTreeProgress) {
+                    this.UpdateTreePosition();
                 } else {
-                    AdvanceTo(target);
+                    this.InitializeTreePosition();
+                }
+            }
+        }
+        
+        // Very first update of the tree, resets to starting position
+        void InitializeTreePosition() {
+            ResetTo(TargetProgress);
+            this.InitializedTreeProgress = true;
+        }
+        
+        // All subsequent updates of the treea, animtes forward or resets backward
+        void UpdateTreePosition() {
+            if(!this.IsConstructionBlocked) {
+                // If rewinding, treat it like a fast-forward reset, skip animations
+                if(this.CurrentProgress.IsPrecededBy(TargetProgress)) {
+                    ResetTo(this.TargetProgress);
+                } else {
+                    AdvanceToward(this.TargetProgress);
                 }
             }
         }
 
-        float TargetProgress() {
-            return 1f;
-            // return WinterProgress.Instance.GlobalProgress.TreeConstructionPercentage;
+        public void ResetToTarget() {
+            ResetTo(this.TargetProgress);
         }
 
-        public void ResetTo(float percentage) {
-            progress = percentage;
+        private void ResetTo(TreeProgress progress) {
             isFastForwarding = true;
-            activePhase?.Exit();
-            activePhaseIndex = -1;
+            // Reset everything to beginning
+            if(this.ActivePhase != null) this.ActivePhase.Exit();
+            this.CurrentProgress.ActivePhaseIndex = -1;
+            this.CurrentProgress.ActivePhaseProgress = 0;
             timeline.ResetTimeline();
             foreach(var phase in treePhases) {
                 phase.ResetPhase();
@@ -123,58 +158,137 @@ namespace Winterland.Common {
             foreach(var treePart in treeParts) {
                 treePart.ResetPart();
             }
-            AdvanceTo(percentage);
+            // Fast-forward to target
+            AdvanceToward(progress);
             isFastForwarding = false;
         }
 
-        public void AdvanceTo(float percentage) {
-            progress = percentage;
-            timeline.SetPercentComplete(percentage);
-            while(nextPhase != null && nextPhase.StartAt <= percentage) {
-                if(activePhase != null) {
-                    activePhase.Progress = 1;
-                    activePhase.Exit();
+        private void AdvanceToward(TreeProgress target) {
+            // Responsibilities:
+            // Update CurrentProgress
+            // call methods on Phases so they're accurate
+            // Halt partway if animation wants us to pause, but *not* if we're resetting/fast-forwarding
+
+            bool blocked() {
+                return !this.isFastForwarding && this.IsConstructionBlocked;
+            }
+
+            while (true) {
+                // If anything we've done has caused a construction block (we started an animation?)
+                // then stop here, wait for the block to be lifted.
+                if(blocked()) break;
+                
+                // Should we start the current phase?
+                if (ActivePhase != null && ActivePhase.State == TreePhase.TreePhaseState.Pending) {
+                    ActivePhase.Progress = 0;
+                    ActivePhase.Enter();
+                    continue;
                 }
-                activePhaseIndex++;
-                activePhase.Enter();
+
+                // If haven't reached target phase yet
+                if (target.ActivePhaseIndex > CurrentProgress.ActivePhaseIndex) {
+                    
+                    // Should we end current phase?
+                    if (ActivePhase != null && ActivePhase.State == TreePhase.TreePhaseState.Active) {
+                        ActivePhase.Progress = 1;
+                        ActivePhase.Exit();
+                        continue;
+                    }
+
+                    // Should we advance to next phase?  Once current phase is finished
+                    if (NextPhase != null &&
+                        (ActivePhase == null || ActivePhase.State == TreePhase.TreePhaseState.Finished)) {
+                        CurrentProgress.ActivePhaseIndex++;
+                        CurrentProgress.ActivePhaseProgress = 0;
+                        continue;
+                    }
+                }
+
+                // Have we reached target phase? If so, set its progress percentage
+                if (CurrentProgress.ActivePhaseIndex == target.ActivePhaseIndex && ActivePhase != null) {
+                    CurrentProgress.ActivePhaseProgress = target.ActivePhaseProgress;
+                    ActivePhase.Progress = target.ActivePhaseProgress;
+                    break;
+                }
+                
+                // If we get here, no actions are possible.
+                // Do not endless loop.
+                break;
             }
-            if(activePhase != null && nextPhase != null) {
-                var phaseProgress = (percentage - activePhase.StartAt) / (nextPhase.StartAt - activePhase.StartAt);
-                activePhase.Progress = phaseProgress;
+            
+            // At this point, CurrentProgress matches current state of the phases above.
+            // Set overall timeline to match.
+            timeline.SetPercentComplete(OverallProgress(CurrentProgress));
+        }
+
+        // Given we have X phases total, and are in phase Y at Z% complete, what % complete are we overall?
+        // Not scientific, just to drive timelines
+        private float OverallProgress(TreeProgress progress) {
+            return (progress.ActivePhaseIndex + progress.ActivePhaseProgress) / this.treePhases.Length;
+        }
+        
+        // Bind or unbind to changes in IGlobalProgress
+        private void UpdateGlobalProgressBinding() {
+            WinterProgress.Instance.GlobalProgress.OnGlobalStateChanged -= OnGlobalStateChanged;
+            if(syncToGlobalProgress && isActiveAndEnabled) {
+                WinterProgress.Instance.GlobalProgress.OnGlobalStateChanged += OnGlobalStateChanged;
+                TargetProgress = TreeProgressFromGlobalProgress();
             }
+        }
+        
+        private void OnGlobalStateChanged() {
+            TargetProgress = TreeController.TreeProgressFromGlobalProgress();
+        }
+
+        public static TreeProgress TreeProgressFromGlobalProgress() {
+            // First phase that's not 100% completed is the active phase
+            var state = WinterProgress.Instance.GlobalProgress.State;
+            for(var i = 0; i < state.Phases.Count; i++) {
+                var phase = state.Phases[i];
+                if (phase.GiftsCollected < phase.GiftsGoal) {
+                    float progress = 0;
+                    if (phase.GiftsCollected >= phase.GiftsGoal) progress = 1f;
+                    else if(phase.GiftsGoal > 0) progress = ((float) phase.GiftsCollected) / phase.GiftsGoal;
+                    return new TreeProgress() {
+                        ActivePhaseIndex = i,
+                        ActivePhaseProgress = progress 
+                    };
+                }
+            }
+            return new TreeProgress();
         }
 
 #if UNITY_EDITOR
 
-        [HideInInspector]    
-        [SerializeField]
-        public float unityEditorPlayButtonStart = 0;
-        [HideInInspector]    
-        [SerializeField]
-        public float unityEditorPlayButtonEnd = 0;
-
-        private bool unityEditorDidFirstUpdate = false;
+        // [HideInInspector]    
+        // [SerializeField]
+        // public float unityEditorPlayButtonStart = 0;
+        // [HideInInspector]    
+        // [SerializeField]
+        // public float unityEditorPlayButtonEnd = 0;
+        //
+        // private bool unityEditorDidFirstUpdate = false;
 
         void EditorOnValidate() {
-            if(unityEditorPlayButtonStart < MinTime) {
-                unityEditorPlayButtonStart = MinTime;
-            }
-            if(unityEditorPlayButtonEnd < MinTime) {
-                unityEditorPlayButtonEnd = MinTime;
-            }
+            // if(unityEditorPlayButtonStart < MinTime) {
+            //     unityEditorPlayButtonStart = MinTime;
+            // }
+            // if(unityEditorPlayButtonEnd < MinTime) {
+            //     unityEditorPlayButtonEnd = MinTime;
+            // }
         }
 
         void EditorOnEnable() {
-            isFastForwarding = true;
-            timeline.SetPercentComplete(unityEditorPlayButtonStart);
-            isFastForwarding = false;
+            // isFastForwarding = true;
+            // timeline.SetPercentComplete(unityEditorPlayButtonStart);
+            // isFastForwarding = false;
         }
 
         void EditorUpdate() {
-            if(!unityEditorDidFirstUpdate) {
-                unityEditorDidFirstUpdate = true;
-                timeline.SetPercentComplete(unityEditorPlayButtonEnd);
-            }
+            // if(!unityEditorDidFirstUpdate) {
+            //     unityEditorDidFirstUpdate = true;
+            //     timeline.SetPercentComplete(unityEditorPlayButtonEnd);
+            // }
         }
 
 #endif
