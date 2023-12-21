@@ -17,6 +17,7 @@ namespace Winterland.Common.Challenge {
                 return;
             if (player.isAI)
                 return;
+            player.PlayVoice(AudioClipID.VoiceDieFall, VoicePriority.DIE);
             StartCoroutine(RespawnRoutine(1f, 0.1f, 1f));
         }
 
