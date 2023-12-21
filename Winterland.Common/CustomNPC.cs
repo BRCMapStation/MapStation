@@ -24,6 +24,7 @@ namespace Winterland.Common {
         public string Name = "";
         public bool PlacePlayerAtSnapPosition = true;
         public bool LookAt = true;
+        public bool FixStupidFBXLookAtRotation = false;
         public bool ShowRep = false;
         public int MaxDialogueLevel = 1;
         [HideInInspector]
@@ -108,6 +109,7 @@ namespace Winterland.Common {
 #endif
 
         private void UpdateHeadTransform() {
+
             if (lookAtTarget == null) return;
             if (head == null) return;
             var visual = lookAtTarget.characterVisual;
@@ -124,6 +126,10 @@ namespace Winterland.Common {
             var pitchDifference = Mathf.DeltaAngle(targetRotation.x, referenceRotation.x);
             targetRotation.y = referenceRotation.y - Mathf.Clamp(yawDifference, -MaxHeadYaw, MaxHeadYaw);
             targetRotation.x = referenceRotation.x - Mathf.Clamp(pitchDifference, -MaxHeadPitch, MaxHeadPitch);
+
+            if (FixStupidFBXLookAtRotation)
+                targetRotation.z -= 90f;
+
             head.transform.rotation = Quaternion.Lerp(head.transform.rotation, Quaternion.Euler(targetRotation), currentLookAtAmount);
         }
 
