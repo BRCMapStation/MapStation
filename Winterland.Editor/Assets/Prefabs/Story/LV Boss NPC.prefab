@@ -88,9 +88,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9018474972372154446}
-  - component: {fileID: 5109347190434032793}
   - component: {fileID: 1858165266065225851}
   - component: {fileID: 3015307783043438716}
+  - component: {fileID: 4004358144602122475}
   m_Layer: 19
   m_Name: LV Boss NPC
   m_TagString: Untagged
@@ -117,19 +117,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!135 &5109347190434032793
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4379076093876311489}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.96
-  m_Center: {x: 0, y: 0, z: 0.29}
 --- !u!114 &1858165266065225851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +154,19 @@ MonoBehaviour:
   RequiredObjective: {fileID: 0}
   Condition: 0
   MinimumDialogueLevel: 0
+--- !u!65 &4004358144602122475
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4379076093876311489}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 1.6369119, z: 2.2206497}
+  m_Center: {x: 0, y: 0.31845593, z: 0.61032486}
 --- !u!1 &4880830458216070371
 GameObject:
   m_ObjectHideFlags: 0
