@@ -239,6 +239,10 @@ namespace Winterland.Common {
             TargetProgress = TreeController.TreeProgressFromGlobalProgress();
         }
 
+        /// <summary>
+        /// Derive target tree progress from global server-synced event progress,
+        /// return null if we haven't received server-synced progress yet.
+        /// </summary>
         public static TreeProgress TreeProgressFromGlobalProgress() {
             // First phase that's not 100% completed is the active phase.
             // NOTE TO SELF (cspotcode)
@@ -248,6 +252,7 @@ namespace Winterland.Common {
             // tree will interpret as phase 0 completed, so phase 1 active, even though
             // server is still counting gifts collected towards phase 0.
             var state = WinterProgress.Instance.GlobalProgress.State;
+            if(state == null) return null;
             for(var i = 0; i < state.Phases.Count; i++) {
                 var phase = state.Phases[i];
                 if (phase.GiftsCollected < phase.GiftsGoal) {
