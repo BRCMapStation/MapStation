@@ -3,6 +3,7 @@ using System;
 using Reptile;
 using CommonAPI;
 using BepInEx.Logging;
+using BepInEx.Bootstrap;
 using HarmonyLib;
 using System.IO;
 using System.Reflection;
@@ -17,6 +18,7 @@ namespace Winterland.Plugin
     public class Plugin : BaseUnityPlugin {
         public static Plugin Instance;
         public static ManualLogSource Log = null;
+        internal static bool DynamicCameraInstalled = false;
 
         // Hack: we must reference dependent assemblies from a class that's guaranteed to execute or else they don't
         // load and MonoBehaviours are missing.
@@ -52,6 +54,8 @@ namespace Winterland.Plugin
             StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
+
+            DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera");
         }
 
         private void StageAPI_OnStagePreInitialization(Stage newStage, Stage previousStage) {

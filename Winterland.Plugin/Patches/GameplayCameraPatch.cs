@@ -47,7 +47,7 @@ namespace Winterland.Plugin.Patches {
                     targetDragDistanceMax = zoomZone.CameraDragDistanceMax;
                     targetCameraHeight = zoomZone.CameraHeight;
                 }
-                if (zoomZone.ChangeCameraFOV)
+                if (zoomZone.ChangeCameraFOV && !Plugin.DynamicCameraInstalled)
                     targetCameraFOV = zoomZone.CameraFOV;
             }
 
