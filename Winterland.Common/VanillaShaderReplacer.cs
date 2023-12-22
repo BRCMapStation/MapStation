@@ -14,8 +14,20 @@ namespace Winterland.Common {
             foreach(var renderer in renderers) {
                 var materials = renderer.sharedMaterials;
                 foreach(var material in materials) {
-                    if (material.shader.name == "BRC/Ambient Character")
-                        material.shader = AssetAPI.GetShader(AssetAPI.ShaderNames.AmbientCharacter);
+                    switch (material.shader.name) {
+                        case "BRC/Ambient Character":
+                            material.shader = AssetAPI.GetShader(AssetAPI.ShaderNames.AmbientCharacter);
+                            break;
+                        case "BRC/Ambient Environment":
+                            material.shader = AssetAPI.GetShader(AssetAPI.ShaderNames.AmbientEnvironment);
+                            break;
+                        case "BRC/Ambient Environment Cutout":
+                            material.shader = AssetAPI.GetShader(AssetAPI.ShaderNames.AmbientEnvironmentCutout);
+                            break;
+                        case "BRC/Ambient Environment Transparent":
+                            material.shader = AssetAPI.GetShader(AssetAPI.ShaderNames.AmbientEnvironmentTransparent);
+                            break;
+                    }
                 }
             }
         }
