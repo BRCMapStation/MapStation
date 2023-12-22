@@ -25,7 +25,7 @@ namespace Winterland.Common {
             this.immediate = immediate;
             var sequenceHandler = CustomSequenceHandler.instance;
             var api = APIManager.API;
-            if (api.Connected) {
+            if (api != null && api.Connected) {
                 sequenceHandler.skipTextActiveState = SequenceHandler.SkipState.NOT_SKIPPABLE;
                 var giftCollectPacket = new XmasClientCollectGiftPacket();
                 NetManager.Instance.SendPacket(giftCollectPacket);
