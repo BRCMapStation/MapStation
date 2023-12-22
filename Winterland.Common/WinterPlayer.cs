@@ -27,6 +27,7 @@ namespace Winterland.Common {
         public const int MaxTimesTrampolined = 1;
         [NonSerialized]
         public Player player = null;
+        public CameraZoomZone CurrentCameraZoomZone = null;
         private SnowSinker snowSinker = null;
         private float snowTargetSize = 1f;
         private float snowTargetStrength = 1f;

@@ -71,8 +71,7 @@ Shader "BRC/Ambient Environment"
                 float4 lightColor = lerp(ShadowColor, LightColor, lighting);
                 fixed4 col = tex2D(_MainTex, i.uv) * lightColor * _LightColor0.a;
                 fixed3 emissionCol = tex2D(_Emission, i.uv2).rgb;
-                if (emissionCol.r > 0 && emissionCol.g > 0 && emissionCol.b > 0)
-                    col.rgb = emissionCol;
+                col.rgb += emissionCol.rgb;
                 return col;
             }
             ENDCG

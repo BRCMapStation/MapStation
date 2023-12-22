@@ -43,7 +43,9 @@ public class TreePhase : MonoBehaviour {
         this.State = TreePhaseState.Active;
         UpdateScrubbers();
         foreach(var part in showTreeParts) {
-            part.Appear();
+            if(part != null) {
+                part.Appear();
+            }
         }
     }
 
@@ -52,7 +54,9 @@ public class TreePhase : MonoBehaviour {
         this.State = TreePhaseState.Finished;
         UpdateScrubbers();
         foreach(var part in hideTreeParts) {
-            part.Disappear();
+            if(part != null) {
+                part.Disappear();
+            }
         }
     }
 

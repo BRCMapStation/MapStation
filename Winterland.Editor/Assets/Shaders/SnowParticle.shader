@@ -2,6 +2,7 @@ Shader "Winterland/Snow Particle"
 {
     Properties
     {
+        _Color("Color", Color) = (1,1,1,1)
         _MainTex("Texture", 2D) = "white" {}
         _CutoutTex("Cutout Texture", 2D) = "white" {}
     }
@@ -38,6 +39,7 @@ Shader "Winterland/Snow Particle"
                 float4 color : COLOR;
             };
 
+            float4 _Color;
             float4 LightColor;
             float4 ShadowColor;
             sampler2D _MainTex;
@@ -61,7 +63,7 @@ Shader "Winterland/Snow Particle"
                 else
                     lighting = 0.0;
                 float4 lightColor = lerp(ShadowColor, LightColor, lighting);
-                fixed4 col = tex2D(_MainTex, i.uv) * lightColor * _LightColor0.a;
+                fixed4 col = tex2D(_MainTex, i.uv) * _Color * lightColor * _LightColor0.a;
                 fixed4 cutoutCol = tex2D(_CutoutTex, i.uv);
                 cutoutCol.r -= -(i.color.a - 1);
                 clip(cutoutCol.r);

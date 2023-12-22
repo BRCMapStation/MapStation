@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Winterland.Common {
     public enum Toys {
-        InfernoB,
+        Inferno,
         Fuguman,
         Bullied,
         Brain,
         Cars,
-        InfernoR,
         Petemeat,
         Polo,
         Spacey

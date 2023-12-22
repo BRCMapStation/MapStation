@@ -88,9 +88,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9018474972372154446}
-  - component: {fileID: 5109347190434032793}
   - component: {fileID: 1858165266065225851}
   - component: {fileID: 3015307783043438716}
+  - component: {fileID: 4004358144602122475}
   m_Layer: 19
   m_Name: LV Boss NPC
   m_TagString: Untagged
@@ -117,19 +117,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!135 &5109347190434032793
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4379076093876311489}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.75
-  m_Center: {x: 0, y: 0, z: 0.29}
 --- !u!114 &1858165266065225851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +133,7 @@ MonoBehaviour:
   Name: LV-8055
   PlacePlayerAtSnapPosition: 1
   LookAt: 1
+  FixStupidFBXLookAtRotation: 0
   ShowRep: 0
   MaxDialogueLevel: 1
   CurrentDialogueLevel: 0
@@ -166,6 +154,19 @@ MonoBehaviour:
   RequiredObjective: {fileID: 0}
   Condition: 0
   MinimumDialogueLevel: 0
+--- !u!65 &4004358144602122475
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4379076093876311489}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 1.6369119, z: 2.2206497}
+  m_Center: {x: 0, y: 0.31845593, z: 0.61032486}
 --- !u!1 &4880830458216070371
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,14 +619,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7350858125212805756}
-  m_LocalRotation: {x: 0.060905408, y: 0.9264596, z: -0.17117666, w: 0.32963863}
-  m_LocalPosition: {x: -1.079, y: 1.303, z: 1.391}
+  m_LocalRotation: {x: -0.018354654, y: 0.90984386, z: -0.17479992, w: -0.37588868}
+  m_LocalPosition: {x: 1.154, y: 1.581, z: 2.271}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2894969132736145594}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 20.936, y: 140.828, z: 0}
+  m_LocalEulerAnglesHint: {x: 19.383, y: 225.914, z: 5.964}
 --- !u!20 &1846202226405436968
 Camera:
   m_ObjectHideFlags: 0
@@ -819,15 +820,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5228194823628440554, guid: 5577d5815d8a84249870c33db9e987f1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.08636379
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5228194823628440554, guid: 5577d5815d8a84249870c33db9e987f1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00073719025
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5228194823628440554, guid: 5577d5815d8a84249870c33db9e987f1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.9050064
+      value: 1.649
       objectReference: {fileID: 0}
     - target: {fileID: 5228194823628440554, guid: 5577d5815d8a84249870c33db9e987f1, type: 3}
       propertyPath: m_LocalRotation.w
