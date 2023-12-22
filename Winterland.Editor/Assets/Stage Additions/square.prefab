@@ -2322,6 +2322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4179655347193705464}
   - component: {fileID: 1357713241693350256}
+  - component: {fileID: 8775704332674903053}
   m_Layer: 0
   m_Name: Billboard Material Replacement
   m_TagString: Untagged
@@ -2357,6 +2358,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NameOfMaterialToReplace: BillboardAtlasMat
+  ReplacementMaterial: {fileID: 2100000, guid: 5539843beaf76724e8158109965e263e, type: 2}
+  UseBRCShader: 1
+  BRCShaderName: 1
+--- !u!114 &8775704332674903053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5939320110559344673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1574267597, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NameOfMaterialToReplace: BillboardEmissionMat
   ReplacementMaterial: {fileID: 2100000, guid: 5539843beaf76724e8158109965e263e, type: 2}
   UseBRCShader: 1
   BRCShaderName: 1
@@ -5032,7 +5049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 812077034809225606, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140614
+      value: -3524908
       objectReference: {fileID: 0}
     - target: {fileID: 812077034809225606, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5080,7 +5097,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 812077034809225821, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140594
+      value: -3524888
       objectReference: {fileID: 0}
     - target: {fileID: 812077034809225821, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5144,7 +5161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1046210024069886086, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140486
+      value: -3524780
       objectReference: {fileID: 0}
     - target: {fileID: 1046210024069886086, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5192,7 +5209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1046210024069886369, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140466
+      value: -3524760
       objectReference: {fileID: 0}
     - target: {fileID: 1046210024069886369, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5248,7 +5265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1525178774786002765, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140274
+      value: -3524568
       objectReference: {fileID: 0}
     - target: {fileID: 1525178774786002765, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5368,7 +5385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4093238667460268055, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140340
+      value: -3524634
       objectReference: {fileID: 0}
     - target: {fileID: 4093238667460268055, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5420,7 +5437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4132192988102444704, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140550
+      value: -3524844
       objectReference: {fileID: 0}
     - target: {fileID: 4132192988102444704, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5468,7 +5485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4132192988102445134, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140530
+      value: -3524824
       objectReference: {fileID: 0}
     - target: {fileID: 4132192988102445134, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5524,7 +5541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4679545098354626426, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140184
+      value: -3524478
       objectReference: {fileID: 0}
     - target: {fileID: 4679545098354626426, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5580,7 +5597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5509162516042264198, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140254
+      value: -3524548
       objectReference: {fileID: 0}
     - target: {fileID: 5509162516042264198, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5700,7 +5717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6962388909554977863, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140204
+      value: -3524498
       objectReference: {fileID: 0}
     - target: {fileID: 6962388909554977863, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5748,7 +5765,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7265387915322065116, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140402
+      value: -3524696
       objectReference: {fileID: 0}
     - target: {fileID: 7265387915322065116, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5796,7 +5813,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7265387915322065715, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140422
+      value: -3524716
       objectReference: {fileID: 0}
     - target: {fileID: 7265387915322065715, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5860,7 +5877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8804387574250251597, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: instanceID
-      value: -3140320
+      value: -3524614
       objectReference: {fileID: 0}
     - target: {fileID: 8804387574250251597, guid: aaf9c368db20f3142b4c69173384736d, type: 3}
       propertyPath: sharedMesh
@@ -5966,7 +5983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1058782313359326557, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3142204
+      value: -3526182
       objectReference: {fileID: 0}
     - target: {fileID: 1058782313359326557, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6014,7 +6031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1058782313359326854, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3142184
+      value: -3526162
       objectReference: {fileID: 0}
     - target: {fileID: 1058782313359326854, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6106,7 +6123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2125082549742793205, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3142614
+      value: -3526592
       objectReference: {fileID: 0}
     - target: {fileID: 2125082549742793205, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6154,7 +6171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2125082549742796571, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3142634
+      value: -3526612
       objectReference: {fileID: 0}
     - target: {fileID: 2125082549742796571, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6226,7 +6243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2921826465699049768, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3142118
+      value: -3526096
       objectReference: {fileID: 0}
     - target: {fileID: 2921826465699049768, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6274,7 +6291,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2921826465699050227, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3142138
+      value: -3526116
       objectReference: {fileID: 0}
     - target: {fileID: 2921826465699050227, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6354,7 +6371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5275791306421860048, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3147780
+      value: -3531758
       objectReference: {fileID: 0}
     - target: {fileID: 5275791306421860048, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6398,7 +6415,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5275791306421860414, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3147800
+      value: -3531778
       objectReference: {fileID: 0}
     - target: {fileID: 5275791306421860414, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6478,7 +6495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7230681402416317460, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3148546
+      value: -3532524
       objectReference: {fileID: 0}
     - target: {fileID: 7230681402416317460, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6526,7 +6543,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7230681402416319226, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3148566
+      value: -3532544
       objectReference: {fileID: 0}
     - target: {fileID: 7230681402416319226, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6614,7 +6631,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8536767935752219732, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3142270
+      value: -3526248
       objectReference: {fileID: 0}
     - target: {fileID: 8536767935752219732, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6662,7 +6679,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8536767935752220559, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3142250
+      value: -3526228
       objectReference: {fileID: 0}
     - target: {fileID: 8536767935752220559, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6758,7 +6775,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8638061186873516576, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3149312
+      value: -3533290
       objectReference: {fileID: 0}
     - target: {fileID: 8638061186873516576, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh
@@ -6806,7 +6823,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8638061186873519310, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: instanceID
-      value: -3149332
+      value: -3533310
       objectReference: {fileID: 0}
     - target: {fileID: 8638061186873519310, guid: 1737bba2f8be2c5418d9fa805f294cf5, type: 3}
       propertyPath: sharedMesh

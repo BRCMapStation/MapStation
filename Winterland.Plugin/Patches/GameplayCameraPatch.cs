@@ -16,7 +16,7 @@ namespace Winterland.Plugin.Patches {
         private static float OriginalCameraHeight;
         private static float OriginalCameraFOV;
 
-        private static float CameraTransitionSpeed = 10f;
+        private const float CameraTransitionSpeed = 5f;
 
         [HarmonyPostfix]
         [HarmonyPatch(nameof(GameplayCamera.Awake))]
@@ -47,7 +47,7 @@ namespace Winterland.Plugin.Patches {
                     targetDragDistanceMax = zoomZone.CameraDragDistanceMax;
                     targetCameraHeight = zoomZone.CameraHeight;
                 }
-                if (zoomZone.ChangeCameraFOV)
+                if (zoomZone.ChangeCameraFOV && !Plugin.DynamicCameraInstalled)
                     targetCameraFOV = zoomZone.CameraFOV;
             }
 
