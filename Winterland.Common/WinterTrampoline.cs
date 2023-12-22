@@ -7,7 +7,7 @@ namespace Winterland.Common;
 class WinterTrampoline : MonoBehaviour {
 
     public float Power;
-    public AudioSource audioSource;
+    public AudioClip bounceAudioClip;
 
     void OnTriggerEnter(Collider other) {
         if(!isActiveAndEnabled) return;
@@ -15,8 +15,10 @@ class WinterTrampoline : MonoBehaviour {
         if(player != null) {
             // See also: Player.Jump implementation for BoostJump pads
             player.motor.SetVelocityYOneTime(Power);
-            if(audioSource != null) {
-                audioSource.Play();
+
+            if (bounceAudioClip != null) {
+                var audioManager = Core.Instance.AudioManager;
+                audioManager.PlayNonloopingSfx(audioManager.audioSources[3], bounceAudioClip, audioManager.mixerGroups[3], 0f);
             }
             var winterPlayer = WinterPlayer.Get(player);
             if (winterPlayer != null) {
