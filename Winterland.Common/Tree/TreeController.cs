@@ -148,7 +148,6 @@ namespace Winterland.Common {
         private void ResetTo(TreeProgress progress) {
             isFastForwarding = true;
             // Reset everything to beginning
-            if(this.ActivePhase != null) this.ActivePhase.Exit();
             this.CurrentProgress.ActivePhaseIndex = -1;
             this.CurrentProgress.ActivePhaseProgress = 0;
             timeline.ResetTimeline();
@@ -240,9 +239,20 @@ namespace Winterland.Common {
             TargetProgress = TreeController.TreeProgressFromGlobalProgress();
         }
 
+        /// <summary>
+        /// Derive target tree progress from global server-synced event progress,
+        /// return null if we haven't received server-synced progress yet.
+        /// </summary>
         public static TreeProgress TreeProgressFromGlobalProgress() {
-            // First phase that's not 100% completed is the active phase
+            // First phase that's not 100% completed is the active phase.
+            // NOTE TO SELF (cspotcode)
+            // Server and tree can have different concepts of "active phase" if
+            // server has ActivateNextPhaseAutomatically disabled.
+            // For example, if server shows phase 0 = active with 27/25 gifts collected,
+            // tree will interpret as phase 0 completed, so phase 1 active, even though
+            // server is still counting gifts collected towards phase 0.
             var state = WinterProgress.Instance.GlobalProgress.State;
+            if(state == null) return null;
             for(var i = 0; i < state.Phases.Count; i++) {
                 var phase = state.Phases[i];
                 if (phase.GiftsCollected < phase.GiftsGoal) {
