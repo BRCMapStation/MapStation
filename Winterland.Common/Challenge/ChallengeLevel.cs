@@ -8,14 +8,24 @@ using UnityEngine;
 
 namespace Winterland.Common.Challenge {
     public class ChallengeLevel : MonoBehaviour {
+        [Header("Sequences")]
+        public CustomNPC ArcadeNPC = null;
+        public Sequence FinishSequence = null;
+        public Sequence FinishNewBestTimeSequence = null;
+        public Sequence QuitSequence = null;
+        [Header("General")]
         public static ChallengeLevel CurrentChallengeLevel = null;
         public Transform SpawnPoint = null;
         public bool StartWithGear = false;
         public float Timer => timer;
         public Action OnStart;
+        public string GUID;
+        [HideInInspector]
+        public float BestTime;
         private Transform currentRespawnPoint = null;
         private float timer = 0f;
         private bool timerStarted = false;
+        [HideInInspector]
         public ChallengeCheckpoint[] Checkpoints = null;
 
         // Temporary
@@ -24,6 +34,11 @@ namespace Winterland.Common.Challenge {
         private void Awake() {
             Core.OnUpdate += Core_Update;
             Checkpoints = GetComponentsInChildren<ChallengeCheckpoint>(true);
+            BestTime = WinterProgress.Instance.LocalProgress.GetChallengeBestTime(this);
+        }
+
+        private void Reset() {
+            GUID = Guid.NewGuid().ToString();
         }
 
         private void OnDestroy() {
@@ -46,8 +61,21 @@ namespace Winterland.Common.Challenge {
         public void FinishChallenge() {
             WinterUI.Instance.ChallengeUI.Visible = false;
             CurrentChallengeLevel = null;
-            var player = WorldHandler.instance.GetCurrentPlayer();
-            WorldHandler.instance.PlacePlayerAt(player, exitTransform);
+            if (BestTime == 0f || Timer < BestTime) {
+                var progress = WinterProgress.Instance.LocalProgress;
+                BestTime = Timer;
+                progress.SetChallengeBestTime(this, BestTime);
+                progress.Save();
+                ArcadeNPC.StartSequence(FinishNewBestTimeSequence);
+            } else {
+                ArcadeNPC.StartSequence(FinishSequence);
+            }
+        }
+
+        public void QuitChallenge() {
+            WinterUI.Instance.ChallengeUI.Visible = false;
+            CurrentChallengeLevel = null;
+            ArcadeNPC.StartSequence(QuitSequence);
         }
 
         public void Respawn() {

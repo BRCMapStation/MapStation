@@ -35,7 +35,7 @@ namespace Winterland.Common.Challenge {
             TimerLabel.text = SecondsToMMSS(currentChallenge.Timer);
         }
 
-        private string SecondsToMMSS(float seconds) {
+        public static string SecondsToMMSS(float seconds) {
             var minutesTotal = seconds / 60f;
             var secondsTotal = seconds;
 

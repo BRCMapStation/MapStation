@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CommonAPI;
 using Reptile;
 using UnityEngine;
+using Winterland.Common.Challenge;
 
 namespace Winterland.Common {
     public class DialogSequenceAction : CameraSequenceAction {
@@ -41,6 +42,14 @@ namespace Winterland.Common {
                 var parsedText = dialog.Text;
                 var toyLinesLeft = ToyLineManager.Instance.ToyLines.Count - WinterProgress.Instance.LocalProgress.ToyLinesCollected;
                 parsedText = parsedText.Replace("$TOYS_LEFT", toyLinesLeft.ToString());
+                if (NPC != null) {
+                    if (NPC.Challenge != null) {
+                        var challengeTime = ChallengeUI.SecondsToMMSS(NPC.Challenge.Timer);
+                        var challengeBestTime = ChallengeUI.SecondsToMMSS(NPC.Challenge.BestTime);
+                        parsedText = parsedText.Replace("$ARCADE_LASTTIME", challengeTime);
+                        parsedText = parsedText.Replace("$ARCADE_BESTTIME", challengeBestTime);
+                    }
+                }
                 var customDialog = new CustomDialogue(dialog.SpeakerName, parsedText);
                 customDialogs.Add(customDialog);
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using CommonAPI;
 using Reptile;
+using Winterland.Common.Challenge;
 
 namespace Winterland.Common {
     [ExecuteAlways]
@@ -21,6 +22,7 @@ namespace Winterland.Common {
                 guid = value.ToString();
             }
         }
+        public ChallengeLevel Challenge = null;
         public string Name = "";
         public bool PlacePlayerAtSnapPosition = true;
         public bool LookAt = true;
@@ -188,6 +190,10 @@ namespace Winterland.Common {
             }
             if (sequence == null)
                 return;
+            StartSequence(sequence);
+        }
+
+        public void StartSequence(Sequence sequence) {
             var sequenceWrapper = sequence.GetCustomSequence(this);
             if (sequenceWrapper == null)
                 return;

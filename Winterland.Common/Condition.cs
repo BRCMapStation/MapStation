@@ -9,6 +9,7 @@ namespace Winterland.Common {
         None,
         HasWantedLevel,
         CollectedAllToyLines,
-        CollectedSomeToyLines
+        CollectedSomeToyLines,
+        ArcadeBestTimeSet
     }
 }

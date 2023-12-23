@@ -8,6 +8,8 @@ using BepInEx;
 using UnityEngine;
 using CommonAPI;
 using UnityEngine.XR.WSA;
+using System.Security.Principal;
+using Winterland.Common.Challenge;
 
 namespace Winterland.Common {
     /// <summary>
@@ -18,10 +20,12 @@ namespace Winterland.Common {
         public int Gifts { get; set; }
         public int FauxJuggleHighScore { get; set; }
         public int ToyLinesCollected => collectedToyLines.Count;
-        private const byte Version = 3;
+        public bool ArcadeUnlocked { get; set; }
+        private const byte Version = 4;
         private string savePath;
         private Dictionary<Guid, SerializedNPC> npcs;
         private HashSet<Guid> collectedToyLines;
+        private Dictionary<string, float> challengeBestTimes;
 
         public LocalProgress() {
             InitializeNew();
@@ -31,8 +35,10 @@ namespace Winterland.Common {
         public void InitializeNew() {
             npcs = new();
             collectedToyLines = new();
+            challengeBestTimes = new();
             Gifts = 0;
             FauxJuggleHighScore = 0;
+            ArcadeUnlocked = false;
             Objective = ObjectiveDatabase.StartingObjective;
             savePath = Path.Combine(Paths.ConfigPath, "MilleniumWinterland/localprogress.mwp");
         }
@@ -99,6 +105,12 @@ namespace Winterland.Common {
                 writer.Write(toyLine.ToString());
             }
             writer.Write(FauxJuggleHighScore);
+            writer.Write(ArcadeUnlocked);
+            writer.Write(challengeBestTimes.Count);
+            foreach(var challenge in challengeBestTimes) {
+                writer.Write(challenge.Key);
+                writer.Write(challenge.Value);
+            }
         }
 
         private void Read(BinaryReader reader) {
@@ -134,6 +146,24 @@ namespace Winterland.Common {
             if (version > 2) {
                 FauxJuggleHighScore = reader.ReadInt32();
             }
+            if (version > 3) {
+                ArcadeUnlocked = reader.ReadBoolean();
+                var challengeCount = reader.ReadInt32();
+                for (var i = 0; i < challengeCount; i++) {
+                    var guid = reader.ReadString();
+                    challengeBestTimes[guid] = reader.ReadSingle();
+                }
+            }
+        }
+
+        public void SetChallengeBestTime(ChallengeLevel challenge, float bestTime) {
+            challengeBestTimes[challenge.GUID] = bestTime;
+        }
+
+        public float GetChallengeBestTime(ChallengeLevel challenge) {
+            if (challengeBestTimes.TryGetValue(challenge.GUID, out var result))
+                return result;
+            return 0f;
         }
     }
 }

@@ -19,7 +19,9 @@ public class SequenceEditor : Editor {
         typeof(NotificationSequenceAction),
         typeof(RespawnToyLinesSequenceAction),
         typeof(JumpSequenceAction),
-        typeof(StartChallengeSequenceAction)
+        typeof(StartChallengeSequenceAction),
+        typeof(UnlockArcadeSequenceAction),
+        typeof(QuitChallengeSequenceAction)
     };
     private Dictionary<SequenceAction, Editor> cachedEditors = new();
     public override void OnInspectorGUI() {

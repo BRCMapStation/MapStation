@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Winterland.Common.Challenge;
 
 namespace Winterland.Common {
     /// <summary>
@@ -13,6 +14,7 @@ namespace Winterland.Common {
         public int Gifts { get; set; }
         public int FauxJuggleHighScore { get; set; }
         public int ToyLinesCollected { get; }
+        public bool ArcadeUnlocked { get; set; }
         public void InitializeNew();
         public void Save();
         public void Load();
@@ -20,5 +22,7 @@ namespace Winterland.Common {
         public SerializedNPC GetNPCProgress(CustomNPC npc);
         public void SetToyLineCollected(Guid guid, bool collected);
         public bool IsToyLineCollected(Guid guid);
+        public void SetChallengeBestTime(ChallengeLevel challenge, float bestTime);
+        public float GetChallengeBestTime(ChallengeLevel challenge);
     }
 }

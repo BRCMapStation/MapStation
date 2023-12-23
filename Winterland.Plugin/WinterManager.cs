@@ -22,6 +22,7 @@ namespace Winterland.Plugin
             var gameObject = new GameObject("Winter Manager");
             var winterManager = gameObject.AddComponent<WinterManager>();
             gameObject.AddComponent<ToyLineManager>();
+            gameObject.AddComponent<ArcadeManager>();
             return winterManager;
         }
 

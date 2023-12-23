@@ -11,6 +11,7 @@ namespace Winterland.Common.Challenge {
         public bool IsFinish = false;
         public ChallengeLevel Level => owner;
         public Transform RespawnPoint = null;
+        [HideInInspector]
         public bool Hit = false;
         private ChallengeLevel owner = null;
 
@@ -36,14 +37,11 @@ namespace Winterland.Common.Challenge {
             Hit = true;
             if (!IsFinish)
                 return;
-
             // TODO CHECK CHECKPOINTS!!!
-
-            /*
             foreach (var checkpoint in owner.Checkpoints) {
                 if (!checkpoint.Hit)
                     return;
-            }*/
+            }
             owner.FinishChallenge();
         }
     }
