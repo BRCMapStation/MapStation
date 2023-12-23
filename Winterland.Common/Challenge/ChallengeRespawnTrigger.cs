@@ -9,6 +9,7 @@ using Reptile;
 
 namespace Winterland.Common.Challenge {
     public class ChallengeRespawnTrigger : MonoBehaviour {
+        private bool busy = false;
         private void OnTriggerEnter(Collider other) {
             var player = other.GetComponent<Player>();
             if (player == null)
@@ -17,6 +18,9 @@ namespace Winterland.Common.Challenge {
                 return;
             if (player.isAI)
                 return;
+            if (busy)
+                return;
+            busy = true;
             player.PlayVoice(AudioClipID.VoiceDieFall, VoicePriority.DIE);
             StartCoroutine(RespawnRoutine(1f, 0.1f, 1f));
         }
@@ -26,6 +30,7 @@ namespace Winterland.Common.Challenge {
             effects.FadeInAndOutBlack(fadeInDuration, blackScreenDuration, fadeOutDuration);
             yield return new WaitForSeconds(fadeInDuration + blackScreenDuration);
             ChallengeLevel.CurrentChallengeLevel.Respawn();
+            busy = false;
         }
     }
 }
