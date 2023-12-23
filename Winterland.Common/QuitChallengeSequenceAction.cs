@@ -15,7 +15,7 @@ namespace Winterland.Common {
                 Finish(immediate);
                 return;
             }
-            currentChallenge.ArcadeNPC.StartSequence(currentChallenge.QuitSequence);
+            currentChallenge.QuitChallenge();
             Finish(immediate);
         }
     }
