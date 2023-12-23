@@ -12,28 +12,42 @@ class EffectSpawner : MonoBehaviour {
     public float playbackSpeed = 1f;
     public bool spawnParentedToMe = true;
 
+    private bool spawnNextFrame;
+
     void Awake() {
         if(prefab == null) {
             prefab = Core.Instance.Assets.LoadAssetFromBundle<UnityEngine.GameObject>(prefabAssetBundle, prefabAssetPath);
         }
     }
     void OnEnable() {
-        SpawnEffect();
+        // Wait a frame in case we get rapidly enabled/disabled while things set up
+        spawnNextFrame = true;
     }
+    void OnDisable() {
+        spawnNextFrame = false;
+    }
+    void Update() {
+        if(spawnNextFrame) {
+            spawnNextFrame = false;
+            SpawnEffect();
+        }
+    }
+
     void SpawnEffect() {
-        GameObject instance;
+        GameObject spawned;
         // Leave this enabled. unless there's some reason parenting the effect to the tree breaks stuff(??)
         if(spawnParentedToMe) {
-            instance = GameObject.Instantiate<GameObject>(prefab, transform);
+            spawned = GameObject.Instantiate<GameObject>(prefab, transform);
         } else {
-            instance = GameObject.Instantiate<GameObject>(prefab);
-            instance.transform.position = transform.position;
-            instance.transform.rotation = transform.rotation;
-            instance.transform.localScale = transform.localScale;
+            spawned = GameObject.Instantiate<GameObject>(prefab);
+            spawned.transform.position = transform.position;
+            spawned.transform.rotation = transform.rotation;
+            spawned.transform.localScale = transform.localScale;
         }
-        var effectC = instance.GetComponent<OneOffVisualEffect>();
-        var animation = effectC.anim;
+        var visFx = spawned.GetComponent<OneOffVisualEffect>();
+        var animation = visFx.anim;
         // Not sure about this line of code, best way to get default animation's name to set the speed?
         animation[animation.clip.name].speed = playbackSpeed;
+        Debug.Log($"Spawned effect: {spawned}");
     }
 }
