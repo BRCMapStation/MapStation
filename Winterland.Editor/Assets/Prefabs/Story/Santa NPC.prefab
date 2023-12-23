@@ -180,7 +180,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4338912150754813107}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &604056638709197812
 MonoBehaviour:
@@ -505,7 +505,7 @@ Transform:
   m_Children:
   - {fileID: 4106936619712189631}
   m_Father: {fileID: 4338912150754813107}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4003436014354901181
 MonoBehaviour:
@@ -771,6 +771,7 @@ Transform:
   m_Children:
   - {fileID: 3878314245064063029}
   - {fileID: 8245473077980261603}
+  - {fileID: 2984837000692224743}
   - {fileID: 3090728773581920258}
   - {fileID: 8825282453336377555}
   - {fileID: 9082584334843241963}
@@ -778,6 +779,107 @@ Transform:
   m_Father: {fileID: 8751001019363197966}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7970498304930908299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2984837000692224743}
+  - component: {fileID: 1984212210453287764}
+  - component: {fileID: 5801501087494817437}
+  - component: {fileID: 990881807026284063}
+  m_Layer: 0
+  m_Name: Arcade Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2984837000692224743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7970498304930908299}
+  m_LocalRotation: {x: -0.10799485, y: 0.3744068, z: -0.043954562, w: -0.9199047}
+  m_LocalPosition: {x: -51.61, y: 0.54, z: 40.83}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4338912150754813107}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 13.392, y: 315.707, z: 0}
+--- !u!20 &1984212210453287764
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7970498304930908299}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 38.4
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &5801501087494817437
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7970498304930908299}
+  m_Enabled: 1
+--- !u!114 &990881807026284063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7970498304930908299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cde950e5c00804d8cb9b499658fc5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useCustomCullingMask: 0
+  customCullingMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8457577720761796592
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,7 +915,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4338912150754813107}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1256379589600389007
 MonoBehaviour:
@@ -994,6 +1096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guid: 6df537f9-d2e6-41f0-a760-0c8b41b72efd
+  Challenge: {fileID: 0}
   Name: Santa
   PlacePlayerAtSnapPosition: 1
   LookAt: 1
@@ -1106,6 +1209,11 @@ GameObject:
   - component: {fileID: 7405124341745487923}
   - component: {fileID: 7957142491597464949}
   - component: {fileID: 8782879032260963441}
+  - component: {fileID: 1187330494291148075}
+  - component: {fileID: 1509589710501566092}
+  - component: {fileID: 5971200656559503822}
+  - component: {fileID: 709292201075931948}
+  - component: {fileID: 8959342555009509290}
   m_Layer: 0
   m_Name: Collect Gifts
   m_TagString: Untagged
@@ -1126,7 +1234,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4338912150754813107}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4296117634675571795
 MonoBehaviour:
@@ -1199,8 +1307,8 @@ MonoBehaviour:
   m_Script: {fileID: 1438341381, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 2
-  Name: 
+  Order: 4
+  Name: End
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
 --- !u!114 &7261157416608722836
@@ -1290,7 +1398,7 @@ MonoBehaviour:
   m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 3
+  Order: 5
   Name: Reject
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -1314,7 +1422,7 @@ MonoBehaviour:
   m_Script: {fileID: 1438341381, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 4
+  Order: 6
   Name: 
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -1367,7 +1475,7 @@ MonoBehaviour:
   m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 5
+  Order: 7
   Name: Disconnected
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -1415,6 +1523,100 @@ MonoBehaviour:
   SpeakerName: ???
   Text: Once they <color=yellow>reconnect</color>, you should try gathering the toys
     again. Sorry about that!
+  AudioClips: []
+--- !u!114 &1187330494291148075
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1840159614, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 2
+  Name: 
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  SuccessfullyUnlockedTarget: 
+  AlreadyUnlockedTarget: End
+--- !u!114 &1509589710501566092
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 3
+  Name: Arcade Unlock Dialogue
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  Camera: {fileID: 990881807026284063}
+  Type: 0
+  YesTarget: 
+  NahTarget: 
+  AudioClips: []
+--- !u!114 &5971200656559503822
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 1
+  Owner: {fileID: 1509589710501566092}
+  Speaker: 1
+  SpeakerName: ???
+  Text: Yo-ho! Before you go!
+  AudioClips: []
+--- !u!114 &709292201075931948
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 2
+  Owner: {fileID: 1509589710501566092}
+  Speaker: 1
+  SpeakerName: ???
+  Text: See that <color=yellow>arcade cabinet</color>? Thanks to your help, the LVs
+    have been able to get it up and running!
+  AudioClips: []
+--- !u!114 &8959342555009509290
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 3
+  Owner: {fileID: 1509589710501566092}
+  Speaker: 1
+  SpeakerName: ???
+  Text: Why don't you go take a look? Make sure it's all working dandy!
   AudioClips: []
 --- !u!1001 &5708550334394640039
 PrefabInstance:

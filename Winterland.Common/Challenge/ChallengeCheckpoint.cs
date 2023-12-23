@@ -32,17 +32,21 @@ namespace Winterland.Common.Challenge {
                 return;
             if (player.isAI)
                 return;
-            owner.SetRespawnPoint(RespawnPoint);
-            owner.StartTimer();
-            Hit = true;
-            if (!IsFinish)
-                return;
-            // TODO CHECK CHECKPOINTS!!!
-            foreach (var checkpoint in owner.Checkpoints) {
-                if (!checkpoint.Hit)
+            if (!IsFinish) {
+                owner.SetRespawnPoint(RespawnPoint);
+                owner.StartTimer();
+                Hit = true;
+            } else {
+                foreach (var checkpoint in owner.Checkpoints) {
+                    if (checkpoint.IsFinish)
+                        continue;
+                    if (!checkpoint.Hit)
+                        return;
+                }
+                if (!owner.TimerStarted)
                     return;
+                owner.FinishChallenge();
             }
-            owner.FinishChallenge();
         }
     }
 }

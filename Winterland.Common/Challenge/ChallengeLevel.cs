@@ -17,6 +17,7 @@ namespace Winterland.Common.Challenge {
         public static ChallengeLevel CurrentChallengeLevel = null;
         public Transform SpawnPoint = null;
         public bool StartWithGear = false;
+        public bool TimerStarted => timerStarted;
         public float Timer => timer;
         public Action OnStart;
         public string GUID;
@@ -60,6 +61,7 @@ namespace Winterland.Common.Challenge {
 
         public void FinishChallenge() {
             WinterUI.Instance.ChallengeUI.Visible = false;
+            timerStarted = false;
             CurrentChallengeLevel = null;
             if (BestTime == 0f || Timer < BestTime) {
                 var progress = WinterProgress.Instance.LocalProgress;
