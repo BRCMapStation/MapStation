@@ -32,7 +32,12 @@ namespace Winterland.Common.Challenge {
                 return;
             if (player.isAI)
                 return;
+            var checkpointSFX = WinterAssets.Instance.CheckpointClip;
             if (!IsFinish) {
+                if (checkpointSFX != null && !Hit) {
+                    var audioManager = Core.Instance.AudioManager;
+                    audioManager.PlayNonloopingSfx(audioManager.audioSources[3], checkpointSFX, audioManager.mixerGroups[3], 0f);
+                }
                 owner.SetRespawnPoint(RespawnPoint);
                 owner.StartTimer();
                 Hit = true;

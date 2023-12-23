@@ -17,12 +17,14 @@ namespace Winterland.Common {
         public static WinterAssets Instance { get; private set; }
 
         private string folder;
+        public AudioClip CheckpointClip = null;
 
         public WinterAssets(string folder) {
             Instance = this;
             bundleByStageName = new();
             this.folder = folder;
             LoadBundles();
+            CheckpointClip = WinterBundle.LoadAsset<AudioClip>("checkpoint");
         }
         
         private void LoadBundles() {
