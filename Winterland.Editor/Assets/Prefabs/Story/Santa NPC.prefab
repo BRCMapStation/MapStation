@@ -1214,6 +1214,9 @@ GameObject:
   - component: {fileID: 5971200656559503822}
   - component: {fileID: 709292201075931948}
   - component: {fileID: 8959342555009509290}
+  - component: {fileID: 8681917033641224979}
+  - component: {fileID: 9026582371762211608}
+  - component: {fileID: 4731762352195243776}
   m_Layer: 0
   m_Name: Collect Gifts
   m_TagString: Untagged
@@ -1285,7 +1288,7 @@ MonoBehaviour:
   m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 1
+  Order: 2
   Name: 
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -1307,7 +1310,7 @@ MonoBehaviour:
   m_Script: {fileID: 1438341381, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 4
+  Order: 5
   Name: End
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -1398,7 +1401,7 @@ MonoBehaviour:
   m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 5
+  Order: 6
   Name: Reject
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -1422,7 +1425,7 @@ MonoBehaviour:
   m_Script: {fileID: 1438341381, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 6
+  Order: 7
   Name: 
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -1475,7 +1478,7 @@ MonoBehaviour:
   m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 7
+  Order: 8
   Name: Disconnected
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -1536,7 +1539,7 @@ MonoBehaviour:
   m_Script: {fileID: 1840159614, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 2
+  Order: 3
   Name: 
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -1554,7 +1557,7 @@ MonoBehaviour:
   m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 3
+  Order: 4
   Name: Arcade Unlock Dialogue
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -1618,6 +1621,57 @@ MonoBehaviour:
   SpeakerName: ???
   Text: Why don't you go take a look? Make sure it's all working dandy!
   AudioClips: []
+--- !u!114 &8681917033641224979
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1438341381, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 9
+  Name: 
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+--- !u!114 &9026582371762211608
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1840159614, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 10
+  Name: Unlock Arcade Fallback
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  SuccessfullyUnlockedTarget: 
+  AlreadyUnlockedTarget: 
+--- !u!114 &4731762352195243776
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2134370759, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 1
+  Name: 
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  ActionToRunOnEnd: Unlock Arcade Fallback
 --- !u!1001 &5708550334394640039
 PrefabInstance:
   m_ObjectHideFlags: 0
