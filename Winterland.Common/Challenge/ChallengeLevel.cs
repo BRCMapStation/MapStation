@@ -18,6 +18,9 @@ namespace Winterland.Common.Challenge {
         private bool timerStarted = false;
         public ChallengeCheckpoint[] Checkpoints = null;
 
+        // Temporary
+        public Transform exitTransform = null;
+
         private void Awake() {
             Core.OnUpdate += Core_Update;
             Checkpoints = GetComponentsInChildren<ChallengeCheckpoint>(true);
@@ -42,7 +45,9 @@ namespace Winterland.Common.Challenge {
 
         public void FinishChallenge() {
             WinterUI.Instance.ChallengeUI.Visible = false;
+            CurrentChallengeLevel = null;
             var player = WorldHandler.instance.GetCurrentPlayer();
+            WorldHandler.instance.PlacePlayerAt(player, exitTransform);
         }
 
         public void Respawn() {

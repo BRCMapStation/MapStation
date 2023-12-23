@@ -457,16 +457,16 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1877939757977398002, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
-  - {fileID: 8685159421100416359, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
+  - {fileID: 2100000, guid: 65697a7c8f6345141868ffad124f4026, type: 2}
+  - {fileID: 2100000, guid: 8c7da8868155b884dadbf498387175c5, type: 2}
   - {fileID: 2100000, guid: bf36fcd3d05f05c41ae1da941535c5d6, type: 2}
-  - {fileID: 3866692044708259977, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
-  - {fileID: -8836476353600992310, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
-  - {fileID: -8619748782392770630, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
-  - {fileID: 1106713008156566598, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
-  - {fileID: 3401199579572756357, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
-  - {fileID: -1273898151120148815, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
-  - {fileID: 8268053227317156825, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
+  - {fileID: 2100000, guid: 366011c1ff653fe48859e937b4f6292e, type: 2}
+  - {fileID: 2100000, guid: c517021dc627e714ebd1d91ba7fdb1da, type: 2}
+  - {fileID: 2100000, guid: f444dfb02c3a8834fa2e2a16e2e1396a, type: 2}
+  - {fileID: 2100000, guid: a367fcb3f501d244e94c607aaa6a5c99, type: 2}
+  - {fileID: 2100000, guid: c517021dc627e714ebd1d91ba7fdb1da, type: 2}
+  - {fileID: 2100000, guid: 58ccaa0dce6dfb844aa49f7b4ab8490b, type: 2}
+  - {fileID: 2100000, guid: d91aae89efaefb8429b15f2da690da5f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12422,7 +12422,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 4115900694661176512, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
+  - {fileID: 2100000, guid: 1183dedd043757b4b8378e6c201b4056, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21167,7 +21167,8 @@ GameObject:
   - component: {fileID: 3941067550785300740}
   - component: {fileID: 5272280016975813450}
   - component: {fileID: 6726014234053107880}
-  m_Layer: 0
+  - component: {fileID: 7648959836857153253}
+  m_Layer: 4
   m_Name: Cube.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21239,6 +21240,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7648959836857153253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6170658407786114254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 194650164, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6177818357906052284
 GameObject:
   m_ObjectHideFlags: 0
@@ -26155,7 +26168,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7326023354272825011, guid: e61dcd3e708aa164c8709a88a6d74c71, type: 3}
+  - {fileID: 2100000, guid: 101811ebb4993cf4ea80c6f62977009f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -26370,7 +26383,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b050450413e4e1b42881824b0462e95b, type: 2}
+  - {fileID: 2100000, guid: 5aa322596afe729469628e223cf5321e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -27119,6 +27132,7 @@ MonoBehaviour:
   SpawnPoint: {fileID: 809210802131498057}
   StartWithGear: 0
   Checkpoints: []
+  exitTransform: {fileID: 8871269513195674931}
 --- !u!1 &8315768997256067877
 GameObject:
   m_ObjectHideFlags: 0
@@ -32021,6 +32035,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VendingMachinePrefab (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
 --- !u!4 &5594200646504022946 stripped
@@ -32082,6 +32100,10 @@ PrefabInstance:
     - target: {fileID: 4890524065452148006, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
       propertyPath: m_Name
       value: VendingMachinePrefab (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
@@ -32335,6 +32357,14 @@ PrefabInstance:
     - target: {fileID: 4890524065452148006, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
       propertyPath: m_Name
       value: VendingMachinePrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
@@ -33528,6 +33558,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VendingMachinePrefab (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
 --- !u!4 &8539513621403123079 stripped
@@ -33800,6 +33834,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VendingMachinePrefab (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
 --- !u!4 &8658710647666502202 stripped
@@ -34052,6 +34090,10 @@ PrefabInstance:
     - target: {fileID: 4890524065452148006, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
       propertyPath: m_Name
       value: VendingMachinePrefab (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
@@ -34382,6 +34424,10 @@ PrefabInstance:
     - target: {fileID: 4890524065452148006, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
       propertyPath: m_Name
       value: VendingMachinePrefab (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
@@ -35034,6 +35080,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VendingMachinePrefab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
 --- !u!4 &2779136674235071855 stripped
@@ -35095,6 +35145,10 @@ PrefabInstance:
     - target: {fileID: 4890524065452148006, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
       propertyPath: m_Name
       value: VendingMachinePrefab (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
@@ -37677,6 +37731,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VendingMachinePrefab (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
 --- !u!4 &4531633539725141701 stripped
@@ -37804,6 +37862,10 @@ PrefabInstance:
     - target: {fileID: 4890524065452148006, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
       propertyPath: m_Name
       value: VendingMachinePrefab (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890524065452214947, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
+      propertyPath: rewards.Array.data[0]
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c754c2cbf20e9914fbc1a840aef360bc, type: 3}
