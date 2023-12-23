@@ -12,7 +12,7 @@ namespace Winterland.Common {
 
         private void Awake() {
             if (Source == null) {
-                Source = FindObjectsOfType<PublicToilet>()[1].gameObject;
+                Source = FindObjectOfType<PublicToilet>().gameObject;
             }
             var myToilet = Instantiate(Source, transform);
             myToilet.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
