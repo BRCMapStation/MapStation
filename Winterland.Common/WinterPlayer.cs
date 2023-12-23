@@ -64,8 +64,6 @@ namespace Winterland.Common {
             snowSinker.Strength = Mathf.Lerp(snowSinker.Strength, snowTargetStrength, snowLerpSpeed * Core.dt);
         }
 
-        // TODO: sound effects and stuff for toy part picking up.
-        // This is a lot faster to process per player than per individual item.
         private void ProcessPickupTriggers(Collider other) {
             if (player.currentComboMascotSystem != null)
                 return;
@@ -78,7 +76,7 @@ namespace Winterland.Common {
                 return;
             if (player.IsBusyWithSequence())
                 return;
-            if (!player.IsComboing() && player.IsGrounded())
+            if (!player.IsComboing() && player.ability is not AirTrickAbility)
                 return;
             if (CurrentToyLine != null) {
                 if (CurrentToyLine != toyPart.Line)
@@ -119,12 +117,14 @@ namespace Winterland.Common {
         }
 
         private void OnTriggerStay(Collider other) {
-            ProcessPickupTriggers(other);
             ProcessSnowTriggers(other);
             ProcessToyMachineTriggers(other);
+            ProcessPickupTriggers(other);
         }
 
-        
+        private void OnTriggerEnter(Collider other) {
+            ProcessPickupTriggers(other);
+        }
 
         public bool IsOnLevelGround() {
             if (player.motor.groundCollider != null) {
@@ -175,7 +175,7 @@ namespace Winterland.Common {
 
         private void OnFixedUpdate() {
 
-            if (!player.IsComboing() && player.IsGrounded()) {
+            if (!player.IsComboing() && player.ability is not AirTrickAbility) {
                 if (CurrentToyLine != null)
                     DropCurrentToyLine();
             }

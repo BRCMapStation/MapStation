@@ -429,8 +429,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1828672287935757110}
-  - component: {fileID: 1828672287935757113}
   - component: {fileID: 307239595055705399}
+  - component: {fileID: 1487271325045984438}
   m_Layer: 19
   m_Name: Toy Part
   m_TagString: Untagged
@@ -455,19 +455,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1828672287935757113
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828672287935757112}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.625
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &307239595055705399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,6 +468,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PickUpAudioClip: {fileID: 0}
+--- !u!65 &1487271325045984438
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828672287935757112}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1828672287998897246
 GameObject:
   m_ObjectHideFlags: 0
