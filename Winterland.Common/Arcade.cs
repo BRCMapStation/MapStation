@@ -9,8 +9,12 @@ namespace Winterland.Common {
     public class Arcade : MonoBehaviour {
         private void Awake() {
             ArcadeManager.Instance.RegisterArcade(this);
+        }
+
+        private void Start() {
             UpdateAvailability();
         }
+
         public void UpdateAvailability() {
             gameObject.SetActive(WinterProgress.Instance.LocalProgress.ArcadeUnlocked);
         }
