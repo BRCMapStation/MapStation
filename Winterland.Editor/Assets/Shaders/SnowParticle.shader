@@ -17,7 +17,7 @@ Shader "Winterland/Snow Particle"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #define LIGHT_THRESHOLD 0.5
+            #define LIGHT_THRESHOLD 0.1
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
