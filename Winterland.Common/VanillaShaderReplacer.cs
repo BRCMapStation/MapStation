@@ -10,7 +10,7 @@ namespace Winterland.Common {
     public class VanillaShaderReplacer : MonoBehaviour {
 #if !UNITY_EDITOR
         private void Awake() {
-            var renderers = GetComponentsInChildren<Renderer>();
+            var renderers = GetComponentsInChildren<Renderer>(true);
             foreach(var renderer in renderers) {
                 var materials = renderer.sharedMaterials;
                 foreach(var material in materials) {
