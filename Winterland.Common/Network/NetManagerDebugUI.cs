@@ -24,7 +24,9 @@ namespace Winterland.Common {
             var netManager = NetManager.Instance;
             GUILayout.Label($"Using {WinterProgress.Instance.GlobalProgress.GetType().Name}");
             var state = WinterProgress.Instance.GlobalProgress.State;
-            GUILayout.TextArea(WinterProgress.Instance.GlobalProgress.State.DescribeWithoutPacketInfo());
+            if(state != null) {
+                GUILayout.TextArea(state.DescribeWithoutPacketInfo());
+            }
             ignoreCooldown = GUILayout.Toggle(this.ignoreCooldown, "Ignore cooldown");
             if (GUILayout.Button($"Send {nameof(XmasClientCollectGiftPacket)}")) {
                 NetManager.Instance.SendPacket(new XmasClientCollectGiftPacket {
