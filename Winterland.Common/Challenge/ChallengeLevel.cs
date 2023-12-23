@@ -50,6 +50,7 @@ namespace Winterland.Common.Challenge {
             WinterUI.Instance.ChallengeUI.Visible = true;
             var player = WorldHandler.instance.GetCurrentPlayer();
             player.phone.TurnOff();
+            player.boostCharge = player.maxBoostCharge;
             currentRespawnPoint = SpawnPoint;
             CurrentChallengeLevel = this;
             timer = 0f;
@@ -60,6 +61,8 @@ namespace Winterland.Common.Challenge {
         }
 
         public void FinishChallenge() {
+            var player = WorldHandler.instance.GetCurrentPlayer();
+            player.boostCharge = 0f;
             WinterUI.Instance.ChallengeUI.Visible = false;
             timerStarted = false;
             CurrentChallengeLevel = null;
@@ -75,14 +78,20 @@ namespace Winterland.Common.Challenge {
         }
 
         public void QuitChallenge() {
+            var player = WorldHandler.instance.GetCurrentPlayer();
+            player.boostCharge = 0f;
             WinterUI.Instance.ChallengeUI.Visible = false;
             CurrentChallengeLevel = null;
             ArcadeNPC.StartSequence(QuitSequence);
         }
 
         public void Respawn() {
-            var player = WorldHandler.instance.GetCurrentPlayer();
-            WorldHandler.instance.PlacePlayerAt(player, currentRespawnPoint);
+            if (currentRespawnPoint == SpawnPoint) {
+                StartChallenge();
+            } else {
+                var player = WorldHandler.instance.GetCurrentPlayer();
+                WorldHandler.instance.PlacePlayerAt(player, currentRespawnPoint);
+            }
         }
         
         public void StartTimer() {
