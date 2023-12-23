@@ -78,7 +78,7 @@ namespace Winterland.Common {
                 return;
             if (player.IsBusyWithSequence())
                 return;
-            if (!player.IsComboing())
+            if (!player.IsComboing() && player.IsGrounded())
                 return;
             if (CurrentToyLine != null) {
                 if (CurrentToyLine != toyPart.Line)
@@ -175,7 +175,7 @@ namespace Winterland.Common {
 
         private void OnFixedUpdate() {
 
-            if (!player.IsComboing()) {
+            if (!player.IsComboing() && player.IsGrounded()) {
                 if (CurrentToyLine != null)
                     DropCurrentToyLine();
             }
