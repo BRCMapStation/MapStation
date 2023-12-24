@@ -53,6 +53,8 @@ class EffectSpawner : MonoBehaviour {
         var animation = visFx.anim;
         // Not sure about this line of code, best way to get default animation's name to set the speed?
         animation[animation.clip.name].speed = playbackSpeed;
+#if WINTER_DEBUG
         Debug.Log($"Spawned effect: {spawned}");
+#endif
     }
 }
