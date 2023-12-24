@@ -10,7 +10,6 @@ using HarmonyLib;
 namespace Winterland.Plugin.Patches {
     [HarmonyPatch(typeof(Player))]
     internal static class PlayerPatch {
-#if WINTER_DEBUG
         [HarmonyPostfix]
         [HarmonyPatch(nameof(Player.Init))]
         private static void Init_Postfix(Player __instance) {
@@ -19,11 +18,12 @@ namespace Winterland.Plugin.Patches {
             if (!__instance.isAI) {
                 winterPlayer.ToyMachineAbility = new ToyMachineAbility(__instance);
             }
+#if WINTER_DEBUG
             if(WinterConfig.Instance.DisableKBMInputValue) {
                 KBMInputDisabler.Disable();
             }
-        }
 #endif
+        }
 
         [HarmonyPostfix]
         [HarmonyPatch(nameof(Player.EndGraffitiMode))]
