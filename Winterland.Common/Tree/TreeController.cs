@@ -106,7 +106,10 @@ namespace Winterland.Common {
             UpdateGlobalProgressBinding();
         }
 
-        void Update() {
+        // Move entire tree logic into fixed update, because tree parts are physics parts and must animatephysics!
+        // Also we must avoid visual pops where a part activates but the appearance animator does not immediately move
+        // it beneath the earth (interpolation for example will render one frame at halfway down)
+        void FixedUpdate() {
             #if UNITY_EDITOR
             if(Application.isEditor) {
                 EditorUpdate();

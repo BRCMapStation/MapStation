@@ -88,7 +88,7 @@ public class TreePart : MonoBehaviour, ITreeConstructionBlocker {
         if(appearanceDirector != null) {
             shouldWait = true;
             waitingForAppearDirectorToFinish = true;
-            appearanceDirector.Play();
+            PlayDirector(appearanceDirector);
         }
         return shouldWait;
     }
@@ -98,7 +98,9 @@ public class TreePart : MonoBehaviour, ITreeConstructionBlocker {
     void StartIdleAnimation() {
         animator?.SetBoolString("Idle", true);
         animator?.Update(0f);
-        if(idleAnimationDirector != null) idleAnimationDirector.Play();
+        if(idleAnimationDirector != null) {
+            PlayDirector(idleAnimationDirector);
+        }
         foreach(var go in idleAnimationGameObjects) {
             go.SetActive(true);
         }
@@ -118,12 +120,17 @@ public class TreePart : MonoBehaviour, ITreeConstructionBlocker {
         if(disappearanceDirector != null) {
             shouldWait = true;
             waitingForDisappearDirectorToFinish = true;
-            disappearanceDirector.Play();
+            PlayDirector(disappearanceDirector);
         }
         return shouldWait;
     }
 
     void AfterDisappear() {
         gameObject.SetActive(false);
+    }
+
+    static void PlayDirector(PlayableDirector d) {
+        d.Play();
+        d.playableGraph.Evaluate();
     }
 }

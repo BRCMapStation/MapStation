@@ -31,7 +31,7 @@ class EffectSpawner : MonoBehaviour {
     void OnDisable() {
         spawnNextFrame = false;
     }
-    void Update() {
+    void FixedUpdate() {
         if(spawnNextFrame) {
             spawnNextFrame = false;
             SpawnEffect();
