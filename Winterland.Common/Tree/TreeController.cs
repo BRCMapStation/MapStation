@@ -12,7 +12,9 @@ namespace Winterland.Common {
         public static TreeController Instance { get; private set; }
 
         [SerializeField]
-        public PlayableDirector director = null;
+        public PlayableDirector overallProgressDirector = null;
+        [SerializeField]
+        public PlayableDirector currentPhaseProgressDirector = null;
 
         [SerializeField]
         public TreePart[] treeParts;
@@ -51,7 +53,8 @@ namespace Winterland.Common {
 
         private bool IsConstructionBlocked => this.constructionBlockers.Count > 0;
 
-        private TimelineScrubber timeline;
+        private TimelineScrubber overallProgressTimeline = null;
+        private TimelineScrubber phaseProgressTimeline = null;
         
         // Set false for manual animation testing
         private bool syncToGlobalProgress = true;
@@ -66,7 +69,6 @@ namespace Winterland.Common {
         void OnValidate() {
             treeParts = GetComponentsInChildren<TreePart>();
             treePhases = GetComponentsInChildren<TreePhase>();
-            if(director == null) director = GetComponent<PlayableDirector>();
 #if UNITY_EDITOR
             EditorOnValidate();
 #endif
@@ -84,7 +86,8 @@ namespace Winterland.Common {
                 treePhase.Init();
             }
 
-            timeline = new TimelineScrubber(director);
+            if(overallProgressDirector != null) overallProgressTimeline = new TimelineScrubber(overallProgressDirector);
+            if(currentPhaseProgressDirector != null) phaseProgressTimeline = new TimelineScrubber(currentPhaseProgressDirector);
         }
 
         void OnDestroy() {
@@ -153,7 +156,8 @@ namespace Winterland.Common {
             // Reset everything to beginning
             this.CurrentProgress.ActivePhaseIndex = -1;
             this.CurrentProgress.ActivePhaseProgress = 0;
-            timeline.ResetTimeline();
+            overallProgressTimeline?.ResetTimeline();
+            phaseProgressTimeline?.ResetTimeline();
             foreach(var phase in treePhases) {
                 phase.ResetPhase();
             }
@@ -220,7 +224,8 @@ namespace Winterland.Common {
             
             // At this point, CurrentProgress matches current state of the phases above.
             // Set overall timeline to match.
-            timeline.SetPercentComplete(OverallProgress(CurrentProgress));
+            if(overallProgressTimeline != null) overallProgressTimeline.SetPercentComplete(OverallProgress(CurrentProgress));
+            if(phaseProgressTimeline != null) phaseProgressTimeline.SetPercentComplete(CurrentProgress.ActivePhaseProgress);
         }
 
         // Given we have X phases total, and are in phase Y at Z% complete, what % complete are we overall?
