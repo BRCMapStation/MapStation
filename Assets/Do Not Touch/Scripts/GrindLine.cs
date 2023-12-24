@@ -167,7 +167,8 @@ namespace Reptile
 				CapsuleCollider component = GetComponent<CapsuleCollider>();
 				component.isTrigger = true;
 				component.direction = 2;
-				base.gameObject.layer = 11;
+				// Seems silly but avoids log spam about SendMessage within `OnValidate`
+				if(base.gameObject.layer != 11) base.gameObject.layer = 11;
 				component.height = vector.magnitude + component.radius * 2f;
 			}
 		}
