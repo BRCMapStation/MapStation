@@ -46,6 +46,8 @@ namespace Winterland.Common {
                     if (NPC.Challenge != null) {
                         var challengeTime = ChallengeUI.SecondsToMMSS(NPC.Challenge.Timer);
                         var challengeBestTime = ChallengeUI.SecondsToMMSS(NPC.Challenge.BestTime);
+                        if (NPC.Challenge.BestTime == 0f)
+                            challengeBestTime = "Not set";
                         parsedText = parsedText.Replace("$ARCADE_LASTTIME", challengeTime);
                         parsedText = parsedText.Replace("$ARCADE_BESTTIME", challengeBestTime);
                     }
