@@ -52,6 +52,7 @@ namespace Winterland.Common {
             customVelocity = forward * 10f;
             if (p.abilityTimer >= actualDuration) {
                 p.StopCurrentAbility();
+                WinterPlayer.Get(p).DropCurrentToyLine();
                 machine.TeleportPlayerToExit(false);
             }
         }
