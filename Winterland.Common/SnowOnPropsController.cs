@@ -35,7 +35,7 @@ namespace Winterland.Common {
                 if (texture.name == "GlassAtlasTex")
                     renderer.sharedMaterial.mainTexture = glassAtlas;
             }
-
+            /*
             var cars = FindObjectsOfType<Car>();
             foreach(var car in cars) {
                 var handler = car.GetComponentInParent<CarsMoveHandler>(true);
@@ -55,7 +55,7 @@ namespace Winterland.Common {
                         break;
                     }
                 }
-            }
+            }*/
         }
 
         private void OnDestroy() {
