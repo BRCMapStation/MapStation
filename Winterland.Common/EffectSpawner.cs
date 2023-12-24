@@ -1,5 +1,6 @@
 using Reptile;
 using UnityEngine;
+using Winterland.Common;
 
 /// <summary>
 /// Every time this gameobject is activated it will spawn a one-off visual effect.
@@ -20,8 +21,12 @@ class EffectSpawner : MonoBehaviour {
         }
     }
     void OnEnable() {
-        // Wait a frame in case we get rapidly enabled/disabled while things set up
-        spawnNextFrame = true;
+        // Are we part of the tree? Then do not trigger if it's fast-forwarding
+        var treeController = GetComponentInParent<TreeController>();
+        if (treeController == null || !treeController.IsFastForwarding) {
+            // Wait a frame in case we get rapidly enabled/disabled while things set up
+            spawnNextFrame = true;
+        }
     }
     void OnDisable() {
         spawnNextFrame = false;
