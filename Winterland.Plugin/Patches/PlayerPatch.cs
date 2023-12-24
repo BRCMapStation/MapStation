@@ -10,6 +10,7 @@ using HarmonyLib;
 namespace Winterland.Plugin.Patches {
     [HarmonyPatch(typeof(Player))]
     internal static class PlayerPatch {
+#if WINTER_DEBUG
         [HarmonyPostfix]
         [HarmonyPatch(nameof(Player.Init))]
         private static void Init_Postfix(Player __instance) {
@@ -22,6 +23,7 @@ namespace Winterland.Plugin.Patches {
                 KBMInputDisabler.Disable();
             }
         }
+#endif
 
         [HarmonyPostfix]
         [HarmonyPatch(nameof(Player.EndGraffitiMode))]

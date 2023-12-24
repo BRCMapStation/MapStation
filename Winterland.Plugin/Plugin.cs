@@ -42,12 +42,14 @@ namespace Winterland.Plugin
             new WinterConfig(Config);
             WinterCharacters.Initialize();
             ObjectiveDatabase.Initialize(winterAssets.WinterBundle);
-            DebugUI.Create(WinterConfig.Instance.DebugUI.Value);
             NetManager.Create();
+#if WINTER_DEBUG
+            DebugUI.Create(WinterConfig.Instance.DebugUI.Value);
             NetManagerDebugUI.Create();
             TreeDebugUI.Create();
             LocalProgressDebugUI.Create();
             DebugShapeDebugUI.Create();
+#endif
             new WinterProgress();
 
             Log = Logger;

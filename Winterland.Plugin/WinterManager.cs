@@ -36,9 +36,13 @@ namespace Winterland.Plugin
             foreach(var stageObject in stageObjects) {
                 stageObject.PutInChunk();
             }
+#if WINTER_DEBUG
             if(!WinterConfig.Instance.ShowRedDebugShapesValue) {
                 DebugShapeUtility.SetDebugShapesVisibility(stageAdditions, false);
             }
+#else
+            DebugShapeUtility.SetDebugShapesVisibility(stageAdditions, false);
+#endif
             Doctor.AnalyzeAndLog(stageAdditions);
         }
 

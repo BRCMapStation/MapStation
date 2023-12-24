@@ -1,3 +1,4 @@
+#if WINTER_DEBUG
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,12 +16,10 @@ namespace Winterland.Plugin.Patches {
         [HarmonyPrefix]
         [HarmonyPatch(nameof(Bootstrap.LaunchGame))]
         private static bool LaunchGame_Prefix(Bootstrap __instance) {
-#if WINTER_DEBUG
             if (!WinterConfig.Instance.QuickLaunchValue)
                 return true;
             Plugin.UpdateEvent += QuickLaunchUpdate;
             __instance.StartCoroutine(__instance.SetupGameToStage(Stage.square));
-#endif
             return false;
         }
 
@@ -36,3 +35,4 @@ namespace Winterland.Plugin.Patches {
         }
     }
 }
+#endif
