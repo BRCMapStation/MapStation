@@ -54,6 +54,7 @@ namespace Winterland.Common {
                 p.StopCurrentAbility();
                 WinterPlayer.Get(p).DropCurrentToyLine();
                 machine.TeleportPlayerToExit(false);
+                machine.PlayFailureSound();
             }
         }
     }
