@@ -64,6 +64,7 @@ namespace Winterland.Common {
             ToyLineManager.Instance.RespawnAllToyLines();
             progress.Gifts++;
             progress.Save();
+            GiftPileManager.Instance.UpdatePiles();
             var action = Sequence.Sequence.GetActionByName(SuccessTarget);
             if (action != null)
                 action.Run(immediate);
