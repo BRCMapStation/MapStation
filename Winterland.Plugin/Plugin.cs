@@ -42,7 +42,7 @@ namespace Winterland.Plugin
             var oldAssetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
             var newAssetBundlesFolder = Path.GetDirectoryName(Info.Location);
             var assetBundlesFolder = newAssetBundlesFolder;
-            if(File.Exists(oldAssetBundlesFolder)) {
+            if(Directory.Exists(oldAssetBundlesFolder)) {
                 assetBundlesFolder = oldAssetBundlesFolder;
             }
             var winterAssets = new WinterAssets(assetBundlesFolder);
