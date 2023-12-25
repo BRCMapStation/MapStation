@@ -19,7 +19,7 @@ namespace Winterland.Common {
         public bool MockGlobalProgressLocallyValue => false;
         public float MockGlobalProgressStartTreeAtValue => 0;
         public bool ShowRedDebugShapesValue => false;
-        public bool LogPackets => false;
+        public bool LogPacketsValue => false;
 #else
         public ConfigEntry<bool> QuickLaunch;
         public ConfigEntry<bool> DisableKBMInput;
