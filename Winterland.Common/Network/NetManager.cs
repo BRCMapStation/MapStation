@@ -27,7 +27,7 @@ namespace Winterland.Common {
 
         private void Awake() {
             Instance = this;
-            this.PacketLogger = WinterLogging.CreateLogger(nameof(NetManager), onlyForDebugBuild: true);
+            this.PacketLogger = WinterLogging.CreateLogger(nameof(NetManager), onlyForDebugBuild: true, enabled: WinterConfig.Instance.LogPacketsValue);
             
             APIManager.OnAPIRegistered += OnSlopCrewAPIRegistered;
             var api = APIManager.API;

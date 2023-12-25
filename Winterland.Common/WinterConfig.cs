@@ -19,6 +19,7 @@ namespace Winterland.Common {
         public bool MockGlobalProgressLocallyValue => false;
         public float MockGlobalProgressStartTreeAtValue => 0;
         public bool ShowRedDebugShapesValue => false;
+        public bool LogPackets => false;
 #else
         public ConfigEntry<bool> QuickLaunch;
         public ConfigEntry<bool> DisableKBMInput;
@@ -27,6 +28,7 @@ namespace Winterland.Common {
         public ConfigEntry<bool> MockGlobalProgressLocally;
         public ConfigEntry<float> MockGlobalProgressStartTreeAt;
         public ConfigEntry<bool> ShowRedDebugShapes;
+        public ConfigEntry<bool> LogPackets;
 
         public bool QuickLaunchValue => QuickLaunch.Value;
         public bool DisableKBMInputValue => DisableKBMInput.Value;
@@ -35,6 +37,7 @@ namespace Winterland.Common {
         public bool MockGlobalProgressLocallyValue => MockGlobalProgressLocally.Value;
         public float MockGlobalProgressStartTreeAtValue => MockGlobalProgressStartTreeAt.Value;
         public bool ShowRedDebugShapesValue => ShowRedDebugShapes.Value;
+        public bool LogPacketsValue => LogPackets.Value;
 #endif
 #endif
 
@@ -84,6 +87,12 @@ namespace Winterland.Common {
                 "ShowRedDebugShapes",
                 true,
                 "Show the semi-transparent red meshes from Unity Editor along grind lines, etc."
+            );
+            LogPackets = file.Bind(
+                "Development",
+                "LogPackets",
+                false,
+                "Log information about all custom packets received from SlopCrew"
             );
 #endif
         }
