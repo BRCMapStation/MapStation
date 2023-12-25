@@ -224,14 +224,28 @@ namespace Winterland.Common {
             
             // At this point, CurrentProgress matches current state of the phases above.
             // Set overall timeline to match.
-            if(overallProgressTimeline != null) overallProgressTimeline.SetPercentComplete(OverallProgress(CurrentProgress));
-            if(phaseProgressTimeline != null) phaseProgressTimeline.SetPercentComplete(CurrentProgress.ActivePhaseProgress);
+            OverallProgress(out var overall, out var phase, out var complete);
+            if(overallProgressTimeline != null) overallProgressTimeline.SetPercentComplete(overall);
+            if(phaseProgressTimeline != null) phaseProgressTimeline.SetPercentComplete(phase);
         }
 
         // Given we have X phases total, and are in phase Y at Z% complete, what % complete are we overall?
         // Not scientific, just to drive timelines
-        private float OverallProgress(TreeProgress progress) {
-            return (progress.ActivePhaseIndex + progress.ActivePhaseProgress) / this.treePhases.Length;
+        public void OverallProgress(out float overall, out float phase, out bool eventComplete) {
+            var progress = CurrentProgress;
+
+            eventComplete = false;
+            overall = (progress.ActivePhaseIndex + progress.ActivePhaseProgress) / this.treePhases.Length - 1;
+            overall = Mathf.Clamp(overall, 0, 1);
+            phase = progress.ActivePhaseProgress;
+
+            if(progress.ActivePhaseIndex >= treePhases.Length - 1) {
+                // NOTE last phase never completes, so once the event is done, last phase will sit active at 0%
+                // We should report both overall and phase at 100% in that case.
+                eventComplete = true;
+                overall = 1;
+                phase = 1;
+            }
         }
         
         // Bind or unbind to changes in IGlobalProgress
