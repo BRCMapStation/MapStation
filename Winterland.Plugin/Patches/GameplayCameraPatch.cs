@@ -30,6 +30,7 @@ namespace Winterland.Plugin.Patches {
         [HarmonyPostfix]
         [HarmonyPatch(nameof(GameplayCamera.UpdateCamera))]
         private static void UpdateCamera_Postfix(GameplayCamera __instance) {
+            /*
             var targetDragDistanceDefault = OriginalDragDistanceDefault;
             var targetDragDistanceMax = OriginalDragDistanceMax;
             var targetCameraHeight = OriginalCameraHeight;
@@ -58,6 +59,7 @@ namespace Winterland.Plugin.Patches {
             var fov = __instance.cam.fieldOfView;
             fov = Mathf.Lerp(fov, targetCameraFOV, delta);
             __instance.cam.fieldOfView = fov;
+            */
         }
     }
 }

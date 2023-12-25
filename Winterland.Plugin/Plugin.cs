@@ -37,7 +37,8 @@ namespace Winterland.Plugin
         }
 
         private void Initialize() {
-            var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
+            //var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
+            var assetBundlesFolder = Path.GetDirectoryName(Info.Location);
             var winterAssets = new WinterAssets(assetBundlesFolder);
             new WinterConfig(Config);
             WinterCharacters.Initialize();
@@ -57,7 +58,7 @@ namespace Winterland.Plugin
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
 
-            DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera");
+            DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera") || Chainloader.PluginInfos.Keys.Contains("com.Dragsun.Savestate") || Chainloader.PluginInfos.Keys.Contains("Savestate");
         }
 
         private void StageAPI_OnStagePreInitialization(Stage newStage, Stage previousStage) {
