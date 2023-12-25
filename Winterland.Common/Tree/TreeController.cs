@@ -224,16 +224,14 @@ namespace Winterland.Common {
             
             // At this point, CurrentProgress matches current state of the phases above.
             // Set overall timeline to match.
-            OverallProgress(out var overall, out var phase, out var complete);
+            OverallProgress(CurrentProgress, out var overall, out var phase, out var complete);
             if(overallProgressTimeline != null) overallProgressTimeline.SetPercentComplete(overall);
             if(phaseProgressTimeline != null) phaseProgressTimeline.SetPercentComplete(phase);
         }
 
         // Given we have X phases total, and are in phase Y at Z% complete, what % complete are we overall?
         // Not scientific, just to drive timelines
-        public void OverallProgress(out float overall, out float phase, out bool eventComplete) {
-            var progress = CurrentProgress;
-
+        public void OverallProgress(TreeProgress progress, out float overall, out float phase, out bool eventComplete) {
             eventComplete = false;
             overall = (progress.ActivePhaseIndex + progress.ActivePhaseProgress) / this.treePhases.Length - 1;
             overall = Mathf.Clamp(overall, 0, 1);
@@ -258,14 +256,14 @@ namespace Winterland.Common {
         }
         
         private void OnGlobalStateChanged() {
-            TargetProgress = TreeController.TreeProgressFromGlobalProgress();
+            TargetProgress = TreeProgressFromGlobalProgress();
         }
 
         /// <summary>
         /// Derive target tree progress from global server-synced event progress,
         /// return null if we haven't received server-synced progress yet.
         /// </summary>
-        public static TreeProgress TreeProgressFromGlobalProgress() {
+        public TreeProgress TreeProgressFromGlobalProgress() {
             // First phase that's not 100% completed is the active phase.
             // NOTE TO SELF (cspotcode)
             // Server and tree can have different concepts of "active phase" if
@@ -283,7 +281,10 @@ namespace Winterland.Common {
                     else if(phase.GiftsGoal > 0) progress = ((float) phase.GiftsCollected) / phase.GiftsGoal;
                     return new TreeProgress() {
                         ActivePhaseIndex = i,
-                        ActivePhaseProgress = progress 
+                        ActivePhaseProgress = progress,
+                        ActivePhaseGiftsCollected = phase.GiftsCollected,
+                        ActivePhaseGiftsGoal = phase.GiftsGoal,
+                        isLastPhase = i >= this.treePhases.Length - 1
                     };
                 }
             }

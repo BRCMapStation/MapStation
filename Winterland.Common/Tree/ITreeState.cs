@@ -31,6 +31,9 @@ public interface ITreeState {
 public class TreeProgress {
     public int ActivePhaseIndex = -1;
     public float ActivePhaseProgress = 0;
+    public uint ActivePhaseGiftsCollected = 0;
+    public uint ActivePhaseGiftsGoal = 1;
+    public bool isLastPhase = false;
 
     public TreeProgress Clone() {
         return (TreeProgress) this.MemberwiseClone();
