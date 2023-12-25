@@ -24,24 +24,45 @@ namespace Winterland.Common {
                 return;
             }
             var chunks = FindObjectsOfType<StageChunk>(true);
+            StageChunk closestChunk = null;
+            float closestChunkDistance = 0f;
             foreach(var chunk in chunks) {
                 if (chunk == null)
                     continue;
+                // We might have some custom chunks for specific cases, and don't want shit automatically being put into them.
+                if (chunk.gameObject.name.StartsWith("!"))
+                    continue;
                 if (!string.IsNullOrEmpty(chunkName)) {
-                    if (chunk.gameObject.name == chunkName)
+                    if (chunk.gameObject.name == chunkName) {
                         transform.SetParent(chunk.transform);
-                    else
+                        return;
+                    } else
                         continue;
                 }
                 var colliders = chunk.GetComponentsInChildren<BoxCollider>(true);
+                var inoob = false;
                 foreach(var chunkCollider in colliders) {
                     if (chunkCollider == null)
                         continue;
                     if (StageChunk.PointInOBB(transform.position, chunkCollider)) {
-                        transform.SetParent(chunk.transform);
-                        return;
+                        inoob = true;
+                        break;
                     }
                 }
+                if (inoob) {
+                    var dist = Vector3.Distance(transform.position, chunk.transform.position);
+                    if (closestChunk == null) {
+                        closestChunk = chunk;
+                        closestChunkDistance = dist;
+                    }
+                    else if (dist < closestChunkDistance) {
+                        closestChunk = chunk;
+                        closestChunkDistance = dist;
+                    }
+                }
+            }
+            if (closestChunk != null) {
+                transform.SetParent(closestChunk.transform);
             }
         }
     }
