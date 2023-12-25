@@ -37,8 +37,14 @@ namespace Winterland.Plugin
         }
 
         private void Initialize() {
-            //var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
-            var assetBundlesFolder = Path.GetDirectoryName(Info.Location);
+            // Our local dev workflow uses a nested folder, but at release we realized last-minute it was breaking R2.
+            // So this code will detect the nested folder and use it if it exists.
+            var oldAssetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
+            var newAssetBundlesFolder = Path.GetDirectoryName(Info.Location);
+            var assetBundlesFolder = newAssetBundlesFolder;
+            if(Directory.Exists(oldAssetBundlesFolder)) {
+                assetBundlesFolder = oldAssetBundlesFolder;
+            }
             var winterAssets = new WinterAssets(assetBundlesFolder);
             new WinterConfig(Config);
             WinterCharacters.Initialize();

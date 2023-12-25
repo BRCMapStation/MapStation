@@ -9,10 +9,10 @@ public static class WinterLogging {
 #else
     private const bool IsDebugBuild = false;
 #endif
-    public static ManualLogSource CreateLogger(string name = null, bool onlyForDebugBuild = false) {
+    public static ManualLogSource CreateLogger(string name = null, bool enabled = true, bool onlyForDebugBuild = false) {
         var loggerName = name == null ? "Winterland" : $"Winterland {name}";
         var logger = new ManualLogSource(loggerName);
-        if (!onlyForDebugBuild || IsDebugBuild) {
+        if ((!onlyForDebugBuild || IsDebugBuild) && enabled) {
             BepInEx.Logging.Logger.Sources.Add(logger);
         }
         return logger;
