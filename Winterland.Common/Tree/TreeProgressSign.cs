@@ -1,4 +1,5 @@
 using System.Collections;
+using SlopCrew.API;
 using TMPro;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ class TreeProgressSign : MonoBehaviour {
 
     public TextMeshPro giftsCollectedText;
     public TextMeshPro giftsGoalText;
+    public TextMeshPro totalGiftsCollectedText;
+    public TextMeshPro playerCountText;
 
     // Unused
     [HideInInspector]
@@ -43,6 +46,10 @@ class TreeProgressSign : MonoBehaviour {
         giftsCollectedText.text = tree.TargetProgress.ActivePhaseGiftsCollected.ToString();
         giftsGoalText.text = "/" + tree.TargetProgress.ActivePhaseGiftsGoal.ToString();
         giftsGoalText.gameObject.SetActive(!tree.TargetProgress.isLastPhase);
+        totalGiftsCollectedText.text = tree.TargetProgress.totalGiftsCollected.ToString();
+        if(APIManager.API != null) {
+            playerCountText.text = APIManager.API.PlayerCount.ToString();
+        }
     }
 
     // Unused

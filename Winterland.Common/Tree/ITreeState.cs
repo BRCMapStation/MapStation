@@ -34,6 +34,7 @@ public class TreeProgress {
     public uint ActivePhaseGiftsCollected = 0;
     public uint ActivePhaseGiftsGoal = 1;
     public bool isLastPhase = false;
+    public uint totalGiftsCollected = 0;
 
     public TreeProgress Clone() {
         return (TreeProgress) this.MemberwiseClone();

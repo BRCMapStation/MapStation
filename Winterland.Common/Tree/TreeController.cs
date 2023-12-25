@@ -273,6 +273,10 @@ namespace Winterland.Common {
             // server is still counting gifts collected towards phase 0.
             var state = WinterProgress.Instance.GlobalProgress.State;
             if(state == null) return null;
+            uint totalGiftsCollected = 0;
+            for(var i = 0; i < state.Phases.Count; i++) {
+                totalGiftsCollected += state.Phases[i].GiftsCollected;
+            }
             for(var i = 0; i < state.Phases.Count; i++) {
                 var phase = state.Phases[i];
                 if (phase.GiftsCollected < phase.GiftsGoal) {
@@ -284,7 +288,8 @@ namespace Winterland.Common {
                         ActivePhaseProgress = progress,
                         ActivePhaseGiftsCollected = phase.GiftsCollected,
                         ActivePhaseGiftsGoal = phase.GiftsGoal,
-                        isLastPhase = i >= this.treePhases.Length - 1
+                        isLastPhase = i >= this.treePhases.Length - 1,
+                        totalGiftsCollected = totalGiftsCollected
                     };
                 }
             }
