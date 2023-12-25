@@ -37,7 +37,8 @@ namespace Winterland.Plugin
         }
 
         private void Initialize() {
-            var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
+            //var assetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
+            var assetBundlesFolder = Path.GetDirectoryName(Info.Location);
             var winterAssets = new WinterAssets(assetBundlesFolder);
             new WinterConfig(Config);
             WinterCharacters.Initialize();
