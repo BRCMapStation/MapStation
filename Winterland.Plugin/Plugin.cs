@@ -58,7 +58,7 @@ namespace Winterland.Plugin
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
 
-            DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera");
+            DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera") || Chainloader.PluginInfos.Keys.Contains("com.Dragsun.Savestate") || Chainloader.PluginInfos.Keys.Contains("Savestate");
         }
 
         private void StageAPI_OnStagePreInitialization(Stage newStage, Stage previousStage) {
