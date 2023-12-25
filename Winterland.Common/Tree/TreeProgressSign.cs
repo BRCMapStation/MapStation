@@ -6,8 +6,6 @@ namespace Winterland.Common;
 
 class TreeProgressSign : MonoBehaviour {
 
-    public TreeController tree;
-
     public float animationFramerate = 2;
     public int lvHammerHits = 2;
     public int wreathSegmentBlinks = 2;
@@ -17,12 +15,14 @@ class TreeProgressSign : MonoBehaviour {
 
     private Coroutine coroutine;
     private float frameDuration;
+    private TreeController tree;
 
-    void OnValidate() {
-        if(tree == null) tree = FindObjectOfType<TreeController>();
-    }
+    // void OnValidate() {
+    //     if(tree == null) tree = FindObjectOfType<TreeController>();
+    // }
 
     void Awake() {
+        tree = FindObjectOfType<TreeController>();
         frameDuration = 1 / animationFramerate;
     }
 
