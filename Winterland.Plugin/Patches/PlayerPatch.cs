@@ -18,9 +18,11 @@ namespace Winterland.Plugin.Patches {
             if (!__instance.isAI) {
                 winterPlayer.ToyMachineAbility = new ToyMachineAbility(__instance);
             }
+#if WINTER_DEBUG
             if(WinterConfig.Instance.DisableKBMInputValue) {
                 KBMInputDisabler.Disable();
             }
+#endif
         }
 
         [HarmonyPostfix]

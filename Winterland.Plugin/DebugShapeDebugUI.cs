@@ -13,7 +13,11 @@ namespace Winterland.Common {
             DontDestroyOnLoad(gameObject);
         }
 
+#if WINTER_DEBUG
         bool visible = WinterConfig.Instance.ShowRedDebugShapesValue;
+#else
+        bool visible = false;
+#endif
 
         void Awake() {
             DebugUI.Instance.RegisterMenu("Debug Shapes", OnDebugUI);
