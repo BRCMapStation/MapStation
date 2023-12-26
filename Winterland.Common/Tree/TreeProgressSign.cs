@@ -11,6 +11,8 @@ class TreeProgressSign : MonoBehaviour {
     public TextMeshPro giftsGoalText;
     public TextMeshPro totalGiftsCollectedText;
     public TextMeshPro playerCountText;
+    public TextMeshPro normalProgressLabel;
+    public TextMeshPro comingSoon999Label;
 
     // Unused
     [HideInInspector]
@@ -43,9 +45,19 @@ class TreeProgressSign : MonoBehaviour {
     }
 
     void Update() {
+        var goal = tree.TargetProgress.ActivePhaseGiftsGoal;
         giftsCollectedText.text = tree.TargetProgress.ActivePhaseGiftsCollected.ToString();
-        giftsGoalText.text = "/" + tree.TargetProgress.ActivePhaseGiftsGoal.ToString();
-        giftsGoalText.gameObject.SetActive(!tree.TargetProgress.isLastPhase);
+        giftsGoalText.text = "/" + goal.ToString();
+        if(goal >= 999) {
+            // coming soon variant of the sign
+            giftsGoalText.gameObject.SetActive(false);
+            normalProgressLabel.gameObject.SetActive(false);
+            comingSoon999Label.gameObject.SetActive(true);
+        } else {
+            giftsGoalText.gameObject.SetActive(!tree.TargetProgress.isLastPhase);
+            normalProgressLabel.gameObject.SetActive(true);
+            comingSoon999Label.gameObject.SetActive(false);
+        }
         totalGiftsCollectedText.text = tree.TargetProgress.totalGiftsCollected.ToString();
         if(APIManager.API != null) {
             playerCountText.text = APIManager.API.PlayerCount.ToString();
