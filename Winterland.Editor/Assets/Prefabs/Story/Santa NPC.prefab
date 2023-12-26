@@ -1049,6 +1049,7 @@ GameObject:
   - component: {fileID: 7632416581120198633}
   - component: {fileID: 8493477997808639421}
   - component: {fileID: 4442655307414613606}
+  - component: {fileID: 9109643043512601805}
   m_Layer: 19
   m_Name: Santa NPC
   m_TagString: Untagged
@@ -1185,6 +1186,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2.3331437, z: 2.6199417}
   m_Center: {x: 0, y: 0.66657186, z: 0.80997086}
+--- !u!205 &9109643043512601805
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174309057720842691}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.0070818067, y: 0.47653276, z: -0.0010086298}
+  m_Size: 1.1073934
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.04867535
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 5854140112802020720}
+  m_Enabled: 1
 --- !u!1 &9198837488609701058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1729,6 +1749,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bce1379283d1e64bba3d6379d9b1e9a, type: 3}
+--- !u!137 &5854140112802020720 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5624143814035533525, guid: 2bce1379283d1e64bba3d6379d9b1e9a, type: 3}
+  m_PrefabInstance: {fileID: 2248119107136361381}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6078742707808193819 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5435532643456704190, guid: 2bce1379283d1e64bba3d6379d9b1e9a, type: 3}
