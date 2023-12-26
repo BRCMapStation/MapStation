@@ -14,6 +14,8 @@ class WinterTrampoline : MonoBehaviour {
         var player = PlayerCollisionUtility.GetPlayer(other);
         if(player != null) {
             // See also: Player.Jump implementation for BoostJump pads
+            player.RegainAirMobility();
+            player.ForceUnground();
             player.motor.SetVelocityYOneTime(Power);
 
             if (bounceAudioClip != null) {
