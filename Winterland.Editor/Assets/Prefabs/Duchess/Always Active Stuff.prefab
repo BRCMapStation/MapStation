@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7065962027314792917}
   - component: {fileID: 295687489050164011}
   - component: {fileID: 5175116785985674560}
+  - component: {fileID: 827064906145017213}
   m_Layer: 19
   m_Name: Gift Pile LV NPC
   m_TagString: Untagged
@@ -120,6 +121,25 @@ MonoBehaviour:
   m_Script: {fileID: 194650164, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!205 &827064906145017213
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189714085165615745}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.0070970654, y: 0.47653323, z: -0.0010162592}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.015341238
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7998783332841599032}
+  m_Enabled: 1
 --- !u!1 &1197350419466122560
 GameObject:
   m_ObjectHideFlags: 0
@@ -2892,6 +2912,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 11464f01fd12f8142aa55076ac542b8f, type: 3}
   m_PrefabInstance: {fileID: 2968465265061642298}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &7998783332841599032 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4164852870211735550, guid: 11464f01fd12f8142aa55076ac542b8f, type: 3}
+  m_PrefabInstance: {fileID: 2968465265061642298}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3326521197315390587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5589,6 +5614,25 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 11464f01fd12f8142aa55076ac542b8f, type: 3}
   m_PrefabInstance: {fileID: 9201487860808038153}
   m_PrefabAsset: {fileID: 0}
+--- !u!205 &7416944885974337589
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8319038724533193304}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.0070970654, y: 0.47653323, z: -0.0010162592}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.015341238
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4143654793758066443}
+  m_Enabled: 1
 --- !u!95 &2298443855045369530
 Animator:
   serializedVersion: 5
@@ -5622,25 +5666,6 @@ MonoBehaviour:
   m_Script: {fileID: 194650164, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!205 &7416944885974337589
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8319038724533193304}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: -0.0070818067, y: 0.47653276, z: -0.0010086298}
-  m_Size: 1.1073934
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.04867535
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 4143654793758066443}
-  m_Enabled: 1
 --- !u!4 &8662947697247211746 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 11464f01fd12f8142aa55076ac542b8f, type: 3}
