@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 1858165266065225851}
   - component: {fileID: 3015307783043438716}
   - component: {fileID: 4004358144602122475}
+  - component: {fileID: 9052947862711260912}
   m_Layer: 19
   m_Name: LV Boss NPC
   m_TagString: Untagged
@@ -130,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guid: a08341cd-7fc6-4df9-8190-76520c9c592c
+  Challenge: {fileID: 0}
   Name: LV-8055
   PlacePlayerAtSnapPosition: 1
   LookAt: 1
@@ -167,6 +169,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.6369119, z: 2.2206497}
   m_Center: {x: 0, y: 0.31845593, z: 0.61032486}
+--- !u!205 &9052947862711260912
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4379076093876311489}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.0070970654, y: 0.47653323, z: -0.0010162592}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.015341238
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 829770241614185619}
+  m_Enabled: 1
 --- !u!1 &4880830458216070371
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,6 +780,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0d657ccebdeb3b449065e102ec1aa31, type: 3}
+--- !u!137 &829770241614185619 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4164852870211735550, guid: e0d657ccebdeb3b449065e102ec1aa31, type: 3}
+  m_PrefabInstance: {fileID: 5598141200358569105}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4715829642757720512 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e0d657ccebdeb3b449065e102ec1aa31, type: 3}
