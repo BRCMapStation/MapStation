@@ -112,7 +112,7 @@ PlayableDirector:
   - key: {fileID: -4726534097150578694, guid: 8e940580cfb64af489ae6f24fdde38aa, type: 2}
     value: {fileID: 1245625182611248148}
   - key: {fileID: -2905963309913761419, guid: 8e940580cfb64af489ae6f24fdde38aa, type: 2}
-    value: {fileID: 4307435818343715037}
+    value: {fileID: 3022874466373484017}
   - key: {fileID: 8519051323407939279, guid: 8e940580cfb64af489ae6f24fdde38aa, type: 2}
     value: {fileID: 2791165411650724398}
   - key: {fileID: 616547283090620519, guid: 8e940580cfb64af489ae6f24fdde38aa, type: 2}
@@ -1206,6 +1206,43 @@ RectTransform:
   m_AnchoredPosition: {x: -0.19808418, y: -0.16829526}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &3022874466373484017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2919661994829346979}
+  m_Layer: 0
+  m_Name: GiftsGoalAnimatedParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2919661994829346979
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3022874466373484017}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3541847876646399216}
+  m_Father: {fileID: 4449242964922770306}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3510515186633697343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,8 +1617,8 @@ RectTransform:
   m_LocalScale: {x: 0.83206, y: 0.83206, z: 0.83206}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4449242964922770306}
-  m_RootOrder: 1
+  m_Father: {fileID: 2919661994829346979}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2457,7 +2494,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5903717905756543494}
-  - {fileID: 3541847876646399216}
+  - {fileID: 2919661994829346979}
   - {fileID: 6274596329509242423}
   - {fileID: 577309570564800185}
   m_Father: {fileID: 3791631111362961004}
