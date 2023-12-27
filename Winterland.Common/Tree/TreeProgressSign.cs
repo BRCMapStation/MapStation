@@ -87,7 +87,10 @@ class TreeProgressSign : MonoBehaviour {
             }
 
             if (daysLeft >= 1) {
-                label = $"{daysLeft} DAYS";
+                var text = "DAYS";
+                if (daysLeft <= 1)
+                    text = "DAY";
+                label = $"{daysLeft} {text}";
             }
             else if(hoursLeft >= 1) {
                 var number = Mathf.Floor((float) hoursLeft);
