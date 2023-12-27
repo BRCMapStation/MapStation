@@ -18,6 +18,7 @@ namespace Winterland.Common {
 
         private string folder;
         public AudioClip CheckpointClip = null;
+        public AnimationClip PlayerSantaBounce = null;
 
         public WinterAssets(string folder) {
             Instance = this;
@@ -25,6 +26,7 @@ namespace Winterland.Common {
             this.folder = folder;
             LoadBundles();
             CheckpointClip = WinterBundle.LoadAsset<AudioClip>("checkpoint");
+            PlayerSantaBounce = WinterBundle.LoadAsset<AnimationClip>("playerSantaBounce");
         }
         
         private void LoadBundles() {
