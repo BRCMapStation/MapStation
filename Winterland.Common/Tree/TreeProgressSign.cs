@@ -7,11 +7,9 @@ using UnityEngine;
 namespace Winterland.Common;
 
 class TreeProgressSign : MonoBehaviour {
-    [Header("Whether to count an extra day if it's on a different day of the year.")]
-    public bool compensateDays = true;
-    [Header("Whether to count an extra hour if it's on a different hour in the same day.")]
-    public bool compensateHours = true;
+    [Header("Whether to count seconds or to display them as Soon.")]
     public bool countSeconds = true;
+    [Header("Whether to count minutes or to display them as Soon.")]
     public bool countMinutes = true;
     public double unixTimeStampComingSoon;
 
@@ -75,16 +73,6 @@ class TreeProgressSign : MonoBehaviour {
             var minutesLeft = timeLeft.TotalMinutes;
             var secondsLeft = timeLeft.TotalSeconds;
             var label = "NOW!";
-
-            if (compensateDays) {
-                if (hoursLeft >= 24)
-                    daysLeft = Mathf.Ceil((float)daysLeft);
-            }
-
-            if (compensateHours && daysLeft <= 0) {
-                if (minutesLeft >= 60)
-                    hoursLeft = Mathf.Ceil((float)hoursLeft);
-            }
 
             if (daysLeft >= 1) {
                 var number = Mathf.Floor((float) daysLeft);
