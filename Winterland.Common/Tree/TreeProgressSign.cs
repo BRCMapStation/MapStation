@@ -78,7 +78,7 @@ class TreeProgressSign : MonoBehaviour {
 
             if (compensateDays) {
                 if (hoursLeft >= 24)
-                    hoursLeft = Mathf.Ceil((float)daysLeft);
+                    daysLeft = Mathf.Ceil((float)daysLeft);
             }
 
             if (compensateHours && daysLeft <= 0) {
