@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using SlopCrew.API;
 using TMPro;
@@ -6,6 +7,11 @@ using UnityEngine;
 namespace Winterland.Common;
 
 class TreeProgressSign : MonoBehaviour {
+    public bool compensateDays = true;
+    public bool compensateHours = true;
+    public bool countSeconds = true;
+    public bool countMinutes = true;
+    public double unixTimeStampComingSoon;
 
     public TextMeshPro giftsCollectedText;
     public TextMeshPro giftsGoalText;
@@ -13,6 +19,9 @@ class TreeProgressSign : MonoBehaviour {
     public TextMeshPro playerCountText;
     public TextMeshPro normalProgressLabel;
     public TextMeshPro comingSoon999Label;
+    public TextMeshPro comingSoonDateLabel;
+    public GameObject showIfNoDateSet;
+    public GameObject showIfDateSet;
 
     // Unused
     [HideInInspector]
@@ -48,6 +57,50 @@ class TreeProgressSign : MonoBehaviour {
         var goal = tree.TargetProgress.ActivePhaseGiftsGoal;
         giftsCollectedText.text = tree.TargetProgress.ActivePhaseGiftsCollected.ToString();
         giftsGoalText.text = "/" + goal.ToString();
+        var goalTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        goalTime = goalTime.AddSeconds(unixTimeStampComingSoon).ToLocalTime();
+        if (unixTimeStampComingSoon == 0) {
+            showIfNoDateSet.SetActive(true);
+            showIfDateSet.SetActive(false);
+        } else {
+            showIfNoDateSet.SetActive(false);
+            showIfDateSet.SetActive(true);
+
+            var now = DateTime.Now;
+            var timeLeft = goalTime - now;
+            var daysLeft = timeLeft.Days;
+            var hoursLeft = timeLeft.Hours;
+            var minutesLeft = timeLeft.Minutes;
+            var secondsLeft = timeLeft.Seconds;
+            var label = "NOW!";
+
+            if (compensateDays) {
+                daysLeft = goalTime.DayOfYear - now.DayOfYear;
+            }
+
+            if (compensateHours && daysLeft <= 0) {
+                hoursLeft = goalTime.Hour - now.Hour;
+            }
+
+            if (daysLeft >= 1) {
+                label = $"{daysLeft} DAYS";
+            }
+            else if(hoursLeft >= 1) {
+                label = $"{hoursLeft} HOURS";
+            }
+            else if(minutesLeft >= 1) {
+                if (countMinutes)
+                    label = $"{minutesLeft} MINUTES";
+                else
+                    label = "SOON!";
+            } else if (secondsLeft >= 1) {
+                if (countSeconds)
+                    label = $"{secondsLeft} SECONDS";
+                else
+                    label = "SOON!";
+            }
+            comingSoonDateLabel.text = label;
+        }
         if(goal >= 999) {
             // coming soon variant of the sign
             giftsGoalText.gameObject.SetActive(false);
