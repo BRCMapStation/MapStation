@@ -82,7 +82,7 @@ class TreeProgressSign : MonoBehaviour {
             }
 
             if (compensateHours && daysLeft <= 0) {
-                if (minutesLeft >= 60)
+                if (minutesLeft >= 60 && goalTime.DayOfYear == now.DayOfYear && goalTime.Year == now.Year)
                     hoursLeft = goalTime.Hour - now.Hour;
             }
 
