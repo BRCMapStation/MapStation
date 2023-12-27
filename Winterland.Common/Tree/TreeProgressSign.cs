@@ -71,18 +71,18 @@ class TreeProgressSign : MonoBehaviour {
             var now = DateTime.Now;
             var timeLeft = goalTime - now;
             var daysLeft = timeLeft.Days;
-            var hoursLeft = timeLeft.Hours;
-            var minutesLeft = timeLeft.Minutes;
-            var secondsLeft = timeLeft.Seconds;
+            var hoursLeft = timeLeft.TotalHours;
+            var minutesLeft = timeLeft.TotalMinutes;
+            var secondsLeft = timeLeft.TotalSeconds;
             var label = "NOW!";
 
             if (compensateDays) {
-                if (timeLeft.TotalHours >= 24)
+                if (hoursLeft >= 24)
                     daysLeft = goalTime.DayOfYear - now.DayOfYear;
             }
 
             if (compensateHours && daysLeft <= 0) {
-                if (timeLeft.TotalMinutes >= 60)
+                if (minutesLeft >= 60)
                     hoursLeft = goalTime.Hour - now.Hour;
             }
 
@@ -90,16 +90,16 @@ class TreeProgressSign : MonoBehaviour {
                 label = $"{daysLeft} DAYS";
             }
             else if(hoursLeft >= 1) {
-                label = $"{hoursLeft} HOURS";
+                label = $"{Mathf.Floor((float)hoursLeft)} HOURS";
             }
             else if(minutesLeft >= 1) {
                 if (countMinutes)
-                    label = $"{minutesLeft} MINUTES";
+                    label = $"{Mathf.Floor((float)minutesLeft)} MINUTES";
                 else
                     label = "SOON!";
             } else if (secondsLeft >= 1) {
                 if (countSeconds)
-                    label = $"{secondsLeft} SECONDS";
+                    label = $"{Mathf.Floor((float)secondsLeft)} SECONDS";
                 else
                     label = "SOON!";
             }
