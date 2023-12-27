@@ -90,17 +90,29 @@ class TreeProgressSign : MonoBehaviour {
                 label = $"{daysLeft} DAYS";
             }
             else if(hoursLeft >= 1) {
-                label = $"{Mathf.Floor((float)hoursLeft)} HOURS";
+                var number = Mathf.Floor((float) hoursLeft);
+                var text = "HOURS";
+                if (number <= 1)
+                    text = "HOUR";
+                label = $"{number} {text}";
             }
             else if(minutesLeft >= 1) {
-                if (countMinutes)
-                    label = $"{Mathf.Floor((float)minutesLeft)} MINUTES";
-                else
+                if (countMinutes) {
+                    var number = Mathf.Floor((float) minutesLeft);
+                    var text = "MINUTES";
+                    if (number <= 1)
+                        text = "MINUTE";
+                    label = $"{number} {text}";
+                } else
                     label = "SOON!";
             } else if (secondsLeft >= 1) {
-                if (countSeconds)
-                    label = $"{Mathf.Floor((float)secondsLeft)} SECONDS";
-                else
+                if (countSeconds) {
+                    var number = Mathf.Floor((float) secondsLeft);
+                    var text = "SECONDS";
+                    if (number <= 1)
+                        text = "SECOND";
+                    label = $"{number} {text}";
+                } else
                     label = "SOON!";
             }
             comingSoonDateLabel.text = label;
