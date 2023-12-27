@@ -9,12 +9,8 @@ namespace Winterland.Common;
 class TreeProgressSign : MonoBehaviour {
     [Header("Whether to count an extra day if it's on a different day of the year.")]
     public bool compensateDays = true;
-    [Header("Minimum amount of hours left to do day compensation.")]
-    public int compensateDaysMinimumHours = 12;
     [Header("Whether to count an extra hour if it's on a different hour in the same day.")]
     public bool compensateHours = true;
-    [Header("Minimum amount of minutes left to do hour compensation.")]
-    public int compensateHoursMinimumMinutes = 30;
     public bool countSeconds = true;
     public bool countMinutes = true;
     public double unixTimeStampComingSoon;
@@ -81,12 +77,12 @@ class TreeProgressSign : MonoBehaviour {
             var label = "NOW!";
 
             if (compensateDays) {
-                if (hoursLeft > compensateDaysMinimumHours)
+                if (timeLeft.TotalHours >= 24)
                     daysLeft = goalTime.DayOfYear - now.DayOfYear;
             }
 
             if (compensateHours && daysLeft <= 0) {
-                if (minutesLeft > compensateHoursMinimumMinutes)
+                if (timeLeft.TotalMinutes >= 60)
                     hoursLeft = goalTime.Hour - now.Hour;
             }
 
