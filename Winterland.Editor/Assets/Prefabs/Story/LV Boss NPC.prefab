@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 2559222959823363219}
   - component: {fileID: 8153920251649150286}
   - component: {fileID: 107876976059868273}
+  - component: {fileID: 4073750478046869010}
   m_Layer: 19
   m_Name: Repeat Instructions
   m_TagString: Untagged
@@ -448,7 +449,7 @@ MonoBehaviour:
   SpeakerName: ???
   Text: If you wanna help out, grab 'em, slide into an Autoymatic station on foot,
     and hit the <color=yellow>graffiti prompt</color> to get it built, all in a single
-    combo. Then hand 'em over to the Big Man and he'll get you sorted.
+    combo.
   AudioClips: []
 --- !u!114 &7907748466018518890
 MonoBehaviour:
@@ -462,7 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 3
+  Order: 4
   Owner: {fileID: 8174927522424007747}
   Speaker: 1
   SpeakerName: ???
@@ -481,7 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 4
+  Order: 5
   Owner: {fileID: 8174927522424007747}
   Speaker: 1
   SpeakerName: ???
@@ -615,6 +616,25 @@ MonoBehaviour:
   Speaker: 1
   SpeakerName: ???
   Text: 'Ah, the big guy told you to talk to me? '
+  AudioClips: []
+--- !u!114 &4073750478046869010
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4880830458216070371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 3
+  Owner: {fileID: 8174927522424007747}
+  Speaker: 1
+  SpeakerName: ???
+  Text: When you're done with all the toys, hand them over to the Big Man and he'll
+    get you sorted.
   AudioClips: []
 --- !u!1 &7350858125212805756
 GameObject:
