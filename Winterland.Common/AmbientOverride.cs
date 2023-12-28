@@ -10,6 +10,8 @@ namespace Winterland.Common {
     [ExecuteAlways]
     public class AmbientOverride : MonoBehaviour {
         public static AmbientOverride Instance = null;
+        [HideInInspector]
+        public bool DayNightCycleModEnabled = true;
         [Header("Skybox texture. Leave this set to nothing to keep the original stage skybox.")]
         public Texture Skybox = null;
         public Color LightColor = Color.white;
@@ -24,6 +26,9 @@ namespace Winterland.Common {
         private Color oldShadowColor = Color.black;
         private float currentTimer = 0f;
         private float currentTransitionDuration = 1f;
+#if !UNITY_EDITOR
+        private AmbientManager sun;
+#endif
 
         private void Update() {
             if (Application.isEditor) {
@@ -52,6 +57,16 @@ namespace Winterland.Common {
             }
         }
 
+#if !UNITY_EDITOR
+        private void LateUpdate() {
+            if (sun == null) return;
+            if (DayNightCycleModEnabled) return;
+            var light = sun.GetComponent<Light>();
+            light.color = Color.white;
+            light.shadowStrength = 1f;
+        }
+#endif
+
         public void TransitionAmbient(AmbientOverrideTrigger trigger) {
             if (CurrentAmbientTrigger != trigger) {
                 CurrentAmbientTrigger = trigger;
@@ -59,6 +74,7 @@ namespace Winterland.Common {
                 currentTransitionDuration = trigger.TransitionDuration;
                 oldLightColor = CurrentLightColor;
                 oldShadowColor = CurrentShadowColor;
+                DayNightCycleModEnabled = trigger.EnableDayLightCycleMod;
             }
         }
 
@@ -69,32 +85,28 @@ namespace Winterland.Common {
                 currentTransitionDuration = trigger.TransitionDuration;
                 oldLightColor = CurrentLightColor;
                 oldShadowColor = CurrentShadowColor;
+                DayNightCycleModEnabled = true;
             }
         }
 
         private void Awake() {
             Instance = this;
-            if (!Application.isEditor) {
-                ReptileAwake();
+#if !UNITY_EDITOR
+            oldLightColor = LightColor;
+            oldShadowColor = ShadowColor;
+
+            if (Skybox != null)
+                RenderSettings.skybox.mainTexture = Skybox;
+
+            sun = FindObjectOfType<AmbientManager>();
+            if (sun != null) {
+                sun.transform.rotation = transform.rotation;
             }
 
-            void ReptileAwake() {
-
-                oldLightColor = LightColor;
-                oldShadowColor = ShadowColor;
-
-                if (Skybox != null)
-                    RenderSettings.skybox.mainTexture = Skybox;
-
-                var sun = FindObjectOfType<AmbientManager>();
-                if (sun != null) {
-                    sun.transform.rotation = transform.rotation;
-                }
-
-                var myLite = GetComponent<Light>();
-                if (myLite != null)
-                    Destroy(myLite);
-            }
+            var myLite = GetComponent<Light>();
+            if (myLite != null)
+                Destroy(myLite);
+#endif
         }
 
         private void OnDestroy() {

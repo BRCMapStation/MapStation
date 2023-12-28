@@ -11,6 +11,8 @@ namespace Winterland.Common {
         public Color LightColor = Color.white;
         public Color ShadowColor = Color.black;
         public float TransitionDuration = 2f;
+        [Header("If this is set to false, they Day and Night cycle mod won't take effect while you're in this ambient.")]
+        public bool EnableDayLightCycleMod = true;
 
         private void OnTriggerEnter(Collider other) {
             var otherPlayer = other.GetComponent<Player>();
