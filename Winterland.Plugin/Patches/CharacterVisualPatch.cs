@@ -16,27 +16,32 @@ namespace Winterland.Plugin.Patches {
         [HarmonyPostfix]
         [HarmonyPatch(nameof(CharacterVisual.Init))]
         private static void Init_Postfix(Characters character, RuntimeAnimatorController animatorController, CharacterVisual __instance) {
-            if (!WinterCharacters.IsSanta(character)) return;
-            OverrideAnimations(__instance);
+            OverrideAnimations(__instance, character);
         }
 
         [HarmonyPostfix]
         [HarmonyPatch(nameof(CharacterVisual.SetMoveStyleVisualAnim))]
         private static void SetMoveStyleVisualAnim_Postfix(Player player, CharacterVisual __instance) {
-            if (player == null) return;
-            if (!WinterCharacters.IsSanta(player.character)) return;
-            OverrideAnimations(__instance);
+            var character = Characters.NONE;
+            if (player != null)
+                character = player.character;
+            OverrideAnimations(__instance, character);
         }
 
-        private static void OverrideAnimations(CharacterVisual visual) {
+        private static void OverrideAnimations(CharacterVisual visual, Characters character) {
             if (WinterAssets.Instance == null) return;
             var animatorOverride = visual.anim.runtimeAnimatorController as AnimatorOverrideController;
             if (animatorOverride == null) {
                 animatorOverride = new AnimatorOverrideController(visual.anim.runtimeAnimatorController);
                 visual.anim.runtimeAnimatorController = animatorOverride;
             }
-            if (animatorOverride["softBounce13"] != WinterAssets.Instance.PlayerSantaBounce)
-                animatorOverride["softBounce13"] = WinterAssets.Instance.PlayerSantaBounce;
+            if (WinterCharacters.IsSanta(character)) {
+                if (animatorOverride["softBounce13"] != WinterAssets.Instance.PlayerSantaBounce)
+                    animatorOverride["softBounce13"] = WinterAssets.Instance.PlayerSantaBounce;
+            }
+            else if (animatorOverride["softBounce13"] == WinterAssets.Instance.PlayerSantaBounce) {
+                animatorOverride["softBounce13"] = null;
+            }
         }
     }
 }
