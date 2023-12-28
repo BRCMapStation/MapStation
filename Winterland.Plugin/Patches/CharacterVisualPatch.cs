@@ -23,8 +23,8 @@ namespace Winterland.Plugin.Patches {
         [HarmonyPostfix]
         [HarmonyPatch(nameof(CharacterVisual.SetMoveStyleVisualAnim))]
         private static void SetMoveStyleVisualAnim_Postfix(Player player, CharacterVisual __instance) {
-            var character = player.character;
-            if (!WinterCharacters.IsSanta(character)) return;
+            if (player == null) return;
+            if (!WinterCharacters.IsSanta(player.character)) return;
             OverrideAnimations(__instance);
         }
 
