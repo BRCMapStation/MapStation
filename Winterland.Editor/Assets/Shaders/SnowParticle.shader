@@ -17,8 +17,8 @@ Shader "Winterland/Snow Particle"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #define LIGHT_THRESHOLD 0.1
 
+            #include "BRCCommon.cginc"
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
 
@@ -40,8 +40,7 @@ Shader "Winterland/Snow Particle"
             };
 
             float4 _Color;
-            float4 LightColor;
-            float4 ShadowColor;
+            BRC_LIGHTING_PROPERTIES;
             sampler2D _MainTex;
             sampler2D _CutoutTex;
 
@@ -57,13 +56,8 @@ Shader "Winterland/Snow Particle"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed lighting = saturate(dot(i.normal, _WorldSpaceLightPos0));
-                if (lighting > LIGHT_THRESHOLD)
-                    lighting = 1.0;
-                else
-                    lighting = 0.0;
-                float4 lightColor = lerp(ShadowColor, LightColor, lighting);
-                fixed4 col = tex2D(_MainTex, i.uv) * _Color * lightColor * _LightColor0.a;
+                BRC_LIGHTING_FRAGMENT_NOSHADOWS;
+                fixed4 col = tex2D(_MainTex, i.uv) * _Color * BRCLighting;
                 fixed4 cutoutCol = tex2D(_CutoutTex, i.uv);
                 cutoutCol.r -= -(i.color.a - 1);
                 clip(cutoutCol.r);

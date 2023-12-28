@@ -6,6 +6,7 @@ Shader "BRC/Ambient Environment Transparent"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Emission ("Emission", 2D) = "black" {}
+        _Color ("Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -20,8 +21,8 @@ Shader "BRC/Ambient Environment Transparent"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #define LIGHT_THRESHOLD 0.1
 
+            #include "BRCCommon.cginc"
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
 
@@ -44,8 +45,7 @@ Shader "BRC/Ambient Environment Transparent"
                 float2 uv2 : TEXCOORD2;
             };
 
-            float4 LightColor;
-            float4 ShadowColor;
+            BRC_LIGHTING_PROPERTIES;
             sampler2D _MainTex;
             float4 _MainTex_ST;
             sampler2D _Emission;
@@ -61,17 +61,15 @@ Shader "BRC/Ambient Environment Transparent"
                 return o;
             }
 
+            float4 _Color;
+
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed lighting = saturate(dot(i.normal, _WorldSpaceLightPos0));
-                if (lighting > LIGHT_THRESHOLD)
-                    lighting = 1.0;
-                else
-                    lighting = 0.0;
-                float4 lightColor = lerp(ShadowColor, LightColor, lighting);
-                fixed4 col = tex2D(_MainTex, i.uv) * lightColor * _LightColor0.a;
+                BRC_LIGHTING_FRAGMENT_NOSHADOWS;
+                fixed4 col = tex2D(_MainTex, i.uv) * BRCLighting;
                 fixed3 emissionCol = tex2D(_Emission, i.uv2).rgb;
                 col.rgb += emissionCol.rgb;
+                col *= _Color;
                 return col;
             }
             ENDCG

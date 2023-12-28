@@ -26,8 +26,8 @@ Shader "Winterland/Snow Gradient"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #define LIGHT_THRESHOLD 0.1
 
+            #include "BRCCommon.cginc"
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
 
@@ -51,8 +51,7 @@ Shader "Winterland/Snow Gradient"
                 float2 detailuv : TEXCOORD3;
             };
 
-            float4 LightColor;
-            float4 ShadowColor;
+            BRC_LIGHTING_PROPERTIES;
             sampler2D _MainTex;
             sampler2D _DetailTex;
             float4 _MainTex_ST;
@@ -79,13 +78,8 @@ Shader "Winterland/Snow Gradient"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed lighting = saturate(dot(i.normal, _WorldSpaceLightPos0)) * SHADOW_ATTENUATION(i);
-                if (lighting > LIGHT_THRESHOLD)
-                    lighting = 1.0;
-                else
-                    lighting = 0.0;
-                float4 lightColor = lerp(ShadowColor, LightColor, lighting);
-                fixed4 col = tex2D(_MainTex, i.uv) * lightColor * _LightColor0.a;
+                BRC_LIGHTING_FRAGMENT;
+                fixed4 col = tex2D(_MainTex, i.uv) * BRCLighting;
                 float detail = tex2D(_DetailTex, i.detailuv).r * _DetailStrength;
                 col.a = pow(col.a, (-detail)+1);
                 if (col.a <= _AlphaCutoff)

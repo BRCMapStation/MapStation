@@ -29,8 +29,8 @@ Shader "Winterland/ Light Snow Layer"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #define LIGHT_THRESHOLD 0.1
 
+            #include "BRCCommon.cginc"
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
 
@@ -56,8 +56,7 @@ Shader "Winterland/ Light Snow Layer"
                 float4 color : COLOR0;
             };
 
-            float4 LightColor;
-            float4 ShadowColor;
+            BRC_LIGHTING_PROPERTIES;
             sampler2D _DetailTex;
             float4 _DetailTex_ST;
             sampler2D _DetailTex2;
@@ -88,17 +87,11 @@ Shader "Winterland/ Light Snow Layer"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed lighting = saturate(dot(i.normal, _WorldSpaceLightPos0)) * SHADOW_ATTENUATION(i);
-                if (lighting > LIGHT_THRESHOLD)
-                    lighting = 1.0;
-                else
-                    lighting = 0.0;
-                lighting = lerp(lighting, 0, _Shade);
-                float4 lightColor = lerp(ShadowColor, LightColor, lighting);
+                BRC_LIGHTING_FRAGMENT;
+                BRCLighting = lerp(BRCLighting, ShadowColor * _LightColor0.rgba, _Shade);
                 float detail = lerp(1, tex2D(_DetailTex, i.uv).r, _DetailStrength);
                 float detail2 = lerp(1, tex2D(_DetailTex2, i.uv2).r, _Detail2Strength);
-                //detail *= detail2;
-                fixed4 col = lightColor * _LightColor0.a;
+                fixed4 col = BRCLighting;
                 col.a *= _Density;
                 
                 col.a *= detail2;

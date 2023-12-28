@@ -19,8 +19,8 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #define LIGHT_THRESHOLD 0.1
 
+            #include "BRCCommon.cginc"
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
 
@@ -43,8 +43,7 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
                 SHADOW_COORDS(2) // put shadows data into TEXCOORD1
             };
 
-            float4 LightColor;
-            float4 ShadowColor;
+            BRC_LIGHTING_PROPERTIES;
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
@@ -60,13 +59,8 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed lighting = saturate(dot(i.normal, _WorldSpaceLightPos0)) * SHADOW_ATTENUATION(i);
-                if (lighting > LIGHT_THRESHOLD)
-                    lighting = 1.0;
-                else
-                    lighting = 0.0;
-                float4 lightColor = lerp(ShadowColor, LightColor, lighting);
-                fixed4 col = tex2D(_MainTex, i.uv) * lightColor * _LightColor0.a;
+                BRC_LIGHTING_FRAGMENT;
+                fixed4 col = tex2D(_MainTex, i.uv) * BRCLighting;
                 return col;
             }
             ENDCG

@@ -19,10 +19,9 @@ Shader "Winterland/Fallen Snow Surface" {
             #pragma surface surf SimpleLambert addshadow fullforwardshadows vertex:disp tessellate:tessDistance nolightmap noambient
             #pragma target 4.6
             #include "Tessellation.cginc"
-            #define LIGHT_THRESHOLD 0.1
+            #include "BRCCommon.cginc"
 
-            float4 LightColor;
-            float4 ShadowColor;
+            BRC_LIGHTING_PROPERTIES
 
             struct SurfaceOutputSnow
             {
@@ -43,6 +42,10 @@ Shader "Winterland/Fallen Snow Surface" {
             }
 
             half4 LightingSimpleLambert(SurfaceOutputSnow s, half3 lightDir, half atten) {
+              if (atten > SHADOW_THRESHOLD)
+                atten = 1.0;
+              else
+                atten = 0.0;
               half NdotL = saturate(dot(s.Normal, lightDir) * atten);
               if (NdotL > LIGHT_THRESHOLD)
                   NdotL = 1.0;
@@ -52,7 +55,7 @@ Shader "Winterland/Fallen Snow Surface" {
               // atten is shadows!
               float4 lightColor = lerp(ShadowColor, LightColor, NdotL);
               half4 c;
-              c.rgb = s.Albedo * lightColor;
+              c.rgb = s.Albedo * _LightColor0.rgb * lightColor;
               c.a = s.Alpha;
               return c;
           }
