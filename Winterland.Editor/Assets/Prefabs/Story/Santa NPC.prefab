@@ -180,7 +180,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4338912150754813107}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &604056638709197812
 MonoBehaviour:
@@ -362,6 +362,107 @@ MonoBehaviour:
   customCullingMask:
     serializedVersion: 2
     m_Bits: 0
+--- !u!1 &5920273380183298022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4932459145320273123}
+  - component: {fileID: 218501244995552193}
+  - component: {fileID: 6498833761952022390}
+  - component: {fileID: 726080286965217892}
+  m_Layer: 0
+  m_Name: Autoymatic Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4932459145320273123
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5920273380183298022}
+  m_LocalRotation: {x: 0.09895661, y: 0.854689, z: -0.17697425, w: 0.4779063}
+  m_LocalPosition: {x: 46.24, y: 26.21, z: -24.47}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4338912150754813107}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 23.397, y: 121.576, z: 0}
+--- !u!20 &218501244995552193
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5920273380183298022}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 38.4
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &6498833761952022390
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5920273380183298022}
+  m_Enabled: 1
+--- !u!114 &726080286965217892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5920273380183298022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cde950e5c00804d8cb9b499658fc5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useCustomCullingMask: 0
+  customCullingMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &6268290683542412217
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,10 +581,12 @@ GameObject:
   - component: {fileID: 3249430251666087936}
   - component: {fileID: 4400625505369462792}
   - component: {fileID: 2997533005218578430}
-  - component: {fileID: 1835349518799872353}
   - component: {fileID: 6131074780577277570}
   - component: {fileID: 7409173031704283534}
-  - component: {fileID: 6429774943699353582}
+  - component: {fileID: 6297980487597617911}
+  - component: {fileID: 3741482518231501829}
+  - component: {fileID: 1178834848105715642}
+  - component: {fileID: 2475215218416987786}
   m_Layer: 0
   m_Name: First Time Talking
   m_TagString: Untagged
@@ -505,7 +608,7 @@ Transform:
   m_Children:
   - {fileID: 4106936619712189631}
   m_Father: {fileID: 4338912150754813107}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4003436014354901181
 MonoBehaviour:
@@ -636,10 +739,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Order: 2
-  Name: Back to santa
+  Name: Show Autoymatics
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
-  Camera: {fileID: 1566642659916028063}
+  Camera: {fileID: 726080286965217892}
   Type: 0
   YesTarget: 
   NahTarget: 
@@ -660,27 +763,8 @@ MonoBehaviour:
   Owner: {fileID: 4400625505369462792}
   Speaker: 1
   SpeakerName: ???
-  Text: 'Give me a hand: collect the parts for a toy, then stop by one of the Autoymatics
-    around the square to get it built!'
-  AudioClips: []
---- !u!114 &1835349518799872353
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6580692974069550140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Order: 2
-  Owner: {fileID: 4400625505369462792}
-  Speaker: 1
-  SpeakerName: ???
-  Text: Don't drop your comb- i mean, the toy parts, midway. You'll have to grab
-    'em all again!
+  Text: 'Give me a hand: collect all the parts for a single toy, then slide into
+    one of the Autoymatics around the square!'
   AudioClips: []
 --- !u!114 &6131074780577277570
 MonoBehaviour:
@@ -694,7 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 3
+  Order: 4
   Name: Show Boss LV
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
@@ -722,7 +806,28 @@ MonoBehaviour:
   Text: If you still got any questions, talk to <color=yellow>LV-8055</color> over
     there, in the red duds. He's my lead engineer and will get you sorted out.
   AudioClips: []
---- !u!114 &6429774943699353582
+--- !u!114 &6297980487597617911
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6580692974069550140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1450124197, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 3
+  Name: Back to Santa
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  Camera: {fileID: 1566642659916028063}
+  Type: 0
+  YesTarget: 
+  NahTarget: 
+  AudioClips: []
+--- !u!114 &3741482518231501829
 MonoBehaviour:
   m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
@@ -734,12 +839,49 @@ MonoBehaviour:
   m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Order: 3
-  Owner: {fileID: 4400625505369462792}
+  Order: 1
+  Owner: {fileID: 6297980487597617911}
+  Speaker: 1
+  SpeakerName: ???
+  Text: Don't drop your comb- i mean, the toy parts, midway. You'll have to grab
+    'em all again!
+  AudioClips: []
+--- !u!114 &1178834848105715642
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6580692974069550140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 2
+  Owner: {fileID: 6297980487597617911}
   Speaker: 1
   SpeakerName: ???
   Text: When you're done with all of 'em, come talk to me so we can <color=yellow>wrap
     it up</color> nicely. Y'know, for the kids!
+  AudioClips: []
+--- !u!114 &2475215218416987786
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6580692974069550140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1888043476, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 2
+  Owner: {fileID: 4400625505369462792}
+  Speaker: 1
+  SpeakerName: ???
+  Text: Once inside, <color=yellow>assemble</color> the parts into one complete toy!
   AudioClips: []
 --- !u!1 &7680561150311135861
 GameObject:
@@ -772,6 +914,7 @@ Transform:
   - {fileID: 3878314245064063029}
   - {fileID: 8245473077980261603}
   - {fileID: 2984837000692224743}
+  - {fileID: 4932459145320273123}
   - {fileID: 3090728773581920258}
   - {fileID: 8825282453336377555}
   - {fileID: 9082584334843241963}
@@ -915,7 +1058,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4338912150754813107}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1256379589600389007
 MonoBehaviour:
@@ -1257,7 +1400,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4338912150754813107}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4296117634675571795
 MonoBehaviour:
