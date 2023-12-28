@@ -103,7 +103,9 @@ namespace Winterland.Common {
                 sun.transform.rotation = transform.rotation;
             }
 
+            var sunLight = sun.GetComponent<Light>();
             var myLite = GetComponent<Light>();
+            sunLight.color = myLite.color;
             if (myLite != null)
                 Destroy(myLite);
 #endif
