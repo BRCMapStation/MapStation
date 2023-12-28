@@ -35,7 +35,8 @@ namespace Winterland.Plugin.Patches {
                 animatorOverride = new AnimatorOverrideController(visual.anim.runtimeAnimatorController);
                 visual.anim.runtimeAnimatorController = animatorOverride;
             }
-            if (WinterCharacters.IsSanta(character)) {
+            // the name comparison is kinda ugly ain't gonna lie!
+            if (WinterCharacters.IsSanta(character) || visual.gameObject.name.StartsWith("Santa Visuals")) {
                 if (animatorOverride["softBounce13"] != WinterAssets.Instance.PlayerSantaBounce)
                     animatorOverride["softBounce13"] = WinterAssets.Instance.PlayerSantaBounce;
             }
