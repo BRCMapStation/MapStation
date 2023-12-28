@@ -35,7 +35,8 @@ namespace Winterland.Plugin.Patches {
                 animatorOverride = new AnimatorOverrideController(visual.anim.runtimeAnimatorController);
                 visual.anim.runtimeAnimatorController = animatorOverride;
             }
-            animatorOverride["softBounce13"] = WinterAssets.Instance.PlayerSantaBounce;
+            if (animatorOverride["softBounce13"] != WinterAssets.Instance.PlayerSantaBounce)
+                animatorOverride["softBounce13"] = WinterAssets.Instance.PlayerSantaBounce;
         }
     }
 }
