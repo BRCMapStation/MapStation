@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
@@ -84,12 +86,22 @@ public class BuildAssets {
             return;
         }
         var pathToPlugin = Path.Combine(bepinexDirectory, "plugins", pluginName);
-        var pathToBundles = Path.Combine(pathToPlugin, outputDirectory);
+
+        var stageBundles = Directory.GetFiles(pathToPlugin, "*.*.bundle");
+        foreach (var stageBundle in stageBundles)
+            File.Delete(stageBundle);
+
+        var bundlesToCopy = Directory.GetFiles(outputDirectory, "*.*.bundle");
+
+        foreach(var bundle in bundlesToCopy) {
+            File.Copy(bundle, Path.Combine(pathToPlugin, Path.GetFileName(bundle)));
+        }
+        /*
         if (Directory.Exists(pathToBundles))
             Directory.Delete(pathToBundles, true);
         if (!Directory.Exists(pathToBundles))
             Directory.CreateDirectory(pathToBundles);
-        CopyDirectory(outputDirectory, pathToBundles, true);
+        CopyDirectory(outputDirectory, pathToBundles, true);*/
     }
 
     // https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories
@@ -150,7 +162,28 @@ public class BuildAssets {
     private static void BuildAssetBundles(string directory) {
         if (!Directory.Exists(directory))
             Directory.CreateDirectory(directory);
-        var manifest = BuildPipeline.BuildAssetBundles(directory, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows64);
+
+        var assetBundleNames = AssetDatabase.GetAllAssetBundleNames();
+        assetBundleNames = assetBundleNames.Where((assetBundleName) => {
+            if (assetBundleName == "winter") return true;
+            if (assetBundleName.StartsWith("stages/")) return true;
+            return false;
+        }).ToArray();
+
+        var builds = new List<AssetBundleBuild>();
+
+        foreach(var assetBundle in assetBundleNames) {
+            var assetPaths = AssetDatabase.GetAssetPathsFromAssetBundle(assetBundle);
+
+            var build = new AssetBundleBuild();
+            build.assetBundleName = "winter.asset.bundle";
+            if (assetBundle.StartsWith("stages/"))
+                build.assetBundleName = $"{assetBundle.Substring(7)}.stage.bundle";
+            build.assetNames = assetPaths;
+            builds.Add(build);
+        }
+
+        var manifest = BuildPipeline.BuildAssetBundles(directory, builds.ToArray(), BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows64);
         if(manifest == null) {
             throw new Exception("Building asset bundles failed!");
         }

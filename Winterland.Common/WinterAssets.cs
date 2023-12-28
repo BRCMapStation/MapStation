@@ -30,19 +30,17 @@ namespace Winterland.Common {
         }
         
         private void LoadBundles() {
-            var winterBundleLocation = Path.Combine(folder, "winter");
+            var winterBundleLocation = Path.Combine(folder, "winter.asset.bundle");
+
             if (File.Exists(winterBundleLocation))
                 WinterBundle = AssetBundle.LoadFromFile(winterBundleLocation);
-            var stagesFolder = Path.Combine(folder, "stages");
-            if (Directory.Exists(stagesFolder)) {
-                var bundles = Directory.GetFiles(stagesFolder, "*", SearchOption.TopDirectoryOnly);
-                foreach(var file in bundles) {
-                    var bundle = AssetBundle.LoadFromFile(file);
-                    bundleByStageName[Path.GetFileName(file)] = bundle;
-                }
-            } else {
-                // Last-minute hack for modman compat
-                bundleByStageName["square"] = AssetBundle.LoadFromFile(Path.Combine(folder, "square"));
+            var stageBundles = Directory.GetFiles(folder, "*.stage.bundle");
+
+            foreach(var stageBundle in stageBundles) {
+                // this kinda ugly actually!
+                var stageName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(stageBundle));
+                Debug.Log($"Found bundle {stageBundle} for stage {stageName}");
+                bundleByStageName[stageName] = AssetBundle.LoadFromFile(stageBundle);
             }
         }
 
