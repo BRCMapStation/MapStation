@@ -21,6 +21,7 @@ namespace Winterland.Common {
         public float FadeOutDuration = 0.2f;
         public float BlackScreenDuration = 0.1f;
         public AmbientOverrideTrigger InteriorLighting = null;
+        public Texture2D MapPinTexture = null;
         [Header("Sounds")]
         public AudioClip EnterToyMachineAudioClip = null;
         public AudioClip SuccessAudioClip = null;
@@ -50,6 +51,20 @@ namespace Winterland.Common {
                 toyVisualByToy[toy.Toy] = toy;
                 toy.gameObject.SetActive(false);
             }
+        }
+
+        private void Start() {
+            MakePin();
+        }
+
+        private void MakePin() {
+            var mapController = Mapcontroller.Instance;
+            var pin = mapController.CreatePin(MapPin.PinType.CypherPin);
+            pin.AssignGameplayEvent(this.gameObject);
+            pin.InitMapPin(MapPin.PinType.Pin);
+            pin.OnPinEnable();
+            var pinRenderer = pin.GetComponentInChildren<MeshRenderer>();
+            pinRenderer.material.mainTexture = MapPinTexture;
         }
 
         public void FinishToyLine() {
