@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8406373793777301719}
   - component: {fileID: 6002602470687067165}
   - component: {fileID: 7694896864483746141}
-  - component: {fileID: 4144066784980528000}
   - component: {fileID: 4661236947123373004}
   - component: {fileID: 3706192068302240138}
   - component: {fileID: 7229995326695943979}
@@ -101,23 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkName: 
---- !u!114 &4144066784980528000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5209955948663205320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e479cd06725321e4790cbaf61659aedf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stuffToLaunchAway:
-  - {fileID: 4661236947123373004}
-  audioClips:
-    collectionId: 19
-    audioClipId: 502
 --- !u!54 &4661236947123373004
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -150,7 +132,7 @@ MonoBehaviour:
   destroyTimer: -1
   audioClips:
     collectionId: 19
-    audioClipId: -1
+    audioClipId: 502
 --- !u!64 &7229995326695943979
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -162,6 +144,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -8825038141534415262, guid: 25be3b1996b4a9b4c871c3fc0cd15585, type: 3}
