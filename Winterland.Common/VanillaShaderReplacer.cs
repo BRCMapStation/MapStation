@@ -27,6 +27,9 @@ namespace Winterland.Common {
                         case "BRC/Ambient Environment Transparent":
                             material.shader = AssetAPI.GetShader(AssetAPI.ShaderNames.AmbientEnvironmentTransparent);
                             break;
+                        case "BRC/Ambient Environment Glass":
+                            material.shader = AssetAPI.GetShader(AssetAPI.ShaderNames.AmbientEnvironmentGlass);
+                            break;
                     }
                 }
             }
