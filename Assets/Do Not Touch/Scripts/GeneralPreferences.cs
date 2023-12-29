@@ -6,4 +6,5 @@ using UnityEngine;
 [Serializable]
 public class GeneralPreferences { 
     public string mapDirectory;
+    public bool compressAssetBundles = true;
 }
