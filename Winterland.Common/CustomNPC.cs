@@ -22,6 +22,7 @@ namespace Winterland.Common {
                 guid = value.ToString();
             }
         }
+        public bool CreateMapPin = false;
         public ChallengeLevel Challenge = null;
         public string Name = "";
         public bool PlacePlayerAtSnapPosition = true;
@@ -52,6 +53,17 @@ namespace Winterland.Common {
             gameObject.layer = 19;
             GUID = Guid.NewGuid();
         }
+#if !UNITY_EDITOR
+        private void Start() {
+            var mapController = Mapcontroller.Instance;
+            if (CreateMapPin) {
+                var pin = mapController.CreatePin(MapPin.PinType.StoryObjectivePin);
+                pin.AssignGameplayEvent(this.gameObject);
+                pin.InitMapPin(MapPin.PinType.StoryObjectivePin);
+                pin.OnPinEnable();
+            }
+        }
+#endif
 
         private void Awake() {
             if (Application.isEditor)
