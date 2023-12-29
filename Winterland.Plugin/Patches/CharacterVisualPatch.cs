@@ -40,8 +40,16 @@ namespace Winterland.Plugin.Patches {
                 if (animatorOverride["softBounce13"] != WinterAssets.Instance.PlayerSantaBounce)
                     animatorOverride["softBounce13"] = WinterAssets.Instance.PlayerSantaBounce;
             }
+            // if we don't un-override the animation there's a chance it'll transfer to non-santa characters that use softbounce13 like irene or dt.
             else if (animatorOverride["softBounce13"] == WinterAssets.Instance.PlayerSantaBounce) {
-                animatorOverride["softBounce13"] = null;
+                // don't know why but for it to work correctly with boe we should only do this on the local player.
+                if (Plugin.BunchOfEmotesInstalled) {
+                    var player = visual.GetComponentInParent<Player>();
+                    if (player != null && !player.isAI)
+                        animatorOverride["softBounce13"] = null;
+                }
+                else
+                    animatorOverride["softBounce13"] = null;
             }
         }
     }
