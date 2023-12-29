@@ -38,6 +38,7 @@ namespace Winterland.Common {
         private void Awake() {
             Initialize();
         }
+
         private void OnDestroy() {
             propertyBlock.Dispose();
         }
@@ -53,6 +54,7 @@ namespace Winterland.Common {
             var auraRenderer = sphere.GetComponent<MeshRenderer>();
             if (auraRenderer == null) return;
             auraRenderer.SetPropertyBlock(propertyBlock);
+            auraRenderer.sortingOrder = 2;
         }
 
 #if UNITY_EDITOR
