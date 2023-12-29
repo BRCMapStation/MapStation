@@ -7,9 +7,11 @@ using UnityEngine;
 using Reptile;
 
 namespace Winterland.Common {
+    [ExecuteAlways]
     public class ToyPart : MonoBehaviour {
         public ToyLine Line { get; private set; }
         public AudioClip PickUpAudioClip = null;
+        private MaterialPropertyBlock propertyBlock = null;
 
         public void Respawn() {
             gameObject.SetActive(true);
@@ -34,7 +36,31 @@ namespace Winterland.Common {
         }
 
         private void Awake() {
-            Line = GetComponentInParent<ToyLine>(true);
+            Initialize();
         }
+
+        private void OnDestroy() {
+            propertyBlock.Dispose();
+        }
+
+        private void Initialize() {
+            Line = GetComponentInParent<ToyLine>(true);
+            if (Line == null) return;
+            if (propertyBlock == null)
+                propertyBlock = new MaterialPropertyBlock();
+            propertyBlock.SetColor("_Color", Line.Color);
+            var sphere = transform.Find("Sphere");
+            if (sphere == null) return;
+            var auraRenderer = sphere.GetComponent<MeshRenderer>();
+            if (auraRenderer == null) return;
+            auraRenderer.SetPropertyBlock(propertyBlock);
+            auraRenderer.sortingOrder = 2;
+        }
+
+#if UNITY_EDITOR
+        private void Update() {
+            Initialize();
+        }
+#endif
     }
 }

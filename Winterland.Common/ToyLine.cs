@@ -10,6 +10,7 @@ namespace Winterland.Common {
         public string GUID;
         public Guid Guid => Guid.Parse(GUID);
         public ToyPart[] ToyParts => toyParts;
+        public Color Color = Color.white;
         private ToyPart[] toyParts = null;
 
         public void Respawn() {

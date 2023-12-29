@@ -19,6 +19,7 @@ namespace Winterland.Plugin
         public static Plugin Instance;
         public static ManualLogSource Log = null;
         internal static bool DynamicCameraInstalled = false;
+        internal static bool BunchOfEmotesInstalled = false;
 
         // Hack: we must reference dependent assemblies from a class that's guaranteed to execute or else they don't
         // load and MonoBehaviours are missing.
@@ -64,7 +65,8 @@ namespace Winterland.Plugin
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
 
-            DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera") || Chainloader.PluginInfos.Keys.Contains("com.Dragsun.Savestate") || Chainloader.PluginInfos.Keys.Contains("Savestate");
+            BunchOfEmotesInstalled = Chainloader.PluginInfos.Keys.Contains("com.Dragsun.BunchOfEmotes");
+            DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera") || Chainloader.PluginInfos.Keys.Contains("com.Dragsun.Savestate");
         }
 
         private void StageAPI_OnStagePreInitialization(Stage newStage, Stage previousStage) {
