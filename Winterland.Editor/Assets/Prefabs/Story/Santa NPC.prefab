@@ -1381,6 +1381,7 @@ GameObject:
   - component: {fileID: 8681917033641224979}
   - component: {fileID: 9026582371762211608}
   - component: {fileID: 4731762352195243776}
+  - component: {fileID: 3174973540676885343}
   m_Layer: 0
   m_Name: Collect Gifts
   m_TagString: Untagged
@@ -1818,7 +1819,7 @@ MonoBehaviour:
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
   SuccessfullyUnlockedTarget: 
-  AlreadyUnlockedTarget: 
+  AlreadyUnlockedTarget: End
 --- !u!114 &4731762352195243776
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -1836,6 +1837,24 @@ MonoBehaviour:
   NPC: {fileID: 0}
   NextAction: {fileID: 0}
   ActionToRunOnEnd: Unlock Arcade Fallback
+--- !u!114 &3174973540676885343
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198837488609701058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2074840497, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Order: 11
+  Name: 
+  NPC: {fileID: 0}
+  NextAction: {fileID: 0}
+  NotificationText: You've unlocked an Arcade Challenge! Look for the joystick on
+    the map to find it.
 --- !u!1001 &2248119107136361381
 PrefabInstance:
   m_ObjectHideFlags: 0
