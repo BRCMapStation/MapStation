@@ -64,16 +64,17 @@ namespace Winterland.Common {
                 AdditiveSkyColor = Vector4.Lerp(AdditiveSkyColor, Color.black, AdditiveSkyColorLerpSpeed * Core.dt);
 
                 if (CurrentAmbientTrigger == null) {
-                    CurrentLightColor += AdditiveSkyColor;
                     var additiveAverage = (AdditiveSkyColor.r + AdditiveSkyColor.g + AdditiveSkyColor.b) / 3f;
                     var shadowMultiplier = -(additiveAverage * 0.5f) + 1f;
                     CurrentShadowColor *= shadowMultiplier;
+                    CurrentLightColor *= shadowMultiplier;
+                    CurrentLightColor += AdditiveSkyColor;
                 }
             }
         }
 
         public void AddSkyLight(Color color) {
-            AdditiveSkyColor += color;
+            AdditiveSkyColor += color * 0.7f;
         }
 
 #if !UNITY_EDITOR
