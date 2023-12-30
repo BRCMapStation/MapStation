@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BepInEx.Configuration;
 using CommonAPI;
 using Reptile;
 using UnityEngine;
@@ -42,6 +43,11 @@ namespace Winterland.Common {
                 var parsedText = dialog.Text;
                 var toyLinesLeft = ToyLineManager.Instance.ToyLines.Count - WinterProgress.Instance.LocalProgress.ToyLinesCollected;
                 parsedText = parsedText.Replace("$TOYS_LEFT", toyLinesLeft.ToString());
+                var playerName = BepInEx.Bootstrap.Chainloader.PluginInfos["SlopCrew.Plugin"].Instance.Config["General", "Username"] as ConfigEntry<string>;
+                if (playerName != null)
+                    parsedText = parsedText.Replace("$PLAYERNAME", playerName.Value);
+                parsedText = parsedText.Replace("$LOCALGIFTS", WinterProgress.Instance.LocalProgress.Gifts.ToString());
+                parsedText = parsedText.Replace("$GLOBALGIFTS", TreeController.Instance.TargetProgress.totalGiftsCollected.ToString());
                 if (NPC != null) {
                     if (NPC.Challenge != null) {
                         var challengeTime = ChallengeUI.SecondsToMMSS(NPC.Challenge.Timer);
