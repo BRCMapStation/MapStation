@@ -13,7 +13,7 @@ namespace Winterland.Plugin.Patches {
     internal class GraffitiGamePatch {
         [HarmonyPostfix]
         [HarmonyPatch(nameof(GraffitiGame.Init))]
-        private static void Init_Postfix(GraffitiSpot g, GraffitiGame __instance) {
+        private static void Init_Postfix(GraffitiSpot g, GraffitiGame __instance, Player p) {
             var toyGraff = ToyGraffitiSpot.Get(g);
             if (toyGraff == null)
                 return;
@@ -23,6 +23,9 @@ namespace Winterland.Plugin.Patches {
             if (interiorLighting != null && ambientOverride != null) {
                 ambientOverride.TransitionAmbient(interiorLighting);
             }
+            var toyMachineAbility = p.ability as ToyMachineAbility;
+            if (toyMachineAbility == null) return;
+            toyMachineAbility.TaggedAlready = true;
         }
 
         [HarmonyPostfix]

@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace Winterland.Common {
     public class ToyMachineAbility : Ability {
+        public bool TaggedAlready = false;
         public bool CanTag = true;
         private ToyMachine machine = null;
         private Vector3 forward = Vector3.zero;
@@ -36,13 +37,24 @@ namespace Winterland.Common {
         }
 
         public override void OnStartAbility() {
+            TaggedAlready = false;
             CanTag = true;
             fadingOut = false;
         }
 
         public override void FixedUpdateAbility() {
             var actualDuration = machine.TimeInSecondsToSpray + machine.FadeOutDuration + machine.BlackScreenDuration;
+            var winterPlayer = WinterPlayer.Get(p);
             if (!fadingOut && p.abilityTimer >= machine.TimeInSecondsToSpray) {
+                var shouldTag = winterPlayer.CurrentToyLine != null && winterPlayer.CollectedToyParts == winterPlayer.CurrentToyLine.ToyParts.Length && !TaggedAlready;
+                if (shouldTag) {
+                    TaggedAlready = true;
+                    var gSpot = machine.GetComponentInChildren<GraffitiSpot>();
+                    if (gSpot != null) {
+                        p.StartGraffitiMode(gSpot);
+                        return;
+                    }
+                }
                 CanTag = false;
                 fadingOut = true;
                 var effects = Core.Instance.UIManager.effects;
@@ -50,9 +62,10 @@ namespace Winterland.Common {
             }
             p.SetVelocity(forward * 10f);
             customVelocity = forward * 10f;
+
             if (p.abilityTimer >= actualDuration) {
                 p.StopCurrentAbility();
-                WinterPlayer.Get(p).DropCurrentToyLine();
+                winterPlayer.DropCurrentToyLine();
                 machine.TeleportPlayerToExit(false);
                 machine.PlayFailureSound();
             }
