@@ -57,6 +57,7 @@ namespace Winterland.Plugin
             TreeDebugUI.Create();
             LocalProgressDebugUI.Create();
             DebugShapeDebugUI.Create();
+            FireworkDebugUI.Create();
 #endif
             new WinterProgress();
 
