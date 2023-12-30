@@ -11,6 +11,7 @@ namespace Winterland.Common {
     [ExecuteAlways]
     public class AmbientOverride : MonoBehaviour {
         public static AmbientOverride Instance = null;
+        public bool Night = false;
         [HideInInspector]
         public Color AdditiveSkyColor = Color.black;
         [Header("How fast additive sky colors fade to black (Fireworks)")]
@@ -119,6 +120,15 @@ namespace Winterland.Common {
             sun = FindObjectOfType<AmbientManager>();
             if (sun != null) {
                 sun.transform.rotation = transform.rotation;
+
+                if (Night) {
+                    var lens = sun.GetComponent<LensFlare>();
+                    var glare = sun.GetComponent<SunGlare>();
+                    var flare = sun.GetComponent<SunFlareGPU>();
+                    Destroy(lens);
+                    Destroy(glare);
+                    Destroy(flare);
+                }
             }
 
             var sunLight = sun.GetComponent<Light>();
