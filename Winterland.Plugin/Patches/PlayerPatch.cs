@@ -11,6 +11,20 @@ namespace Winterland.Plugin.Patches {
     [HarmonyPatch(typeof(Player))]
     internal static class PlayerPatch {
         [HarmonyPostfix]
+        [HarmonyPatch(nameof(Player.ActivateAbility))]
+        private static void ActivateAbility_Postfix(Player __instance, Ability a) {
+            var player = __instance;
+            if (player.isAI) return;
+            var fireworks = FireworkHolder.Instance;
+            if (fireworks == null) return;
+            var winterPlayer = WinterPlayer.Get(player);
+            if (winterPlayer == null) return;
+            if (!winterPlayer.InFireworkTrigger) return;
+            if (a is not HandplantAbility) return;
+            fireworks.BroadcastLaunch();
+        }
+
+        [HarmonyPostfix]
         [HarmonyPatch(nameof(Player.Init))]
         private static void Init_Postfix(Player __instance) {
             var winterPlayer = __instance.gameObject.AddComponent<WinterPlayer>();

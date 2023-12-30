@@ -109,7 +109,7 @@ class TreeProgressSign : MonoBehaviour {
             }
             comingSoonDateLabel.text = label;
         }
-        if(goal >= 999) {
+        if(goal >= 999 || unixTimeStampComingSoon != 0) {
             // coming soon variant of the sign
             giftsGoalText.gameObject.SetActive(false);
             normalProgressLabel.gameObject.SetActive(false);

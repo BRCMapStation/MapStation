@@ -5,11 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Reptile;
 using UnityEngine;
+using UnityEngine.Video;
 
 namespace Winterland.Common {
     [ExecuteAlways]
     public class AmbientOverride : MonoBehaviour {
         public static AmbientOverride Instance = null;
+        [HideInInspector]
+        public Color AdditiveSkyColor = Color.black;
+        [Header("How fast additive sky colors fade to black (Fireworks)")]
+        public float AdditiveSkyColorLerpSpeed = 5f;
         [HideInInspector]
         public bool DayNightCycleModEnabled = true;
         [Header("Skybox texture. Leave this set to nothing to keep the original stage skybox.")]
@@ -54,7 +59,20 @@ namespace Winterland.Common {
                 }
                 CurrentLightColor = Vector4.Lerp(oldLightColor, targetLightColor, progress);
                 CurrentShadowColor = Vector4.Lerp(oldShadowColor, targetShadowColor, progress);
+
+                AdditiveSkyColor = Vector4.Lerp(AdditiveSkyColor, Color.black, AdditiveSkyColorLerpSpeed * Core.dt);
+
+                if (CurrentAmbientTrigger == null) {
+                    CurrentLightColor += AdditiveSkyColor;
+                    var additiveAverage = (AdditiveSkyColor.r + AdditiveSkyColor.g + AdditiveSkyColor.b) / 3f;
+                    var shadowMultiplier = -(additiveAverage * 0.5f) + 1f;
+                    CurrentShadowColor *= shadowMultiplier;
+                }
             }
+        }
+
+        public void AddSkyLight(Color color) {
+            AdditiveSkyColor += color;
         }
 
 #if !UNITY_EDITOR
@@ -103,7 +121,9 @@ namespace Winterland.Common {
                 sun.transform.rotation = transform.rotation;
             }
 
+            var sunLight = sun.GetComponent<Light>();
             var myLite = GetComponent<Light>();
+            sunLight.color = myLite.color;
             if (myLite != null)
                 Destroy(myLite);
 #endif

@@ -11,7 +11,8 @@ if (lighting > LIGHT_THRESHOLD) \
     lighting = 1.0; \
 else \
     lighting = 0.0; \
-float4 BRCLighting = lerp(ShadowColor, LightColor, lighting) * _LightColor0.rgba;
+float4 BRCLighting = lerp(ShadowColor, LightColor, lighting) * _LightColor0.rgba; \
+BRCLighting.a = 1.0;
 
 #define BRC_LIGHTING_FRAGMENT \
 float shadowAtten = SHADOW_ATTENUATION(i); \
@@ -24,4 +25,5 @@ if (lighting > LIGHT_THRESHOLD) \
     lighting = 1.0; \
 else \
     lighting = 0.0; \
-float4 BRCLighting = lerp(ShadowColor, LightColor, lighting) * _LightColor0.rgba;
+float4 BRCLighting = lerp(ShadowColor, LightColor, lighting) * _LightColor0.rgba; \
+BRCLighting.a = 1.0;
