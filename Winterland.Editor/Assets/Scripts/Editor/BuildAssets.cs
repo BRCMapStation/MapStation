@@ -183,7 +183,7 @@ public class BuildAssets {
             builds.Add(build);
         }
 
-        var manifest = BuildPipeline.BuildAssetBundles(directory, builds.ToArray(), BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows64);
+        var manifest = BuildPipeline.BuildAssetBundles(directory, builds.ToArray(), BuildAssetBundleOptions.UncompressedAssetBundle, BuildTarget.StandaloneWindows64);
         if(manifest == null) {
             throw new Exception("Building asset bundles failed!");
         }

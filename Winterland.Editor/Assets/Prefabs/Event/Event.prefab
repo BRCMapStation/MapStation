@@ -145,9 +145,58 @@ Transform:
   - {fileID: 5402274353207049734}
   - {fileID: 7507881683213248686}
   - {fileID: 8613107712533517040}
+  - {fileID: 4937668412341717486}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3505248575876694835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4937668412341717486}
+  - component: {fileID: 98835995979101011}
+  m_Layer: 0
+  m_Name: Bloom Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4937668412341717486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3505248575876694835}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2216265410158408143}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &98835995979101011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3505248575876694835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -497462036, guid: 422c0b035adbb23489ae9c9faef522c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloomPassMaterial: {fileID: 2100000, guid: 45694fdcef0b03343bb098bd1078014b, type: 2}
+  ScreenPassMaterial: {fileID: 2100000, guid: a8999a1bf7c07d54e8e26a5a31c76a9f, type: 2}
+  ResolutionDivide: 5
+  BloomRT: {fileID: 0}
 --- !u!1 &7061463795169964217
 GameObject:
   m_ObjectHideFlags: 0
