@@ -8,7 +8,7 @@ public class AmbientPreview : MonoBehaviour
     public Color LightColor;
     public Color ShadowColor;
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         Shader.SetGlobalColor("LightColor", LightColor);
         Shader.SetGlobalColor("ShadowColor", ShadowColor);
