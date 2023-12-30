@@ -20,12 +20,17 @@ namespace Winterland.Common {
         }
 
         private void OnDebugUI() {
-            if (GUILayout.Button("Launch Fireworks")) {
-                var fireworks = FindObjectOfType<FireworkHolder>(true);
-                if (fireworks == null) return;
+            GUILayout.Label("Fireworks");
+            var fireworks = FireworkHolder.Instance;
+            if (fireworks == null) return;
+            if (GUILayout.Button("Launch Fireworks Locally"))
                 fireworks.Launch();
-            }
 
+            if (GUILayout.Button("Broadcast Fireworks"))
+                fireworks.BroadcastLaunch();
+
+            if (GUILayout.Button("Simulate fireworks received"))
+                fireworks.DispatchReceivedLaunch();
         }
     }
 }

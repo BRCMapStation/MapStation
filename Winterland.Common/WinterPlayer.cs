@@ -17,6 +17,7 @@ namespace Winterland.Common {
                 return player == WorldHandler.instance.GetCurrentPlayer();
             }
         }
+        public bool InFireworkTrigger = false;
         public bool SnowFX = true;
         public bool SnowDeform = true;
         public ToyLine CurrentToyLine = null;
@@ -85,6 +86,17 @@ namespace Winterland.Common {
             toyPart.Collect(player);
         }
 
+        private void ProcessFireworkTriggers(Collider other) {
+            if (other.gameObject.layer != 19)
+                return;
+            var fireworkTrigger = other.GetComponent<FireworkHandplantTrigger>();
+            if (fireworkTrigger == null)
+                return;
+            if (player.isAI)
+                return;
+            InFireworkTrigger = true;
+        }
+
         private void ProcessToyMachineTriggers(Collider other) {
             if (other.gameObject.layer != 19)
                 return;
@@ -120,6 +132,7 @@ namespace Winterland.Common {
             ProcessSnowTriggers(other);
             ProcessToyMachineTriggers(other);
             ProcessPickupTriggers(other);
+            ProcessFireworkTriggers(other);
         }
 
         private void OnTriggerEnter(Collider other) {
@@ -220,6 +233,7 @@ namespace Winterland.Common {
                 snowTargetSize = 1.5f;
             SnowDeform = true;
             SnowFX = true;
+            InFireworkTrigger = false;
         }
     }
 }
