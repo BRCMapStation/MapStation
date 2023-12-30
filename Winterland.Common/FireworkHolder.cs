@@ -23,15 +23,16 @@ namespace Winterland.Common {
         public void Launch() {
             var audioManager = Core.Instance.AudioManager;
             audioManager.PlayNonloopingSfx(audioManager.audioSources[3], FireworkSFX, audioManager.mixerGroups[3], 0f);
-            StartCoroutine(LaunchCoroutine());
+            StartCoroutine(LaunchCoroutine(TimeForFirstLaunch));
+            StartCoroutine(LaunchCoroutine(TimeForFirstLaunch + 0.5f));
         }
 
-        private IEnumerator LaunchCoroutine() {
+        private IEnumerator LaunchCoroutine(float delay) {
             var potentialFireworks = fireworks.ToList();
-            yield return new WaitForSeconds(TimeForFirstLaunch);
+            yield return new WaitForSeconds(delay);
             for(var i = 0; i < FireworkAmount; i++) {
                 var interval = UnityEngine.Random.Range(MinimumTimeBetweenLaunches, MaximumTimeBetweenLaunches);
-                var fireworkIndex = UnityEngine.Random.Range(0, potentialFireworks.Length);
+                var fireworkIndex = UnityEngine.Random.Range(0, potentialFireworks.Count);
                 var firework = potentialFireworks[fireworkIndex];
                 potentialFireworks.RemoveAt(fireworkIndex);
                 firework.Launch();

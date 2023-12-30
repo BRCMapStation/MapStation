@@ -57,12 +57,17 @@ namespace Winterland.Common {
                     targetLightColor = CurrentAmbientTrigger.LightColor;
                     targetShadowColor = CurrentAmbientTrigger.ShadowColor;
                 }
-                AdditiveSkyColor = Vector4.Lerp(AdditiveSkyColor, Color.black, AdditiveSkyColorLerpSpeed * Core.dt);
                 CurrentLightColor = Vector4.Lerp(oldLightColor, targetLightColor, progress);
-                CurrentLightColor += AdditiveSkyColor;
-                var additiveAverage = (AdditiveSkyColor.r + AdditiveSkyColor.g + AdditiveSkyColor.b) / 3f;
-                var shadowMultiplier = (-additiveAverage) + 1;
-                CurrentShadowColor = Vector4.Lerp(oldShadowColor, targetShadowColor, progress) * shadowMultiplier;
+                CurrentShadowColor = Vector4.Lerp(oldShadowColor, targetShadowColor, progress);
+
+                AdditiveSkyColor = Vector4.Lerp(AdditiveSkyColor, Color.black, AdditiveSkyColorLerpSpeed * Core.dt);
+
+                if (CurrentAmbientTrigger == null) {
+                    CurrentLightColor += AdditiveSkyColor;
+                    var additiveAverage = (AdditiveSkyColor.r + AdditiveSkyColor.g + AdditiveSkyColor.b) / 3f;
+                    var shadowMultiplier = -(additiveAverage * 0.5f) + 1f;
+                    CurrentShadowColor *= shadowMultiplier;
+                }
             }
         }
 
