@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if !UNITY_EDITOR
 using Reptile;
+#endif
 
-namespace Winterland.Common {
+namespace MapStation.Common {
     /// <summary>
     /// This object will be automatically put into a StageChunk. Useful for components that depend on chunks, like Junk.
     /// </summary>
@@ -14,6 +16,8 @@ namespace Winterland.Common {
         [Header("Name of the chunk GameObject. Leave this empty to automatically find a chunk.")]
         [SerializeField]
         private string chunkName = "";
+
+#if !UNITY_EDITOR
         public void PutInChunk() {
             var myChunk = GetComponentInParent<StageChunk>(true);
             if (myChunk != null)
@@ -65,5 +69,6 @@ namespace Winterland.Common {
                 transform.SetParent(closestChunk.transform);
             }
         }
+#endif
     }
 }
