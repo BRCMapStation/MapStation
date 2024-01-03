@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <!-- Emit artifacts into a `~` subdirectory which is not imported by Unity -->
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(MSBuildProjectName)'=='MapStation.Common'">
     <BaseOutputPath>~/bin</BaseOutputPath>
     <BaseIntermediateOutputPath>~/obj</BaseIntermediateOutputPath>
   </PropertyGroup>
