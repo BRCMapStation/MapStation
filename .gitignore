@@ -11,3 +11,36 @@
 /Packages/packages-lock.json.meta
 /README.md.meta
 /TODO.md.meta
+
+# Build artifacts
+bin/
+obj/
+
+# IDE settings
+.idea/
+.vs/
+.vscode/
+*.user
+
+# Build deployments
+thunderstore/*.md
+thunderstore/BepInEx
+thunderstore/*.zip
+
+# User-specific mapping toolkit preferences
+/MapStation.Editor/Assets/BRCMapToolkitPreferences.asset
+/MapStation.Editor/Assets/BRCMapToolkitPreferences.asset.meta
+
+# Optional; for attaching a debugger to the game
+/scripts/pdb2mdb.exe
+
+# VisualScripting keeps generating these on my machine.  I don't know if this will affect anyone else.
+/MapStation.Editor/Assets/Unity.VisualScripting.Generated
+/MapStation.Editor/Assets/Unity.VisualScripting.Generated.meta
+/MapStation.Editor/ProjectSettings/VisualScriptingSettings.asset
+
+# cspotcode uses this directory to keep junk
+/local-ignored
+
+# SSH credentials, DO NOT COMMIT
+/scripts/credentials

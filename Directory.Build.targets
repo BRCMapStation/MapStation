@@ -1,0 +1,11 @@
+<!-- These targets apply to all projects in this directory -->
+<Project>
+  <Target Condition="$(GenerateAssemblyInfo)=='true'" Name="FixAssemblyInfo" AfterTargets="GenerateAssemblyInfo">
+    <!-- Suppress warning CS0436 from generated AssemblyInfo.cs -->
+    <ReadLinesFromFile File="$(GeneratedAssemblyInfoFile)">
+      <Output TaskParameter="Lines" ItemName="Lines" />
+    </ReadLinesFromFile>
+    <WriteLinesToFile File="$(GeneratedAssemblyInfoFile)" Lines="#pragma warning disable CS0436" Overwrite="true" />
+    <WriteLinesToFile File="$(GeneratedAssemblyInfoFile)" Lines="@(Lines)" Overwrite="false" />
+  </Target>
+</Project>

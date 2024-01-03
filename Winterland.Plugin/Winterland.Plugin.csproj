@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyName>Winterland.Plugin</AssemblyName>
+    <Description>BepInEx Plugin Assembly for Millenium Winterland.</Description>
+    <Version>1.0.10</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+	<ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;WINTER_DEBUG</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Core" Version="5.*" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
+    <PackageReference Include="UnityEngine.Modules" Version="2021.3.27" IncludeAssets="compile" />
+	<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Winterland.MapStation.Common\Winterland.MapStation.Common.csproj" />
+    <ProjectReference Include="..\Winterland.MapStation.Plugin\Winterland.MapStation.Plugin.csproj" />
+    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
+    <ProjectReference Include="..\Winterland.Common\Winterland.Common.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(ManagedPath)/Assembly-CSharp.dll</HintPath>
+	  <Private>false</Private>
+	  <Publicize>true</Publicize>
+    </Reference>
+      <Reference Include="Unity.TextMeshPro">
+          <HintPath>$(ManagedPath)/Unity.TextMeshPro.dll</HintPath>
+          <Private>false</Private>
+      </Reference>
+    <Reference Include="Rewired_Core">
+        <HintPath>$(ManagedPath)/Rewired_Core.dll</HintPath>
+        <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/CommonAPI.dll&quot;" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.Common.dll&quot;" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.MapStation.Common.dll&quot;" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.MapStation.Plugin.dll&quot;" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetPath)&quot;" />
+    <Exec Command="xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot; /E /H /C" />
+  </Target>
+</Project>
