@@ -18,7 +18,9 @@ namespace MapStation.Common.VanillaAssets {
         public List<string> fields = new ();
 
         private void Awake() {
+#if !UNITY_EDITOR
             AssignReferences();
+#endif
         }
 
         public const BindingFlags UseTheseBindingFlags =
@@ -27,6 +29,7 @@ namespace MapStation.Common.VanillaAssets {
             | BindingFlags.NonPublic
             | BindingFlags.FlattenHierarchy;
 
+#if !UNITY_EDITOR
         public void AssignReferences() {
             if(component == null) return;
             foreach(var fieldSyntax in fields) {
@@ -75,6 +78,7 @@ namespace MapStation.Common.VanillaAssets {
                 }
             }
         }
+#endif
     }
 
     // I wanted to use these structs to store state, but deserialization for

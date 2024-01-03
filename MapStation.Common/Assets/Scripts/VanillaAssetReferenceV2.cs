@@ -21,7 +21,9 @@ namespace MapStation.Common.VanillaAssets {
         public class SList_Components : SList<ComponentEntry> {}
 
         private void Awake() {
+#if !UNITY_EDITOR
             AssignReferences();
+#endif
         }
 
         public const BindingFlags UseTheseBindingFlags =
@@ -30,6 +32,7 @@ namespace MapStation.Common.VanillaAssets {
             | BindingFlags.NonPublic
             | BindingFlags.FlattenHierarchy;
 
+#if !UNITY_EDITOR
         public void AssignReferences() {
             foreach(var c in Components) {
                 var component = c.Component;
@@ -117,6 +120,7 @@ namespace MapStation.Common.VanillaAssets {
                 $"(asset type={(asset != null ? asset.GetType().Name : "<not found>")})";
             (component as Animation).AddClip(asset as AnimationClip, asset.name);
         }
+#endif
     }
 
     [Serializable]

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using MapStation.Common;
 
 namespace Reptile {
     [RequireComponent(typeof(StageObject))]

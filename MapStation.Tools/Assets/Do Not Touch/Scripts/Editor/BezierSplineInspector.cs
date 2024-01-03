@@ -1,5 +1,4 @@
-﻿using Codice.Client.Common.GameUI;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(BezierSpline))]

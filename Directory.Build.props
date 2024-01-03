@@ -4,4 +4,11 @@
     <Pdb2mdbPath Condition="Exists('$(SolutionDir)scripts\pdb2mdb.exe')">$(SolutionDir)\scripts\pdb2mdb.exe</Pdb2mdbPath>
     <NoWarn>$(NoWarn);CS0649;CS0414</NoWarn>
   </PropertyGroup>
+
+  <!-- Emit artifacts into a `~` subdirectory which is not imported by Unity -->
+  <PropertyGroup>
+    <BaseOutputPath>~/bin</BaseOutputPath>
+    <BaseIntermediateOutputPath>~/obj</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  
 </Project>

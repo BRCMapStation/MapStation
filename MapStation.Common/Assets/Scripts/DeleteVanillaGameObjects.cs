@@ -1,8 +1,8 @@
-using Reptile;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MapStation.Common.Serialization;
+using Reptile;
 
 namespace MapStation.Common.VanillaAssets {
     /// <summary>
@@ -14,7 +14,7 @@ namespace MapStation.Common.VanillaAssets {
         public static DeleteVanillaGameObjectsV1 Instance { get; private set; }
         // We can't just destroy some things because by the time we inject our prefab a bunch of other things depend on them, such as streetlife.
         // To work around this we just disable them, and make a patch so that they don't get re-activated if they're on this hashset.
-        private HashSet<GameObject> disabledGameObjects = [];
+        private HashSet<GameObject> disabledGameObjects = new HashSet<GameObject>();
         // BepInEx serialization workaround
         private List<Deletion> Deletions => deletions.items;
         [SerializeReference] private SList_Deletion deletions = new ();
@@ -22,11 +22,14 @@ namespace MapStation.Common.VanillaAssets {
 
         private void Awake() {
             if(!Application.isEditor) {
+#if !UNITY_EDITOR
                 Instance = this;
                 DeleteGameObjects();
+#endif
             }
         }
 
+#if !UNITY_EDITOR
         public void DeleteGameObjects() {
             foreach(var d in Deletions) {
                 var go = GameObject.Find(d.Path);
@@ -58,6 +61,7 @@ namespace MapStation.Common.VanillaAssets {
                 return true;
             return false;
         }
+#endif
 
         [Serializable]
         public class Deletion {

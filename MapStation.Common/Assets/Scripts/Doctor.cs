@@ -1,8 +1,9 @@
+#if !UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Reptile;
 using UnityEngine;
+using Reptile;
 
 namespace MapStation.Common {
     /// <summary>
@@ -73,3 +74,4 @@ namespace MapStation.Common {
         }
     }
 }
+#endif
