@@ -14,7 +14,6 @@ using System.Runtime.CompilerServices;
 namespace MapStation.Plugin
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
-    [BepInDependency(WinterCharacters.CrewBoomGUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin {
         public static Plugin Instance;
         public static ManualLogSource Log = null;
@@ -40,26 +39,10 @@ namespace MapStation.Plugin
         private void Initialize() {
             // Our local dev workflow uses a nested folder, but at release we realized last-minute it was breaking R2.
             // So this code will detect the nested folder and use it if it exists.
-            var oldAssetBundlesFolder = Path.Combine(Path.GetDirectoryName(Info.Location), "AssetBundles");
-            var newAssetBundlesFolder = Path.GetDirectoryName(Info.Location);
-            var assetBundlesFolder = newAssetBundlesFolder;
-            if(Directory.Exists(oldAssetBundlesFolder)) {
-                assetBundlesFolder = oldAssetBundlesFolder;
-            }
-            var winterAssets = new WinterAssets(assetBundlesFolder);
-            new WinterConfig(Config);
-            WinterCharacters.Initialize();
-            ObjectiveDatabase.Initialize(winterAssets.WinterBundle);
-            NetManager.Create();
-#if WINTER_DEBUG
-            DebugUI.Create(WinterConfig.Instance.DebugUI.Value);
-            NetManagerDebugUI.Create();
-            TreeDebugUI.Create();
-            LocalProgressDebugUI.Create();
-            DebugShapeDebugUI.Create();
-            FireworkDebugUI.Create();
+            new MapStationConfig(Config);
+#if MAPSTATION_DEBUG
+            DebugUI.Create(MapStationConfig.Instance.DebugUI.Value);
 #endif
-            new WinterProgress();
 
             Log = Logger;
             StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;
@@ -71,8 +54,7 @@ namespace MapStation.Plugin
         }
 
         private void StageAPI_OnStagePreInitialization(Stage newStage, Stage previousStage) {
-            var winterManager = WinterManager.Create();
-            winterManager.SetupStage(newStage);
+
         }
 
         private void Update() {

@@ -9,7 +9,7 @@ using UnityEditor.SceneManagement;
 public class BuildAssets {
 
     private const string OutputDirectory = "AssetBundles";
-    private const string PluginName = "MilleniumWinterland";
+    private const string PluginName = "MapStation";
 
     [MenuItem("BRC/Build Assets and Run on Steam _F6", priority = -49)]
     private static void BuildAndRunSteam() {
@@ -34,7 +34,7 @@ public class BuildAssets {
     [MenuItem("BRC/Build Assets _F5", priority = -50)]
     private static void BuildAllAssetBundles() {
         if (PluginEditor.IsPluginOutOfDate()) {
-            UnityEngine.Debug.Log("Winterland assemblies seem to be out of date, rebuilding!");
+            UnityEngine.Debug.Log("MapStation assemblies seem to be out of date, rebuilding!");
             try {
                 if (!IsGameOpen())
                 {
