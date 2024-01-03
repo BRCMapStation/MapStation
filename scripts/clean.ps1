@@ -10,10 +10,10 @@ Write-Output `
     .\libs\CrewBoomAPI\obj `
     .\libs\SlopCrew\SlopCrew.API\bin `
     .\libs\SlopCrew\SlopCrew.API\obj `
-    .\Winterland.MapStation.Common\bin `
-    .\Winterland.MapStation.Common\obj `
-    .\Winterland.MapStation.Plugin\bin `
-    .\Winterland.MapStation.Plugin\obj `
+    .\MapStation.Common\bin `
+    .\MapStation.Common\obj `
+    .\MapStation.Plugin\bin `
+    .\MapStation.Plugin\obj `
     .\Winterland.MustLoadInEditor\obj `
     .\Winterland.MustLoadInEditor\bin `
     .\Winterland.Common\obj `

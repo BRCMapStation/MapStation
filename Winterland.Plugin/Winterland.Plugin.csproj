@@ -30,8 +30,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\Winterland.MapStation.Common\Winterland.MapStation.Common.csproj" />
-    <ProjectReference Include="..\Winterland.MapStation.Plugin\Winterland.MapStation.Plugin.csproj" />
+    <ProjectReference Include="..\MapStation.Common\MapStation.Common.csproj" />
+    <ProjectReference Include="..\MapStation.Plugin\MapStation.Plugin.csproj" />
     <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
     <ProjectReference Include="..\Winterland.Common\Winterland.Common.csproj" />
   </ItemGroup>
@@ -55,8 +55,8 @@
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/CommonAPI.dll&quot;" />
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.Common.dll&quot;" />
-    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.MapStation.Common.dll&quot;" />
-    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.MapStation.Plugin.dll&quot;" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/MapStation.Common.dll&quot;" />
+    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/MapStation.Plugin.dll&quot;" />
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetPath)&quot;" />
     <Exec Command="xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot; /E /H /C" />
   </Target>

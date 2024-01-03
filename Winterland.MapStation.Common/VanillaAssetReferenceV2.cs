@@ -4,9 +4,9 @@ using System.Reflection;
 using Reptile;
 using UnityEngine;
 using UnityEngine.Audio;
-using Winterland.MapStation.Common.Serialization;
+using MapStation.Common.Serialization;
 
-namespace Winterland.MapStation.Common.VanillaAssets {
+namespace MapStation.Common.VanillaAssets {
     /// <summary>
     /// We can't reference vanilla game assets from our asset bundles. The cross-bundle references
     /// are broken.

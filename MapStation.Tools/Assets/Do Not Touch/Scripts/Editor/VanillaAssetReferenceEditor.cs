@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 
-namespace Winterland.MapStation.Common.VanillaAssets {
+namespace MapStation.Common.VanillaAssets {
     [CustomEditor(typeof(VanillaAssetReference))]
     public class VanillaAssetReferenceEditor : UnityEditor.Editor {
         VanillaAssetReference t { get => target as VanillaAssetReference; }

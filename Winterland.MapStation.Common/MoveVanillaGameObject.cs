@@ -2,9 +2,9 @@ using Reptile;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Winterland.MapStation.Common.Serialization;
+using MapStation.Common.Serialization;
 
-namespace Winterland.MapStation.Common.VanillaAssets {
+namespace MapStation.Common.VanillaAssets {
     public class MoveVanillaGameObjectV1 : MonoBehaviour {
 
         public string moveThis;

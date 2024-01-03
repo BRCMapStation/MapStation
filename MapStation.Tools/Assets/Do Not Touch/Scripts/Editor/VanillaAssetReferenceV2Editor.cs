@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Audio;
 
-namespace Winterland.MapStation.Common.VanillaAssets {
+namespace MapStation.Common.VanillaAssets {
     public static class Configuration {
         /// <summary>
         /// Prefixes to be stripped from asset paths.

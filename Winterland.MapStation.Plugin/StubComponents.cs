@@ -5,6 +5,6 @@ using UnityEngine;
 /// These components are Editor-only, implemented in the Mapping Toolkit.
 /// Ideally, we should strip them from maps on save.
 
-namespace Winterland.MapStation.Components {
+namespace MapStation.Components {
     public class Grind : MonoBehaviour {}
 }

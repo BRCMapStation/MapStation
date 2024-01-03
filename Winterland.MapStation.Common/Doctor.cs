@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using Reptile;
 using UnityEngine;
 
-namespace Winterland.MapStation.Common {
+namespace MapStation.Common {
     /// <summary>
     /// Analyze a GameObject hierarchy for potential problems.
     /// </summary>

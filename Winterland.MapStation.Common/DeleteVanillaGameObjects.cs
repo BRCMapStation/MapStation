@@ -2,9 +2,9 @@ using Reptile;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Winterland.MapStation.Common.Serialization;
+using MapStation.Common.Serialization;
 
-namespace Winterland.MapStation.Common.VanillaAssets {
+namespace MapStation.Common.VanillaAssets {
     /// <summary>
     /// This component deletes GameObjects by path, allowing us to remove things from the base map.
     /// We can also replace things from the base map by deleting them and shipping a replacement in our prefab.

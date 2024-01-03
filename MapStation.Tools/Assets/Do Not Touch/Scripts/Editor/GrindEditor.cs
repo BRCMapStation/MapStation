@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Reptile;
 using UnityEngine;
 using UnityEditor;
-using Winterland.MapStation.Components;
+using MapStation.Components;
 
 [CustomEditor(typeof(Grind))]
 public class GrindEditor : Editor

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Winterland.MapStation.Common.Serialization {
+namespace MapStation.Common.Serialization {
 
     /// <summary>
     /// Example how to workaround BepInEx broken serialization of custom

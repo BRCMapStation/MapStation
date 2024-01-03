@@ -5,7 +5,7 @@ using UnityEditor;
 using System.Linq;
 using System;
 
-namespace Winterland.MapStation.Components {
+namespace MapStation.Components {
     public class Grind : MonoBehaviour
     {
         // These are saved in the prefab but hidden in the inspector, because UX.

@@ -2,6 +2,6 @@
 // To trigger this, other assemblies reference `typeof(AssemblyDependencies)`
 // They could reference *anything* in this DLL, doesn't have to be this empty
 // class.
-namespace Winterland.MapStation.Plugin.Dependencies {
+namespace MapStation.Plugin.Dependencies {
     public class AssemblyDependencies {}
 }

@@ -4,7 +4,7 @@ using System.Reflection;
 using Reptile;
 using UnityEngine;
 
-namespace Winterland.MapStation.Common.VanillaAssets {
+namespace MapStation.Common.VanillaAssets {
     /// <summary>
     /// We can't reference vanilla game assets from our asset bundles. The cross-bundle references
     /// are broken.

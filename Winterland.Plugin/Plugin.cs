@@ -23,8 +23,8 @@ namespace Winterland.Plugin
 
         // Hack: we must reference dependent assemblies from a class that's guaranteed to execute or else they don't
         // load and MonoBehaviours are missing.
-        private static Type ForceLoadMapStationCommonAssembly = typeof(Winterland.MapStation.Common.Dependencies.AssemblyDependencies);
-        private static Type ForceLoadMapStationPluginAssembly = typeof(Winterland.MapStation.Plugin.Dependencies.AssemblyDependencies);
+        private static Type ForceLoadMapStationCommonAssembly = typeof(MapStation.Common.Dependencies.AssemblyDependencies);
+        private static Type ForceLoadMapStationPluginAssembly = typeof(MapStation.Plugin.Dependencies.AssemblyDependencies);
 
         private void Awake() {
             Instance = this;

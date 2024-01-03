@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Winterland.MapStation.Common;
+namespace MapStation.Common;
 
 public class DebugShapeUtility {
     public static IEnumerable<Renderer> FindDebugShapes(GameObject root) {

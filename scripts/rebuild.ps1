@@ -9,7 +9,7 @@ git checkout $metaPath
 $metaPath = ".\Winterland.Editor\Assets\Scripts\EasyDecal.Runtime.dll.meta"
 git checkout $metaPath
 
-$metaPath = ".\Winterland.Editor\Assets\Scripts\Winterland.MapStation.Common.dll.meta"
+$metaPath = ".\Winterland.Editor\Assets\Scripts\MapStation.Common.dll.meta"
 git checkout $metaPath
 
 $metaPath = ".\Winterland.Editor\Assets\Scripts\CommonAPI.dll.meta"

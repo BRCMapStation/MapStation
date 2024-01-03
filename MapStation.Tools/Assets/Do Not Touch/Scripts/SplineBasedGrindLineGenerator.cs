@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Winterland.MapStation.Components;
+using MapStation.Components;
 #if UNITY_EDITOR
 using UnityEditor;
 using Unity.EditorCoroutines.Editor;

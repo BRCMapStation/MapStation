@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Winterland.MapStation.Common {
+namespace MapStation.Common {
     /// <summary>
     /// Destroys self immediately, useful when Reptile code expects to spawn a "dynamic pickup"
     /// but we don't want that.

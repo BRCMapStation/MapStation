@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Winterland.MapStation.Common {
+namespace MapStation.Common {
     public class SerializationTest : MonoBehaviour {
         public SerializedStruct data = new SerializedStruct();
         [Serializable]

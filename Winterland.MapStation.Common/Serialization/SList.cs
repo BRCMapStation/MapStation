@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Winterland.MapStation.Common.Serialization {
+namespace MapStation.Common.Serialization {
     // Empty non-generic superclass lets us `[PropertyDrawer(typeof(SList), true)]`
     // in the future.  `PropertyDrawer` does not understand generics.
     public class SList {}
