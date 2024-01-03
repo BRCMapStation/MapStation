@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Reptile
 {
+    [SelectionBase]
 	public class WallrunLine : MonoBehaviour
 	{
 		public Transform node0;

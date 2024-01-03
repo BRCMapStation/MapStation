@@ -70,5 +70,10 @@ namespace Reptile
 			ToggleColliders(toggle: true);
 			base.gameObject.SetActive(value: false);
 		}
+
+		// Suppress "is assigned but its value is never used" in Unity Editor
+		private void _suppressUnityEditorWarnings() {
+			var a = HP;
+		}
 	}
 }
