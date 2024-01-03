@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using Winterland.Common;
 public class AddPrefabsToContextMenu {
     private const int Priority = -30;
     private const string PrefabPathPrefix = "Assets/MappingToolkit/Assets/Map Template/";

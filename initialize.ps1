@@ -30,11 +30,11 @@ dotnet clean
 Remove-Item ".\libs\BRC-CommonAPI\bin" -Recurse -ErrorAction SilentlyContinue
 Remove-Item ".\libs\BRC-CommonAPI\obj" -Recurse -ErrorAction SilentlyContinue
 # Common
-Remove-Item ".\Winterland.Common\bin" -Recurse -ErrorAction SilentlyContinue
-Remove-Item ".\Winterland.Common\obj" -Recurse -ErrorAction SilentlyContinue
+Remove-Item ".\MapStation.Common\bin" -Recurse -ErrorAction SilentlyContinue
+Remove-Item ".\MapStation.Common\obj" -Recurse -ErrorAction SilentlyContinue
 # Plugin
-Remove-Item ".\Winterland.Plugin\bin" -Recurse -ErrorAction SilentlyContinue
-Remove-Item ".\Winterland.Plugin\obj" -Recurse -ErrorAction SilentlyContinue
+Remove-Item ".\MapStation.Plugin\bin" -Recurse -ErrorAction SilentlyContinue
+Remove-Item ".\MapStation.Plugin\obj" -Recurse -ErrorAction SilentlyContinue
 Write-Output "====== BepInEx Directory ======="
 Write-Output "Example BepInEx Root Directory: C:\Users\(User)\AppData\Roaming\r2modmanPlus-local\BombRushCyberfunk\profiles\(Profile)\BepInEx"
 $bepinexPathAlreadySet = $false
@@ -93,4 +93,4 @@ cd scripts
 
 ./rebuild.ps1
 
-read-host “Press ENTER to continue”
+read-host ï¿½Press ENTER to continueï¿½

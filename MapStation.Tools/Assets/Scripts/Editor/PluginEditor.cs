@@ -17,8 +17,8 @@ public class PluginEditor : MonoBehaviour
     public static bool IsPluginOutOfDate()
     {
         var rootPath = Path.GetDirectoryName(Directory.GetCurrentDirectory());
-        var commonPath = Path.Combine(rootPath, "Winterland.Common");
-        var pluginPath = Path.Combine(rootPath, "Winterland.Plugin");
+        var commonPath = Path.Combine(rootPath, "MapStation.Common");
+        var pluginPath = Path.Combine(rootPath, "MapStation.Plugin");
         var binPath = Path.Combine(pluginPath, "bin");
         if (!Directory.Exists(binPath))
             return true;

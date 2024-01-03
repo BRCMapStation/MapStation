@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
-    <AssemblyName>Winterland.Plugin</AssemblyName>
-    <Description>BepInEx Plugin Assembly for Millenium Winterland.</Description>
+    <AssemblyName>MapStation.Plugin</AssemblyName>
+    <Description>BepInEx Plugin Assembly for MapStation.</Description>
     <Version>1.0.10</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
@@ -33,7 +33,6 @@
     <ProjectReference Include="..\MapStation.Common\MapStation.Common.csproj" />
     <ProjectReference Include="..\MapStation.Plugin\MapStation.Plugin.csproj" />
     <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
-    <ProjectReference Include="..\Winterland.Common\Winterland.Common.csproj" />
   </ItemGroup>
   
   <ItemGroup>
@@ -54,10 +53,9 @@
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/CommonAPI.dll&quot;" />
-    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/Winterland.Common.dll&quot;" />
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/MapStation.Common.dll&quot;" />
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/MapStation.Plugin.dll&quot;" />
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetPath)&quot;" />
-    <Exec Command="xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\MilleniumWinterland&quot; /E /H /C" />
+    <Exec Command="xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\MapStation&quot; /E /H /C" />
   </Target>
 </Project>

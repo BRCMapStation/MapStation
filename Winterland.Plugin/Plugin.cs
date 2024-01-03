@@ -8,10 +8,10 @@ using HarmonyLib;
 using System.IO;
 using System.Reflection;
 using System.Linq;
-using Winterland.Common;
+using MapStation.Common;
 using System.Runtime.CompilerServices;
 
-namespace Winterland.Plugin
+namespace MapStation.Plugin
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     [BepInDependency(WinterCharacters.CrewBoomGUID, BepInDependency.DependencyFlags.SoftDependency)]

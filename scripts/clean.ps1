@@ -14,14 +14,6 @@ Write-Output `
     .\MapStation.Common\obj `
     .\MapStation.Plugin\bin `
     .\MapStation.Plugin\obj `
-    .\Winterland.MustLoadInEditor\obj `
-    .\Winterland.MustLoadInEditor\bin `
-    .\Winterland.Common\obj `
-    .\Winterland.Common\bin `
-    .\Winterland.Common_Editor\obj `
-    .\Winterland.Common_Editor\bin `
-    .\Winterland.Plugin\obj `
-    .\Winterland.Plugin\bin `
 | ForEach-Object {
     if(test-path $_) { remove-item -recurse $_ }
 }

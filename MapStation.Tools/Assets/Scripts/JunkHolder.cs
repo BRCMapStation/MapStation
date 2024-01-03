@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Winterland.Common;
 
 namespace Reptile {
     [RequireComponent(typeof(StageObject))]
