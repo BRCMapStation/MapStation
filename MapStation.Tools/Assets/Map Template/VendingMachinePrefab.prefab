@@ -1,0 +1,864 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4890524065452140660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4890524065452189391}
+  - component: {fileID: 4890524065452163506}
+  - component: {fileID: 4890524065452177055}
+  - component: {fileID: 753308439766733381}
+  m_Layer: 17
+  m_Name: VendingMachine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4890524065452189391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452140660}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4890524065452186264}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!33 &4890524065452163506
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452140660}
+  m_Mesh: {fileID: 4300000, guid: 8b035f366ee05314a8e4f68c7e973cbc, type: 2}
+--- !u!23 &4890524065452177055
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452140660}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c0cb20818ae6faf4098c2bbe88cf32bc, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &753308439766733381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452140660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 387887420, guid: 7486338a3d7da87438ecab790990b00d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+    rid: 1053790703407071312
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1053790703407071312
+      type: {class: VanillaAssetReferenceV2/SList_Components, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        linkedList:
+          rid: 1053790703407071314
+        items:
+        - rid: 1053790703407071315
+        - rid: 1053790703407071325
+    - rid: 1053790703407071314
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790703407071315
+        next:
+          rid: 1053790703407071326
+    - rid: 1053790703407071315
+      type: {class: ComponentEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Component: {fileID: 4890524065452163506}
+        fields:
+          rid: 1053790703407071316
+    - rid: 1053790703407071316
+      type: {class: ComponentEntry/SList_FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        linkedList:
+          rid: 1053790703407071321
+        items:
+        - rid: 1053790703407071322
+    - rid: 1053790703407071321
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790703407071322
+        next:
+          rid: -2
+    - rid: 1053790703407071322
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: sharedMesh
+        Index: -1
+        BundleName: city_assets
+        Path: Assets/Stages/city/models2/props/vendingmachines.fbx
+        SubAssetType: 2
+        SubPath: VendingMachineWhite
+    - rid: 1053790703407071325
+      type: {class: ComponentEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Component: {fileID: 4890524065452177055}
+        fields:
+          rid: 1053790703407071327
+    - rid: 1053790703407071326
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790703407071325
+        next:
+          rid: -2
+    - rid: 1053790703407071327
+      type: {class: ComponentEntry/SList_FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        linkedList:
+          rid: 1053790703407071332
+        items:
+        - rid: 1053790703407071333
+    - rid: 1053790703407071332
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790703407071333
+        next:
+          rid: -2
+    - rid: 1053790703407071333
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: sharedMaterial
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/Stages/Tower/materials/TowerProps01_Atlas.mat
+        SubAssetType: 0
+        SubPath: 
+--- !u!1 &4890524065452140828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4890524065452181785}
+  - component: {fileID: 4890524065452223002}
+  m_Layer: 0
+  m_Name: collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4890524065452181785
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452140828}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4890524065452135565}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!65 &4890524065452223002
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452140828}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9477839, y: 1.4318675, z: 2.263399}
+  m_Center: {x: 0.00000014901161, y: -0.00000002980233, z: 1.1316994}
+--- !u!1 &4890524065452143300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4890524065452138188}
+  m_Layer: 0
+  m_Name: dropPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4890524065452138188
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452143300}
+  m_LocalRotation: {x: -0.21182486, y: 0.6746334, z: 0.21182492, w: 0.6746334}
+  m_LocalPosition: {x: 0.635, y: 0.529, z: -0.123}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4890524065452135565}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -34.863033, y: -89.99999, z: 0}
+--- !u!1 &4890524065452146774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4890524065452185997}
+  m_Layer: 17
+  m_Name: VendingMachineArmature
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4890524065452185997
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452146774}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4890524065452186264}
+  m_Father: {fileID: 4890524065452189564}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90.00001, y: -0, z: 0}
+--- !u!1 &4890524065452147512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4890524065452189564}
+  - component: {fileID: 4890524065452224927}
+  - component: {fileID: 4890524065452220888}
+  - component: {fileID: 4890524065452223951}
+  - component: {fileID: 4890524065452214947}
+  - component: {fileID: 8088424701047743280}
+  m_Layer: 17
+  m_Name: VendingMachine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4890524065452189564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452147512}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4890524065452185997}
+  m_Father: {fileID: 4890524065452135565}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -0, y: -90, z: 0}
+--- !u!111 &4890524065452224927
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452147512}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 3fcfc4fbea2a47f4499ba08a8d0f0fb8, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 3fcfc4fbea2a47f4499ba08a8d0f0fb8, type: 2}
+  - {fileID: 7400000, guid: 3a8d5a52b989d4145b70f29863ec7ea1, type: 2}
+  - {fileID: 7400000, guid: cd8b512dd8691ca46bcd4027ae06a2d9, type: 2}
+  - {fileID: 7400000, guid: bb604e419f557f444af175777f63c001, type: 2}
+  - {fileID: 7400000, guid: 5be1725677ff770469011d1210513bfe, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 1
+--- !u!65 &4890524065452220888
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452147512}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.431867, y: 2.263399, z: 0.9477839}
+  m_Center: {x: 0, y: 1.131699, z: 0}
+--- !u!82 &4890524065452223951
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452147512}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300000, guid: 2f929fd3a018c48449995bb7f2a1b192, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 5.6
+  MaxDistance: 6.1
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.02
+      value: 1
+      inSlope: -50.01992
+      outSlope: -50.01992
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.04
+      value: 0.5
+      inSlope: -12.50498
+      outSlope: -12.50498
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.08
+      value: 0.25
+      inSlope: -3.126245
+      outSlope: -3.126245
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.16
+      value: 0.125
+      inSlope: -0.78156126
+      outSlope: -0.78156126
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.32
+      value: 0.0625
+      inSlope: -0.19539031
+      outSlope: -0.19539031
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.00651123
+      inSlope: -0.020007975
+      outSlope: -0.020007975
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &4890524065452214947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452147512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa3e5d3b43eeb1513ed7ffdee5d613f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnFirstHit:
+    m_PersistentCalls:
+      m_Calls: []
+  rewards: 03000000
+  singleDropForce: 0
+  bunchDropForce: 0.5
+  pileDropForce: 3.5
+  normalDrop: {fileID: 1979844693352959, guid: 0a9409145e52be343b1491b5a9ff07f5, type: 3}
+  specialDrop: {fileID: 1600001287192881, guid: 8672071c276d5924fb2f0926e10a78ad, type: 3}
+  unlockableDrop: {fileID: 0}
+  dropPoint: {fileID: 4890524065452138188}
+--- !u!114 &8088424701047743280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452147512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 387887420, guid: 7486338a3d7da87438ecab790990b00d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+    rid: 1053790703407071232
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 270851952205889851
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: AddClip
+        Index: -1
+        BundleName: city_assets
+        Path: Assets/Stages/city/models2/props/vendingmachines.fbx
+        SubAssetType: 2
+        SubPath: none
+    - rid: 270851952205889852
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 270851952205889851
+        next:
+          rid: 270851952205889864
+    - rid: 270851952205889863
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: AddClip
+        Index: -1
+        BundleName: city_assets
+        Path: Assets/Stages/city/models2/props/vendingmachines.fbx
+        SubAssetType: 2
+        SubPath: shake
+    - rid: 270851952205889864
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 270851952205889863
+        next:
+          rid: 270851952205889876
+    - rid: 270851952205889875
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: AddClip
+        Index: -1
+        BundleName: city_assets
+        Path: Assets/Stages/city/models2/props/vendingmachines.fbx
+        SubAssetType: 2
+        SubPath: emptyShake
+    - rid: 270851952205889876
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 270851952205889875
+        next:
+          rid: 270851952205889888
+    - rid: 270851952205889887
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: AddClip
+        Index: -1
+        BundleName: city_assets
+        Path: Assets/Stages/city/models2/props/vendingmachines.fbx
+        SubAssetType: 2
+        SubPath: close
+    - rid: 270851952205889888
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 270851952205889887
+        next:
+          rid: 270851952205889900
+    - rid: 270851952205889899
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: AddClip
+        Index: -1
+        BundleName: city_assets
+        Path: Assets/Stages/city/models2/props/vendingmachines.fbx
+        SubAssetType: 2
+        SubPath: drop
+    - rid: 270851952205889900
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 270851952205889899
+        next:
+          rid: -2
+    - rid: 1053790703407071232
+      type: {class: VanillaAssetReferenceV2/SList_Components, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        linkedList:
+          rid: 1053790703407071269
+        items:
+        - rid: 1053790703407071270
+        - rid: 1053790703407071295
+        - rid: 1053790704879271936
+    - rid: 1053790703407071269
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790703407071270
+        next:
+          rid: 1053790703407071296
+    - rid: 1053790703407071270
+      type: {class: ComponentEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Component: {fileID: 4890524065452223951}
+        fields:
+          rid: 1053790703407071271
+    - rid: 1053790703407071271
+      type: {class: ComponentEntry/SList_FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        linkedList:
+          rid: 1053790703407071293
+        items:
+        - rid: 1053790703407071294
+    - rid: 1053790703407071293
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790703407071294
+        next:
+          rid: -2
+    - rid: 1053790703407071294
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: outputAudioMixerGroup
+        Index: -1
+        BundleName: coreassets
+        Path: Assets/audio/MasterMixer.mixer
+        SubAssetType: 1
+        SubPath: Gameplay
+    - rid: 1053790703407071295
+      type: {class: ComponentEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Component: {fileID: 4890524065452214947}
+        fields:
+          rid: 1053790703407071297
+    - rid: 1053790703407071296
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790703407071295
+        next:
+          rid: 1053790704879271938
+    - rid: 1053790703407071297
+      type: {class: ComponentEntry/SList_FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        linkedList:
+          rid: 1053790703407071300
+        items:
+        - rid: 1053790703407071301
+        - rid: 1053790703407071302
+    - rid: 1053790703407071300
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790703407071301
+        next:
+          rid: 1053790703407071303
+    - rid: 1053790703407071301
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: normalDrop
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/gameplay/prefabs/pickups/dynamicBoostCharge.prefab
+        SubAssetType: 0
+        SubPath: 
+    - rid: 1053790703407071302
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: specialDrop
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/gameplay/prefabs/pickups/dynamicBigBoostCharge.prefab
+        SubAssetType: 0
+        SubPath: 
+    - rid: 1053790703407071303
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790703407071302
+        next:
+          rid: -2
+    - rid: 1053790704879271936
+      type: {class: ComponentEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Component: {fileID: 4890524065452224927}
+        fields:
+          rid: 1053790704879271937
+    - rid: 1053790704879271937
+      type: {class: ComponentEntry/SList_FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        linkedList:
+          rid: 1053790704879271943
+        items:
+        - rid: 1053790704879271944
+        - rid: 270851952205889851
+        - rid: 270851952205889863
+        - rid: 270851952205889875
+        - rid: 270851952205889887
+        - rid: 270851952205889899
+    - rid: 1053790704879271938
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790704879271936
+        next:
+          rid: -2
+    - rid: 1053790704879271943
+      type: {class: Node, ns: Winterland.MapStation.Common.Serialization, asm: Winterland.MapStation.Common}
+      data:
+        value:
+          rid: 1053790704879271944
+        next:
+          rid: 270851952205889852
+    - rid: 1053790704879271944
+      type: {class: FieldEntry, ns: Winterland.MapStation.Common.VanillaAssets, asm: Winterland.MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: clip
+        Index: -1
+        BundleName: city_assets
+        Path: Assets/Stages/city/models2/props/vendingmachines.fbx
+        SubAssetType: 2
+        SubPath: none
+--- !u!1 &4890524065452148006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4890524065452135565}
+  - component: {fileID: 4890524065452213149}
+  m_Layer: 0
+  m_Name: VendingMachinePrefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4890524065452135565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452148006}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4890524065452138188}
+  - {fileID: 4890524065452189564}
+  - {fileID: 4890524065452181785}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &4890524065452213149
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452148006}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.00000011920929, y: 1.131699, z: 0.000000059604645}
+  m_Size: 2.263398
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.037256345
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4890524065452177055}
+  m_Enabled: 1
+--- !u!1 &4890524065452149304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4890524065452186264}
+  m_Layer: 17
+  m_Name: root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4890524065452186264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890524065452149304}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 0.99999994, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4890524065452189391}
+  m_Father: {fileID: 4890524065452185997}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: -0, z: -90}

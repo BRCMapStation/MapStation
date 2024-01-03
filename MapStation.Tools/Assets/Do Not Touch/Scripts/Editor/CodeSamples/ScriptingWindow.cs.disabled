@@ -1,0 +1,108 @@
+using System.IO;
+using UnityEditor;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
+using UnityEditor.ShortcutManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class SandboxWindow : EditorWindow, IProcessSceneWithReport
+{
+    [InitializeOnLoadMethod]
+    static void InitializeOnLoad() {
+        Debug.Log(nameof(InitializeOnLoad) + a); 
+        a++;
+        AssemblyReloadEvents.beforeAssemblyReload -= beforeAssemblyReload;
+        AssemblyReloadEvents.beforeAssemblyReload += beforeAssemblyReload;
+        AssemblyReloadEvents.afterAssemblyReload -= afterAssemblyReload;
+        AssemblyReloadEvents.afterAssemblyReload += afterAssemblyReload;
+    }
+
+    static int a = 0;
+    static void beforeAssemblyReload() { 
+        Debug.Log(nameof(beforeAssemblyReload) + a); 
+        a++;
+        // File.AppendAllLines("Assets/Do Not Touch/Scripts/Editor/ScriptingWindow.cs", new string[]{"//a"});
+    }
+    static void afterAssemblyReload() {
+        Debug.Log(nameof(afterAssemblyReload) + a);
+        a++;
+    }
+
+    public int callbackOrder { get { return 0; } }
+    public void OnProcessScene(Scene scene, BuildReport report)
+    {
+        Debug.Log("MyCustomBuildProcessor.OnProcessScene " + scene.name);
+        var roots = scene.GetRootGameObjects();
+        var firstRoot = roots[0];
+        var brcMap = firstRoot.GetComponent<BRCMap>();
+        DestroyImmediate(brcMap);
+    }
+
+    // [MenuItem("BRC/sandbox _G", validate = true)]
+    // public static bool ShowMyEditorValidate() {
+    //     return Selection.activeObject.GetComponent<GrindNode>() != null;
+    // }
+
+    [MenuItem("BRC/sandbox ^G")]
+    public static void ShowMyEditor() {
+        // This method is called when the user selects the menu item in the Editor
+        EditorWindow wnd = GetWindow<SandboxWindow>();
+        wnd.titleContent = new GUIContent("Sandbox");
+
+        // Limit size of the window
+        wnd.minSize = new Vector2(450, 200);
+        wnd.maxSize = new Vector2(1920, 720);
+    }
+    // [MenuItem("BRC/sandbox2 _G", validate = true)]
+    // public static bool ShowMyEditor2Validate() {
+    //     return Selection.activeObject.GetComponent<GrindLine>() != null;
+    // }
+
+    [Shortcut(nameof(GrindNodeShortcut), typeof(SceneView), KeyCode.G, displayName = "BRC/Grind Node Shortcut")]
+    public static void GrindNodeShortcut() {
+        Debug.Log("shortcut pressed");
+    }
+
+    // [MenuItem("BRC/sandbox2 _G")]
+    // public static void ShowMyEditor2() {
+    //     // This method is called when the user selects the menu item in the Editor
+    //     EditorWindow wnd = GetWindow<SandboxWindow>();
+    //     wnd.titleContent = new GUIContent("Sandbox");
+
+    //     // Limit size of the window
+    //     wnd.minSize = new Vector2(450, 200);
+    //     wnd.maxSize = new Vector2(1920, 720);
+    // }
+
+    private void OnEnable() {
+        SceneView.duringSceneGui -= duringSceneGui;
+        SceneView.duringSceneGui += duringSceneGui;
+    }
+
+    private void OnDisable() {
+        SceneView.duringSceneGui -= duringSceneGui;
+    }
+    
+    private void OnInspectorUpdate() {
+        Repaint();
+    }
+
+
+    private void OnGUI()
+    {
+        if(GUILayout.Button("click me")) {
+            var scene = SceneManager.GetSceneByPath("Assets/Map Template/foobar");
+            // List<GameObject> roots = new();
+            // roots.Capacity = scene.rootCount;
+            Debug.Log("Scene " + scene.name + " is loaded? " + scene.isLoaded);
+            var roots = scene.GetRootGameObjects();
+            Debug.Log("roots[0] " + roots[0]);
+        }
+    }
+
+    /// Listener for SceneView.duringSceneGui
+    private void duringSceneGui(SceneView v) {
+
+    }
+}

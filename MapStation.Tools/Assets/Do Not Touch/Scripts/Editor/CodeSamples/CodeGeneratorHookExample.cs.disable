@@ -1,0 +1,11 @@
+using UnityEditor;
+
+class CodegenHookExample : AssetPostprocessor {
+    static bool didCodegen = false;
+    void OnPreprocessAsset() {
+        if(assetPath.EndsWith(".cs") && !didCodegen) {
+            didCodegen = true;
+            // File.AppendAllLines("Assets/Do Not Touch/Scripts/Editor/ScriptingWindow.cs", new string[]{"//a"});
+        }
+    }
+}
