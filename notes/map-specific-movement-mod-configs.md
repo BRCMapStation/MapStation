@@ -4,7 +4,7 @@
 
 The map would essentially say:
 
-It's <recommended/required/required for competitive modes> to play this map <with/without> mods <X,Y, and Z> using configurations <X mod movement configs>
+> It's <recommended/required/required for competitive modes> to play this map <with/without> mods <X,Y, and Z> using configurations <X mod movement configs>
 
 I haven't designed a system for this yet, if anyone feels like writing down a proposal.
 
@@ -14,10 +14,10 @@ This API also tells the movement mod to enable/disable certain features based on
 
 For example, users might want:
 
-I want to play this sonic map competitively, and it's literally impossible without M+.  Please enable this M+ config only on this map and disable it when I leave.
+> I want to play this sonic map competitively, and it's literally impossible without M+.  Please enable this M+ config only on this map and disable it when I leave.
 
-I want to play maps with my M+ config, I don't care what the map says, I'm not doing slopcrew races.
+> I want to play maps with my M+ config, I don't care what the map says, I'm not doing slopcrew races.
 
-I normally have quick-turn disabled, but this map recommends it.  Please enable quick-turn while I'm on this map.
+> I normally have quick-turn disabled, but this map recommends it.  Please enable quick-turn while I'm on this map.
 
-I normally use wallplant, but this platforming map forbids/discourages it.  Please temporarily disable wallplant while I'm on this map.
+> I normally use wallplant, but this platforming map forbids/discourages it.  Please temporarily disable wallplant while I'm on this map.
