@@ -15,6 +15,9 @@ public class BRCMapEditor : Editor
         thisMap = target as BRCMap;
         builder = new BRCMapBuilder(thisMap);
     }
+    private void OnEnable() {
+        if(builder == null) builder = new BRCMapBuilder(thisMap);
+    }
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
