@@ -1,0 +1,30 @@
+## Problem
+
+Get VSCode intellisense for `MapStation.Tools`
+
+### Wrinkles
+
+Must have `MapStation.Tools` `csproj`s in root `MapStation.sln`, else it doesn't do intellisense.
+
+BepInEx's `<PackageReference Include="UnityEngine.Modules"` does not reference Editor APIs nor packages such as `EditorCoroutines`. Unity's auto-generated `csproj`s reference these correctly.
+
+Cannot use Unity's generated `MapStation.Editor.sln` b/c:
+
+- wrong root directory, excludes `MapStation.Common` and `MapStation.Tools`
+- excludes Plugin code
+
+## Solution
+
+Set Unity's script editor to VSCode.
+
+Clone auto-generated `MapStation.Tools` and `MapStation.Tools.Editor` w/`-fixed` suffix
+
+Modify them:
+
+- `<TargetFramework>netstandard2.1` -> `<TargetFramework>net471`
+- `<NoWarn>0169;USG0001</NoWarn>` -> `<NoWarn>0169;USG0001;CS0649;CS0169</NoWarn>` (optional, convenience)
+- Adjust references to MapStation.Common and MapStation.Tools:
+  - `<ProjectReference Include="../MapStation.Common/MapStation.Common.csproj" />`
+  - `<ProjectReference Include="MapStation.Tools-fixed.csproj" />`
+
+Add both `-fixed` csprojs to `MapStation.sln`
