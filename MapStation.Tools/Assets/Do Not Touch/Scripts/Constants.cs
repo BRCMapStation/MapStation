@@ -1,6 +1,6 @@
 public static class Constants {
-    public const string hotkeyGroupName = "BRC Mapping Toolkit";
-    public const string menuLabel = "BRC Mapping Toolkit";
+    public const string hotkeyGroupName = "BRC MapStation";
+    public const string menuLabel = "BRC MapStation";
     public const string experimentsSubmenuLabel = "Experiments";
 
     public const int defaultMenuPriority = 0;
