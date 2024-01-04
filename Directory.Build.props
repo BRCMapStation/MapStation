@@ -11,4 +11,9 @@
     <BaseOutputPath>~/bin</BaseOutputPath>
     <BaseIntermediateOutputPath>~/obj</BaseIntermediateOutputPath>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Conditional compilation for our BepInEx plugin, excluded from Unity Editor, can refer to TeamReptile Assembly-CSharp stuff -->
+    <DefineConstants>$(DefineConstants);BEPINEX</DefineConstants>
+  </PropertyGroup>
 </Project>
