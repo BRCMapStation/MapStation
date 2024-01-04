@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using Reptile;
 using UnityEngine;
-using Winterland.Common;
 
-namespace Winterland.Common {
+namespace MapStation.Common {
     public class DebugUI : MonoBehaviour {
         private const int Width = 400;
         private const int Height = 1200;
@@ -20,7 +19,7 @@ namespace Winterland.Common {
             DontDestroyOnLoad(gameObject);
         }
 
-        private List<DebugMenu> debugMenus = [];
+        private List<DebugMenu> debugMenus = new ();
 
         private bool show = true;
         private DebugMenu currentDebugMenu = null;
