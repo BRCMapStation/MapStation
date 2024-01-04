@@ -1,4 +1,4 @@
-#if !UNITY_EDITOR
+#if BEPINEX
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;

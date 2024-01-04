@@ -22,14 +22,14 @@ namespace MapStation.Common.VanillaAssets {
 
         private void Awake() {
             if(!Application.isEditor) {
-#if !UNITY_EDITOR
+#if BEPINEX
                 Instance = this;
                 DeleteGameObjects();
 #endif
             }
         }
 
-#if !UNITY_EDITOR
+#if BEPINEX
         public void DeleteGameObjects() {
             foreach(var d in Deletions) {
                 var go = GameObject.Find(d.Path);

@@ -18,7 +18,7 @@ namespace MapStation.Common.VanillaAssets {
         public List<string> fields = new ();
 
         private void Awake() {
-#if !UNITY_EDITOR
+#if BEPINEX
             AssignReferences();
 #endif
         }
@@ -29,7 +29,7 @@ namespace MapStation.Common.VanillaAssets {
             | BindingFlags.NonPublic
             | BindingFlags.FlattenHierarchy;
 
-#if !UNITY_EDITOR
+#if BEPINEX
         public void AssignReferences() {
             if(component == null) return;
             foreach(var fieldSyntax in fields) {
