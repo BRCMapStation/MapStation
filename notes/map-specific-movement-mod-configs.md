@@ -8,9 +8,9 @@ The map would essentially say:
 
 I haven't designed a system for this yet, if anyone feels like writing down a proposal.
 
-MapStation could expose an API for movement mods allowing them to export/import their own movement configuration as JSON.
-This JSON is embedded in the map.
-This API also tells the movement mod to enable/disable certain features based on the user's desired configuration.
+MapStation could expose an API for movement mods allowing them to export/import their own movement configuration as JSON.  
+This JSON is embedded in the map.  
+This API also tells the movement mod to enable/disable certain features based on the user's desired configuration.  
 
 For example, users might want:
 
