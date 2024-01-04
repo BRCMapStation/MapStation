@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// Do not change field names of this class; because it will break the JSON structure.
@@ -27,11 +28,11 @@ class MapManifestJson {
     /// <summary>
     /// Map author's name, appears in-game in menus and UI.
     /// </summary>
-    string authorName;
+    public string authorName;
 
     /// <summary>
     /// If true, this map is shown in fast-travel menus, such as the subway car, phone app, or taxi menu.
     /// Set to false if this map should only be accessible through portals from other maps, story quests, etc.
     /// </summary>
-    bool showInFastTravelMenus;
+    public bool showInFastTravelMenus;
 }
