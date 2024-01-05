@@ -16,6 +16,9 @@ public class PluginEditor : MonoBehaviour
 
     public static bool IsPluginOutOfDate()
     {
+#if !MAPSTATION_DEBUG
+        return false;
+#endif
         var rootPath = Path.GetDirectoryName(Directory.GetCurrentDirectory());
         var commonPath = Path.Combine(rootPath, "MapStation.Common");
         var pluginPath = Path.Combine(rootPath, "MapStation.Plugin");
