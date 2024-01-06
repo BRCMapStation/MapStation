@@ -9,55 +9,70 @@ namespace MapStation.Plugin {
     public class MapStationConfig {
         public static MapStationConfig Instance { get; private set; }
 
-        // doing conditional compilation here cause we're probs gonna have settings to test growth and progress stuff and we don't want to let people cheat so easily lol
+#if BEPINEX
+        public ConfigEntry<bool> QuickLaunch;
+        public bool QuickLaunchValue => QuickLaunch.Value;
+
+        public ConfigEntry<bool> DisableKBMInput;
+        public bool DisableKBMInputValue => DisableKBMInput.Value;
+
+        public ConfigEntry<bool> DebugUI;
+        public bool DebugUIValue => DebugUI.Value;
+
+        public ConfigEntry<bool> ShowRedDebugShapes;
+        public bool ShowRedDebugShapesValue => ShowRedDebugShapes.Value;
+
 #if MAPSTATION_DEBUG
-#if UNITY_EDITOR
+        // Options only for developers, not for mappers
+        // <none>
+#endif
+
+#else
+        // Stub everything as disabled, so we don't need as much conditional
+        // compilation elsewhere.
+
         public bool QuickLaunchValue => false;
         public bool DisableKBMInputValue => false;
         public bool DebugUIValue => false;
         public bool ShowRedDebugShapesValue => false;
-#else
-        public ConfigEntry<bool> QuickLaunch;
-        public ConfigEntry<bool> DisableKBMInput;
-        public ConfigEntry<bool> DebugUI;
-        public ConfigEntry<bool> ShowRedDebugShapes;
 
-        public bool QuickLaunchValue => QuickLaunch.Value;
-        public bool DisableKBMInputValue => DisableKBMInput.Value;
-        public bool DebugUIValue => DebugUI.Value;
-        public bool ShowRedDebugShapesValue => ShowRedDebugShapes.Value;
-#endif
+        // Options only for developers, not for mappers
+        // <none>
 #endif
 
         public MapStationConfig() {
             Instance = this;
         }
         public MapStationConfig(ConfigFile file) : this() {
-#if MAPSTATION_DEBUG && !UNITY_EDITOR
+#if BEPINEX
+            var mappingSection = "Mapping";
             QuickLaunch = file.Bind(
-                "Development",
+                mappingSection,
                 "QuickLaunch",
                 false,
                 "Skip game intros and menu and launch directly into a map."
             );
             DisableKBMInput = file.Bind(
-                "Development",
+                mappingSection,
                 "DisableKBMInput",
                 false,
                 "Disable keyboard and mouse inputs, making it easier to use Unity Explorer or tab between windows. If this is enabled, you MUST use a game controller."
             );
             DebugUI = file.Bind(
-                "Development",
+                mappingSection,
                 "DebugUI",
-                true,
-                "Show IMGui debug UI"
+                false,
+                "Show Debug UI in the corner."
             );
             ShowRedDebugShapes = file.Bind(
-                "Development",
+                mappingSection,
                 "ShowRedDebugShapes",
-                true,
+                false,
                 "Show the semi-transparent red meshes from Unity Editor along grind lines, etc."
             );
+#if MAPSTATION_DEBUG
+            // Options only for developers, not for mappers
+#endif
 #endif
         }
     }

@@ -45,7 +45,7 @@ public class MapBuilder {
         CleanUpOutputDirectoryPreBuild(OutputDirectory);
         BuildAssetBundles(compressed);
         WriteMapProperties(mapOutputs);
-        WriteMapZips(mapOutputs);
+        WriteMapZips(mapOutputs, compressed);
         CleanUpOutputDirectoryPostBuild(OutputDirectory);
         CopyToBepInExPluginsFolder(mapOutputs, BuildConstants.PluginName);
         UnityEngine.Debug.Log("Done building assets!");
@@ -201,7 +201,7 @@ public class MapBuilder {
         }
     }
 
-    private static void WriteMapZips(MapBuildOutputs[] maps) {
+    private static void WriteMapZips(MapBuildOutputs[] maps, bool compressed) {
         foreach(var map in maps) {
             if(File.Exists(map.BuiltZipPath)) {
                 File.Delete(map.BuiltZipPath);
@@ -209,7 +209,8 @@ public class MapBuilder {
             new MapZip(map.BuiltZipPath).WriteZip(
                 propertiesContents: File.ReadAllText(map.BuiltPropertiesPath), 
                 sceneBundlePath: map.BuiltSceneBundlePath,
-                assetsBundlePath: map.BuiltAssetsBundlePath
+                assetsBundlePath: map.BuiltAssetsBundlePath,
+                compressed
             );
         }
     }

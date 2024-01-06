@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using UnityEngine;
+using CompressionLevel = System.IO.Compression.CompressionLevel;
 
 namespace MapStation.Common {
     /// <summary>
@@ -23,11 +24,12 @@ namespace MapStation.Common {
         /// <summary>
         /// Write map zip to disc
         /// </summary>
-        public void WriteZip(string propertiesContents, string sceneBundlePath, string assetsBundlePath) {
+        public void WriteZip(string propertiesContents, string sceneBundlePath, string assetsBundlePath, bool compressed = true) {
+            var compressionLevel = compressed ? CompressionLevel.Optimal : CompressionLevel.NoCompression;
             zip = ZipFile.Open(path, ZipArchiveMode.Create);
-            zip.CreateEntryFromFile(sceneBundlePath, sceneBundleFilename);
-            zip.CreateEntryFromFile(assetsBundlePath, assetsBundleFilename);
-            var propertiesEntry = zip.CreateEntry(propertiesFilename);
+            zip.CreateEntryFromFile(sceneBundlePath, sceneBundleFilename, compressionLevel);
+            zip.CreateEntryFromFile(assetsBundlePath, assetsBundleFilename, compressionLevel);
+            var propertiesEntry = zip.CreateEntry(propertiesFilename, compressionLevel);
             using(var propertiesFile = propertiesEntry.Open())
             using(var propertiesWriter = new StreamWriter(propertiesFile)) {
                 propertiesWriter.Write(propertiesContents);
