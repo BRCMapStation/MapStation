@@ -5,7 +5,7 @@ using UnityEngine;
 public class PreferencesWindow : EditorWindow {
     const string WindowLabel = "Preferences";
 
-    [MenuItem(Constants.menuLabel + "/" + WindowLabel, priority = Constants.defaultMenuPriority)]
+    [MenuItem(UIConstants.menuLabel + "/" + WindowLabel, priority = UIConstants.defaultMenuPriority)]
     private static void ShowMyEditor() {
         EditorWindow wnd = GetWindow<PreferencesWindow>();
         wnd.titleContent = new GUIContent(WindowLabel);

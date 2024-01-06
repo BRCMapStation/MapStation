@@ -1,4 +1,4 @@
-public static class Constants {
+public static class UIConstants {
     public const string hotkeyGroupName = "BRC MapStation";
     public const string menuLabel = "BRC MapStation";
     public const string experimentsSubmenuLabel = "Experiments";

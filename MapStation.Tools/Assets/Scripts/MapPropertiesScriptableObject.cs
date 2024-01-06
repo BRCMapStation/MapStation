@@ -4,9 +4,8 @@ using UnityEngine;
 using MapStation.Common;
 
 namespace MapStation.Tools {
-    [CreateAssetMenu(fileName = "Properties", menuName = Constants.menuLabel + "/Map Properties", order = 1)]
-    class MapPropertiesScriptableObject : ScriptableObject {
-        [SerializeReference]
-        MapProperties properties = new MapProperties();
+    [CreateAssetMenu(fileName = "Properties", menuName = UIConstants.menuLabel + "/Map Properties", order = 1)]
+    public class MapPropertiesScriptableObject : ScriptableObject {
+        public MapProperties properties = new MapProperties();
     }
 }

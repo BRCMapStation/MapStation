@@ -15,7 +15,7 @@ static class Hotkeys {
         new BRCMapBuilder(Object.FindFirstObjectByType<BRCMap>()).RebuildAll();
     }
 
-    [Shortcut(Constants.hotkeyGroupName + "/Add / Clone Grind Node(s)", typeof(SceneView), KeyCode.C)]
+    [Shortcut(UIConstants.hotkeyGroupName + "/Add / Clone Grind Node(s)", typeof(SceneView), KeyCode.C)]
     static void AddGrindNodes() {
         var aos = Selection.gameObjects;
 

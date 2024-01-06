@@ -9,7 +9,7 @@ public class GrindWindow : EditorWindow
 {
     const string WindowLabel = "Grind Inspector";
 
-    [MenuItem(Constants.menuLabel + "/" + WindowLabel, priority = Constants.defaultMenuPriority)]
+    [MenuItem(UIConstants.menuLabel + "/" + WindowLabel, priority = UIConstants.defaultMenuPriority)]
     private static void ShowMyEditor() {
         // This method is called when the user selects the menu item in the Editor
         EditorWindow wnd = GetWindow<GrindWindow>();
