@@ -42,12 +42,12 @@ internal static class AssetsPatch {
         // TODO when trying to load a custom map, vanilla BRC doesn't know what to do here, gives us `null`
         // So we hook and create a reasonable value ourselves.  Is `false` for all correct?
         if(__result == null) {
-            __result = new AssetsToLoadData {
-                loadCharacters = false,
-                loadGameplayPrefabs = false,
-                loadGraffiti = false,
-                sfxCollectionsToLoad = new SfxCollection[0]
-            };
+            var data = ScriptableObject.CreateInstance<AssetsToLoadData>();
+            data.loadCharacters = false;
+            data.loadGameplayPrefabs = false;
+            data.loadGraffiti = false;
+            data.sfxCollectionsToLoad = new SfxCollection[0];
+            __result = data;
         }
     }
 }

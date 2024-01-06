@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Linq;
 using MapStation.Common;
 using System.Runtime.CompilerServices;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MapStation.Plugin
 {
@@ -51,6 +53,15 @@ namespace MapStation.Plugin
 
             BunchOfEmotesInstalled = Chainloader.PluginInfos.Keys.Contains("com.Dragsun.BunchOfEmotes");
             DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera") || Chainloader.PluginInfos.Keys.Contains("com.Dragsun.Savestate");
+
+            AssetBundle.LoadFromFile(Path.Combine(Path.GetDirectoryName(Info.Location), "TestMaps", "assets"));
+            var scene = AssetBundle.LoadFromFile(Path.Combine(Path.GetDirectoryName(Info.Location), "TestMaps", "scene"));
+            var scenePaths = scene.GetAllScenePaths();
+            foreach(var scenePath in scenePaths) {
+                Debug.Log("SCENE PATHS:");
+                //SceneManager.LoadScene(scenePath);
+                Debug.Log(scenePath);
+            }
         }
 
         private void StageAPI_OnStagePreInitialization(Stage newStage, Stage previousStage) {

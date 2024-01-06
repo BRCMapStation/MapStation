@@ -18,7 +18,7 @@ internal static class SceneManagerPatch {
         // We need to rewrite names from Stage.ToString(), such as `mapstation/cspotcode.deatheggzone`,
         // into valid Scene names which will match what comes out of Unity Editor, such as `Assets/Maps/cspotcode.deatheggzone/Scene` (scene name? path? I get confused)
         if(sceneName.StartsWith(StageEnum.MapNamePrefix)) {
-            sceneName = "Assets/Maps/DeathEggZone/Scene"; // Should this be a scene "path" instead of a "name"?
+            sceneName = "Assets/Maps/DeathEggZone/Scene.unity"; // Should this be a scene "path" instead of a "name"?
         }
     }
 }
