@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
     <AssemblyName>MapStation.Plugin</AssemblyName>
     <Description>BepInEx Plugin Assembly for MapStation.</Description>
     <Version>1.0.0</Version>
@@ -13,10 +13,6 @@
 	<ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
   </PropertyGroup>
   
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Core" Version="5.*" />

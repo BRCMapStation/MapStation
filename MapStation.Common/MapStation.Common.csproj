@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
     <AssemblyName>MapStation.Common</AssemblyName>
     <Description></Description>
     <Version>1.0.0</Version>
@@ -32,6 +32,7 @@
 	  <Private>false</Private>
 	  <Publicize>true</Publicize>
     </Reference>
+    <Reference Include="System.IO.Compression" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

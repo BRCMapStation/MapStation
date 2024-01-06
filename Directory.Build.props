@@ -2,13 +2,18 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <DebugType>Full</DebugType>
     <Pdb2mdbPath Condition="Exists('$(SolutionDir)scripts\pdb2mdb.exe')">$(SolutionDir)\scripts\pdb2mdb.exe</Pdb2mdbPath>
-    <NoWarn>$(NoWarn);CS0649;CS0414</NoWarn>
+    <NoWarn>$(NoWarn);CS0649;CS0414;CS0169</NoWarn>
+    <DefineConstants>$(DefineConstants);MAPSTATION_DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <!-- Emit artifacts into a `~` subdirectory which is not imported by Unity -->
-  <PropertyGroup Condition="'$(MSBuildProjectName)'=='MapStation.Common'">
-    <BaseOutputPath>~/bin</BaseOutputPath>
-    <BaseIntermediateOutputPath>~/obj</BaseIntermediateOutputPath>
+  <PropertyGroup Condition="'$(MSBuildProjectName)'=='MapStation.Common' Or '$(MSBuildProjectName)'=='MapStation.Tools'">
+    <BaseOutputPath>bin~</BaseOutputPath>
+    <BaseIntermediateOutputPath>obj~</BaseIntermediateOutputPath>
   </PropertyGroup>
-  
+
+  <PropertyGroup>
+    <!-- Conditional compilation for our BepInEx plugin, excluded from Unity Editor, can refer to TeamReptile Assembly-CSharp stuff -->
+    <DefineConstants>$(DefineConstants);BEPINEX</DefineConstants>
+  </PropertyGroup>
 </Project>

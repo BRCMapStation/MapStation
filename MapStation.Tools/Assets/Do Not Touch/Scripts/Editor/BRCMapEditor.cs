@@ -15,6 +15,9 @@ public class BRCMapEditor : Editor
         thisMap = target as BRCMap;
         builder = new BRCMapBuilder(thisMap);
     }
+    private void OnEnable() {
+        if(builder == null) builder = new BRCMapBuilder(thisMap);
+    }
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -27,34 +30,5 @@ public class BRCMapEditor : Editor
             Environment.NewLine +
             Environment.NewLine +
             "If building your map is successful, it will appear in the Map Files folder.", MessageType.Info);
-
-        if (GUILayout.Button("Toggle Red Debug Shapes"))
-        {
-            // Apply any changes made to the prefab
-            builder.ToggleDebugObjects();
-        }
-
-        if (GUILayout.Button("Create MapPrefab from Scene"))
-        {
-            // Apply any changes made to the prefab
-            builder.CreateMapPrefabFromScene();
-        }
-
-        if (GUILayout.Button("Collect Map Assets"))
-        {
-            // Apply any changes made to the prefab
-            builder.AddAssetsToBundle();
-        }
-
-        if (GUILayout.Button("Build Map File"))
-        {
-
-            // Apply any changes made to the prefab
-            builder.CreateMapBundle();
-        }
-        if (GUILayout.Button("Rebuild All"))
-        {
-            builder.RebuildAll();
-        }
     }
 }

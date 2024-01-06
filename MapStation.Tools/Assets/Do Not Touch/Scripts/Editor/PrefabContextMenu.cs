@@ -7,46 +7,46 @@ public class AddPrefabsToContextMenu {
     private const int Priority = -30;
     private const string PrefabPathPrefix = "Packages/com.brcmapstation.tools/Assets/Map Template/";
 
-    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Door Teleport", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Door Teleport", priority = Priority)]
     private static void CreateTeleport(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "DoorTeleporterPrefab");
     }
-    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Out-of-Bounds Teleport", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Out-of-Bounds Teleport", priority = Priority)]
     private static void CreateOobTeleport(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "TeleporterPrefab");
     }
 
-    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Small Graffiti Spot", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Small Graffiti Spot", priority = Priority)]
     private static void CreateGraffitiSpotSmall(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotSmallPrefab", false);
     }
-    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Medium Graffiti Spot", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Medium Graffiti Spot", priority = Priority)]
     private static void CreateGraffitiSpotMedium(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotMediumPrefab", false);
     }
-    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Large Graffiti Spot", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Large Graffiti Spot", priority = Priority)]
     private static void CreateGraffitiSpotLarge(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotLargePrefab", false);
     }
-    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Extra Large Graffiti Spot", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Extra Large Graffiti Spot", priority = Priority)]
     private static void CreateGraffitiSpotExtraLarge(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotExtraLargePrefab", false);
     }
 
-    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Grind", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Grind", priority = Priority)]
     private static void CreateGrind(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "GrindPrefab", false);
     }
 
-    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Vert Ramp", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Vert Ramp", priority = Priority)]
     private static void CreateVertRamp(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "VertRampPrefab");
     }
-    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Wallrun", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Wallrun", priority = Priority)]
     private static void CreateWallrun(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "WallRunPrefab");
     }
-    [MenuItem("GameObject/" + Constants.menuLabel + "/Create Vending Machine", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Vending Machine", priority = Priority)]
     private static void CreateVendingMachine(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "VendingMachinePrefab");
     }

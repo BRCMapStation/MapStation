@@ -21,7 +21,7 @@ namespace MapStation.Common.VanillaAssets {
         public class SList_Components : SList<ComponentEntry> {}
 
         private void Awake() {
-#if !UNITY_EDITOR
+#if BEPINEX
             AssignReferences();
 #endif
         }
@@ -32,7 +32,7 @@ namespace MapStation.Common.VanillaAssets {
             | BindingFlags.NonPublic
             | BindingFlags.FlattenHierarchy;
 
-#if !UNITY_EDITOR
+#if BEPINEX
         public void AssignReferences() {
             foreach(var c in Components) {
                 var component = c.Component;

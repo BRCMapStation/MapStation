@@ -1,43 +1,54 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
-public class CsprojPostprocessorWindow : EditorWindow {
-    const string WindowLabel = "Csproj Postprocessor";
+/// <summary>
+/// HACK: Patch Unity's Visual Studio integration to open our root MapStation.sln instead of the editor's generated
+/// MapStation.Editor.sln
+/// 
+/// This is a convenience: when clicking errors in Unity Editor, they will open in the correct Visual Studio window.
+/// </summary>
+static class VisualStudioEditorPatch {
+    private const string FindInVisualStudioEditorCs =
+        "\t\t\tvar solution = GetOrGenerateSolutionFile(generator);\n" +
+        "\t\t\treturn installation.Open(path, line, column, solution);";
+    private const string ReplaceInVisualStudioEditorCs =
+        "\t\t\tvar solution = GetOrGenerateSolutionFile(generator);\n" +
+        "\t\t\tsolution = Path.Join(Path.GetDirectoryName(Path.GetDirectoryName(solution)), \"MapStation.sln\");\n" +
+        "\t\t\treturn installation.Open(path, line, column, solution);";
 
-    [MenuItem(Constants.menuLabel + "/" + Constants.experimentsSubmenuLabel + "/" + WindowLabel, priority = Constants.experimentsSubmenuPriority)]
-    private static void ShowMyEditor() {
-        EditorWindow wnd = GetWindow<CsprojPostprocessorWindow>();
-        wnd.titleContent = new GUIContent(WindowLabel);
-    }
-
-    private bool applyModifications_ = false;
-
-    private void OnEnable() {
-        // On domain reload, restore static state from serialized instance state
-        CSProjPostprocessor.applyModifications = applyModifications_;
-    }
-
-    private void OnGUI() {
-        EditorGUILayout.HelpBox(
-            "Tweaks .csproj files emitted by Unity, for compatibility with VSCode.\n" + 
-            "Or maybe cspotcode doesn't know what he's doing.",
-            MessageType.Info
-        );
-        CSProjPostprocessor.applyModifications = applyModifications_ = GUILayout.Toggle(applyModifications_, "Apply modifications");
+    [InitializeOnLoadMethod]
+    private static void ApplyPatch() {
+        var path = Path.Join(Path.GetDirectoryName(Application.dataPath), "Library/PackageCache/com.unity.ide.visualstudio@2.0.22/Editor/VisualStudioEditor.cs");
+        var contents = File.ReadAllText(path);
+        if(contents.Contains(FindInVisualStudioEditorCs)) {
+            contents = contents.Replace(FindInVisualStudioEditorCs, ReplaceInVisualStudioEditorCs);
+            File.WriteAllText(path, contents);
+        }
     }
 }
 
-public class CSProjPostprocessor : AssetPostprocessor
+/// <summary>
+/// Generate alternate csproj files by copying and modifying the .csprojs created by Unity.
+/// See also: notes/csproj.md
+/// </summary>
+public class GenerateFixedCsProjs : AssetPostprocessor
 {
-    internal static bool applyModifications = false;
-
+    private const string Suffix = "-alternative";
     private static string OnGeneratedCSProject(string path, string contents) {
-        if(applyModifications) {
-            contents = contents.Replace("<ProjectCapability Remove=\"AssemblyReferences\" />", "<!-- <ProjectCapability Remove=\"AssemblyReferences\" /> -->");
-            contents = contents.Replace("<TargetFramework>netstandard2.1</TargetFramework>", "<TargetFramework>net46</TargetFramework>");
-            contents = contents.Replace("<LangVersion>9.0</LangVersion>", "<LangVersion>11</LangVersion>");
+        var filename = Path.GetFileName(path);
+
+        if(filename == "MapStation.Tools.csproj" || filename == "MapStation.Tools.Editor.csproj") {
+            // var outputPath = path.Substring(0, path.Length - 7) + $"{Suffix}.csproj";
+            var outputPath = path[0..^7] + $"{Suffix}.csproj";
+            var outputContent = contents;
+            outputContent = outputContent.Replace("<TargetFramework>netstandard2.1</TargetFramework>", "<TargetFramework>net471</TargetFramework>");
+            outputContent = outputContent.Replace("<NoWarn>0169;USG0001</NoWarn>", "<NoWarn>0169;USG0001;CS0649;CS0169</NoWarn>");
+            outputContent = outputContent.Replace("Include=\"MapStation.Common.csproj\"", "Include=\"../MapStation.Common/MapStation.Common.csproj\"");
+            outputContent = outputContent.Replace("Include=\"MapStation.Tools.csproj\"", $"Include=\"MapStation.Tools{Suffix}.csproj\"");
+            File.WriteAllText(outputPath, outputContent);
         }
+
         return contents;
     }
 }

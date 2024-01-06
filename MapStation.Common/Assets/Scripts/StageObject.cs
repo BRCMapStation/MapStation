@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-#if !UNITY_EDITOR
 using Reptile;
-#endif
 
 namespace MapStation.Common {
     /// <summary>
@@ -17,7 +15,7 @@ namespace MapStation.Common {
         [SerializeField]
         private string chunkName = "";
 
-#if !UNITY_EDITOR
+#if BEPINEX
         public void PutInChunk() {
             var myChunk = GetComponentInParent<StageChunk>(true);
             if (myChunk != null)

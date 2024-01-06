@@ -13,7 +13,7 @@ public class ProjectChangeListener
     private static void Recompile() {
         if (!PluginEditor.IsPluginOutOfDate())
             return;
-        if (!BuildAssets.IsGameOpen())
+        if (!GameLauncher.IsGameOpen())
         {
             var rebuildProcess = PluginEditor.RebuildPlugin();
             rebuildProcess.WaitForExit();
