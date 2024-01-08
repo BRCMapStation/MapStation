@@ -53,6 +53,18 @@ public static class StageEnum {
         MapIds.Remove(internalName);
     }
 
+    public static bool IsValidMapId(Stage id) {
+        return id >= FirstMapId;
+    }
+
+    public static bool IsKnownMapId(Stage id) {
+        return MapNames.ContainsKey(id);
+    }
+
+    public static bool IsValidBundledMapId(Stage id) {
+        return id >= FirstBundledMapId && id < FirstMapId;
+    }
+
     // TODO make these private or read-only, but that's annoying
     public static readonly Dictionary<string, Stage> MapIds = new ();
     public static readonly Dictionary<Stage, string> MapNames = new ();

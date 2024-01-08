@@ -1,14 +1,9 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using HarmonyLib;
 using Reptile;
 using UnityEngine;
 using MapStation.Common;
-using System.Runtime.InteropServices;
 
 namespace MapStation.Plugin.Patches;
 
@@ -20,34 +15,83 @@ internal static class AssetsPatch {
 
         // TEST HACK Register a custom map for testing.
         // REMOVE THIS once the idea is proven
-        var stageId = StageEnum.ClaimCustomMapId();
-        StageEnum.AddMapName(stageId, BootstrapPatch.mapInternalName);
+        MapDatabase.Instance = new MapDatabase();
 
-        var collections = __instance.assetBundleLibrary.collections.ToList();
-        var collection = ScriptableObject.CreateInstance<AssetBundleCollection>();
-        collection.assetBundleCollectionName = StageEnum.GetMapId(BootstrapPatch.mapInternalName).ToString();
-        collection.assetBundleNames = new string[] {"foo", "bar"};
-        collections.Add(collection);
-        __instance.assetBundleLibrary.collections = collections.ToArray();
+        var mapName = BootstrapPatch.mapInternalName;
+        var map = new PluginMapDatabaseEntry() {
+            Name = mapName,
+            internalName = mapName,
+            ScenePath = AssetNames.GetScenePathForMap(mapName),
+            zipPath = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Info.Location), PathConstants.TestMapsDirectory, mapName + PathConstants.MapFileExtension),
+            stageId = StageEnum.ClaimCustomMapId(),
+        };
+        MapDatabase.Instance.Add(map);
     }
 
-    [HarmonyPrefix]
-    [HarmonyPatch(nameof(Assets.GetAssetsToLoadDataForScene))]
-    private static void GetAssetsToLoadDataForScene_Prefix(Assets __instance, string sceneName) {
-        Debug.Log(sceneName);
-    }
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Assets.GetAssetsToLoadDataForScene))]
     private static void GetAssetsToLoadDataForScene_Postfix(Assets __instance, string sceneName, ref AssetsToLoadData __result) {
-        // TODO when trying to load a custom map, vanilla BRC doesn't know what to do here, gives us `null`
-        // So we hook and create a reasonable value ourselves.  Is `false` for all correct?
+        // When trying to load a custom map, vanilla BRC doesn't know what to do here, gives us `null`,
+        // so we create a value here.
+        // Vanilla stages use identical values: true, true, true, empty array of SfxCollections
         if(__result == null) {
-            __result = new AssetsToLoadData {
-                loadCharacters = false,
-                loadGameplayPrefabs = false,
-                loadGraffiti = false,
-                sfxCollectionsToLoad = new SfxCollection[0]
-            };
+            Debug.Log($"{nameof(Assets)}.{nameof(Assets.GetAssetsToLoadDataForScene)} does not know about scene {sceneName}; assuming it's a custom map, creating default struct instead.");
+            __result = ScriptableObject.CreateInstance<AssetsToLoadData>();
+            __result.loadCharacters = true;
+            __result.loadGameplayPrefabs = true;
+            __result.loadGraffiti = true;
+            __result.sfxCollectionsToLoad = new SfxCollection[0];
+        }
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(Assets.LoadBundleASync))]
+    private static bool LoadBundleASync_Prefix(ref IEnumerator __result, Assets __instance, Bundle bundleToLoad)
+    {
+        // Fully replace implementation of LoadBundleASync to load from map zips
+        if(ZipAssetBundles.Instance.Bundles.TryGetValue(bundleToLoad.name, out var zipAssetBundle)) {
+            __result = LoadMapBundleASync(__instance, bundleToLoad, zipAssetBundle);
+            return false;
+        }
+        return true;
+    }
+    
+    /// <summary>
+    /// Alternative implementation of Assets.LoadBundleASync which loads from a custom map zip
+    /// </summary>
+    private static IEnumerator LoadMapBundleASync(Assets __instance, Bundle bundleToLoad, ZipAssetBundle zipAssetBundle)
+    {
+        bundleToLoad.InitializeLoad();
+        
+        Debug.Log($"{nameof(Assets)}.{nameof(Assets.LoadBundleASync)} loading {bundleToLoad.Name} from zip {zipAssetBundle.zipPath}");
+        byte[] data;
+        using(var zip = new MapZip(zipAssetBundle.zipPath)) {
+            Stream stream = null;
+            switch(zipAssetBundle.bundleType) {
+                case ZipBundleType.SCENE:
+                    stream = zip.GetSceneBundleStream();
+                    break;
+                case ZipBundleType.ASSETS:
+                    stream = zip.GetAssetsBundleStream();
+                    break;
+                default:
+                    throw new System.Exception($"Unexpected {nameof(ZipBundleType)} {zipAssetBundle.bundleType.ToString()}");
+            }
+            using (stream)
+            using (var reader = new BinaryReader(stream)) {
+                data = reader.ReadBytes(int.MaxValue);
+            }
+        }
+        __instance.currentAssetBundleCreateRequest = AssetBundle.LoadFromMemoryAsync(data);
+
+        yield return __instance.currentAssetBundleCreateRequest;
+        if (__instance.currentAssetBundleCreateRequest.assetBundle == null)
+        {
+            bundleToLoad.ResetLoadState();
+        }
+        else {
+            __instance.currentAssetBundleCreateRequest.assetBundle.name = "foobar";
+            bundleToLoad.SetAssetBundle(__instance.currentAssetBundleCreateRequest.assetBundle);
         }
     }
 }

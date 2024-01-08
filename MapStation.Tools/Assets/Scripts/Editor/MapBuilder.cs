@@ -98,7 +98,7 @@ public class MapBuilder {
         }
     }
 
-    private static void PreBuildAssetBundles(MapDatabaseEntry[] maps) {
+    private static void PreBuildAssetBundles(EditorMapDatabaseEntry[] maps) {
         // Simulate Ctrl+S to save open scene or open prefab
         EditorApplication.ExecuteMenuItem("File/Save");
         EditorSceneManager.SaveOpenScenes();
@@ -114,7 +114,7 @@ public class MapBuilder {
     /// <summary>
     /// Put all scenes and assets in a map's subdirectory into the map's assetbundles
     /// </summary>
-    private static void AddAssetsToBundles(MapDatabaseEntry map)
+    private static void AddAssetsToBundles(EditorMapDatabaseEntry map)
     {
         // Get all assets in a folder and its subfolders, excluding scenes and scripts
         string assetDirectory = map.AssetDirectory;
@@ -127,12 +127,12 @@ public class MapBuilder {
             // Scene goes into the scenes bundle, everything else into the assets bundle
             if (assetPathWithExtension.EndsWith(".unity"))
             {
-                AssetImporter.GetAtPath(assetPathWithExtension).SetAssetBundleNameAndVariant(map.SceneBundleName, MapDatabase.BundleVariant);
+                AssetImporter.GetAtPath(assetPathWithExtension).SetAssetBundleNameAndVariant(map.SceneBundleName, AssetNames.BundleVariant);
             }
             else if (!assetPathWithExtension.EndsWith(".cs"))
             {
                 // Add the asset to the specified asset bundle
-                AssetImporter.GetAtPath(assetPathWithExtension).SetAssetBundleNameAndVariant(map.AssetsBundleName, MapDatabase.BundleVariant);
+                AssetImporter.GetAtPath(assetPathWithExtension).SetAssetBundleNameAndVariant(map.AssetsBundleName, AssetNames.BundleVariant);
             }
         }
     }
@@ -221,17 +221,17 @@ public class MapBuilder {
 /// </summary>
 class MapBuildOutputs {
     private bool compressed;
-    private MapDatabaseEntry sources;
-    public MapDatabaseEntry Sources => sources;
+    private EditorMapDatabaseEntry sources;
+    public EditorMapDatabaseEntry Sources => sources;
 
-    public MapBuildOutputs(bool compressed, MapDatabaseEntry map) {
+    public MapBuildOutputs(bool compressed, EditorMapDatabaseEntry map) {
         this.compressed = compressed;
         this.sources = map;
     }
 
-    public string BuiltDirectory => BuildConstants.BuiltBundlesDirectory(compressed) + "/" + MapDatabase.BundlePrefix + sources.Name;
+    public string BuiltDirectory => BuildConstants.BuiltBundlesDirectory(compressed) + "/" + AssetNames.BundlePrefix + sources.Name;
     public string BuiltPropertiesPath => Path.Join(BuiltDirectory, MapZip.propertiesFilename);
-    public string BuiltAssetsBundlePath => Path.Join(BuiltDirectory, MapDatabase.AssetsBundleBasename);
-    public string BuiltSceneBundlePath => Path.Join(BuiltDirectory, MapDatabase.SceneBundleBasename);
+    public string BuiltAssetsBundlePath => Path.Join(BuiltDirectory, AssetNames.AssetsBundleBasename);
+    public string BuiltSceneBundlePath => Path.Join(BuiltDirectory, AssetNames.SceneBundleBasename);
     public string BuiltZipPath => Path.Join(BuiltDirectory, BuildConstants.BuiltZipFilename);
 }

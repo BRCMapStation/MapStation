@@ -5,11 +5,10 @@ using CommonAPI;
 using BepInEx.Logging;
 using BepInEx.Bootstrap;
 using HarmonyLib;
-using System.IO;
-using System.Reflection;
 using System.Linq;
 using MapStation.Common;
-using System.Runtime.CompilerServices;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MapStation.Plugin
 {
@@ -41,6 +40,9 @@ namespace MapStation.Plugin
             // Our local dev workflow uses a nested folder, but at release we realized last-minute it was breaking R2.
             // So this code will detect the nested folder and use it if it exists.
             new MapStationConfig(Config);
+            SceneNameMapper.Instance = new SceneNameMapper();
+            ZipAssetBundles.Instance = new ZipAssetBundles();
+            StageProgresses.Instance = new StageProgresses();
 #if MAPSTATION_DEBUG
             DebugUI.Create(MapStationConfig.Instance.DebugUI.Value);
 #endif

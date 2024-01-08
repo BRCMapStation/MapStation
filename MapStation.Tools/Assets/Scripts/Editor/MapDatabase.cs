@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using MapStation.Common;
 
 namespace MapStation.Tools {
     /// <summary>
@@ -9,54 +10,30 @@ namespace MapStation.Tools {
     /// Also declares how we organize maps into assetbundles.
     /// </summary>
     public static class MapDatabase {
-        public const string MapDirectory = "Maps";
-        public const string SceneBasename = "Scene";
-        public const string PropertiesBasename = "Properties";
-        public const string BundlePrefix = "maps/";
-        public const string SceneBundleBasename = "scene";
-        public const string SceneBundleSuffix = "/" + SceneBundleBasename;
-        public const string AssetsBundleBasename = "assets";
-        public const string AssetsBundleSuffix = "/" + AssetsBundleBasename;
-        public const string BundleVariant = "";
 
         [InitializeOnLoadMethod]
-        public static MapDatabaseEntry[] GetMaps() {
-            List<MapDatabaseEntry> entries = new ();
-            foreach(var folder in AssetDatabase.GetSubFolders($"Assets/{MapDirectory}")) {
+        public static EditorMapDatabaseEntry[] GetMaps() {
+            List<EditorMapDatabaseEntry> entries = new ();
+            foreach(var folder in AssetDatabase.GetSubFolders($"Assets/{AssetNames.MapDirectory}")) {
                 var name = folder.Substring(folder.LastIndexOf("/") + 1);
                 entries.Add(GetMap(name));
             }
             return entries.ToArray();
         }
 
-        public static MapDatabaseEntry GetMap(string name) {
-            return new MapDatabaseEntry {
+        public static EditorMapDatabaseEntry GetMap(string name) {
+            return new EditorMapDatabaseEntry {
                 Name = name,
-                ScenePath = GetScenePathForMap(name),
-                PropertiesPath = GetPropertiesPathForMap(name),
+                ScenePath = AssetNames.GetScenePathForMap(name),
+                PropertiesPath = AssetNames.GetPropertiesPathForMap(name),
             };
         }
 
-        public static string GetAssetDirectoryForMap(string name) {
-            return $"Assets/{MapDirectory}/{name}";
-        }
-
-        public static string GetScenePathForMap(string name) {
-            return $"Assets/{MapDirectory}/{name}/{SceneBasename}.unity";
-        }
-
-        public static string GetPropertiesPathForMap(string name) {
-            return $"Assets/{MapDirectory}/{name}/{PropertiesBasename}.asset";
-        }
     }
 
-    public class MapDatabaseEntry {
-        public string Name;
-        public string ScenePath;
+    public class EditorMapDatabaseEntry : Common.BaseMapDatabaseEntry {
         public string PropertiesPath;
-        public string AssetDirectory => MapDatabase.GetAssetDirectoryForMap(Name);
-        public string SceneBundleName => $"{MapDatabase.BundlePrefix}{Name.ToLower()}{MapDatabase.SceneBundleSuffix}";
-        public string AssetsBundleName => $"{MapDatabase.BundlePrefix}{Name.ToLower()}{MapDatabase.AssetsBundleSuffix}";
+        public string AssetDirectory => AssetNames.GetAssetDirectoryForMap(Name);
 
         // Unused: idea I had to find all scene assets, then log a helpful message telling the user it's confusing to have multiple scenes
         // public string[] extantSceneCandidatePaths;
