@@ -23,4 +23,15 @@ internal static class SceneManagerPatch {
             sceneName = replacement;
         }
     }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(SceneManager.UnloadSceneAsync))]
+    [HarmonyPatch(new Type[] {typeof(string)})]
+    private static void UnloadSceneAsync_Prefix(ref string sceneName) {
+        // Same logic as LoadSceneAsync patch
+        if(SceneNameMapper.Instance.Mappings.TryGetValue(sceneName, out var replacement)) {
+            Debug.Log($"{nameof(SceneManager)}.{nameof(SceneManager.UnloadSceneAsync)} redirected from {sceneName} to {replacement}");
+            sceneName = replacement;
+        }
+    }
 }
