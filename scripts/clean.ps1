@@ -10,8 +10,8 @@ Write-Output `
     .\libs\CrewBoomAPI\obj `
     .\libs\SlopCrew\SlopCrew.API\bin `
     .\libs\SlopCrew\SlopCrew.API\obj `
-    .\MapStation.Common\bin `
-    .\MapStation.Common\obj `
+    .\MapStation.Common\bin~ `
+    .\MapStation.Common\obj~ `
     .\MapStation.Plugin\bin `
     .\MapStation.Plugin\obj `
 | ForEach-Object {
