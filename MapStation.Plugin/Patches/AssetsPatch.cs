@@ -65,8 +65,9 @@ internal static class AssetsPatch {
                     throw new System.Exception($"Unexpected {nameof(ZipBundleType)} {zipAssetBundle.bundleType.ToString()}");
             }
             using (stream)
-            using (var reader = new BinaryReader(stream)) {
-                data = reader.ReadBytes(int.MaxValue);
+            using (var ms = new MemoryStream()) {
+                stream.CopyTo(ms);
+                data = ms.ToArray();
             }
         }
         __instance.currentAssetBundleCreateRequest = AssetBundle.LoadFromMemoryAsync(data);
@@ -77,7 +78,6 @@ internal static class AssetsPatch {
             bundleToLoad.ResetLoadState();
         }
         else {
-            __instance.currentAssetBundleCreateRequest.assetBundle.name = bundleToLoad.Name;
             bundleToLoad.SetAssetBundle(__instance.currentAssetBundleCreateRequest.assetBundle);
         }
     }

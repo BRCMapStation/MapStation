@@ -9,8 +9,8 @@ using System.Linq;
 using MapStation.Common;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using MapStation.Plugin.Patches;
 using System.IO;
+using System.Collections;
 
 namespace MapStation.Plugin
 {
@@ -107,7 +107,33 @@ namespace MapStation.Plugin
                         Debug.Log($"Bundle {bundle.name} has scene {p}");
                     }
                 }
+                foreach(var o in Resources.FindObjectsOfTypeAll(typeof(AssetBundle))) {
+                    var bundle = o as AssetBundle;
+                    Debug.Log($"Resources Bundle {bundle.name}");
+                    foreach(var p in bundle.GetAllScenePaths()) {
+                        Debug.Log($"Bundle {bundle.name} has scene {p}");
+                    }
+                }
+                foreach(var p in Core.Instance.assets.availableBundles) {
+                    Debug.Log($"{p.Key} {p.Value.currentState.ToString()} {p.Value.assetBundle}");
+                    // if(p.Key == "maps/cspotcode.deatheggzone/scene") {
+                    //     Debug.Log($"Unloading");
+                    //     p.Value.assetBundle.Unload(unloadAllLoadedObjects: true);
+                    // }
+                    // if(p.Key == "maps/cspotcode.deatheggzone/assets") {
+                    //     Debug.Log($"Unloading");
+                    //     p.Value.Unload();
+                    // }
+                }
             }
+            if(Input.GetKeyDown(KeyCode.F8)) {
+                GameObject.FindFirstObjectByType<Bootstrap>().StartCoroutine(BackToHideout());
+            }
+        }
+
+        private static IEnumerator BackToHideout() {
+            yield return null;
+            Core.Instance.BaseModule.SwitchStage(Stage.hideout);
         }
 
         public delegate void UpdateDelegate();
