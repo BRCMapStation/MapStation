@@ -75,7 +75,8 @@ public class MapDatabase {
             bundleType = ZipBundleType.SCENE,
         });
 
-        SceneNameMapper.Instance.Mappings.Add(map.stageId.ToString(), "Scene"); // TODO this name will cause conflicts; how to fix this?
+        SceneNameMapper.Instance.Names.Add(map.stageId.ToString(), $"{AssetNames.SceneBasenamePrefix}{map.internalName}");
+        SceneNameMapper.Instance.Paths.Add(map.stageId.ToString(), $"Assets/{AssetNames.MapDirectory}/{map.internalName}/{AssetNames.SceneBasenamePrefix}{map.internalName}.unity");
     }
 }
 
@@ -83,4 +84,5 @@ public class PluginMapDatabaseEntry : BaseMapDatabaseEntry {
     public Stage stageId;
     public string internalName;
     public string zipPath;
+    public MapProperties Properties;
 }

@@ -6,7 +6,7 @@ namespace MapStation.Common {
 
     public class AssetNames {
         public const string MapDirectory = "Maps";
-        public const string SceneBasename = "Scene";
+        public const string SceneBasenamePrefix = "Scene.";
         public const string PropertiesBasename = "Properties";
         public const string BundlePrefix = "maps/";
         public const string SceneBundleBasename = "scene";
@@ -20,7 +20,7 @@ namespace MapStation.Common {
         }
 
         public static string GetScenePathForMap(string name) {
-            return $"Assets/{MapDirectory}/{name}/{SceneBasename}.unity";
+            return $"Assets/{MapDirectory}/{name}/{SceneBasenamePrefix}{name}.unity";
         }
 
         public static string GetPropertiesPathForMap(string name) {

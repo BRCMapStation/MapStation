@@ -12,20 +12,7 @@ internal static class AssetsPatch {
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Assets.Init))]
     private static void Init_Postfix(Assets __instance) {
-
-        // TEST HACK Register a custom map for testing.
-        // REMOVE THIS once the idea is proven
-        MapDatabase.Instance = new MapDatabase();
-
-        var mapName = BootstrapPatch.mapInternalName;
-        var map = new PluginMapDatabaseEntry() {
-            Name = mapName,
-            internalName = mapName,
-            ScenePath = AssetNames.GetScenePathForMap(mapName),
-            zipPath = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Info.Location), PathConstants.TestMapsDirectory, mapName + PathConstants.MapFileExtension),
-            stageId = StageEnum.ClaimCustomMapId(),
-        };
-        MapDatabase.Instance.Add(map);
+        Plugin.Instance.InitializeMapDatabase();
     }
 
     [HarmonyPostfix]
@@ -90,7 +77,7 @@ internal static class AssetsPatch {
             bundleToLoad.ResetLoadState();
         }
         else {
-            __instance.currentAssetBundleCreateRequest.assetBundle.name = "foobar";
+            __instance.currentAssetBundleCreateRequest.assetBundle.name = bundleToLoad.Name;
             bundleToLoad.SetAssetBundle(__instance.currentAssetBundleCreateRequest.assetBundle);
         }
     }

@@ -9,7 +9,7 @@ public class ASceneSetupInstructionPatch {
     [HarmonyPrefix]
     [HarmonyPatch(nameof(ASceneSetupInstruction.SetSceneActive))]
     protected static void SetSceneActive_Prefix(ref string sceneToSetActive) {
-        if (SceneNameMapper.Instance.Mappings.TryGetValue(sceneToSetActive, out var replacement)) {
+        if (SceneNameMapper.Instance.Names.TryGetValue(sceneToSetActive, out var replacement)) {
             Debug.Log($"{nameof(ASceneSetupInstruction)}.{nameof(ASceneSetupInstruction.SetSceneActive)} redirected from {sceneToSetActive} to {replacement}");
             sceneToSetActive = replacement;
         }

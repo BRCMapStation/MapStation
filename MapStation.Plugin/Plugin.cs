@@ -9,6 +9,8 @@ using System.Linq;
 using MapStation.Common;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using MapStation.Plugin.Patches;
+using System.IO;
 
 namespace MapStation.Plugin
 {
@@ -18,6 +20,7 @@ namespace MapStation.Plugin
         public static ManualLogSource Log = null;
         internal static bool DynamicCameraInstalled = false;
         internal static bool BunchOfEmotesInstalled = false;
+        internal string TestMapsAbsoluteDirectory;
 
         // Hack: we must reference dependent assemblies from a class that's guaranteed to execute or else they don't
         // load and MonoBehaviours are missing.
@@ -46,6 +49,7 @@ namespace MapStation.Plugin
 #if MAPSTATION_DEBUG
             DebugUI.Create(MapStationConfig.Instance.DebugUI.Value);
 #endif
+            TestMapsAbsoluteDirectory = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Info.Location), PathConstants.TestMapsDirectory);
 
             Log = Logger;
             StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;
@@ -54,6 +58,34 @@ namespace MapStation.Plugin
 
             BunchOfEmotesInstalled = Chainloader.PluginInfos.Keys.Contains("com.Dragsun.BunchOfEmotes");
             DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera") || Chainloader.PluginInfos.Keys.Contains("com.Dragsun.Savestate");
+
+            UpdateEvent += LogScenes;
+        }
+
+        public void InitializeMapDatabase() {
+            // Don't run this until after `Assets` have initialized!
+
+            MapDatabase.Instance = new MapDatabase();
+
+            foreach(var file in Directory.GetFiles(TestMapsAbsoluteDirectory)) {
+                if(file.EndsWith(PathConstants.MapFileExtension)) {
+                    var mapName = Path.GetFileNameWithoutExtension(file);
+                    Debug.Log($"Found map {mapName} at {file}");
+                    var properties = new MapProperties();
+                    using(var zip = new MapZip(file)) {
+                        JsonUtility.FromJsonOverwrite(zip.GetPropertiesText(), properties);
+                    }
+                    var map = new PluginMapDatabaseEntry() {
+                        Name = mapName,
+                        internalName = mapName,
+                        Properties = properties,
+                        ScenePath = AssetNames.GetScenePathForMap(mapName),
+                        zipPath = file,
+                        stageId = StageEnum.ClaimCustomMapId(),
+                    };
+                    MapDatabase.Instance.Add(map);
+                }
+            }
         }
 
         private void StageAPI_OnStagePreInitialization(Stage newStage, Stage previousStage) {
@@ -62,6 +94,20 @@ namespace MapStation.Plugin
 
         private void Update() {
             UpdateEvent?.Invoke();
+        }
+
+        private static void LogScenes() {
+            if(Input.GetKeyDown(KeyCode.F6)) {
+                foreach(var scene in SceneManager.GetAllScenes()) {
+                    Debug.Log($"Scene {scene.buildIndex} {scene.name} {scene.path}");
+                }
+                foreach(var bundle in AssetBundle.GetAllLoadedAssetBundles()) {
+                    Debug.Log($"Bundle {bundle.name}");
+                    foreach(var p in bundle.GetAllScenePaths()) {
+                        Debug.Log($"Bundle {bundle.name} has scene {p}");
+                    }
+                }
+            }
         }
 
         public delegate void UpdateDelegate();

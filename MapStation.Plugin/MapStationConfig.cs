@@ -10,8 +10,8 @@ namespace MapStation.Plugin {
         public static MapStationConfig Instance { get; private set; }
 
 #if BEPINEX
-        public ConfigEntry<bool> QuickLaunch;
-        public bool QuickLaunchValue => QuickLaunch.Value;
+        public ConfigEntry<string> QuickLaunch;
+        public string QuickLaunchValue => QuickLaunch.Value;
 
         public ConfigEntry<bool> DisableKBMInput;
         public bool DisableKBMInputValue => DisableKBMInput.Value;
@@ -31,7 +31,7 @@ namespace MapStation.Plugin {
         // Stub everything as disabled, so we don't need as much conditional
         // compilation elsewhere.
 
-        public bool QuickLaunchValue => false;
+        public bool QuickLaunchValue => "";
         public bool DisableKBMInputValue => false;
         public bool DebugUIValue => false;
         public bool ShowRedDebugShapesValue => false;
@@ -49,8 +49,8 @@ namespace MapStation.Plugin {
             QuickLaunch = file.Bind(
                 mappingSection,
                 "QuickLaunch",
-                false,
-                "Skip game intros and menu and launch directly into a map."
+                "",
+                "Skip game intros and menu and launch directly into this map."
             );
             DisableKBMInput = file.Bind(
                 mappingSection,
