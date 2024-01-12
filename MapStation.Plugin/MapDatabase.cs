@@ -3,6 +3,7 @@ using System.Linq;
 using MapStation.Common;
 using Reptile;
 using UnityEngine;
+using System.IO;
 
 namespace MapStation.Plugin;
 
@@ -10,6 +11,27 @@ public class MapDatabase {
     public static MapDatabase Instance;
 
     public Dictionary<string, PluginMapDatabaseEntry> maps = new ();
+
+    public void AddFromDirectory(string path) {
+        var files = Directory.GetFiles(path, "*.brcmap", SearchOption.AllDirectories);
+        foreach(var file in files) {
+            var mapName = Path.GetFileNameWithoutExtension(file);
+            Debug.Log($"Found map {mapName} at {file}");
+            var properties = new MapProperties();
+            using (var zip = new MapZip(file)) {
+                JsonUtility.FromJsonOverwrite(zip.GetPropertiesText(), properties);
+            }
+            var map = new PluginMapDatabaseEntry() {
+                Name = mapName,
+                internalName = mapName,
+                Properties = properties,
+                ScenePath = AssetNames.GetScenePathForMap(mapName),
+                zipPath = file,
+                stageId = StageEnum.HashMapName(mapName)
+            };
+            Add(map);
+        }
+    }
 
     public void Add(PluginMapDatabaseEntry map) {
         maps.Add(map.internalName, map);

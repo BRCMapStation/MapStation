@@ -21,6 +21,7 @@ namespace MapStation.Plugin
         internal static bool DynamicCameraInstalled = false;
         internal static bool BunchOfEmotesInstalled = false;
         internal string TestMapsAbsoluteDirectory;
+        internal string MapDirectory;
 
         // Hack: we must reference dependent assemblies from a class that's guaranteed to execute or else they don't
         // load and MonoBehaviours are missing.
@@ -50,6 +51,7 @@ namespace MapStation.Plugin
             DebugUI.Create(MapStationConfig.Instance.DebugUI.Value);
 #endif
             TestMapsAbsoluteDirectory = Path.Combine(Paths.ConfigPath, PathConstants.ConfigDirectory, PathConstants.TestMapsDirectory);
+            MapDirectory = Paths.PluginPath;
 
             Log = Logger;
             StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;
@@ -74,26 +76,8 @@ namespace MapStation.Plugin
             if(!Directory.Exists(TestMapsAbsoluteDirectory)) {
                 Directory.CreateDirectory(TestMapsAbsoluteDirectory);
             }
-
-            foreach(var file in Directory.GetFiles(TestMapsAbsoluteDirectory)) {
-                if(file.EndsWith(PathConstants.MapFileExtension)) {
-                    var mapName = Path.GetFileNameWithoutExtension(file);
-                    Debug.Log($"Found map {mapName} at {file}");
-                    var properties = new MapProperties();
-                    using(var zip = new MapZip(file)) {
-                        JsonUtility.FromJsonOverwrite(zip.GetPropertiesText(), properties);
-                    }
-                    var map = new PluginMapDatabaseEntry() {
-                        Name = mapName,
-                        internalName = mapName,
-                        Properties = properties,
-                        ScenePath = AssetNames.GetScenePathForMap(mapName),
-                        zipPath = file,
-                        stageId = StageEnum.HashMapName(mapName)
-                    };
-                    MapDatabase.Instance.Add(map);
-                }
-            }
+            MapDatabase.Instance.AddFromDirectory(TestMapsAbsoluteDirectory);
+            MapDatabase.Instance.AddFromDirectory(MapDirectory);
         }
 
         private void StageAPI_OnStagePreInitialization(Stage newStage, Stage previousStage) {
