@@ -50,8 +50,12 @@ public class PluginEditor : MonoBehaviour
     public static Process RebuildPlugin()
     {
         var rootFolder = Path.GetDirectoryName(Directory.GetCurrentDirectory());
-        var initializeScript = Path.Combine(rootFolder, "scripts", "rebuild.ps1");
-        return RunScript(initializeScript);
+        var rebuildScript = Path.Combine(rootFolder, "scripts", "rebuild.ps1");
+        var rebuildProcess = RunScript(rebuildScript);
+        rebuildProcess.WaitForExit();
+        var copyAssetsScript = Path.Combine(rootFolder, "scripts", "copy-assets.ps1");
+        var copyAssetsProcess = RunScript(copyAssetsScript);
+        return copyAssetsProcess;
     }
 
     private static Process RunScript(string script) {
