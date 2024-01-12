@@ -44,13 +44,19 @@ public static class StageEnum {
     }
 
     public static Stage HashMapName(string internalName) {
+
+        // Vanilla BRC enum uses values -1 through 14 (inclusive), 16 distinct values
+        // We reserve another 16 for MapStation internal use
+        // 32 values = 5 bits, 27 bits remaining for map ID hashes
+        // Take first 27 bits of a sha512sum, then use simple addition to shift it outside the reserved range of -1 through 31
+
         // Despite using a cryptographically strong hashing algorithm, this is *not* secure because we are using
         // relatively few bits of the hash.
         var shaM = new SHA512Managed();
         var result = shaM.ComputeHash(Encoding.UTF8.GetBytes(internalName));
         // Get first 27 bits of hash as a number from 0 to 0x1FFFFFFF
         var value = BitConverter.ToUInt32(result, 0); // first 4 bytes to unsigned int
-        value &= 0xFFFFFFF8; // mask off 27 bits
+        value &= 0xFFFFFFE0; // mask off 27 bits
         value >>= 3; // shift right 3 bits to make it start at 0
         return (Stage)((uint)FirstMapId + value);
     }
