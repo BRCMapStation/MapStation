@@ -9,6 +9,7 @@ using static UnityEngine.GUILayout;
 using static UnityEngine.GUI;
 using static cspotcode.UnityGUI.GUIUtil;
 using System.Runtime.InteropServices;
+using System;
 
 public class PreferencesWindow : EditorWindow {
     const string WindowLabel = "Preferences";
@@ -77,7 +78,20 @@ public class PreferencesEditor : Editor {
                     using(ApplyIndent()) if(Button("Auto-detect")) {
                         // Remove user input focus so that assigned value appears immediately
                         FocusControl(null);
-                        genPref.stringValue = PathConstants.AbsoluteTestMapsDirectoryFromBepInExProfile(PathDetection.GetBepInExProfileInRegistry());
+                        var BepInExProfileDirectory = PathDetection.GetBepInExProfileInRegistry();
+                        if(BepInExProfileDirectory == null || BepInExProfileDirectory == "") {
+                            var title = "Cannot detect path to your BepInEx profile";
+                            EditorUtility.DisplayDialog(
+                                title,
+                                "Unable to detect path to your BepInEx profile.\n" +
+                                "\n" +
+                                "Have you launched BRC with the MapStation plugin yet?\n" +
+                                "Try installing the plugin and launching modded BRC first, then detect again.",
+                                "Ok",
+                                null);
+                            throw new Exception(title);
+                        }
+                        genPref.stringValue = PathConstants.AbsoluteTestMapsDirectoryFromBepInExProfile(BepInExProfileDirectory);
                     }
                     break;
 
