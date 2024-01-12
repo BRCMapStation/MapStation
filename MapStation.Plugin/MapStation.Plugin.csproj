@@ -53,5 +53,7 @@
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetDir)/MapStation.Plugin.dll&quot;" />
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(Pdb2MdbPath) &quot;$(TargetPath)&quot;" />
     <Exec Command="xcopy /q/y/i &quot;$(TargetDir)&quot; &quot;$(BepInExDirectory)\plugins\MapStation&quot; /E /H /C" />
+    <Exec Command="copy &quot;$(UnityEditorPath)\Data\MonoBleedingEdge\lib\mono\unityjit-win32\System.IO.Compression.dll&quot; &quot;$(BepInExDirectory)\plugins\MapStation&quot;" />
+    <Exec Command="copy &quot;$(UnityEditorPath)\Data\MonoBleedingEdge\lib\mono\unityjit-win32\System.IO.Compression.Filesystem.dll&quot; &quot;$(BepInExDirectory)\plugins\MapStation&quot;" />
   </Target>
 </Project>
