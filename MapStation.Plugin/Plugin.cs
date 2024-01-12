@@ -59,6 +59,10 @@ namespace MapStation.Plugin
             BunchOfEmotesInstalled = Chainloader.PluginInfos.Keys.Contains("com.Dragsun.BunchOfEmotes");
             DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera") || Chainloader.PluginInfos.Keys.Contains("com.Dragsun.Savestate");
 
+            // Save paths to BepInExProfile and BRC installation to registry, for Editor to reference
+            PathDetection.SetBepInExProfileInRegistry(BepInEx.Paths.BepInExRootPath);
+            PathDetection.SetBRCPathInRegistry(Path.GetDirectoryName(Application.dataPath));
+
             UpdateEvent += LogScenes;
         }
 

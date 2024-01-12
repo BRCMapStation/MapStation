@@ -6,7 +6,7 @@ using UnityEngine;
 /// map plays.
 [FilePath("Assets/BRCMapToolkitPreferences.asset", FilePathAttribute.Location.ProjectFolder)]
 public class Preferences : ScriptableSingleton<Preferences> { 
-    public GeneralPreferences general = new(); 
+    public GeneralPreferences general = new();
     public GrindEditingPreferences grinds = new();
 
     private void OnEnable() {

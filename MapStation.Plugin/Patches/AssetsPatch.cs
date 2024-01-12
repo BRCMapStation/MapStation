@@ -54,17 +54,11 @@ internal static class AssetsPatch {
         Debug.Log($"{nameof(Assets)}.{nameof(Assets.LoadBundleASync)} loading {bundleToLoad.Name} from zip {zipAssetBundle.zipPath}");
         byte[] data;
         using(var zip = new MapZip(zipAssetBundle.zipPath)) {
-            Stream stream = null;
-            switch(zipAssetBundle.bundleType) {
-                case ZipBundleType.SCENE:
-                    stream = zip.GetSceneBundleStream();
-                    break;
-                case ZipBundleType.ASSETS:
-                    stream = zip.GetAssetsBundleStream();
-                    break;
-                default:
-                    throw new System.Exception($"Unexpected {nameof(ZipBundleType)} {zipAssetBundle.bundleType.ToString()}");
-            }
+            Stream stream = zipAssetBundle.bundleType switch {
+                ZipBundleType.SCENE => zip.GetSceneBundleStream(),
+                ZipBundleType.ASSETS => stream = zip.GetAssetsBundleStream(),
+                _ => throw new System.Exception($"Unexpected {nameof(ZipBundleType)} {zipAssetBundle.bundleType.ToString()}")
+            };
             using (stream)
             using (var ms = new MemoryStream()) {
                 stream.CopyTo(ms);

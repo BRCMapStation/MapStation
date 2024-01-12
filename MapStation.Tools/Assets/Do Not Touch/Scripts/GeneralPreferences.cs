@@ -5,10 +5,6 @@ using UnityEngine;
 /// map plays.
 [Serializable]
 public class GeneralPreferences {
-
-    // TODO rethink this.
-    // Do we continue relying on BepInEx environment variable?
-    // Do we let mappers set this path via UI?
-    [NonSerialized]
-    public string mapDirectory;
+    [TextArea(1, 3)]
+    public string testMapDirectory;
 }

@@ -99,6 +99,8 @@ public class HelpDrawer : DecoratorDrawer
         var helpPos = position;
 
         helpPos.height -= marginHeight;
+        helpPos.x += (EditorGUI.indentLevel + 1) * 15;
+        helpPos.width -= (EditorGUI.indentLevel + 1) * 15;
 
         // Renders the HelpBox in the Unity inspector UI.
         EditorGUI.HelpBox(helpPos, helpAttribute.text, helpAttribute.type);

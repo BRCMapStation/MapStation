@@ -5,6 +5,8 @@ using Object = UnityEngine.Object;
 using UnityEngine;
 using UnityEditor.Experimental;
 
+// TODO delete this file, can't remember why I kept it
+
 /// <summary>
 /// Logic to build BRC maps, separated from the UI / Inspectors / windows.
 /// </summary>
@@ -47,9 +49,9 @@ public class BRCMapBuilder {
                 // file.Delete();
             }
             AssetDatabase.Refresh();
-            if(Preferences.instance.general.mapDirectory != "") {
+            if(Preferences.instance.general.testMapDirectory != "") {
                 foreach (var file in d.GetFiles("*.sup")) {
-                    file.CopyTo(Path.Join(Preferences.instance.general.mapDirectory, file.Name), true);
+                    file.CopyTo(Path.Join(Preferences.instance.general.testMapDirectory, file.Name), true);
                 }
             }
             Debug.Log("<b>✔️ SUCCESSFULLY BUILT BRC MAP FILE. WOOHOO!!!! ✔️</b>");

@@ -1,7 +1,13 @@
+using System.IO;
+
 namespace MapStation.Common {
     public class PathConstants {
         public const string MapFileExtension = ".brcmap";
+        public const string ConfigDirectory = "MapStation";
         public const string TestMapsDirectory = "TestMaps";
+        public static string AbsoluteTestMapsDirectoryFromBepInExProfile(string BepInExProfileDirectory) {
+            return Path.Combine(BepInExProfileDirectory, "Config", ConfigDirectory, TestMapsDirectory);
+        }
     }
 
     public class AssetNames {
