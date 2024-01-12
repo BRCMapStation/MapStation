@@ -11,6 +11,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Collections;
+using MapStation.Plugin.Phone;
+using CommonAPI.Phone;
 
 namespace MapStation.Plugin
 {
@@ -54,7 +56,7 @@ namespace MapStation.Plugin
             MapDirectory = Paths.PluginPath;
 
             Log = Logger;
-            StageAPI.OnStagePreInitialization += StageAPI_OnStagePreInitialization;
+            PhoneAPI.RegisterApp<AppMapStation>("mapstation");
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
 
@@ -78,10 +80,6 @@ namespace MapStation.Plugin
             }
             MapDatabase.Instance.AddFromDirectory(TestMapsAbsoluteDirectory);
             MapDatabase.Instance.AddFromDirectory(MapDirectory);
-        }
-
-        private void StageAPI_OnStagePreInitialization(Stage newStage, Stage previousStage) {
-
         }
 
         private void Update() {
