@@ -14,9 +14,6 @@ namespace MapStation.Plugin.Patches;
 
 [HarmonyPatch(typeof(Bootstrap))]
 internal static class BootstrapPatch {
-    // HACK hardcoded for testing, remove this
-    public const string mapInternalName = "cspotcode.deatheggzone";
-
     [HarmonyPrefix]
     [HarmonyPatch(nameof(Bootstrap.LaunchGame))]
     private static bool LaunchGame_Prefix(Bootstrap __instance) {

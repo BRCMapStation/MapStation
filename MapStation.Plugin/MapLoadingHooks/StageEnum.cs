@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using Reptile;
 
 namespace MapStation.Plugin;
@@ -11,18 +14,18 @@ public static class StageEnum {
 
     // "Bundled maps" are not the vanilla BRC maps, they're ones we ship with mapstation, for example the subway
     // station.
-    // Named "bundled" instead of "internal" to avoid confusion with internal names
+    // Named "bundled" instead of "internal" to avoid confusion with internal names.
 
-    public const Stage FirstBundledMapId = (Stage)900;
+    public const Stage FirstBundledMapId = (Stage)15;
     public const string BundledMapNamePrefix = "mapstation_bundled/";
     public const int BundledMapNamePrefixLength = 19;
 
     // "Maps" are any custom maps
-    public const Stage FirstMapId = (Stage)1000;
+    public const Stage FirstMapId = (Stage)31;
     public const string MapNamePrefix = "mapstation/";
     public const int MapNamePrefixLength = 11;
 
-    private static Stage NextMapId = FirstMapId;
+    public const Stage FirstVanillaStage = Stage.NONE;
 
     static StageEnum() {
         if(BundledMapNamePrefix.Length != BundledMapNamePrefixLength) {
@@ -33,10 +36,6 @@ public static class StageEnum {
         }
     }
 
-    public static Stage ClaimCustomMapId() {
-        return NextMapId++;
-    }
-
     public static string GetMapName(Stage id) {
         return MapNames[id];
     }
@@ -44,17 +43,37 @@ public static class StageEnum {
         return MapIds[internalName];
     }
 
+    public static Stage HashMapName(string internalName) {
+        // Despite using a cryptographically strong hashing algorithm, this is *not* secure because we are using
+        // relatively few bits of the hash.
+        var shaM = new SHA512Managed();
+        var result = shaM.ComputeHash(Encoding.UTF8.GetBytes(internalName));
+        // Get first 27 bits of hash as a number from 0 to 0x1FFFFFFF
+        var value = BitConverter.ToUInt32(result, 0); // first 4 bytes to unsigned int
+        value &= 0xFFFFFFF8; // mask off 27 bits
+        value >>= 3; // shift right 3 bits to make it start at 0
+        return (Stage)((uint)FirstMapId + value);
+    }
+
+    public static Stage AddMapName(string internalName) {
+        var id = HashMapName(internalName);
+        AddMapName(id, internalName);
+        return id;
+    }
+
     public static void AddMapName(Stage id, string internalName) {
         MapNames.Add(id, internalName);
         MapIds.Add(internalName, id);
     }
-    public static void RemoveMapName(Stage id, string internalName) {
-        MapNames.Remove(id);
+    public static void RemoveMapName(string internalName) {
+        MapNames.Remove(MapIds[internalName]);
         MapIds.Remove(internalName);
     }
 
     public static bool IsValidMapId(Stage id) {
-        return id >= FirstMapId;
+        // Stage is a signed int, so a custom map might be a positive number higher than all the vanilla and reserved/bundled IDs,
+        // or a negative number below all the vanilla IDs.
+        return id >= FirstMapId || id < FirstVanillaStage;
     }
 
     public static bool IsKnownMapId(Stage id) {

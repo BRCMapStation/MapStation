@@ -67,6 +67,10 @@ namespace MapStation.Plugin
 
             MapDatabase.Instance = new MapDatabase();
 
+            if(!Directory.Exists(TestMapsAbsoluteDirectory)) {
+                Directory.CreateDirectory(TestMapsAbsoluteDirectory);
+            }
+
             foreach(var file in Directory.GetFiles(TestMapsAbsoluteDirectory)) {
                 if(file.EndsWith(PathConstants.MapFileExtension)) {
                     var mapName = Path.GetFileNameWithoutExtension(file);
@@ -81,7 +85,7 @@ namespace MapStation.Plugin
                         Properties = properties,
                         ScenePath = AssetNames.GetScenePathForMap(mapName),
                         zipPath = file,
-                        stageId = StageEnum.ClaimCustomMapId(),
+                        stageId = StageEnum.AddMapName(mapName)
                     };
                     MapDatabase.Instance.Add(map);
                 }

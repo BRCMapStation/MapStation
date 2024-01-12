@@ -4,6 +4,7 @@ using HarmonyLib;
 using Reptile;
 using UnityEngine;
 using MapStation.Common;
+using Debug = UnityEngine.Debug;
 
 namespace MapStation.Plugin.Patches;
 
