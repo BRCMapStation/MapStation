@@ -20,7 +20,7 @@ namespace MapStation.Plugin.Phone {
             ScrollView.RemoveAllButtons(true);
             var stages = MapDatabase.Instance.maps.Values;
             foreach(var stage in stages) {
-                var button = PhoneUIUtility.CreateSimpleButton(stage.Name);
+                var button = PhoneUIUtility.CreateSimpleButton(stage.Properties.displayName);
                 button.OnConfirm += () => {
                     Core.Instance.BaseModule.StageManager.ExitCurrentStage(stage.stageId);
                 };
