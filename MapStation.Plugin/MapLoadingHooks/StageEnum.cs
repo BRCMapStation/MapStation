@@ -54,11 +54,11 @@ public static class StageEnum {
         // relatively few bits of the hash.
         var shaM = new SHA512Managed();
         var result = shaM.ComputeHash(Encoding.UTF8.GetBytes(internalName));
-        // Get first 27 bits of hash as a number from 0 to 0x1FFFFFFF
+        // Get first 27 bits of hash as a number from 0 to 0x07FFFFFF
         var value = BitConverter.ToUInt32(result, 0); // first 4 bytes to unsigned int
-        value &= 0xFFFFFFE0; // mask off 27 bits
-        value >>= 3; // shift right 3 bits to make it start at 0
-        return (Stage)((uint)FirstMapId + value);
+        value &= 0xFFFFFFE0; // mask off first 27 bits
+        value >>= 5; // shift right to make it start at 0
+        return (Stage)((int)FirstMapId + value);
     }
 
     public static Stage AddMapName(string internalName) {
