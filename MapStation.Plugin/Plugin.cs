@@ -89,7 +89,7 @@ namespace MapStation.Plugin
                         Properties = properties,
                         ScenePath = AssetNames.GetScenePathForMap(mapName),
                         zipPath = file,
-                        stageId = StageEnum.AddMapName(mapName)
+                        stageId = StageEnum.HashMapName(mapName)
                     };
                     MapDatabase.Instance.Add(map);
                 }

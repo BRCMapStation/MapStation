@@ -47,19 +47,21 @@ public class MapBuilder {
         WriteMapProperties(mapOutputs);
         WriteMapZips(mapOutputs, compressed);
         CleanUpOutputDirectoryPostBuild(OutputDirectory);
-        CopyToBepInExPluginsFolder(mapOutputs, BuildConstants.PluginName);
+        CopyToTestMapsDirectory(mapOutputs, BuildConstants.PluginName);
         UnityEngine.Debug.Log("Done building assets!");
     }
 
-    private static void CopyToBepInExPluginsFolder(MapBuildOutputs[] mapOutputs, string pluginName) {
-        var bepinexDirectory = Environment.GetEnvironmentVariable("BepInExDirectory", EnvironmentVariableTarget.User);
-        if (bepinexDirectory == null)
-            bepinexDirectory = Environment.GetEnvironmentVariable("BepInExDirectory", EnvironmentVariableTarget.Machine);
-        if (bepinexDirectory == null) {
-            UnityEngine.Debug.LogWarning($"Please set your BepInExDirectory Environment variable on your system to your BepInEx path for the asset bundles to be automatically copied to the plugin folder.");
-            return;
+    private static void CopyToTestMapsDirectory(MapBuildOutputs[] mapOutputs, string pluginName) {
+        var outDirPath = Preferences.instance.general.testMapDirectory;
+        if(outDirPath == null || outDirPath == "") {
+            PreferencesWindow.ShowWindow();
+            EditorUtility.DisplayDialog(
+                "Test Maps Directory not set",
+                "Please set Test Map Directory in Preferences. Maps will be copied here when built.",
+                "Ok", null);
+                throw new Exception("Build aborted");
         }
-        var outDirPath = Path.Combine(bepinexDirectory, "plugins", pluginName, PathConstants.TestMapsDirectory);
+
         Directory.CreateDirectory(outDirPath);
 
         foreach(var map in mapOutputs) {
