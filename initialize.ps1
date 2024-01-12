@@ -93,4 +93,8 @@ cd scripts
 
 ./rebuild.ps1
 
+cd scripts
+
+./copy-assets.ps1
+
 read-host �Press ENTER to continue�
