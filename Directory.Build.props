@@ -1,6 +1,9 @@
 <Project>
   <PropertyGroup>
-    <UnityEditorPath>C:\Program Files\Unity\Hub\Editor\2021.3.27f1\Editor</UnityEditorPath>
+    <!--
+      MapStation.Editor project automatically writes `EditorApplication.applicationContentsPath` into Windows Registry
+    -->
+    <UnityEditorDataDir>$(registry:HKEY_CURRENT_USER\Software\BRCMapStation\MapStation@UnityEditorDataDir)</UnityEditorDataDir>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">

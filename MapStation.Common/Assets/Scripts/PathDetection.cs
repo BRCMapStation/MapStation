@@ -14,6 +14,10 @@ namespace MapStation.Common {
 
         // Example: C:\Program Files (x86)\Steam\steamapps\common\BombRushCyberfunk
         public const string RegistryValueBRCPath = "BRCPath";
+
+        // Equal to EditorApplication.applicationContentsPath
+        // Example: C:\Program Files\Unity\Hub\Editor\2021.3.27f1\Editor\Data
+        public const string RegistryValueUnityEditorDataDir = "UnityEditorDataDir";
         
         public static string GetBepInExProfileInRegistry() {
             return Registry.GetValue(RegistryKey, RegistryValueBepInExProfile, "") as string;
@@ -30,5 +34,20 @@ namespace MapStation.Common {
         public static void SetBRCPathInRegistry(string path) {
             Registry.SetValue(RegistryKey, RegistryValueBRCPath, path);
         }
+
+        public static string GetUnityEditorDataDirInRegistry() {
+            return Registry.GetValue(RegistryKey, RegistryValueUnityEditorDataDir, "") as string;
+        }
+
+        public static void SetUnityEditorDataDirInRegistry(string path) {
+            Registry.SetValue(RegistryKey, RegistryValueUnityEditorDataDir, path);
+        }
+
+#if UNITY_EDITOR
+        [InitializeOnLoadMethod]
+        private static void WriteEditorPath() {
+            SetUnityEditorDataDirInRegistry(EditorApplication.applicationContentsPath);
+        }
+#endif
     }
 }
