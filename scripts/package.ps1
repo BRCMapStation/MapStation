@@ -25,10 +25,13 @@ if(0 + $(npm --version).Split('.')[0] -lt 10) {
 Set globals
 #>
 
+$RegistryRepo = 'https://github.com/BRCMapStation/PackageRegistry'
 if($LocalRegistry) {
     $PackageRegistryDir = 'Build/PackageRegistry.Local'
+    $PackageRegistryUrl = 'http://localhost:8000'
 } else {
     $PackageRegistryDir = 'Build/PackageRegistry.Publish'
+    $PackageRegistryUrl = 'https://brcmapstation.github.io/PackageRegistry'
 }
 if($Release) {
     $Configuration='Release'
@@ -110,6 +113,10 @@ function CreateEditorZip() {
     $zip.Dispose()
 }
 
+function ClonePackageRegistry() {
+    git clone $RegistryRepo 'Build/PackageRegistry.Publish'
+}
+
 function CreatePackageTarballs() {
     Push-Location MapStation.Common
     $dest = "../$PackageRegistryDir/tarballs/com.brcmapstation.common/-"
@@ -137,12 +144,6 @@ function WritePackageRegistryJson() {
             }
         }
 
-        if($LocalRegistry) {
-            $urlPrefix = 'http://localhost:8000'
-        } else {
-            $urlPrefix = 'https://brcmapstation.github.io/registry'
-        }
-
         $latestVersion = ($versions | ForEach-Object {
             new-object system.version $version
         } | sort-object -descending)[0].ToString()
@@ -163,7 +164,7 @@ function WritePackageRegistryJson() {
                 description = "Mapping tools for Bomb Rush Cyberfunk"
                 dist = @{
                     shasum = $( Get-FileHash -Algorithm Sha1 -Path "$PackageRegistryDir/tarballs/$packageName/-/$packageName-$version.tgz" ).Hash
-                    tarball = "$urlPrefix/tarballs/$packageName/-/$packageName-$version.tgz"
+                    tarball = "$PackageRegistryUrl/tarballs/$packageName/-/$packageName-$version.tgz"
                 }
             }
         }
@@ -190,6 +191,9 @@ try {
 
     if($Release -or $Clean) {
         Clean
+    }
+    if($Release) {
+        ClonePackageRegistry
     }
     dotnet build -c $Configuration
     CreatePluginZip
