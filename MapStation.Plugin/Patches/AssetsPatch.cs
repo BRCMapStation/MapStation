@@ -13,7 +13,7 @@ internal static class AssetsPatch {
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Assets.Init))]
     private static void Init_Postfix(Assets __instance) {
-        Plugin.Instance.InitializeMapDatabase();
+        Plugin.Instance.InitializeMapDatabase(__instance);
     }
 
     [HarmonyPostfix]

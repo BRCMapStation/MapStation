@@ -9,8 +9,13 @@ namespace MapStation.Plugin;
 
 public class MapDatabase {
     public static MapDatabase Instance;
+    public Assets Assets;
 
     public Dictionary<string, PluginMapDatabaseEntry> maps = new ();
+
+    public MapDatabase(Assets assets) {
+        Assets = assets;
+    }
 
     public void AddFromDirectory(string path) {
         var files = Directory.GetFiles(path, "*.brcmap", SearchOption.AllDirectories);
@@ -36,9 +41,8 @@ public class MapDatabase {
     public void Add(PluginMapDatabaseEntry map) {
         maps.Add(map.internalName, map);
         StageEnum.AddMapName(map.stageId, map.internalName);
-        var assets = Core.Instance.Assets;
 
-        var collections = assets.assetBundleLibrary.collections.ToList();
+        var collections = Assets.assetBundleLibrary.collections.ToList();
         var collection = ScriptableObject.CreateInstance<AssetBundleCollection>();
         collection.assetBundleCollectionName = map.stageId.ToString();
         // This list was copied from hideout, hopefully we don't need all of these?
@@ -66,10 +70,10 @@ public class MapDatabase {
             map.SceneBundleName
         };
         collections.Add(collection);
-        assets.assetBundleLibrary.collections = collections.ToArray();
+        Assets.assetBundleLibrary.collections = collections.ToArray();
 
         foreach (var bundle in new[] {map.AssetsBundleName, map.SceneBundleName}) {
-            assets.availableBundles.Add(bundle, new Bundle(bundle) {
+            Assets.availableBundles.Add(bundle, new Bundle(bundle) {
                 name = bundle
             });
         }

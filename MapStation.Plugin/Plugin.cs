@@ -67,10 +67,10 @@ namespace MapStation.Plugin
             UpdateEvent += LogScenes;
         }
 
-        public void InitializeMapDatabase() {
+        public void InitializeMapDatabase(Assets assets) {
             // Don't run this until after `Assets` have initialized!
 
-            MapDatabase.Instance = new MapDatabase();
+            MapDatabase.Instance = new MapDatabase(assets);
 
             if(!Directory.Exists(TestMapsAbsoluteDirectory)) {
                 Directory.CreateDirectory(TestMapsAbsoluteDirectory);
