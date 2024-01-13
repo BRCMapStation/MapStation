@@ -32,5 +32,9 @@ namespace MapStation.Plugin.API {
                 return new CustomStage(result);
             return null;
         }
+
+        public int GetStageID(string stageInternalName) {
+            return (int)StageEnum.HashMapName(stageInternalName);
+        }
     }
 }

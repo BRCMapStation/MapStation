@@ -12,5 +12,9 @@ namespace MapStation.API {
         /// Retrieves a custom stage by its ID. Returns null if not a valid ID for a custom stage.
         /// </summary>
         public ICustomStage GetCustomStageByID(int stageID);
+        /// <summary>
+        /// Retrieves the Stage ID for a custom map's internal name.
+        /// </summary>
+        public int GetStageID(string stageInternalName);
     }
 }
