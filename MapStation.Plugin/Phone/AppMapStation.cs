@@ -16,7 +16,6 @@ namespace MapStation.Plugin.Phone {
 
         public override void OnAppEnable() {
             base.OnAppEnable();
-            UnityEngine.Debug.Log("APP ENABLED");
             ScrollView.RemoveAllButtons(true);
             var stages = MapDatabase.Instance.maps.Values;
             foreach(var stage in stages) {
