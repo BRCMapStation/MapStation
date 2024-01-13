@@ -30,24 +30,20 @@ public class StripComponentsFromAssetBundleScene : IProcessSceneWithReport {
         Stopwatch sw = new Stopwatch();
         sw.Start();
 
+        var types = TypeCache.GetTypesWithAttribute<StripFromAssetBundleSceneAttribute>().ToList();
 
-        // Discover every class annotated to be stripped when scene is bundled
-        // IEnumerable<Type> acc = null;
-        // Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-        // foreach (var assembly in assemblies)
-        // {
-        //     var types = assembly.GetTypes().Where(
-        //         t => t.IsDefined(typeof(StripFromAssetBundleSceneAttribute))
-        //     );
-        //     acc = acc == null ? types : acc.Concat(types);
-        // }
+        // HACK reorder types based on [RequireComponent()] dependencies.
+        // Unity forbids removing a component if a peer requires it, so we have
+        // to delete dependencies *last*.
+        // Instead of writing some algorithm to figure this out, I'm hardcoding it here.
+        if(types.Contains(typeof(BezierSpline))) {
+            types.Remove(typeof(BezierSpline));
+            types.Add(typeof(BezierSpline));
+        }
 
-        // types = acc.ToArray();
-
-        types = TypeCache.GetTypesWithAttribute<StripFromAssetBundleSceneAttribute>().ToArray();
+        this.types = types.ToArray();
 
         sw.Stop();
-
         // If this gets slow, it will affect every domain reload.
         // Debug.Log(sw.Elapsed);
     }
