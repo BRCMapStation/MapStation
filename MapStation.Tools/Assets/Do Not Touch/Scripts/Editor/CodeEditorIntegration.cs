@@ -1,3 +1,4 @@
+#if MAPSTATION_DEBUG
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -19,11 +20,21 @@ static class VisualStudioEditorPatch {
 
     [InitializeOnLoadMethod]
     private static void ApplyPatch() {
-        var path = Path.Join(Path.GetDirectoryName(Application.dataPath), "Library/PackageCache/com.unity.ide.visualstudio@2.0.22/Editor/VisualStudioEditor.cs");
-        var contents = File.ReadAllText(path);
-        if(contents.Contains(FindInVisualStudioEditorCs)) {
-            contents = contents.Replace(FindInVisualStudioEditorCs, ReplaceInVisualStudioEditorCs);
-            File.WriteAllText(path, contents);
+        foreach(var pkg in UnityEditor.PackageManager.PackageInfo.GetAllRegisteredPackages()) {  
+            if(pkg.name == "com.unity.ide.visualstudio") {
+                var path = Path.Join(Path.Join(Path.GetDirectoryName(Application.dataPath), "Library/PackageCache", pkg.packageId), "Editor/VisualStudioEditor.cs");
+                try {
+                    var contents = File.ReadAllText(path);
+                    if(contents.Contains(FindInVisualStudioEditorCs)) {
+                        contents = contents.Replace(FindInVisualStudioEditorCs, ReplaceInVisualStudioEditorCs);
+                        File.WriteAllText(path, contents);
+                    }
+                } catch {
+                    // Don't surface errors to the user, it's confusing, and this
+                    // code is mostly a hack for MapStation devs anyway.
+                }
+                return;
+            }
         }
     }
 }
@@ -52,3 +63,4 @@ public class GenerateFixedCsProjs : AssetPostprocessor
         return contents;
     }
 }
+#endif
