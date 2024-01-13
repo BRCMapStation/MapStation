@@ -55,6 +55,7 @@ namespace MapStation.Plugin
             StageProgresses.Instance = new StageProgresses();
 #if MAPSTATION_DEBUG
             DebugUI.Create(MapStationConfig.Instance.DebugUI.Value);
+            new BackToHideoutDebugUI().Register(DebugUI.Instance);
 #endif
             MapStationMapsAbsoluteDirectory = Path.GetDirectoryName(Info.Location);
             TestMapsAbsoluteDirectory = Path.Combine(Paths.ConfigPath, PathConstants.ConfigDirectory, PathConstants.TestMapsDirectory);
@@ -139,9 +140,12 @@ namespace MapStation.Plugin
         public delegate void UpdateDelegate();
         public static UpdateDelegate UpdateEvent;
 
+        public static bool CanSwitchStagesWithoutCrashing() {
+            return Core.Instance != null && Core.Instance.BaseModule.IsPlayingInStage && !Core.Instance.BaseModule.IsLoading && !Core.Instance.BaseModule.IsInGamePaused;
+        }
         private static void QuickReloadUpdate() {
             // Only allow if the game is currently in a stage
-            if(Core.Instance != null && Core.Instance.BaseModule.IsPlayingInStage && !Core.Instance.BaseModule.IsLoading && !Core.Instance.BaseModule.IsInGamePaused) {
+            if(CanSwitchStagesWithoutCrashing()) {
                 if(Input.GetKeyDown(KeyCode.F5)) {
                     GameObject.FindFirstObjectByType<Bootstrap>().StartCoroutine(QuickReloadSwitchStage());
                 }
