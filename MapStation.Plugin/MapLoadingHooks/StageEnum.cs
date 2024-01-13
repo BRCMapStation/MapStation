@@ -43,6 +43,16 @@ public static class StageEnum {
         return MapIds[internalName];
     }
 
+    /// <summary>
+    /// Removes the mapstation prefix from a stage internal name if it has one. Otherwise returns the string unchanged.
+    /// </summary>
+    public static string RemovePrefixFromInternalName(string prefixedInternalName) {
+        var slashIndex = prefixedInternalName.IndexOf("/");
+        if (slashIndex < 0)
+            return prefixedInternalName;
+        return prefixedInternalName.Substring(slashIndex + 1);
+    }
+
     public static Stage HashMapName(string internalName) {
 
         // Vanilla BRC enum uses values -1 through 14 (inclusive), 16 distinct values
