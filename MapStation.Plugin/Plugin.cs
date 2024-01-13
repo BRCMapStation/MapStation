@@ -13,6 +13,8 @@ using System.IO;
 using System.Collections;
 using MapStation.Plugin.Phone;
 using CommonAPI.Phone;
+using MapStation.API;
+using MapStation.Plugin.API;
 
 namespace MapStation.Plugin
 {
@@ -20,8 +22,6 @@ namespace MapStation.Plugin
     public class Plugin : BaseUnityPlugin {
         public static Plugin Instance;
         public static ManualLogSource Log = null;
-        internal static bool DynamicCameraInstalled = false;
-        internal static bool BunchOfEmotesInstalled = false;
         internal string TestMapsAbsoluteDirectory;
         internal string MapDirectory;
 
@@ -60,9 +60,6 @@ namespace MapStation.Plugin
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
 
-            BunchOfEmotesInstalled = Chainloader.PluginInfos.Keys.Contains("com.Dragsun.BunchOfEmotes");
-            DynamicCameraInstalled = Chainloader.PluginInfos.Keys.Contains("DynamicCamera") || Chainloader.PluginInfos.Keys.Contains("com.Dragsun.Savestate");
-
             // Save paths to BepInExProfile and BRC installation to registry, for Editor to reference
             PathDetection.SetBepInExProfileInRegistry(BepInEx.Paths.BepInExRootPath);
             PathDetection.SetBRCPathInRegistry(Path.GetDirectoryName(Application.dataPath));
@@ -80,6 +77,9 @@ namespace MapStation.Plugin
             }
             MapDatabase.Instance.AddFromDirectory(TestMapsAbsoluteDirectory);
             MapDatabase.Instance.AddFromDirectory(MapDirectory);
+
+            var api = new MapStationAPI(MapDatabase.Instance);
+            APIManager.Initialize(api);
         }
 
         private void Update() {
