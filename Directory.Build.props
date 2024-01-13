@@ -4,6 +4,11 @@
       MapStation.Editor project automatically writes `EditorApplication.applicationContentsPath` into Windows Registry
     -->
     <UnityEditorDataDir>$(registry:HKEY_CURRENT_USER\Software\BRCMapStation\MapStation@UnityEditorDataDir)</UnityEditorDataDir>
+    <!--
+      Build scripts copy all plugin files to this local directory, then copy the whole thing into BepInEx plugins directory
+      We can also zip this for ThunderStore.
+    -->
+    <LocalPluginBuild>$(SolutionDir)/Build/MapStation.Plugin.$(Configuration)</LocalPluginBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
