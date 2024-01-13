@@ -40,7 +40,7 @@ namespace MapStation.Tools {
                             {
                                 // Additionally, if the scene doesn't have the right prefix, add it.
                                 if(toSceneNamePrefix == "") {
-                                    AssetDatabase.RenameAsset(movedAsset, $"Scene-{toSceneName}.unity");
+                                    AssetDatabase.RenameAsset(movedAsset, $"{AssetNames.SceneBasenamePrefix}{toSceneName}.unity");
                                 }
                                 Debug.Log(AssetDatabase.MoveAsset($"Assets/Maps/{fromDirectory}", $"Assets/Maps/{toSceneName}"));
                             }
@@ -51,7 +51,7 @@ namespace MapStation.Tools {
                                 "Map's Scene and folder names must match.",
                                 "Yes", "No"))
                             {
-                                Debug.Log(AssetDatabase.RenameAsset(movedAsset, $"Scene-{toDirectory}.unity"));
+                                Debug.Log(AssetDatabase.RenameAsset(movedAsset, $"{AssetNames.SceneBasenamePrefix}{toDirectory}.unity"));
                             }
                         }
                     }
