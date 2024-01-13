@@ -8,8 +8,8 @@ class TextMeshProGameTextLocalizerPatch {
     [HarmonyPrefix]
     [HarmonyPatch(nameof(TextMeshProGameTextLocalizer.GetStageNameKey))]
     private static bool GetStageNameKey_Prefix(TextMeshProGameTextLocalizer __instance, Stage stageID, ref string __result) {
-        if(StageEnum.IsValidMapId(stageID) || StageEnum.IsValidBundledMapId(stageID)) {
-            __result = __instance.GetStageNameKey(Stage.hideout);
+        if (MapDatabase.Instance.maps.TryGetValue(stageID, out var map)) {
+            __result = map.Properties.displayName;
             return false;
         }
         return true;
