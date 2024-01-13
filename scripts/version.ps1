@@ -22,7 +22,7 @@ Set-Location $PSScriptRoot/..
 try {
 
     # Abort if git shows uncommitted changes
-    if("" -ne $(git status --untracked-files=no --porcelain=v1)) {
+    if($Null -ne $(git status --untracked-files=no --porcelain=v1)) {
         Write-Error "Git status shows modified files. This script cannot commit a new version while there are uncommitted, modified files."
     }
 
