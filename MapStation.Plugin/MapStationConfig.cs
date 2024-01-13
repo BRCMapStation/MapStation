@@ -13,6 +13,9 @@ namespace MapStation.Plugin {
         public ConfigEntry<string> QuickLaunch;
         public string QuickLaunchValue => QuickLaunch.Value;
 
+        public ConfigEntry<bool> QuickReload;
+        public bool QuickReloadValue => QuickReload.Value;
+
         public ConfigEntry<bool> DisableKBMInput;
         public bool DisableKBMInputValue => DisableKBMInput.Value;
 
@@ -32,6 +35,7 @@ namespace MapStation.Plugin {
         // compilation elsewhere.
 
         public bool QuickLaunchValue => "";
+        public bool QuickReloadValue => true;
         public bool DisableKBMInputValue => false;
         public bool DebugUIValue => false;
         public bool ShowRedDebugShapesValue => false;
@@ -51,6 +55,12 @@ namespace MapStation.Plugin {
                 "QuickLaunch",
                 "",
                 "Skip game intros and menu and launch directly into this map."
+            );
+            QuickReload = file.Bind(
+                mappingSection,
+                "QuickReload",
+                true,
+                "If enabled, F5 will instantly reload the current map. Useful for rapidly testing map changes."
             );
             DisableKBMInput = file.Bind(
                 mappingSection,

@@ -23,7 +23,7 @@ public class MapDatabase {
     }
 
     public void AddFromDirectory(string path) {
-        var files = Directory.GetFiles(path, "*.brcmap", SearchOption.AllDirectories);
+        var files = Directory.GetFiles(path, $"*{PathConstants.MapFileExtension}", SearchOption.AllDirectories);
         foreach(var file in files) {
             var mapName = Path.GetFileNameWithoutExtension(file);
             var stageID = StageEnum.HashMapName(mapName);

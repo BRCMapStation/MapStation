@@ -70,6 +70,10 @@ namespace MapStation.Plugin
             PathDetection.SetBRCPathInRegistry(Path.GetDirectoryName(Application.dataPath));
 
             UpdateEvent += LogScenes;
+
+            if(MapStationConfig.Instance.QuickReloadValue) {
+                UpdateEvent += QuickReloadUpdate;
+            }
         }
 
         public void InitializeMapDatabase(Assets assets) {
@@ -134,5 +138,18 @@ namespace MapStation.Plugin
 
         public delegate void UpdateDelegate();
         public static UpdateDelegate UpdateEvent;
+
+        private static void QuickReloadUpdate() {
+            // Only allow if the game is currently in a stage
+            if(Core.Instance != null && Core.Instance.BaseModule.IsPlayingInStage && !Core.Instance.BaseModule.IsLoading && !Core.Instance.BaseModule.IsInGamePaused) {
+                if(Input.GetKeyDown(KeyCode.F5)) {
+                    GameObject.FindFirstObjectByType<Bootstrap>().StartCoroutine(QuickReloadSwitchStage());
+                }
+            }
+        }
+        private static IEnumerator QuickReloadSwitchStage() {
+            yield return null;
+            Core.Instance.BaseModule.SwitchStage(Core.Instance.SaveManager.CurrentSaveSlot.currentStageProgress.stageID);
+        }
     }
 }

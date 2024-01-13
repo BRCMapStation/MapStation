@@ -18,8 +18,6 @@ internal static class BootstrapPatch {
     [HarmonyPatch(nameof(Bootstrap.LaunchGame))]
     private static bool LaunchGame_Prefix(Bootstrap __instance) {
         if (MapStationConfig.Instance.QuickLaunchValue != "") {
-            Plugin.UpdateEvent += QuickLaunchUpdate;
-
             // This assumes that AssetPatch already added our custom map to StageEnum, will error if it's typo'd
             __instance.StartCoroutine(__instance.SetupGameToStage(StageEnum.GetMapId(MapStationConfig.Instance.QuickLaunchValue)));
             return false;
@@ -27,13 +25,4 @@ internal static class BootstrapPatch {
         return true;
     }
 
-    private static void QuickLaunchUpdate() {
-        if(Input.GetKeyDown(KeyCode.F5)) {
-            GameObject.FindFirstObjectByType<Bootstrap>().StartCoroutine(QuickLaunchReloadStage());
-        }
-    }
-    private static IEnumerator QuickLaunchReloadStage() {
-        yield return null;
-        Core.Instance.BaseModule.SwitchStage(Core.Instance.SaveManager.CurrentSaveSlot.currentStageProgress.stageID);
-    }
 }
