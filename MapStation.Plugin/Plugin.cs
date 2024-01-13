@@ -22,8 +22,12 @@ namespace MapStation.Plugin
     public class Plugin : BaseUnityPlugin {
         public static Plugin Instance;
         public static ManualLogSource Log = null;
+        // Directory for maps bundled with MapStation, such as the subway station. These take top priority, can't be overriden.
+        internal string MapStationMapsAbsoluteDirectory;
+        // Test map directory, lower priority than map station maps.
         internal string TestMapsAbsoluteDirectory;
-        internal string MapDirectory;
+        // User maps in plugins folder - lowest priority.
+        internal string UserMapsAbsoluteDirectory;
 
         // Hack: we must reference dependent assemblies from a class that's guaranteed to execute or else they don't
         // load and MonoBehaviours are missing.
@@ -52,8 +56,9 @@ namespace MapStation.Plugin
 #if MAPSTATION_DEBUG
             DebugUI.Create(MapStationConfig.Instance.DebugUI.Value);
 #endif
+            MapStationMapsAbsoluteDirectory = Path.GetDirectoryName(Info.Location);
             TestMapsAbsoluteDirectory = Path.Combine(Paths.ConfigPath, PathConstants.ConfigDirectory, PathConstants.TestMapsDirectory);
-            MapDirectory = Paths.PluginPath;
+            UserMapsAbsoluteDirectory = Paths.PluginPath;
 
             Log = Logger;
             PhoneAPI.RegisterApp<AppMapStation>("mapstation");
@@ -75,8 +80,9 @@ namespace MapStation.Plugin
             if(!Directory.Exists(TestMapsAbsoluteDirectory)) {
                 Directory.CreateDirectory(TestMapsAbsoluteDirectory);
             }
+            MapDatabase.Instance.AddFromDirectory(MapStationMapsAbsoluteDirectory);
             MapDatabase.Instance.AddFromDirectory(TestMapsAbsoluteDirectory);
-            MapDatabase.Instance.AddFromDirectory(MapDirectory);
+            MapDatabase.Instance.AddFromDirectory(UserMapsAbsoluteDirectory);
 
             var api = new MapStationAPI(MapDatabase.Instance);
             APIManager.Initialize(api);

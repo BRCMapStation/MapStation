@@ -4,6 +4,7 @@ using MapStation.Common;
 using Reptile;
 using UnityEngine;
 using System.IO;
+using BepInEx.Logging;
 
 namespace MapStation.Plugin;
 
@@ -14,28 +15,36 @@ public class MapDatabase {
     // I think it's better to use the Stage ID as the key here
     public Dictionary<Stage, PluginMapDatabaseEntry> maps = new ();
 
+    private ManualLogSource logger;
+
     public MapDatabase(Assets assets) {
         Assets = assets;
+        logger = new ManualLogSource("MapStation Map Database");
     }
 
     public void AddFromDirectory(string path) {
         var files = Directory.GetFiles(path, "*.brcmap", SearchOption.AllDirectories);
         foreach(var file in files) {
             var mapName = Path.GetFileNameWithoutExtension(file);
-            Debug.Log($"Found map {mapName} at {file}");
-            var properties = new MapProperties();
-            using (var zip = new MapZip(file)) {
-                JsonUtility.FromJsonOverwrite(zip.GetPropertiesText(), properties);
+            var stageID = StageEnum.HashMapName(mapName);
+            if (maps.ContainsKey(stageID)) {
+                logger.LogWarning($"Won't add custom stage {mapName} to the database as there's already a stage with the same ID ({(int) stageID})");
+            } else {
+                logger.LogInfo($"Found map {mapName} at {file}");
+                var properties = new MapProperties();
+                using (var zip = new MapZip(file)) {
+                    JsonUtility.FromJsonOverwrite(zip.GetPropertiesText(), properties);
+                }
+                var map = new PluginMapDatabaseEntry() {
+                    Name = mapName,
+                    internalName = mapName,
+                    Properties = properties,
+                    ScenePath = AssetNames.GetScenePathForMap(mapName),
+                    zipPath = file,
+                    stageId = stageID
+                };
+                Add(map);
             }
-            var map = new PluginMapDatabaseEntry() {
-                Name = mapName,
-                internalName = mapName,
-                Properties = properties,
-                ScenePath = AssetNames.GetScenePathForMap(mapName),
-                zipPath = file,
-                stageId = StageEnum.HashMapName(mapName)
-            };
-            Add(map);
         }
     }
 
