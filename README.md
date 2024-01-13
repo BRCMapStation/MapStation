@@ -1,5 +1,7 @@
 # BRC MapStation
 
+![MapStation Logo](MapStationLogo.png)
+
 ## Publishing
 
 This section pertains only to members of the MapStation team who publish new versions of MapStation to Thunderstore, Github Releases, and Github Pages.
