@@ -17,12 +17,6 @@ internal static class StagePatch {
                 } else {
                     __result = StageEnum.MapNamePrefix + __result;
                 }
-            } else if(s >= (Stage)StageEnum.FirstBundledMapId) {
-                if(StageEnum.BundledMapNames.TryGetValue(s, out var name)) {
-                    __result = StageEnum.BundledMapNamePrefix + name;
-                } else {
-                    __result = StageEnum.BundledMapNamePrefix + __result;
-                }
             }
         }
     }

@@ -29,8 +29,6 @@ internal static class UtilityPatch {
                     return;
                 }
             }
-            // TODO BundledMaps
-            // TODO reserve an id for when parsing fails?
         }
     }
 }
