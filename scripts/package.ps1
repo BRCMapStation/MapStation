@@ -118,6 +118,11 @@ function ClonePackageRegistry() {
 }
 
 function CreatePackageTarballs() {
+    <#
+    package.json "files" array tells npm what to include in these tarballs.
+    For example, this is how we exclude `bin~` and `obj~`
+    #>
+
     Push-Location MapStation.Common
     $dest = "../$PackageRegistryDir/tarballs/com.brcmapstation.common/-"
     EnsureDir $dest
@@ -129,14 +134,19 @@ function CreatePackageTarballs() {
     EnsureDir $dest
     npm pack --pack-destination $dest
     Pop-Location
+
+    return @{
+        'com.brcmapstation.tools' = 'MapStation.Tools/package.json'
+        'com.brcmapstation.common' = 'MapStation.Common/package.json'
+    }
 }
 
-function WritePackageRegistryJson() {
+function WritePackageRegistryJson($pkgPaths) {
     $version = '0.0.1'
     $searchJson = @{
         objects = @()
     }
-    function AddPackage($packageName, $versions) {
+    function AddPackage($packageName, $versions, $packageJson) {
         $searchJson.objects += @{
             package = @{
                 name = $packageName
@@ -156,12 +166,13 @@ function WritePackageRegistryJson() {
             versions = @{
             }
         }
+        $pkg = Get-Content $pkgPaths.$packageName | ConvertFrom-Json
         foreach($version in $versions) {
             $json.versions.$version = @{
                 name = $packageName
                 version = $version
-                displayName = "BRC MapStation Common"
-                description = "Mapping tools for Bomb Rush Cyberfunk"
+                displayName = $pkg.displayName
+                description = $pkg.description
                 dist = @{
                     shasum = $( Get-FileHash -Algorithm Sha1 -Path "$PackageRegistryDir/tarballs/$packageName/-/$packageName-$version.tgz" ).Hash
                     tarball = "$PackageRegistryUrl/tarballs/$packageName/-/$packageName-$version.tgz"
@@ -198,8 +209,8 @@ try {
     dotnet build -c $Configuration
     CreatePluginZip
     CreateEditorZip
-    CreatePackageTarballs
-    WritePackageRegistryJson
+    $pkgPaths = CreatePackageTarballs
+    WritePackageRegistryJson $pkgPaths
 
 } finally {
     Set-Location $RestoreToCwd
