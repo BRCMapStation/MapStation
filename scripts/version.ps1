@@ -63,7 +63,7 @@ try {
             './package.json' `
             './MapStation.Common/package.json' `
             './MapStation.Tools/package.json' `
-            './thunderstore/manifest.json' `
+            './Thunderstore/manifest.json' `
             './MapStation.Editor/Packages/manifest-localregistry.json' `
             './MapStation.Editor/Packages/manifest-releaseregistry.json'
         git commit -m "v$version"
