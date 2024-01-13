@@ -95,6 +95,8 @@ function CreateEditorZip() {
         # Git is configured for local development, so we manually put the
         # correct release manifest into the zip later
         'MapStation.Editor/Packages/manifest*.json'
+        # Maps starting with `mapstation.` are bundled with MapStation plugin (e.g. subway station)
+        'MapStation.Editor/Assets/Maps/mapstation.**'
     )
     $exclusionFlags = @($exclusions | ForEach-Object { "--exclude=$_" })
     $excluded = $( git ls-files --ignored -c `

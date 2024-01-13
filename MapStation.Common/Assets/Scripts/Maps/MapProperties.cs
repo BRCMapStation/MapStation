@@ -20,7 +20,12 @@ namespace MapStation.Common {
         /// If future versions of MapStation make major changes to the structure of a map, then newer maps will use a
         /// higher version number.
         /// </summary>
-        public int version = 1;
+        public int formatVersion = 1;
+
+        /// <summary>
+        /// Version of this map, required for publishing to Thunderstore.
+        /// </summary>
+        public string mapVersion = "0.0.0";
 
         /// <summary>
         /// Globally unique internal id for this map.
