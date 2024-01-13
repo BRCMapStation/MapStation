@@ -16,7 +16,7 @@ namespace MapStation.Plugin.Phone {
 
         public override void OnAppEnable() {
             base.OnAppEnable();
-            ScrollView.RemoveAllButtons(true);
+            ScrollView.RemoveAllButtons();
             var stages = MapDatabase.Instance.maps.Values;
             foreach(var stage in stages) {
                 var button = PhoneUIUtility.CreateSimpleButton(stage.Properties.displayName);
