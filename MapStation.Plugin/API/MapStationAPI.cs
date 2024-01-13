@@ -1,4 +1,5 @@
 using MapStation.API;
+using Reptile;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,12 @@ namespace MapStation.Plugin.API {
         public MapDatabase MapDatabase = null;
         public MapStationAPI(MapDatabase mapDatabase) {
             MapDatabase = mapDatabase;
+        }
+
+        public ICustomStage GetCustomStageByID(int stageID) {
+            if (MapDatabase.maps.TryGetValue((Stage) stageID, out var result))
+                return new CustomStage(result);
+            return null;
         }
     }
 }

@@ -8,5 +8,9 @@ using System.Threading.Tasks;
 namespace MapStation.API {
     public interface IMapStationAPI {
         public ReadOnlyCollection<ICustomStage> CustomStages { get; }
+        /// <summary>
+        /// Retrieves a custom stage by its ID. Returns null if not a valid ID for a custom stage.
+        /// </summary>
+        public ICustomStage GetCustomStageByID(int stageID);
     }
 }

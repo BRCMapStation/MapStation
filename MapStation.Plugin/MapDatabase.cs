@@ -11,7 +11,8 @@ public class MapDatabase {
     public static MapDatabase Instance;
     public Assets Assets;
 
-    public Dictionary<string, PluginMapDatabaseEntry> maps = new ();
+    // I think it's better to use the Stage ID as the key here
+    public Dictionary<Stage, PluginMapDatabaseEntry> maps = new ();
 
     public MapDatabase(Assets assets) {
         Assets = assets;
@@ -39,7 +40,7 @@ public class MapDatabase {
     }
 
     public void Add(PluginMapDatabaseEntry map) {
-        maps.Add(map.internalName, map);
+        maps.Add(map.stageId, map);
         StageEnum.AddMapName(map.stageId, map.internalName);
 
         var collections = Assets.assetBundleLibrary.collections.ToList();
