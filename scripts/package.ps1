@@ -181,7 +181,7 @@ function WritePackageRegistryJson($pkgPaths) {
                 $json.versions.$version.dependencies = $pkg.dependencies
             }
         }
-        ConvertTo-Json -Depth 10 $json > $PackageRegistryDir/$packageName
+        ConvertTo-Json -Depth 99 $json > $PackageRegistryDir/$packageName
     }
 
     Get-ChildItem $PackageRegistryDir/tarballs/* | ForEach-Object {
@@ -195,7 +195,7 @@ function WritePackageRegistryJson($pkgPaths) {
 
     $searchJson.total = $searchJson.objects.Count
     EnsureDir $PackageRegistryDir/-/v1
-    ConvertTo-Json -Depth 10 $searchJson > $PackageRegistryDir/-/v1/search
+    ConvertTo-Json -Depth 99 $searchJson > $PackageRegistryDir/-/v1/search
 }
 
 $RestoreToCwd = Get-Location

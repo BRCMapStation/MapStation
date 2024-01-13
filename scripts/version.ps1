@@ -14,7 +14,7 @@ function PatchJson($path, $fn) {
     $json = Get-Content $path | ConvertFrom-Json
     # Trick to call $fn and set the automatic $_ var
     ForEach-Object -Process $fn -InputObject $json
-    $json | ConvertTo-Json | Set-Content $path
+    $json | ConvertTo-Json -Depth 99 | Set-Content $path
 }
 
 $RestoreCwd = Get-Location
