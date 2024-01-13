@@ -5,7 +5,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 public class AddPrefabsToContextMenu {
     private const int Priority = -30;
-    private const string PrefabPathPrefix = "Packages/com.brcmapstation.tools/Assets/Map Template/";
+    private const string PrefabPathPrefix = "Packages/com.brcmapstation.tools/Assets/MapComponents/";
 
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Door Teleport", priority = Priority)]
     private static void CreateTeleport(MenuCommand menuCommand) {
