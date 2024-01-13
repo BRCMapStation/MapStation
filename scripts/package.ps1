@@ -35,6 +35,7 @@ if($Release) {
 } else {
     $Configuration='Debug'
 }
+$version = (Get-Content ./package.json | ConvertFrom-Json).version
 
 <#
 Functions
@@ -79,7 +80,7 @@ function CreatePluginZip() {
 }
 
 function CreateEditorZip() {
-    $zipPath = 'Build/MapStation.Editor.zip'
+    $zipPath = "Build/MapStation.Editor-$version.zip"
     $zip = CreateZip $zipPath
 
     # Start with everything tracked by git
