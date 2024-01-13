@@ -41,7 +41,7 @@ public class StripComponentsFromAssetBundleScene : IProcessSceneWithReport {
             types.Add(typeof(BezierSpline));
         }
 
-        this.types = types.ToArray();
+        StripComponentsFromAssetBundleScene.types = types.ToArray();
 
         sw.Stop();
         // If this gets slow, it will affect every domain reload.

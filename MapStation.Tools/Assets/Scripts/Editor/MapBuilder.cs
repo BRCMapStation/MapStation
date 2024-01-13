@@ -188,7 +188,13 @@ public class MapBuilder {
         // }
         // var manifest = BuildPipeline.BuildAssetBundles(directory, builds.ToArray(), options, BuildTarget.StandaloneWindows64);
 
-        var manifest = BuildPipeline.BuildAssetBundles(directory, options, BuildTarget.StandaloneWindows64);
+        MapBuilderStatus.IsBuilding = true;
+        AssetBundleManifest manifest;
+        try {
+            manifest = BuildPipeline.BuildAssetBundles(directory, options, BuildTarget.StandaloneWindows64);
+        } finally {
+            MapBuilderStatus.IsBuilding = false;
+        }
 
         if(manifest == null) {
             throw new Exception("Building asset bundles failed!");

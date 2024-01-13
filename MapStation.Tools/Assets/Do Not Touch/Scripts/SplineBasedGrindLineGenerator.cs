@@ -193,7 +193,7 @@ namespace Reptile
 
 
         private void OnValidate() {
-			if(EditorUtility.IsPersistent(this)) return;
+			if(EditorUtility.IsPersistent(this) || MapBuilderStatus.IsBuilding) return;
             // Ensure subscription
             spline.OnChange -= OnSplineChange;
             spline.OnChange += OnSplineChange;
@@ -203,6 +203,7 @@ namespace Reptile
         }
 
         private void OnSplineChange() {
+			if(this == null) return;
             AutoRebuildInEditor();
         }
 		#endif
