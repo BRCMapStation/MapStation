@@ -142,20 +142,12 @@ function CreatePackageTarballs() {
 }
 
 function WritePackageRegistryJson($pkgPaths) {
-    $version = '0.0.1'
     $searchJson = @{
         objects = @()
     }
     function AddPackage($packageName, $versions, $packageJson) {
-        $searchJson.objects += @{
-            package = @{
-                name = $packageName
-                version = $version
-            }
-        }
-
         $latestVersion = ($versions | ForEach-Object {
-            new-object system.version $version
+            new-object system.version $_
         } | sort-object -descending)[0].ToString()
 
         $json = @{
@@ -168,6 +160,13 @@ function WritePackageRegistryJson($pkgPaths) {
         }
         $pkg = Get-Content $pkgPaths.$packageName | ConvertFrom-Json
         foreach($version in $versions) {
+            $searchJson.objects += @{
+                package = @{
+                    name = $packageName
+                    version = $version
+                }
+            }
+
             $json.versions.$version = @{
                 name = $packageName
                 version = $version
@@ -177,6 +176,9 @@ function WritePackageRegistryJson($pkgPaths) {
                     shasum = $( Get-FileHash -Algorithm Sha1 -Path "$PackageRegistryDir/tarballs/$packageName/-/$packageName-$version.tgz" ).Hash
                     tarball = "$PackageRegistryUrl/tarballs/$packageName/-/$packageName-$version.tgz"
                 }
+            }
+            if($null -ne $pkg.dependencies) {
+                $json.versions.$version.dependencies = $pkg.dependencies
             }
         }
         ConvertTo-Json -Depth 10 $json > $PackageRegistryDir/$packageName
