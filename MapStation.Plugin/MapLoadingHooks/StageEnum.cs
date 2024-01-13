@@ -16,6 +16,7 @@ public static class StageEnum {
     public const Stage FirstMapId = (Stage)15;
     public const string MapNamePrefix = "mapstation/";
     public const int MapNamePrefixLength = 11;
+    public const string MapNameUnknownInfix = "unknown/";
 
     public const Stage FirstVanillaStage = Stage.NONE;
 

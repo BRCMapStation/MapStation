@@ -11,11 +11,11 @@ internal static class StagePatch {
     [HarmonyPatch(new Type[] {})]
     private static void ToString_Postfix(ref string __result, Enum __instance) {
         if(__instance is Stage s) {
-            if(s >= (Stage)StageEnum.FirstMapId) {
+            if(StageEnum.IsValidMapId(s)) {
                 if(StageEnum.MapNames.TryGetValue(s, out var name)) {
                     __result = StageEnum.MapNamePrefix + name;
                 } else {
-                    __result = StageEnum.MapNamePrefix + __result;
+                    __result = StageEnum.MapNamePrefix + StageEnum.MapNameUnknownInfix + __result;
                 }
             }
         }
