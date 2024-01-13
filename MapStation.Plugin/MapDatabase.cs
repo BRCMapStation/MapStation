@@ -36,13 +36,15 @@ public class MapDatabase {
     public void Add(PluginMapDatabaseEntry map) {
         maps.Add(map.internalName, map);
         StageEnum.AddMapName(map.stageId, map.internalName);
+        var assets = Core.Instance.Assets;
 
-        var __instance = GameObject.FindObjectOfType<Bootstrap>().assets;
-
-        var collections = __instance.assetBundleLibrary.collections.ToList();
+        var collections = assets.assetBundleLibrary.collections.ToList();
         var collection = ScriptableObject.CreateInstance<AssetBundleCollection>();
         collection.assetBundleCollectionName = map.stageId.ToString();
         // This list was copied from hideout, hopefully we don't need all of these?
+
+        // reduced this a bit - i expect map makers will mostly extract assets from a game decompilation if they need simple things like textures or models
+        // leaving common assets and basic stuff here.
         collection.assetBundleNames = new string[] {
             "characters",
             "graffiti",
@@ -64,10 +66,10 @@ public class MapDatabase {
             map.SceneBundleName
         };
         collections.Add(collection);
-        __instance.assetBundleLibrary.collections = collections.ToArray();
+        assets.assetBundleLibrary.collections = collections.ToArray();
 
         foreach (var bundle in new[] {map.AssetsBundleName, map.SceneBundleName}) {
-            __instance.availableBundles.Add(bundle, new Bundle(bundle) {
+            assets.availableBundles.Add(bundle, new Bundle(bundle) {
                 name = bundle
             });
         }
