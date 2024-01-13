@@ -7,4 +7,4 @@ EXIT /b
 SETLOCAL
 CALL :find_dp0
 
-endLocal & goto #_undefined_# 2>NUL || title %COMSPEC% & powershell -executionpolicy remotesigned "%dp0%\scripts\setup-implementation.ps1" %*
+endLocal & goto #_undefined_# 2>NUL || title %COMSPEC% & powershell -executionpolicy bypass "%dp0%\scripts\setup-implementation.ps1" %*
