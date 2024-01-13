@@ -26,9 +26,14 @@ Set globals
 #>
 
 if($LocalRegistry) {
-    $PackageRegistryDir ='Build/PackageRegistry.Local'
+    $PackageRegistryDir = 'Build/PackageRegistry.Local'
 } else {
-    $PackageRegistryDir ='Build/PackageRegistry.Release'
+    $PackageRegistryDir = 'Build/PackageRegistry.Publish'
+}
+if($Release) {
+    $Configuration='Release'
+} else {
+    $Configuration='Debug'
 }
 
 <#
@@ -54,12 +59,18 @@ function Clean() {
 }
 
 function CreatePluginZip() {
-    $zipPath = 'Build/MapStation.Plugin.zip'
+    $zipPath = "Build/MapStation.Plugin.$Configuration.zip"
     $zip = CreateZip $zipPath
 
-    Push-Location 'Build/MapStation.Plugin.Release'
+    Push-Location "Build/MapStation.Plugin.$Configuration"
+    Get-ChildItem -Recurse './' -Exclude '*.pdb' | ForEach-Object {
+        $path = ($_ | Resolve-Path -Relative).Replace('.\', '')
+        AddToZip $zip $_.FullName $path
+    }
+    Pop-Location
+    Push-Location "Thunderstore"
     Get-ChildItem -Recurse './' | ForEach-Object {
-        $path = $_ | Resolve-Path -Relative
+        $path = ($_ | Resolve-Path -Relative).Replace('.\', '')
         AddToZip $zip $_.FullName $path
     }
     Pop-Location
@@ -179,10 +190,8 @@ try {
     if($Release -or $Clean) {
         Clean
     }
-    if($Release) {
-        dotnet build -c Release
-        CreatePluginZip
-    }
+    dotnet build -c $Configuration
+    CreatePluginZip
     CreateEditorZip
     CreatePackageTarballs
     WritePackageRegistryJson
