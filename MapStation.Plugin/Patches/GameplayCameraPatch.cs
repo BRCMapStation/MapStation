@@ -12,9 +12,9 @@ namespace MapStation.Plugin.Patches;
 [HarmonyPatch(typeof(GameplayCamera))]
 internal static class GameplayCameraPatch {
 
-    private static int[] DebugLayers = [
-        12, //CameraIgnore
-        19 //TriggerDetectPlayer
+    private static readonly int[] DebugLayers = [
+        Layers.CameraIgnore,
+        Layers.TriggerDetectPlayer
     ];
 
     [HarmonyPostfix]
