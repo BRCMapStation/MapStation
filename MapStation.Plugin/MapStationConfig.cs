@@ -22,8 +22,8 @@ namespace MapStation.Plugin {
         public ConfigEntry<bool> DebugUI;
         public bool DebugUIValue => DebugUI.Value;
 
-        public ConfigEntry<bool> ShowRedDebugShapes;
-        public bool ShowRedDebugShapesValue => ShowRedDebugShapes.Value;
+        public ConfigEntry<bool> ShowDebugShapes;
+        public bool ShowDebugShapesValue => ShowDebugShapes.Value;
 
 #if MAPSTATION_DEBUG
         // Options only for developers, not for mappers
@@ -38,7 +38,7 @@ namespace MapStation.Plugin {
         public bool QuickReloadValue => true;
         public bool DisableKBMInputValue => false;
         public bool DebugUIValue => false;
-        public bool ShowRedDebugShapesValue => false;
+        public bool ShowDebugShapesValue => false;
 
         // Options only for developers, not for mappers
         // <none>
@@ -74,11 +74,11 @@ namespace MapStation.Plugin {
                 false,
                 "Show Debug UI in the corner."
             );
-            ShowRedDebugShapes = file.Bind(
+            ShowDebugShapes = file.Bind(
                 mappingSection,
-                "ShowRedDebugShapes",
+                "ShowDebugShapes",
                 false,
-                "Show the semi-transparent red meshes from Unity Editor along grind lines, etc."
+                "Show debug meshes along grind lines, spawners, teleporters, etc."
             );
 #if MAPSTATION_DEBUG
             // Options only for developers, not for mappers
