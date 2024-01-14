@@ -36,5 +36,6 @@ class MapPropertiesScriptableObjectEditor : Editor {
                 pref.Draw();
             }
         }
+        serializedObject.ApplyModifiedProperties();
     }
 }
