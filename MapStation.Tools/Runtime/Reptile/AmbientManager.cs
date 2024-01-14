@@ -43,20 +43,7 @@ namespace Reptile
 
 		private void Update()
 		{
-			if (ambientTriggerActive && curAmbientTrigger == null)
-			{
-				RevertAmbient(revertTransitionDuration);
-			}
-			if (transitioning)
-			{
-				timer += Time.deltaTime; // formerly: timer += Core.dt;
-				float t = ((transitionDuration <= 0f) ? 1f : AnimationCurve.EaseInOut(0f, 0f, 1f, 1f).Evaluate(timer / transitionDuration));
-				ApplyAmbientChange(Vector4.Lerp(oldLight, targetLight, t), Vector4.Lerp(oldShadow, targetShadow, t));
-				if (timer >= transitionDuration)
-				{
-					transitioning = false;
-				}
-			}
+		    ApplyAmbientChange(AmbientEnvLight, AmbientEnvShadow);
 		}
 
 		private void ApplyAmbientChange(Color light, Color shadow)
