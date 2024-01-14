@@ -23,6 +23,7 @@ public class MapBuilder {
     }
     [MenuItem("BRC/Build Assets _F5", priority = -50)]
     private static void BuildAllAssetBundles() {
+#if MAPSTATION_DEBUG
         if (PluginEditor.IsPluginOutOfDate()) {
             UnityEngine.Debug.Log("MapStation assemblies seem to be out of date, rebuilding!");
             try {
@@ -37,6 +38,7 @@ public class MapBuilder {
                 UnityEngine.Debug.LogError(e);
             }
         }
+#endif
         var compressed = false;
         var mapSources = MapDatabase.GetMaps();
         var mapOutputs = mapSources.Select(map => new MapBuildOutputs(compressed, map)).ToArray();

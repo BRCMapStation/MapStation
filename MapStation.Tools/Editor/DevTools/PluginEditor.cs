@@ -1,3 +1,4 @@
+#if MAPSTATION_DEBUG
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using UnityEngine;
 
 public class PluginEditor : MonoBehaviour
 {
-    [MenuItem("BRC/Update Plugin _F7", priority = 1)]
+    [MenuItem($"{UIConstants.menuLabel}/Update Plugin _F7", priority = 1)]
     private static void UpdatePlugin()
     {
         RebuildPlugin();
@@ -16,9 +17,7 @@ public class PluginEditor : MonoBehaviour
 
     public static bool IsPluginOutOfDate()
     {
-#if !MAPSTATION_DEBUG
         return false;
-#endif
         var rootPath = Path.GetDirectoryName(Directory.GetCurrentDirectory());
         var commonPath = Path.Combine(rootPath, "MapStation.Common");
         var pluginPath = Path.Combine(rootPath, "MapStation.Plugin");
@@ -68,3 +67,4 @@ public class PluginEditor : MonoBehaviour
         return Process.Start(startInfo);
     }
 }
+#endif

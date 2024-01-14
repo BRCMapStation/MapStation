@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Scene = UnityEngine.SceneManagement.Scene;
 
+// TODO delete this file?  Or update it to auto-visualize properties for the currently-opened Map
+
 public class BuildWindow : EditorWindow {
     const string WindowLabel = "Map Builder";
 
