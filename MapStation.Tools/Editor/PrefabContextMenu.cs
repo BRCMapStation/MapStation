@@ -7,6 +7,11 @@ public class AddPrefabsToContextMenu {
     private const int Priority = -30;
     private const string PrefabPathPrefix = "Packages/com.brcmapstation.tools/Assets/MapComponents/";
 
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Spawners/Respawn Point", priority = Priority)]
+    private static void CreateRespawnPoint(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Player Respawner");
+    }
+
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Spawners/Spawn Point", priority = Priority)]
     private static void CreateSpawnPoint(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "Player Spawn Point");
