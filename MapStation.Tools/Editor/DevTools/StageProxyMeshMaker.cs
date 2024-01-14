@@ -1,3 +1,4 @@
+#if MAPSTATION_DEBUG
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 public class StageProxyMeshMaker {
     private const string ProxyFolder = "Assets/Proxy Stages";
-    [MenuItem("BRC/Make Stage Proxy Mesh", priority = 50)]
+    [MenuItem(UIConstants.menuLabel + "/Make Stage Proxy Mesh", priority = (int)UIConstants.MenuOrder.MAKE_STAGE_PROXY_MESH)]
     private static void MakeStageProxyMesh() {
         var objects = GameObject.FindObjectsOfType<Transform>();
         Transform parentChunk = null;
@@ -74,3 +75,4 @@ public class StageProxyMeshMaker {
         
     }
 }
+#endif

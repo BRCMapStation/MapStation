@@ -8,7 +8,7 @@ using Scene = UnityEngine.SceneManagement.Scene;
 public class ComponentGuidFinderWindow : EditorWindow {
     const string windowLabel = "Component Guid Finder";
 
-    [MenuItem(UIConstants.menuLabel + "/" + UIConstants.experimentsSubmenuLabel + "/" + windowLabel, priority = UIConstants.experimentsSubmenuPriority)]
+    [MenuItem(UIConstants.menuLabel + "/" + UIConstants.experimentsSubmenuLabel + "/" + windowLabel, priority = (int)UIConstants.MenuOrder.EXPERIMENTS)]
     private static void ShowMyEditor() {
         EditorWindow wnd = GetWindow<ComponentGuidFinderWindow>();
         wnd.titleContent = new GUIContent(windowLabel);

@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 
 public class ExportToOBJ {
-    [MenuItem("BRC/Export selection to OBJ", priority = 50)]
+    [MenuItem(UIConstants.menuLabel + "/Export selection to OBJ", priority = (int)UIConstants.MenuOrder.EXPORT_TO_OBJ)]
     private static void Export() {
         var parent = Selection.activeTransform;
         if (parent == null)

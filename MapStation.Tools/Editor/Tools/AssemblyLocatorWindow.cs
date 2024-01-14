@@ -8,7 +8,7 @@ using Scene = UnityEngine.SceneManagement.Scene;
 public class AssemblyLocatorWindow : EditorWindow {
     const string windowLabel = "Assembly Locator";
 
-    [MenuItem(UIConstants.menuLabel + "/" + UIConstants.experimentsSubmenuLabel + "/" + windowLabel, priority = UIConstants.experimentsSubmenuPriority)]
+    [MenuItem(UIConstants.menuLabel + "/" + UIConstants.experimentsSubmenuLabel + "/" + windowLabel, priority = (int)UIConstants.MenuOrder.EXPERIMENTS)]
     private static void ShowMyEditor() {
         EditorWindow wnd = GetWindow<AssemblyLocatorWindow>();
         wnd.titleContent = new GUIContent(windowLabel);

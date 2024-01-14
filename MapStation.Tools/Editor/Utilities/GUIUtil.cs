@@ -50,6 +50,10 @@ namespace cspotcode.UnityGUI {
         }
         public static readonly IDisposable EndIndent = new IndentDisposable();
 
+        public static IDisposable Disabled(bool disabled = true) {
+            return new EditorGUI.DisabledScope(disabled);
+        }
+
         public static void Draw(this SerializedProperty property) {
             EditorGUILayout.PropertyField(property);
         }

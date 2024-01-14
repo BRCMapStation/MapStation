@@ -7,7 +7,7 @@ using UnityEngine;
 public class PrefabInContextWindow : EditorWindow {
     const string WindowLabel = "Open Prefab In Context";
 
-    [MenuItem(UIConstants.menuLabel + "/" + UIConstants.experimentsSubmenuLabel + "/" + WindowLabel, priority = UIConstants.experimentsSubmenuPriority)]
+    [MenuItem(UIConstants.menuLabel + "/" + UIConstants.experimentsSubmenuLabel + "/" + WindowLabel, priority = (int)UIConstants.MenuOrder.EXPERIMENTS)]
     private static void ShowMyEditor() {
         EditorWindow wnd = GetWindow<PrefabInContextWindow>();
         wnd.titleContent = new GUIContent(WindowLabel);

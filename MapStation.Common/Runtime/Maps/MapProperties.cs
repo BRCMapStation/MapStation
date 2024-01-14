@@ -23,16 +23,16 @@ namespace MapStation.Common {
         public int format = 1;
 
         /// <summary>
-        /// Version of this map, required for publishing to Thunderstore.
-        /// </summary>
-        public string version = "0.0.0";
-
-        /// <summary>
         /// Globally unique internal id for this map.
         /// We strongly recommend prefixing with your username to avoid accidental conflicts with other map authors.
         /// For example, if cspotcode creates a vacation island map, "internalName" can be "cspotcode.island"
         /// </summary>
         public string internalName;
+
+        /// <summary>
+        /// Version of this map, required for publishing to Thunderstore.
+        /// </summary>
+        public string version = "0.0.0";
 
         /// <summary>
         /// Name of the map, appears in-game in menus and UI.

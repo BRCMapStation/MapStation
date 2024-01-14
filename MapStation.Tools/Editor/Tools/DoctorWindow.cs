@@ -4,7 +4,7 @@ using UnityEngine;
 public class DoctorWindow : EditorWindow {
     const string windowLabel = "Doctor";
 
-    [MenuItem(UIConstants.menuLabel + "/" + windowLabel, priority = UIConstants.defaultMenuPriority)]
+    [MenuItem(UIConstants.menuLabel + "/" + windowLabel, priority = (int)UIConstants.MenuOrder.DOCTOR)]
     private static void ShowMyEditor() {
         EditorWindow wnd = GetWindow<DoctorWindow>();
         wnd.titleContent = new GUIContent(windowLabel);

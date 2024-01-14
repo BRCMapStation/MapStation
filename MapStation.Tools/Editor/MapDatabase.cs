@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using MapStation.Common;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 namespace MapStation.Tools {
     /// <summary>
@@ -29,11 +31,32 @@ namespace MapStation.Tools {
             };
         }
 
+        /// <summary>
+        /// Get the map corresponding to the scene, even if the scene has the wrong filename.
+        /// Only checks if the scene is within the map's directory.
+        /// Checks active scene by default.
+        /// </summary>
+        public static EditorMapDatabaseEntry GetMapForActiveScene() {
+            return GetMapForScene(EditorSceneManager.GetActiveScene());
+        }
+
+        public static EditorMapDatabaseEntry GetMapForScene(Scene scene) {
+            return GetMapForAssetPath(scene.path);
+        }
+
+        public static EditorMapDatabaseEntry GetMapForAssetPath(string path) {
+            var pathParts = path.Split('/');
+            if(pathParts[0] == "Assets" && pathParts[1] == AssetNames.MapDirectory && pathParts.Length >= 4) {
+                return GetMap(pathParts[2]);
+            }
+            return null;
+        }
     }
 
     public class EditorMapDatabaseEntry : Common.BaseMapDatabaseEntry {
         public string PropertiesPath;
         public string AssetDirectory => AssetNames.GetAssetDirectoryForMap(Name);
+        public MapPropertiesScriptableObject Properties => AssetDatabase.LoadAssetAtPath<MapPropertiesScriptableObject>(PropertiesPath);
 
         // Unused: idea I had to find all scene assets, then log a helpful message telling the user it's confusing to have multiple scenes
         // public string[] extantSceneCandidatePaths;

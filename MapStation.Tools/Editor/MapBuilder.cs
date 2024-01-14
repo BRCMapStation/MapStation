@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -11,17 +10,17 @@ using UnityEngine;
 
 public class MapBuilder {
 
-    [MenuItem("BRC/Build Assets and Run on Steam _F6", priority = -49)]
+    [MenuItem(UIConstants.menuLabel + "/Build Assets and Run on Steam _F6", priority = -49)]
     private static void BuildAndRunSteam() {
         BuildAllAssetBundles();
         GameLauncher.LaunchGameSteam();
     }
 
-    [MenuItem("BRC/Build Assets and Run on Steam _F6", true, priority = -49)]
+    [MenuItem(UIConstants.menuLabel + "/Build Assets and Run on Steam _F6", true, priority = -49)]
     private static bool BuildAndRunSteamValidate() {
         return (!GameLauncher.IsGameOpen() && GameLauncher.CanLaunchOnSteam());
     }
-    [MenuItem("BRC/Build Assets _F5", priority = -50)]
+    [MenuItem(UIConstants.menuLabel + "/Build Assets _F5", priority = -50)]
     private static void BuildAllAssetBundles() {
 #if MAPSTATION_DEBUG
         if (PluginEditor.IsPluginOutOfDate()) {
@@ -42,6 +41,8 @@ public class MapBuilder {
         var compressed = false;
         var mapSources = MapDatabase.GetMaps();
         var mapOutputs = mapSources.Select(map => new MapBuildOutputs(compressed, map)).ToArray();
+        ValidateSceneNames(mapSources);
+        SyncMapProperties(mapSources);
         PreBuildAssetBundles(mapSources);
         var OutputDirectory = BuildConstants.BuiltBundlesDirectory(compressed);
         CleanUpOutputDirectoryPreBuild(OutputDirectory);
@@ -98,6 +99,35 @@ public class MapBuilder {
             foreach (var subDir in dirs) {
                 var newDestinationDir = Path.Combine(destinationDir, subDir.Name);
                 CopyDirectory(subDir.FullName, newDestinationDir, true);
+            }
+        }
+    }
+
+    private static void SyncMapProperties(EditorMapDatabaseEntry[] maps) {
+        foreach(var map in maps) {
+            var properties = map.Properties;
+            if(properties.properties.internalName != map.Name) {
+                properties.properties.internalName = map.Name;
+                EditorUtility.SetDirty(properties);
+            }
+        }
+        // Save the changes
+        AssetDatabase.SaveAssets();
+    }
+
+    private static void ValidateSceneNames(EditorMapDatabaseEntry[] maps) {
+        foreach(var map in maps) {
+            if(AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(map.ScenePath) == null) {
+                var message = "Missing scene";
+                EditorUtility.DisplayDialog(message,
+                    $"Scene is missing for {map.Name}.\n" + 
+                    "\n" +
+                    "Double-check that your scene's filename is correct. It must exactly match the required path.\n" +
+                    "\n" +
+                    "Expected:\n" +
+                    map.ScenePath[0..^6],
+                    "Ok", null);
+                    throw new Exception(message);
             }
         }
     }
@@ -205,7 +235,7 @@ public class MapBuilder {
 
     private static void WriteMapProperties(MapBuildOutputs[] maps) {
         foreach(var map in maps) {
-            var propertiesAsset = AssetDatabase.LoadAssetAtPath<MapPropertiesScriptableObject>(map.Sources.PropertiesPath);
+            var propertiesAsset = map.Sources.Properties;
             var outputPath = map.BuiltPropertiesPath;
             File.WriteAllText(outputPath, JsonUtility.ToJson(propertiesAsset.properties));
         }

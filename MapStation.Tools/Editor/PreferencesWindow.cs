@@ -14,7 +14,7 @@ using System;
 public class PreferencesWindow : EditorWindow {
     const string WindowLabel = "Preferences";
 
-    [MenuItem(UIConstants.menuLabel + "/" + WindowLabel, priority = UIConstants.defaultMenuPriority)]
+    [MenuItem(UIConstants.menuLabel + "/" + WindowLabel, priority = (int)UIConstants.MenuOrder.PREFERENCES)]
     public static void ShowWindow() {
         EditorWindow wnd = GetWindow<PreferencesWindow>();
         wnd.titleContent = new GUIContent(WindowLabel);
