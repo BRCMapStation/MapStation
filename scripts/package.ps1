@@ -82,19 +82,28 @@ function CreatePluginZip() {
     $zip.Dispose()
 }
 
-function CreateEditorZip() {
-    $zipPath = "Build/MapStation.Editor-$version.zip"
+function CreateEditorZip([switch]$local) {
+    if($local) {
+        $zipPath = "Build/MapStation.Editor-local-$version.zip"
+    } else {
+        $zipPath = "Build/MapStation.Editor-$version.zip"
+    }
+
     $zip = CreateZip $zipPath
 
     # Start with everything tracked by git
     $trackedFiles = $( git ls-files --cached --exclude-standard 'MapStation.Editor' )
+    if($local) {
+        $trackedFiles += $( git ls-files --cached --exclude-standard 'MapStation.Common' )
+        $trackedFiles += $( git ls-files --cached --exclude-standard 'MapStation.Tools' )
+    }
     # Exclude additional files
     $exclusions = @(
         # Has our dev-only `#if` defines
         'MapStation.Editor/Assets/csc.rsp*'
         # Git is configured for local development, so we manually put the
         # correct release manifest into the zip later
-        'MapStation.Editor/Packages/manifest*.json'
+        if(-not $local) {'MapStation.Editor/Packages/manifest*.json'}
         # Maps starting with `mapstation.` are bundled with MapStation plugin (e.g. subway station)
         'MapStation.Editor/Assets/Maps/mapstation.**'
     )
@@ -109,8 +118,10 @@ function CreateEditorZip() {
         AddToZip $zip $file $file
     }
 
-    # Add correct package manager manifest
-    AddToZip $zip 'MapStation.Editor/Packages/manifest-releaseregistry.json' 'MapStation.Editor/Packages/manifest.json'
+    if(-not $local) {
+        # Add correct package manager manifest
+        AddToZip $zip 'MapStation.Editor/Packages/manifest-releaseregistry.json' 'MapStation.Editor/Packages/manifest.json'
+    }
 
     $zip.Dispose()
 }
@@ -213,6 +224,7 @@ try {
     dotnet build -c $Configuration
     CreatePluginZip
     CreateEditorZip
+    CreateEditorZip -local
     $pkgPaths = CreatePackageTarballs
     WritePackageRegistryJson $pkgPaths
 

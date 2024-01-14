@@ -82,8 +82,8 @@ namespace cspotcode.UnityGUI {
             }
         }
 
-        public static IEnumerable<SerializedProperty> IterChildren(this SerializedProperty prop, bool skipScriptName = true, bool ignoreVisibility = false) {
-            if(!prop.isExpanded) yield break;
+        public static IEnumerable<SerializedProperty> IterChildren(this SerializedProperty prop, bool skipScriptName = true, bool onlyIfExpanded = false) {
+            if(onlyIfExpanded && !prop.isExpanded) yield break;
             prop = prop.Copy();
             var endOfChildrenIteration = prop.GetEndProperty();
             prop.NextVisible(true);
@@ -93,7 +93,7 @@ namespace cspotcode.UnityGUI {
             } while(prop.NextVisible(false) && !SerializedProperty.EqualContents(prop, endOfChildrenIteration));
         }
 
-        public static IEnumerable<SerializedProperty> IterChildren(this SerializedObject obj, bool skipScriptName = true, bool ignoreVisibility = false) {
+        public static IEnumerable<SerializedProperty> IterChildren(this SerializedObject obj, bool skipScriptName = true) {
             var prop = obj.GetIterator();
             prop.NextVisible(true);
             do {

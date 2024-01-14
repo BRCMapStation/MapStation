@@ -1,4 +1,6 @@
 #if UNITY_EDITOR
+using Unity.EditorCoroutines.Editor;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,7 +12,13 @@ public class Preferences : ScriptableSingleton<Preferences> {
     public GrindEditingPreferences grinds = new();
 
     private void OnEnable() {
-        // Enable inspector, because ScriptableSingleton defaults this off
+        // Enable inspector, because ScriptableSingleton defaults this off.
+        // ScriptableSingleton sets flags *after* OnEnable, so we must wait a tick.
+        CoroutineUtils.RunNextTick(EnableInspector, this);
+    }
+
+    private void EnableInspector() {
+        if(this == null) return;
         hideFlags &= ~HideFlags.NotEditable;
     }
     

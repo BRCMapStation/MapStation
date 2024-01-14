@@ -12,13 +12,11 @@ using MapStation.Common;
 class MapPropertiesScriptableObjectEditor : Editor {
     private MapPropertiesScriptableObject properties => target as MapPropertiesScriptableObject;
 
-    Vector2 scrollPosition;
-
     public override void OnInspectorGUI() {
         serializedObject.Update();
 
         var assetPath = AssetDatabase.GetAssetPath(properties);
-        var internalName = MapDatabase.GetMapForAssetPath(assetPath).Name;
+        var map = MapDatabase.GetMapForAssetPath(assetPath);
 
         EditorGUIUtility.labelWidth = 170;
         foreach(var pref in serializedObject.FindProperty(nameof(properties.properties)).IterChildren()) {
@@ -28,7 +26,7 @@ class MapPropertiesScriptableObjectEditor : Editor {
                 }
             }
             else if(pref.name == nameof(MapProperties.internalName)) {
-                pref.stringValue = internalName;
+                if(map != null) pref.stringValue = map.Name;
                 using(Disabled()) {
                     pref.Draw();
                 }
