@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using MapStation.Common;
@@ -10,18 +12,33 @@ using UnityEngine;
 
 public class MapBuilder {
 
-    [MenuItem(UIConstants.menuLabel + "/Build Assets and Run on Steam _F6", priority = -49)]
+    [MenuItem(UIConstants.menuLabel + "/Build Assets and Run on Steam _F6", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS_AND_RUN_ON_STEAM)]
     private static void BuildAndRunSteam() {
-        BuildAllAssetBundles();
+        BuildAssets();
         GameLauncher.LaunchGameSteam();
     }
 
-    [MenuItem(UIConstants.menuLabel + "/Build Assets and Run on Steam _F6", true, priority = -49)]
+    [MenuItem(UIConstants.menuLabel + "/Build Assets and Run on Steam _F6", true)]
     private static bool BuildAndRunSteamValidate() {
         return (!GameLauncher.IsGameOpen() && GameLauncher.CanLaunchOnSteam());
     }
-    [MenuItem(UIConstants.menuLabel + "/Build Assets _F5", priority = -50)]
-    private static void BuildAllAssetBundles() {
+
+    [MenuItem(UIConstants.menuLabel + "/Build Assets _F5", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS)]
+    private static void BuildAssets() {
+        var mapOutputs = BuildAllAssetBundles(compressed: false);
+        CopyToTestMapsDirectory(mapOutputs, BuildConstants.PluginName);
+        UnityEngine.Debug.Log("Done building assets!");
+    }
+
+    [MenuItem(UIConstants.menuLabel + "/Package for Thunderstore", priority = (int)UIConstants.MenuOrder.BUILD_AND_PACKAGE_FOR_THUNDERSTORE)]
+    private static void BuildAndPackageForThunderstore() {
+        var maps = BuildAllAssetBundles(compressed: true);
+        BuildThunderstoreZips(maps);
+        ShowExplorer(Path.Combine(Path.GetDirectoryName(Application.dataPath), BuildConstants.BuiltThunderstoreZipsDirectory));
+        UnityEngine.Debug.Log("Done building Thunderstore zips!");
+    }
+
+    private static MapBuildOutputs[] BuildAllAssetBundles(bool compressed = false) {
 #if MAPSTATION_DEBUG
         if (PluginEditor.IsPluginOutOfDate()) {
             UnityEngine.Debug.Log("MapStation assemblies seem to be out of date, rebuilding!");
@@ -38,10 +55,10 @@ public class MapBuilder {
             }
         }
 #endif
-        var compressed = false;
         var mapSources = MapDatabase.GetMaps();
         var mapOutputs = mapSources.Select(map => new MapBuildOutputs(compressed, map)).ToArray();
         ValidateSceneNames(mapSources);
+        StubMissingMapFiles(mapSources);
         SyncMapProperties(mapSources);
         PreBuildAssetBundles(mapSources);
         var OutputDirectory = BuildConstants.BuiltBundlesDirectory(compressed);
@@ -50,8 +67,7 @@ public class MapBuilder {
         WriteMapProperties(mapOutputs);
         WriteMapZips(mapOutputs, compressed);
         CleanUpOutputDirectoryPostBuild(OutputDirectory);
-        CopyToTestMapsDirectory(mapOutputs, BuildConstants.PluginName);
-        UnityEngine.Debug.Log("Done building assets!");
+        return mapOutputs;
     }
 
     private static void CopyToTestMapsDirectory(MapBuildOutputs[] mapOutputs, string pluginName) {
@@ -105,11 +121,7 @@ public class MapBuilder {
 
     private static void SyncMapProperties(EditorMapDatabaseEntry[] maps) {
         foreach(var map in maps) {
-            var properties = map.Properties;
-            if(properties.properties.internalName != map.Name) {
-                properties.properties.internalName = map.Name;
-                EditorUtility.SetDirty(properties);
-            }
+            map.Properties.SyncAutomaticFields(map);
         }
         // Save the changes
         AssetDatabase.SaveAssets();
@@ -128,6 +140,20 @@ public class MapBuilder {
                     map.ScenePath[0..^6],
                     "Ok", null);
                     throw new Exception(message);
+            }
+        }
+    }
+
+    private static void StubMissingMapFiles(EditorMapDatabaseEntry[] maps) {
+        foreach(var map in maps) {
+            if(!File.Exists(map.ReadmePath)) {
+                File.Create(map.ReadmePath);
+            }
+            if(!File.Exists(map.ChangelogPath)) {
+                File.Create(map.ChangelogPath);
+            }
+            if(!File.Exists(map.IconPath)) {
+                File.WriteAllBytes(map.IconPath, File.ReadAllBytes(ToolAssetConstants.DefaultThunderstoreIconPath));
             }
         }
     }
@@ -237,7 +263,7 @@ public class MapBuilder {
         foreach(var map in maps) {
             var propertiesAsset = map.Sources.Properties;
             var outputPath = map.BuiltPropertiesPath;
-            File.WriteAllText(outputPath, JsonUtility.ToJson(propertiesAsset.properties));
+            File.WriteAllText(outputPath, JsonUtility.ToJson(propertiesAsset.properties, true));
         }
     }
 
@@ -253,6 +279,57 @@ public class MapBuilder {
                 compressed
             );
         }
+    }
+
+    private static void BuildThunderstoreZips(MapBuildOutputs[] maps) {
+        Directory.CreateDirectory(BuildConstants.BuiltThunderstoreZipsDirectory);
+        foreach(var map in maps) {
+            BuildThunderstoreZip(map);
+        }
+    }
+
+    private static void BuildThunderstoreZip(MapBuildOutputs map) {
+        var zipPath = map.BuiltThunderstoreZipPath;
+        if(File.Exists(zipPath)) {
+            File.Delete(zipPath);
+        }
+        ZipArchive zip = ZipFile.Open(zipPath, ZipArchiveMode.Create);
+        
+        // manifest.json
+        var manifest = new ThunderstoreManifest() {
+            name = map.Sources.Properties.thunderstoreName,
+            author = map.Sources.Properties.properties.authorName,
+            version_number = map.Sources.Properties.properties.version,
+            description = map.Sources.Properties.description,
+            website_url = map.Sources.Properties.website,
+            // TODO depend on MapStation
+            dependencies = new ()
+        };
+        var manifestContents = JsonUtility.ToJson(manifest, true);
+        var manifestEntry = zip.CreateEntry("manifest.json");
+        using(var file = manifestEntry.Open())
+        using(var writer = new StreamWriter(file)) {
+            writer.Write(manifestContents);
+        }
+
+        // .brcmap
+        zip.CreateEntryFromFile(map.BuiltZipPath, map.Sources.Name + PathConstants.MapFileExtension);
+
+        // Other
+        zip.CreateEntryFromFile(map.Sources.ReadmePath, "README.md");
+        zip.CreateEntryFromFile(map.Sources.ChangelogPath, "CHANGELOG.md");
+        zip.CreateEntryFromFile(map.Sources.IconPath, "icon.png");
+
+        // Write it!
+        zip.Dispose();
+    }
+
+    private static void ShowExplorer(string path) {
+        // explorer doesn't like forward slashes
+        path = path.Replace(@"/", @"\");
+        Debug.Log(path);
+        System.Diagnostics.Process.Start("explorer.exe", path);
+        // System.Diagnostics.Process.Start("explorer.exe", "/select,"+path);
     }
 }
 
@@ -274,4 +351,15 @@ class MapBuildOutputs {
     public string BuiltAssetsBundlePath => Path.Join(BuiltDirectory, AssetNames.AssetsBundleBasename);
     public string BuiltSceneBundlePath => Path.Join(BuiltDirectory, AssetNames.SceneBundleBasename);
     public string BuiltZipPath => Path.Join(BuiltDirectory, BuildConstants.BuiltZipFilename);
+    public string BuiltThunderstoreZipPath => Path.Join(BuildConstants.BuiltThunderstoreZipsDirectory, $"{sources.Name}-{sources.Properties.properties.version}.zip");
+}
+
+[Serializable]
+class ThunderstoreManifest {
+    public string name;
+    public string author;
+    public string version_number;
+    public string website_url;
+    public string description;
+    public List<string> dependencies;
 }

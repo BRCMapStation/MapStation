@@ -7,6 +7,7 @@ public static class UIConstants {
     public enum MenuOrder {
         BUILD_ASSETS = 0,
         BUILD_ASSETS_AND_RUN_ON_STEAM,
+        BUILD_AND_PACKAGE_FOR_THUNDERSTORE,
         UPDATE_PLUGIN = 10,
         MAP_PROPERTIES = 20,
         DOCTOR,

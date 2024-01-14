@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 namespace MapStation.Common {
     /// <summary>
-    /// Do not change field names of this class! Because it will break the JSON structure.
+    /// Saved as properties.json in .brcmap
+    /// We can read this metadata *without* loading map asset bundles!
+    /// 
+    /// **Do not change field names of this class!**
+    /// It will break the JSON structure.
     /// Instead, use [SerializeField] w/ a public property getter/setter to use a different name in C# than JSON.
     /// </summary>
     [Serializable]

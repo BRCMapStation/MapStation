@@ -32,6 +32,15 @@ namespace MapStation.Common {
         public static string GetPropertiesPathForMap(string name) {
             return $"Assets/{MapDirectory}/{name}/{PropertiesBasename}.asset";
         }
+        public static string GetReadmePathForMap(string name) {
+            return $"Assets/{MapDirectory}/{name}/README.md";
+        }
+        public static string GetIconPathForMap(string name) {
+            return $"Assets/{MapDirectory}/{name}/icon.png";
+        }
+        public static string GetChangelogPathForMap(string name) {
+            return $"Assets/{MapDirectory}/{name}/CHANGELOG.md";
+        }
 
         public static string GetSceneBundleNameForMap(string name) {
             return $"{AssetNames.BundlePrefix}{name.ToLower()}{AssetNames.SceneBundleSuffix}";

@@ -21,10 +21,10 @@ public class MapPropertiesWindow : EditorWindow {
     private EditorMapDatabaseEntry map = null;
     private MapPropertiesScriptableObject mapProperties = null;
 
-    private Editor brcMapEditor = null;
+    private Editor propertiesEditor = null;
 
     private void OnDestroy() {
-        DestroyImmediate(brcMapEditor);
+        DestroyImmediate(propertiesEditor);
     }
 
     private void OnEnable() {
@@ -58,15 +58,14 @@ public class MapPropertiesWindow : EditorWindow {
                     Label($"Map {map.Name} is missing Properties file.  Create it?");
                     if(Button($"Create {map.PropertiesPath}")) {
                         var properties = ScriptableObject.CreateInstance<MapPropertiesScriptableObject>();
-                        properties.properties.internalName = map.Name;
                         AssetDatabase.CreateAsset(properties, map.PropertiesPath);
                     }
                 }
                 return;
             }
 
-            Editor.CreateCachedEditor(mapProperties, null, ref brcMapEditor);
-            brcMapEditor.OnInspectorGUI();
+            Editor.CreateCachedEditor(mapProperties, null, ref propertiesEditor);
+            propertiesEditor.OnInspectorGUI();
         }
     }
 }

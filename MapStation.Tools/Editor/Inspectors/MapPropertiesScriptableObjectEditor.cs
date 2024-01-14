@@ -13,25 +13,39 @@ class MapPropertiesScriptableObjectEditor : Editor {
     private MapPropertiesScriptableObject properties => target as MapPropertiesScriptableObject;
 
     public override void OnInspectorGUI() {
-        serializedObject.Update();
 
         var assetPath = AssetDatabase.GetAssetPath(properties);
         var map = MapDatabase.GetMapForAssetPath(assetPath);
 
+        if(map != null) map.Properties.SyncAutomaticFields(map);
+
+        serializedObject.Update();
+
         EditorGUIUtility.labelWidth = 170;
-        foreach(var pref in serializedObject.FindProperty(nameof(properties.properties)).IterChildren()) {
-            if(pref.name == nameof(MapProperties.format)) {
-                using(Disabled()) {
-                    pref.Draw();
+        foreach(var prop in serializedObject.IterChildren()) {
+            if(prop.name == nameof(properties.properties)) {
+                foreach(var propProp in prop.IterChildren()) {
+                    if(propProp.name == nameof(MapProperties.format)) {
+                        using(Disabled()) {
+                            propProp.Draw();
+                        }
+                    }
+                    else if(propProp.name == nameof(MapProperties.internalName)) {
+                        using(Disabled()) {
+                            propProp.Draw();
+                        }
+                    } else {
+                        propProp.Draw();
+                    }
                 }
-            }
-            else if(pref.name == nameof(MapProperties.internalName)) {
-                if(map != null) pref.stringValue = map.Name;
-                using(Disabled()) {
-                    pref.Draw();
+            } else if(prop.name == nameof(properties.thunderstoreName)) {
+                using(Disabled(properties.setThunderstoreNameAutomatically)) {
+                    prop.Draw();
                 }
+            } else if(prop.name == nameof(properties.setThunderstoreNameAutomatically)) {
+                PropertyField(prop, new GUIContent("Auto-set Thunderstore Name"));
             } else {
-                pref.Draw();
+                PropertyField(prop);
             }
         }
         serializedObject.ApplyModifiedProperties();

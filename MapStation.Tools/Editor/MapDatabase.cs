@@ -28,6 +28,9 @@ namespace MapStation.Tools {
                 Name = name,
                 ScenePath = AssetNames.GetScenePathForMap(name),
                 PropertiesPath = AssetNames.GetPropertiesPathForMap(name),
+                ReadmePath = AssetNames.GetReadmePathForMap(name),
+                ChangelogPath = AssetNames.GetChangelogPathForMap(name),
+                IconPath = AssetNames.GetIconPathForMap(name),
             };
         }
 
@@ -55,6 +58,9 @@ namespace MapStation.Tools {
 
     public class EditorMapDatabaseEntry : Common.BaseMapDatabaseEntry {
         public string PropertiesPath;
+        public string ReadmePath;
+        public string IconPath;
+        public string ChangelogPath;
         public string AssetDirectory => AssetNames.GetAssetDirectoryForMap(Name);
         public MapPropertiesScriptableObject Properties => AssetDatabase.LoadAssetAtPath<MapPropertiesScriptableObject>(PropertiesPath);
 
