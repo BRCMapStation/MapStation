@@ -21,10 +21,9 @@ namespace Reptile
 		public Quaternion rotWorld;
 		[HideInInspector]
 		public Vector3 size;
-		[HideInInspector]
 
+#if UNITY_EDITOR
 		[ContextMenu("Initialize")]
-
 		public void Init()
 		{
 			{
@@ -95,5 +94,6 @@ namespace Reptile
 			obj2.localScale = Vector3.one * size;
 			obj2.position = pos;
 		}
+#endif
 	}
 }
