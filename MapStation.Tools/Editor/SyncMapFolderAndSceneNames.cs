@@ -28,7 +28,6 @@ namespace MapStation.Tools {
                     var toDirectory = toMatch.Groups[1].Value;
                     var toSceneNamePrefix = toMatch.Groups[2].Value;
                     var toSceneName = toMatch.Groups[3].Value;
-                    Debug.Log($"{fromDirectory} {fromSceneName} -> {toDirectory} {toSceneName}");
 
                     if(fromDirectory == fromSceneName && fromSceneNamePrefix != "") {
                         if(fromDirectory == toDirectory && fromSceneName != toSceneName) {

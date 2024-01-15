@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class PluginEditor : MonoBehaviour
 {
-    [MenuItem(UIConstants.menuLabel + "/Update Plugin _F7", priority = 1)]
+    [MenuItem(UIConstants.menuLabel + "/Update Plugin _F7", priority = (int)UIConstants.MenuOrder.UPDATE_PLUGIN)]
     private static void UpdatePlugin()
     {
         RebuildPlugin();

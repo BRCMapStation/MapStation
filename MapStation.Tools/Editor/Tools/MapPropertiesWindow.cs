@@ -57,8 +57,7 @@ public class MapPropertiesWindow : EditorWindow {
                 if(mapProperties == null) {
                     Label($"Map {map.Name} is missing Properties file.  Create it?");
                     if(Button($"Create {map.PropertiesPath}")) {
-                        var properties = ScriptableObject.CreateInstance<MapPropertiesScriptableObject>();
-                        AssetDatabase.CreateAsset(properties, map.PropertiesPath);
+                        MapDatabase.CreatePropertiesForMap(map);
                     }
                 }
                 return;

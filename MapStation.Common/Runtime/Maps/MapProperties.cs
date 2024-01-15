@@ -41,17 +41,17 @@ namespace MapStation.Common {
         /// <summary>
         /// Name of the map, appears in-game in menus and UI.
         /// </summary>
-        public string displayName;
+        public string displayName = "";
 
         /// <summary>
         /// Map author's name, appears in-game in menus and UI.
         /// </summary>
-        public string authorName;
+        public string authorName = "";
 
         /// <summary>
         /// If true, this map is shown in fast-travel menus, such as the subway car, phone app, or taxi menu.
         /// Set to false if this map should only be accessible through portals from other maps, story quests, etc.
         /// </summary>
-        public bool showInFastTravelMenus;
+        public bool showInFastTravelMenus = true;
     }
 }

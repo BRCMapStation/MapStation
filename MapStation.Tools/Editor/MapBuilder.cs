@@ -12,18 +12,18 @@ using UnityEngine;
 
 public class MapBuilder {
 
-    [MenuItem(UIConstants.menuLabel + "/Build Assets and Run on Steam _F6", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS_AND_RUN_ON_STEAM)]
+    [MenuItem(UIConstants.menuLabel + "/Build Maps and Run on Steam _F6", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS_AND_RUN_ON_STEAM)]
     private static void BuildAndRunSteam() {
         BuildAssets();
         GameLauncher.LaunchGameSteam();
     }
 
-    [MenuItem(UIConstants.menuLabel + "/Build Assets and Run on Steam _F6", true)]
+    [MenuItem(UIConstants.menuLabel + "/Build Maps and Run on Steam _F6", true)]
     private static bool BuildAndRunSteamValidate() {
         return (!GameLauncher.IsGameOpen() && GameLauncher.CanLaunchOnSteam());
     }
 
-    [MenuItem(UIConstants.menuLabel + "/Build Assets _F5", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS)]
+    [MenuItem(UIConstants.menuLabel + "/Build Maps _F5", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS)]
     private static void BuildAssets() {
         var mapOutputs = BuildAllAssetBundles(compressed: false);
         CopyToTestMapsDirectory(mapOutputs, BuildConstants.PluginName);
@@ -119,14 +119,6 @@ public class MapBuilder {
         }
     }
 
-    private static void SyncMapProperties(EditorMapDatabaseEntry[] maps) {
-        foreach(var map in maps) {
-            map.Properties.SyncAutomaticFields(map);
-        }
-        // Save the changes
-        AssetDatabase.SaveAssets();
-    }
-
     private static void ValidateSceneNames(EditorMapDatabaseEntry[] maps) {
         foreach(var map in maps) {
             if(AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(map.ScenePath) == null) {
@@ -155,7 +147,18 @@ public class MapBuilder {
             if(!File.Exists(map.IconPath)) {
                 File.WriteAllBytes(map.IconPath, File.ReadAllBytes(ToolAssetConstants.DefaultThunderstoreIconPath));
             }
+            if(map.Properties == null) {
+                MapDatabase.CreatePropertiesForMap(map);
+            }
         }
+    }
+
+    private static void SyncMapProperties(EditorMapDatabaseEntry[] maps) {
+        foreach(var map in maps) {
+            map.Properties.SyncAutomaticFields(map);
+        }
+        // Save the changes
+        AssetDatabase.SaveAssets();
     }
 
     private static void PreBuildAssetBundles(EditorMapDatabaseEntry[] maps) {

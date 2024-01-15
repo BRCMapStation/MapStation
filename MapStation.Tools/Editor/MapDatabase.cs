@@ -54,6 +54,11 @@ namespace MapStation.Tools {
             }
             return null;
         }
+
+        public static void CreatePropertiesForMap(EditorMapDatabaseEntry map) {
+            var properties = ScriptableObject.CreateInstance<MapPropertiesScriptableObject>();
+            AssetDatabase.CreateAsset(properties, map.PropertiesPath);
+        }
     }
 
     public class EditorMapDatabaseEntry : Common.BaseMapDatabaseEntry {
