@@ -15,7 +15,7 @@ namespace MapStation.Common.VanillaAssets {
         /// your project.
         /// </summary>
         public static List<string> StripPathPrefixes = new() {
-            "Packages/com.brcmapstation.tools/Assets/Do Not Touch/ReptileAssets/"
+            "Packages/com.brcmapstation.tools/Assets/ReptileAssets/"
         };
     }
 

@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace Reptile
@@ -6,25 +7,21 @@ namespace Reptile
 	[ExecuteInEditMode]
 	public class VertShape : MonoBehaviour
 	{
+		[HideInInspector]
 		public Vector3 topLeft;
-
+		[HideInInspector]
 		public Vector3 topRight;
-
+		[HideInInspector]
 		public Vector3 bottomLeft;
-
-
+		[HideInInspector]
 		public Vector3 bottomLeftWorld;
-
-
+		[HideInInspector]
 		public Quaternion rotLocal;
-
-
+		[HideInInspector]
 		public Quaternion rotWorld;
-
-
+		[HideInInspector]
 		public Vector3 size;
-
-		private bool inited;
+		[HideInInspector]
 
 		[ContextMenu("Initialize")]
 
@@ -54,6 +51,7 @@ namespace Reptile
 					size.z = x;
 				}
 			}
+			EditorUtility.SetDirty(this);
 		}
 
         private void Update()
