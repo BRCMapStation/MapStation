@@ -5,6 +5,7 @@ using MapStation.Common.Gameplay;
 using UnityEngine.UIElements;
 using MapStation.Plugin.Gameplay;
 using UnityEngine;
+using System.Runtime.CompilerServices;
 
 namespace MapStation.Plugin.Patches;
 
@@ -26,6 +27,43 @@ internal static class PlayerPatch {
         if (mpPlayer.OnVertGround && Vector3.Angle(__instance.motor.groundNormal, Vector3.up) >= MapStationPlayer.MinimumGroundVertAngle)
             return false;
         return true;
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(Player.UpdateRotation))]
+    private static bool UpdateRotation_Prefix(Player __instance) {
+        var mpPlayer = MapStationPlayer.Get(__instance);
+        if (mpPlayer.OnVertAir) return false;
+        return true;
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(Player.OrientVisualToSurface))]
+    private static bool OrientVisualToSurface_Prefix(Player __instance) {
+        var mpPlayer = MapStationPlayer.Get(__instance);
+        if (mpPlayer.OnVertAir) {
+            mpPlayer.UpdateVertRotation();
+            return false;
+        }
+        return true;
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(Player.SetMoveStyle))]
+    private static void SetMoveStyle_Prefix(Player __instance, MoveStyle setMoveStyle) {
+        if (setMoveStyle == MoveStyle.ON_FOOT) {
+            var mpPlayer = MapStationPlayer.Get(__instance);
+            if (mpPlayer.OnVertAir)
+                mpPlayer.AirVertEnd();
+        }
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(nameof(Player.CompletelyStop))]
+    private static void CompletelyStop_Postfix(Player __instance) {
+        var mpPlayer = MapStationPlayer.Get(__instance);
+        if (mpPlayer.OnVertAir)
+            mpPlayer.AirVertEnd();
     }
 
     /*

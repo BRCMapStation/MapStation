@@ -17,6 +17,12 @@ namespace MapStation.Plugin.Patches {
         private static bool ComputeGroundHit_Prefix(GroundDetection __instance, ref bool __result, Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo, float distance) {
             var mpPlayer = MapStationPlayer.Get(__instance.player);
 
+            if (!__instance.player.usingEquippedMovestyle) {
+                mpPlayer.OnVertGround = false;
+                mpPlayer.WasOnVertGround = false;
+                return true;
+            }
+
             if (mpPlayer.OnVertAir && __instance.player.motor.velocity.y > 0f) {
                 __result = false;
                 return false;
@@ -37,7 +43,7 @@ namespace MapStation.Plugin.Patches {
             var rayVert = __instance.GetRaycastInfo(position, direction, dist, 1f);
 
             if (!rayVert.hit) return true;
-            if (Vector3.Angle(rayVert.hitInfo.normal, Vector3.up) < MapStationPlayer.MinimumGroundVertAngle) return true;
+            //if (Vector3.Angle(rayVert.hitInfo.normal, Vector3.up) < MapStationPlayer.MinimumGroundVertAngle) return true;
 
             var vert = rayVert.hitInfo.collider.GetComponent<MapStationVert>();
 

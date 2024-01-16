@@ -31,14 +31,31 @@ namespace MapStation.Plugin.Gameplay {
             return mpPlayer;
         }
 
+        private Quaternion currentVertRotation = Quaternion.identity;
+        private float vertRotationSpeed = 5f;
+        public void UpdateVertRotation() {
+            var targetVertRotation = Quaternion.LookRotation(ReptilePlayer.motor.velocity.normalized, AirVertVector);
+            currentVertRotation = Quaternion.Lerp(currentVertRotation, targetVertRotation, vertRotationSpeed * Core.dt);
+            ReptilePlayer.SetRotHard(currentVertRotation);
+            ReptilePlayer.SetVisualRot(currentVertRotation);
+        }
+
+        private void ResetVertRotation() {
+            currentVertRotation = Quaternion.LookRotation(ReptilePlayer.visualTf.forward, AirVertVector);
+        }
+
         public void AirVertBegin() {
             OnVertAir = true;
             AirVertVector = GroundVertVectorToAir(GroundVertVector);
             RemoveAirVertSpeed();
+            ResetVertRotation();
         }
 
         public void AirVertEnd() {
             OnVertAir = false;
+            if (OnVertGround) {
+                ReptilePlayer.SetRotHard(currentVertRotation);
+            }
         }
 
         public void AirVertUpdate() {
@@ -53,6 +70,11 @@ namespace MapStation.Plugin.Gameplay {
 
         private void RemoveAirVertSpeed() {
             ReptilePlayer.motor.velocity -= Vector3.Project(ReptilePlayer.motor.velocity, AirVertVector);
+        }
+
+        private void Update() {
+            //if (OnVertAir)
+                //UpdateVertRotation();
         }
 
         private void FixedUpdate() {
