@@ -30,6 +30,17 @@ namespace MapStation.Plugin.Gameplay {
         public const float VertGravity = 20f;
         public const float VertGravityTurnSpeed = 4f;
 
+        public bool MoveStyleEquipped {
+            get {
+                if (ReptilePlayer.usingEquippedMovestyle) return true;
+                if (ReptilePlayer.moveStyleEquipped == MoveStyle.INLINE) return false;
+                var boostAbility = ReptilePlayer.ability as BoostAbility;
+                if (boostAbility == null) return false;
+                if (boostAbility.equippedMovestyleWasUsed) return true;
+                return false;
+            }
+        }
+
         private void Awake() {
             ReptilePlayer = GetComponent<Player>();
             Core.OnUpdate += OnUpdate;
@@ -57,6 +68,8 @@ namespace MapStation.Plugin.Gameplay {
         }
 
         public void AirVertBegin() {
+            if (ReptilePlayer.ability is BoostAbility)
+                ReptilePlayer.StopCurrentAbility();
             OnVertAir = true;
             AirVertVector = GroundVertVectorToAir(GroundVertVector);
             RemoveAirVertSpeed();

@@ -19,7 +19,7 @@ namespace MapStation.Plugin.Patches {
 
             mpPlayer.OnVertGround = false;
 
-            if (!__instance.player.usingEquippedMovestyle) {
+            if (!mpPlayer.MoveStyleEquipped) {
                 mpPlayer.OnVertGround = false;
                 mpPlayer.WasOnVertGround = false;
                 return true;

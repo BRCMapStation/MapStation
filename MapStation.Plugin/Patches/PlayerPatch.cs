@@ -70,6 +70,9 @@ internal static class PlayerPatch {
     [HarmonyPatch(nameof(Player.SetMoveStyle))]
     private static void SetMoveStyle_Prefix(Player __instance, MoveStyle setMoveStyle) {
         if (setMoveStyle == MoveStyle.ON_FOOT) {
+            var boostAbility = __instance.ability as BoostAbility;
+            if (boostAbility != null)
+                if (boostAbility.equippedMovestyleWasUsed) return;
             var mpPlayer = MapStationPlayer.Get(__instance);
             if (mpPlayer.OnVertAir)
                 mpPlayer.AirVertEnd();
