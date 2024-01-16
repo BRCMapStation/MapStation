@@ -17,6 +17,8 @@ namespace MapStation.Plugin.Patches {
         private static bool ComputeGroundHit_Prefix(GroundDetection __instance, ref bool __result, Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo, float distance) {
             var mpPlayer = MapStationPlayer.Get(__instance.player);
 
+            mpPlayer.OnVertGround = false;
+
             if (!__instance.player.usingEquippedMovestyle) {
                 mpPlayer.OnVertGround = false;
                 mpPlayer.WasOnVertGround = false;
@@ -27,8 +29,6 @@ namespace MapStation.Plugin.Patches {
                 __result = false;
                 return false;
             }
-
-            mpPlayer.OnVertGround = false;
 
             var dist = distance;
 

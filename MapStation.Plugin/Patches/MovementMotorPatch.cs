@@ -12,7 +12,7 @@ using ECM.Common;
 namespace MapStation.Plugin.Patches {
     [HarmonyPatch(typeof(MovementMotor))]
     internal static class MovementMotorPatch {
-
+        /*
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MovementMotor.ApplyGroundMovement))]
         private static void ApplyGroundMovement_Prefix(MovementMotor __instance, ref Vector3 desiredVelocity) {
@@ -28,12 +28,13 @@ namespace MapStation.Plugin.Patches {
                 var currentForward = currentRotation * Vector3.forward;
                 var downDot = Mathf.Max(0f, Vector3.Dot(currentForward, targetVector));
                 var downAcceleration = downDot * MapStationPlayer.VertGravity;
-                desiredVelocity = currentForward * downAcceleration;
+                //desiredVelocity = currentForward * downAcceleration;
+                __instance.velocity += currentForward * (downAcceleration * Core.dt);
                 //player.moveInput = desiredVelocity.normalized;
                 player.targetMovement = Player.MovementType.WALKING;
                 //player.SetForwardSpeed(downAcceleration);
             }
-        }
+        }*/
 
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MovementMotor.ApplyGroundMovement))]
