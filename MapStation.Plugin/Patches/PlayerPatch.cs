@@ -37,15 +37,33 @@ internal static class PlayerPatch {
         return true;
     }
 
+    private struct OrientState {
+        public Player.MovementType targetMovement;
+        public MoveStyle moveStyle;
+    }
+
     [HarmonyPrefix]
     [HarmonyPatch(nameof(Player.OrientVisualToSurface))]
-    private static bool OrientVisualToSurface_Prefix(Player __instance) {
+    private static bool OrientVisualToSurface_Prefix(Player __instance, out OrientState __state) {
         var mpPlayer = MapStationPlayer.Get(__instance);
+        var orient = new OrientState() { targetMovement = __instance.targetMovement, moveStyle = __instance.moveStyle };
+        __state = orient;
+        if (mpPlayer.OnVertGround) {
+            __instance.targetMovement = Player.MovementType.RUNNING;
+            __instance.moveStyle = MoveStyle.SKATEBOARD;
+        }
         if (mpPlayer.OnVertAir) {
             mpPlayer.UpdateVertRotation();
             return false;
         }
         return true;
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(nameof(Player.OrientVisualToSurface))]
+    private static void OrientVisualToSurface_Postfix(Player __instance, OrientState __state) {
+        __instance.targetMovement = __state.targetMovement;
+        __instance.moveStyle = __state.moveStyle;
     }
 
     [HarmonyPrefix]
@@ -62,6 +80,7 @@ internal static class PlayerPatch {
     [HarmonyPatch(nameof(Player.CompletelyStop))]
     private static void CompletelyStop_Postfix(Player __instance) {
         var mpPlayer = MapStationPlayer.Get(__instance);
+        mpPlayer.SpeedFromVertAir = 0f;
         if (mpPlayer.OnVertAir)
             mpPlayer.AirVertEnd();
     }

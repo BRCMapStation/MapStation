@@ -50,10 +50,13 @@ namespace MapStation.Plugin.Patches {
             if (vert == null) return true;
 
             groundHitInfo.SetFrom(rayVert.hitInfo);
-            groundHitInfo.groundDistance = 0f;
+            groundHitInfo.groundDistance = 0.001f;
             groundHitInfo.isOnGround = true;
             groundHitInfo.isValidGround = true;
+            groundHitInfo.groundNormal = groundHitInfo.groundNormal.normalized;
             groundHitInfo.groundNormalVisual = groundHitInfo.groundNormal;
+            groundHitInfo.isOnStep = false;
+            mpPlayer.VertCollider = groundHitInfo.groundCollider;
             mpPlayer.OnVertGround = true;
 
             __result = true;

@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using UnityEngine;
 using MapStation.Common.Gameplay;
 using Reptile;
+using Microsoft.SqlServer.Server;
 
 namespace MapStation.Plugin.Gameplay {
     public class MapStationPlayer : MonoBehaviour {
         public Player ReptilePlayer { get; private set; } = null;
         public Vector3 GroundVertVector = Vector3.down;
 
+        public Collider VertCollider = null;
         public bool OnVertGround = false;
         public bool WasOnVertGround = false;
         public const float MinimumGroundVertAngle = 10f;
@@ -19,9 +21,19 @@ namespace MapStation.Plugin.Gameplay {
         public bool OnVertAir = false;
         public const float MinimumAirVertAngle = 30f;
         public Vector3 AirVertVector = Vector3.down;
+        public float SpeedFromVertAir = 0f;
+
+        public const float VertLandMultiplier = 1.5f;
+        public const float VertLandDecc = 2f;
+        public const float MinimumVertGravityAngle = 45f;
+        public const float VertMinimumSpeed = 2f;
+        public const float VertGravity = 4f;
+        public const float VertGravityTurnSpeed = 4f;
 
         private void Awake() {
             ReptilePlayer = GetComponent<Player>();
+            Core.OnUpdate += OnUpdate;
+            Core.OnFixedUpdate += OnFixedUpdate;
         }
 
         public static MapStationPlayer Get(Player player) {
@@ -36,7 +48,7 @@ namespace MapStation.Plugin.Gameplay {
         public void UpdateVertRotation() {
             var targetVertRotation = Quaternion.LookRotation(ReptilePlayer.motor.velocity.normalized, AirVertVector);
             currentVertRotation = Quaternion.Lerp(currentVertRotation, targetVertRotation, vertRotationSpeed * Core.dt);
-            ReptilePlayer.SetRotHard(currentVertRotation);
+            ReptilePlayer.SetRotation(Quaternion.LookRotation(currentVertRotation * Vector3.forward, Vector3.up));
             ReptilePlayer.SetVisualRot(currentVertRotation);
         }
 
@@ -49,16 +61,27 @@ namespace MapStation.Plugin.Gameplay {
             AirVertVector = GroundVertVectorToAir(GroundVertVector);
             RemoveAirVertSpeed();
             ResetVertRotation();
+            if (VertCollider != null)
+                ReptilePlayer.UseColliderInCombo(VertCollider);
+            ReptilePlayer.PlayAnim(Animator.StringToHash("jump"), false, false, -1f);
+            SpeedFromVertAir = 0f;
         }
 
         public void AirVertEnd() {
             OnVertAir = false;
             if (OnVertGround) {
-                ReptilePlayer.SetRotHard(currentVertRotation);
+                var targetVector = (Vector3.down - Vector3.Project(Vector3.down, ReptilePlayer.motor.groundNormal)).normalized;
+                var targetRotation = Quaternion.LookRotation(targetVector, ReptilePlayer.motor.groundNormal);
+                ReptilePlayer.SetRotation(targetRotation);
+                //ReptilePlayer.motor.velocity = targetVector * SpeedFromVertAir;
+                //ReptilePlayer.SetRotHard(currentVertRotation);
             }
         }
 
         public void AirVertUpdate() {
+            var downSpeed = Mathf.Abs(ReptilePlayer.motor.velocity.y) * VertLandMultiplier;
+            if (downSpeed > SpeedFromVertAir)
+                SpeedFromVertAir = downSpeed;
             RemoveAirVertSpeed();
         }
 
@@ -72,14 +95,36 @@ namespace MapStation.Plugin.Gameplay {
             ReptilePlayer.motor.velocity -= Vector3.Project(ReptilePlayer.motor.velocity, AirVertVector);
         }
 
-        private void Update() {
+        private void OnUpdate() {
+            if (OnVertGround) {
+                if (Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < 10f)
+                    ReptilePlayer.visualTf.transform.position = ReptilePlayer.motor.groundPoint;
+                else
+                    ReptilePlayer.characterVisual.feetIK = false;
+            }
             //if (OnVertAir)
                 //UpdateVertRotation();
         }
 
-        private void FixedUpdate() {
+        private void OnFixedUpdate() {
+            if (ReptilePlayer.IsGrounded()) {
+                var targetVector = (ReptilePlayer.motor.dir - Vector3.Project(ReptilePlayer.motor.dir, ReptilePlayer.motor.groundNormal)).normalized;
+                ReptilePlayer.motor.velocity += targetVector * SpeedFromVertAir * Core.dt;
+                if (SpeedFromVertAir > 0f)
+                    SpeedFromVertAir -= VertLandDecc * Core.dt;
+
+                if (SpeedFromVertAir < 0f)
+                    SpeedFromVertAir = 0f;
+            } else
+                SpeedFromVertAir = 0f;
+
             if (OnVertAir && !ReptilePlayer.IsGrounded())
                 AirVertUpdate();
+        }
+
+        private void OnDestroy() {
+            Core.OnUpdate -= OnUpdate;
+            Core.OnFixedUpdate -= OnFixedUpdate;
         }
     }
 }
