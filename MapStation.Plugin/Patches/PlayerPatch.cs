@@ -4,6 +4,7 @@ using Winterland.Plugin;
 using MapStation.Common.Gameplay;
 using UnityEngine.UIElements;
 using MapStation.Plugin.Gameplay;
+using UnityEngine;
 
 namespace MapStation.Plugin.Patches;
 
@@ -17,6 +18,16 @@ internal static class PlayerPatch {
         }
         __instance.gameObject.AddComponent<MapStationPlayer>();
     }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(Player.OnLanded))]
+    private static bool OnLanded_Prefix(Player __instance) {
+        var mpPlayer = MapStationPlayer.Get(__instance);
+        if (mpPlayer.OnVertGround && Vector3.Angle(__instance.motor.groundNormal, Vector3.up) >= MapStationPlayer.MinimumGroundVertAngle)
+            return false;
+        return true;
+    }
+
     /*
     [HarmonyPrefix]
     [HarmonyPatch(nameof(Player.CheckVert))]

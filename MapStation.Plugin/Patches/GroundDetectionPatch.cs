@@ -16,14 +16,25 @@ namespace MapStation.Plugin.Patches {
         [HarmonyPatch(nameof(GroundDetection.ComputeGroundHit))]
         private static bool ComputeGroundHit_Prefix(GroundDetection __instance, ref bool __result, Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo, float distance) {
             var mpPlayer = MapStationPlayer.Get(__instance.player);
+
+            if (mpPlayer.OnVertAir && __instance.player.motor.velocity.y > 0f) {
+                __result = false;
+                return false;
+            }
+
             mpPlayer.OnVertGround = false;
 
             var dist = distance;
 
-            if (mpPlayer.WasOnVertGround)
+            if (mpPlayer.WasOnVertGround || mpPlayer.OnVertAir)
                 dist *= 2f;
 
-            var rayVert = __instance.GetRaycastInfo(position, mpPlayer.GroundVertVector, dist, 1f);
+            var direction = mpPlayer.GroundVertVector;
+
+            if (mpPlayer.OnVertAir)
+                direction = -mpPlayer.AirVertVector;
+
+            var rayVert = __instance.GetRaycastInfo(position, direction, dist, 1f);
 
             if (!rayVert.hit) return true;
             if (Vector3.Angle(rayVert.hitInfo.normal, Vector3.up) < MapStationPlayer.MinimumGroundVertAngle) return true;
@@ -48,14 +59,18 @@ namespace MapStation.Plugin.Patches {
         private static void ComputeGroundHit_Postfix(GroundDetection __instance, ref bool __result, Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo, float distance) {
             var mpPlayer = MapStationPlayer.Get(__instance.player);
 
+            if (!__result && mpPlayer.WasOnVertGround && Vector3.Angle(-mpPlayer.GroundVertVector, Vector3.up) >= MapStationPlayer.MinimumAirVertAngle) {
+                mpPlayer.AirVertBegin();
+            }
+
+            if (__result && mpPlayer.OnVertAir && groundHitInfo.isValidGround) {
+                mpPlayer.AirVertEnd();
+            }
+
             if (mpPlayer.OnVertGround)
                 mpPlayer.GroundVertVector = -groundHitInfo.groundNormal;
             else
                 mpPlayer.GroundVertVector = Vector3.down;
-
-            if (!__result && mpPlayer.WasOnVertGround) {
-                Debug.Log("LEAVING VERT");
-            }
 
             mpPlayer.WasOnVertGround = mpPlayer.OnVertGround;
         }

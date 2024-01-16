@@ -11,9 +11,14 @@ namespace MapStation.Plugin.Gameplay {
     public class MapStationPlayer : MonoBehaviour {
         public Player ReptilePlayer { get; private set; } = null;
         public Vector3 GroundVertVector = Vector3.down;
+
         public bool OnVertGround = false;
         public bool WasOnVertGround = false;
-        public const float MinimumGroundVertAngle = 20f;
+        public const float MinimumGroundVertAngle = 10f;
+
+        public bool OnVertAir = false;
+        public const float MinimumAirVertAngle = 30f;
+        public Vector3 AirVertVector = Vector3.down;
 
         private void Awake() {
             ReptilePlayer = GetComponent<Player>();
@@ -24,6 +29,35 @@ namespace MapStation.Plugin.Gameplay {
             if (mpPlayer == null)
                 return player.gameObject.AddComponent<MapStationPlayer>();
             return mpPlayer;
+        }
+
+        public void AirVertBegin() {
+            OnVertAir = true;
+            AirVertVector = GroundVertVectorToAir(GroundVertVector);
+            RemoveAirVertSpeed();
+        }
+
+        public void AirVertEnd() {
+            OnVertAir = false;
+        }
+
+        public void AirVertUpdate() {
+            RemoveAirVertSpeed();
+        }
+
+        private Vector3 GroundVertVectorToAir(Vector3 groundVector) {
+            var airVector = -groundVector;
+            airVector.y = 0f;
+            return airVector.normalized;
+        }
+
+        private void RemoveAirVertSpeed() {
+            ReptilePlayer.motor.velocity -= Vector3.Project(ReptilePlayer.motor.velocity, AirVertVector);
+        }
+
+        private void FixedUpdate() {
+            if (OnVertAir && !ReptilePlayer.IsGrounded())
+                AirVertUpdate();
         }
     }
 }
