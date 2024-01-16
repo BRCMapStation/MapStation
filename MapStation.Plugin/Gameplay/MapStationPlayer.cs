@@ -23,10 +23,8 @@ namespace MapStation.Plugin.Gameplay {
         public Vector3 AirVertVector = Vector3.down;
         public float SpeedFromVertAir = 0f;
 
-        //public Vector3 GravityVelocity = Vector3.zero;
-
         public const float VertLandMultiplier = 1.25f;
-        public const float VertLandDecc = 2f;
+        public const float VertLandDecc = 4f;
         public const float MinimumVertGravityAngle = 45f;
         public const float VertMinimumSpeed = 2f;
         public const float VertGravity = 20f;
@@ -78,6 +76,8 @@ namespace MapStation.Plugin.Gameplay {
                 //ReptilePlayer.motor.velocity = targetVector * SpeedFromVertAir;
                 //ReptilePlayer.SetRotHard(currentVertRotation);
             }
+            ReptilePlayer.FlattenRotation();
+            //ReptilePlayer.FlattenRotation();
         }
 
         public void AirVertUpdate() {
@@ -109,13 +109,11 @@ namespace MapStation.Plugin.Gameplay {
         }
 
         private void OnFixedUpdate() {
-            //GravityVelocity = Vector3.zero;
-
             if (ReptilePlayer.IsGrounded()) {
                 var targetVector = (ReptilePlayer.motor.dir - Vector3.Project(ReptilePlayer.motor.dir, ReptilePlayer.motor.groundNormal)).normalized;
                 ReptilePlayer.motor.velocity += targetVector * SpeedFromVertAir * Core.dt;
 
-                if (SpeedFromVertAir > 1f) {
+                if (SpeedFromVertAir > 5f) {
                     if (ReptilePlayer.targetMovement == Player.MovementType.NONE)
                         ReptilePlayer.targetMovement = Player.MovementType.WALKING;
                 }
@@ -127,14 +125,19 @@ namespace MapStation.Plugin.Gameplay {
                     SpeedFromVertAir = 0f;
             } else
                 SpeedFromVertAir = 0f;
+            
+            if (OnVertGround && Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < MinimumVertGravityAngle) {
+                ReptilePlayer.FlattenRotation();
+            }
 
+            /*
             if (OnVertGround) {
                 var heightOffVertGround = 0.1f;
                 var positionDelta = ReptilePlayer.motor.transform.position - ReptilePlayer.motor.groundPoint;
                 positionDelta -= Vector3.Project(positionDelta, ReptilePlayer.motor.groundNormal);
                 positionDelta += heightOffVertGround * ReptilePlayer.motor.groundNormal;
                 ReptilePlayer.motor.transform.position = positionDelta + ReptilePlayer.motor.groundPoint;
-            }
+            }*/
 
             if (OnVertGround && Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) >= MinimumVertGravityAngle && ReptilePlayer.motor.velocity.magnitude < VertMinimumSpeed) {
                 var normal = ReptilePlayer.motor.groundNormal;
@@ -145,7 +148,6 @@ namespace MapStation.Plugin.Gameplay {
                 var currentForward = currentRotation * Vector3.forward;
                 var downDot = Mathf.Max(0f, Vector3.Dot(currentForward, targetVector));
                 var downAcceleration = downDot * VertGravity;
-                //GravityVelocity = currentForward * downAcceleration;
                 ReptilePlayer.motor.velocity += currentForward * (downAcceleration * Core.dt);
                 ReptilePlayer.targetMovement = Player.MovementType.WALKING;
             }

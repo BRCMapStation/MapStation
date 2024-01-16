@@ -30,17 +30,31 @@ namespace MapStation.Plugin.Patches {
                 return false;
             }
 
-            var dist = distance;
-
-            if (mpPlayer.WasOnVertGround || mpPlayer.OnVertAir)
-                dist *= 2f;
 
             var direction = mpPlayer.GroundVertVector;
 
-            if (mpPlayer.OnVertAir)
+            var dist = distance;
+
+            if (mpPlayer.WasOnVertGround || __instance.player.motor.wasGrounded)
+                dist = distance * 2f;
+            /*
+            if (mpPlayer.OnVertAir) {
+                dist = distance * 1.5f;
+                direction = Vector3.down;
+            }*/
+
+            if (mpPlayer.OnVertAir) {
+                dist = distance * 1.5f;
                 direction = -mpPlayer.AirVertVector;
+            }
 
             var rayVert = __instance.GetRaycastInfo(position, direction, dist, 1f);
+            /*
+            if (!rayVert.hit && mpPlayer.OnVertAir) {
+                var extraRayDirection = Vector3.down;
+                var extraRayDistance = 2f;
+                rayVert = __instance.GetRaycastInfo(position, extraRayDirection, extraRayDistance, 1f);
+            }*/
 
             if (!rayVert.hit) return true;
             //if (Vector3.Angle(rayVert.hitInfo.normal, Vector3.up) < MapStationPlayer.MinimumGroundVertAngle) return true;
