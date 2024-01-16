@@ -109,7 +109,7 @@ namespace MapStation.Plugin.Gameplay {
         }
 
         private void OnFixedUpdate() {
-            GravityVelocity = Vector3.zero;
+            //GravityVelocity = Vector3.zero;
 
             if (ReptilePlayer.IsGrounded()) {
                 var targetVector = (ReptilePlayer.motor.dir - Vector3.Project(ReptilePlayer.motor.dir, ReptilePlayer.motor.groundNormal)).normalized;
