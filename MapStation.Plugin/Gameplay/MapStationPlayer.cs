@@ -138,6 +138,9 @@ namespace MapStation.Plugin.Gameplay {
                     SpeedFromVertAir = 0f;
             } else
                 SpeedFromVertAir = 0f;
+
+            if (!MoveStyleEquipped)
+                SpeedFromVertAir = 0f;
             
             if (OnVertGround && Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < MinimumVertGravityAngle) {
                 ReptilePlayer.FlattenRotation();
