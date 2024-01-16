@@ -3,6 +3,7 @@ using HarmonyLib;
 using Winterland.Plugin;
 using MapStation.Common.Gameplay;
 using UnityEngine.UIElements;
+using MapStation.Plugin.Gameplay;
 
 namespace MapStation.Plugin.Patches;
 
@@ -14,8 +15,9 @@ internal static class PlayerPatch {
         if(MapStationConfig.Instance.DisableKBMInputValue) {
             KBMInputDisabler.Disable();
         }
+        __instance.gameObject.AddComponent<MapStationPlayer>();
     }
-
+    /*
     [HarmonyPrefix]
     [HarmonyPatch(nameof(Player.CheckVert))]
     private static bool CheckVert(Player __instance, ref bool __result) {
@@ -28,5 +30,5 @@ internal static class PlayerPatch {
         }
         __instance.motor.groundDetection.groundLimit = 60f;
         return true;
-    }
+    }*/
 }
