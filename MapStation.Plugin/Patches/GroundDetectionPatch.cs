@@ -44,7 +44,7 @@ namespace MapStation.Plugin.Patches {
             }*/
 
             if (mpPlayer.OnVertAir) {
-                dist = distance * 1.5f;
+                dist = distance * 1.25f;
                 direction = -mpPlayer.AirVertVector;
             }
 
@@ -88,6 +88,13 @@ namespace MapStation.Plugin.Patches {
 
             if (__result && mpPlayer.OnVertAir && groundHitInfo.isValidGround) {
                 mpPlayer.AirVertEnd();
+            }
+
+            if (!mpPlayer.OnVertGround && groundHitInfo.isValidGround && groundHitInfo.isOnGround && mpPlayer.MoveStyleEquipped) {
+                var mpVert = groundHitInfo.groundCollider.GetComponent<MapStationVert>();
+                if (mpVert != null) {
+                    mpPlayer.OnVertGround = true;
+                }
             }
 
             if (mpPlayer.OnVertGround)

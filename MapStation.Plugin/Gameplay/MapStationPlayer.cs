@@ -29,6 +29,7 @@ namespace MapStation.Plugin.Gameplay {
         public const float VertMinimumSpeed = 2f;
         public const float VertGravity = 20f;
         public const float VertGravityTurnSpeed = 4f;
+        public const float MinimumAngleToKeepVertSpeed = 10f;
 
         public bool MoveStyleEquipped {
             get {
@@ -89,6 +90,12 @@ namespace MapStation.Plugin.Gameplay {
                 //ReptilePlayer.motor.velocity = targetVector * SpeedFromVertAir;
                 //ReptilePlayer.SetRotHard(currentVertRotation);
             }
+
+            if (ReptilePlayer.motor.isOnGround && ReptilePlayer.motor.isValidGround) {
+                if (Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < MinimumAngleToKeepVertSpeed)
+                    SpeedFromVertAir = 0f;
+            } else
+                SpeedFromVertAir = 0f;
             ReptilePlayer.FlattenRotation();
             //ReptilePlayer.FlattenRotation();
         }
