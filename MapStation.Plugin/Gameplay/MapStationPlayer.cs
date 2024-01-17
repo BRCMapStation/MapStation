@@ -23,7 +23,7 @@ namespace MapStation.Plugin.Gameplay {
         public Vector3 AirVertVector = Vector3.down;
         public float SpeedFromVertAir = 0f;
 
-        public const float VertLandMultiplier = 1.25f;
+        public const float VertLandMultiplier = 0.6f;
         public const float VertLandDecc = 4f;
         public const float MinimumVertGravityAngle = 45f;
         public const float VertMinimumSpeed = 2f;
@@ -94,6 +94,7 @@ namespace MapStation.Plugin.Gameplay {
             if (ReptilePlayer.motor.isOnGround && ReptilePlayer.motor.isValidGround) {
                 if (Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < MinimumAngleToKeepVertSpeed)
                     SpeedFromVertAir = 0f;
+                ReptilePlayer.audioManager.PlaySfxGameplay(ReptilePlayer.moveStyle, AudioClipID.land, ReptilePlayer.playerOneShotAudioSource, 0f);
             } else
                 SpeedFromVertAir = 0f;
             ReptilePlayer.FlattenRotation();
