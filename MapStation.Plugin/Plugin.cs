@@ -147,13 +147,9 @@ namespace MapStation.Plugin
             // Only allow if the game is currently in a stage
             if(CanSwitchStagesWithoutCrashing()) {
                 if(Input.GetKeyDown(KeyCode.F5)) {
-                    GameObject.FindFirstObjectByType<Bootstrap>().StartCoroutine(QuickReloadSwitchStage());
+                    Core.Instance.BaseModule.StageManager.ExitCurrentStage(Core.Instance.SaveManager.CurrentSaveSlot.currentStageProgress.stageID);
                 }
             }
-        }
-        private static IEnumerator QuickReloadSwitchStage() {
-            yield return null;
-            Core.Instance.BaseModule.SwitchStage(Core.Instance.SaveManager.CurrentSaveSlot.currentStageProgress.stageID);
         }
     }
 }
