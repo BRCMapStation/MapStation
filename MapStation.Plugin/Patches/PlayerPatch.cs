@@ -71,6 +71,15 @@ internal static class PlayerPatch {
     }
 
     [HarmonyPrefix]
+    [HarmonyPatch(nameof(Player.SetVisualRotXZ))]
+    private static bool SetVisualRotXZ_Prefix(Player __instance) {
+        var mpPlayer = MapStationPlayer.Get(__instance);
+        if (mpPlayer.OnVertAir)
+            return false;
+        return true;
+    }
+
+    [HarmonyPrefix]
     [HarmonyPatch(nameof(Player.OrientVisualToSurface))]
     private static bool OrientVisualToSurface_Prefix(Player __instance, out OrientState __state) {
         var mpPlayer = MapStationPlayer.Get(__instance);
