@@ -42,6 +42,8 @@ namespace MapStation.Plugin.Gameplay {
         public const float VertInnerRay = 0.35f;
 
         public const float VertHorizontalSpeedMultiplier = 3f;
+        [HideInInspector]
+        public CameraMode VertCameraMode = null;
 
         public bool MoveStyleEquipped {
             get {
@@ -55,6 +57,7 @@ namespace MapStation.Plugin.Gameplay {
         }
 
         private void Awake() {
+            VertCameraMode = new MapStationVertCamera();
             ReptilePlayer = GetComponent<Player>();
             Core.OnUpdate += OnUpdate;
             Core.OnFixedUpdate += OnFixedUpdate;
