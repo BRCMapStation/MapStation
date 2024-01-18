@@ -39,6 +39,21 @@ internal static class PlayerPatch {
         return true;
     }
 
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(Player.Move))]
+    private static void Move_Prefix(Player __instance, out float __state) {
+        __state = __instance.stats.airDecc;
+        var mpPlayer = MapStationPlayer.Get(__instance);
+        if (mpPlayer.OnVertAir)
+            __instance.stats.airDecc = 0f;
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(nameof(Player.Move))]
+    private static void Move_Postfix(Player __instance, float __state) {
+        __instance.stats.airDecc = __state;
+    }
+
     private struct OrientState {
         public Player.MovementType targetMovement;
         public MoveStyle moveStyle;
