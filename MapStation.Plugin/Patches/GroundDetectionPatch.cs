@@ -8,14 +8,64 @@ using Reptile;
 using MapStation.Common.Gameplay;
 using UnityEngine;
 using MapStation.Plugin.Gameplay;
+using UnityEngine.UIElements;
 
 namespace MapStation.Plugin.Patches {
     [HarmonyPatch(typeof(GroundDetection))]
     internal static class GroundDetectionPatch {
+        private static void ComputeVert(GroundDetection __instance) {
+            var player = __instance.player;
+            var mpPlayer = MapStationPlayer.Get(player);
+            mpPlayer.HasVertBelow = false;
+            var dist = 500f;
+
+            var vertRay = __instance.GetRaycastInfo(player.transform.position + (Vector3.up * 1f), Vector3.down, dist, 1f);
+            
+            if (!vertRay.hit) return;
+
+            var vertAngle = Vector3.Angle(Vector3.up, vertRay.hitInfo.normal);
+
+            if (vertAngle >= MapStationPlayer.MinimumAirVertAngle) {
+                mpPlayer.HasVertBelow = true;
+                if (!mpPlayer.OnVertGround)
+                    mpPlayer.GroundVertVector = -vertRay.hitInfo.normal;
+            }
+
+            if (!mpPlayer.OnVertAir) return;
+            var vert = vertRay.hitInfo.collider.GetComponent<MapStationVert>();
+
+            if (vert == null) return;
+
+            var nudgeRay = __instance.GetRaycastInfo(player.transform.position - (mpPlayer.AirVertVector * MapStationPlayer.VertOuterRay) + (Vector3.up * 1f), Vector3.down, dist, 1f);
+            if (nudgeRay.hit) {
+                var nudgeVert = nudgeRay.hitInfo.collider.GetComponent<MapStationVert>();
+                if (nudgeVert == null || Vector3.Angle(nudgeRay.hitInfo.normal, Vector3.up) < MapStationPlayer.MinimumAirVertAngle) {
+                    player.transform.position += mpPlayer.AirVertVector * MapStationPlayer.VertOuterNudge;
+                }
+            }
+
+            nudgeRay = __instance.GetRaycastInfo(player.transform.position + (mpPlayer.AirVertVector * MapStationPlayer.VertInnerRay) + (Vector3.up * 1f), Vector3.down, dist, 1f);
+            if (nudgeRay.hit) {
+                var nudgeVert = nudgeRay.hitInfo.collider.GetComponent<MapStationVert>();
+                if (nudgeVert == null || Vector3.Angle(nudgeRay.hitInfo.normal, Vector3.up) < MapStationPlayer.MinimumAirVertAngle) {
+                    player.transform.position -= mpPlayer.AirVertVector * MapStationPlayer.VertInnerNudge;
+                }
+            }
+
+            if (vertAngle < MapStationPlayer.MinimumAirVertAngle) return;
+
+            var vertVector = MapStationPlayer.GetVertVectorFromGroundNormal(vertRay.hitInfo.normal);
+            if (vertVector == mpPlayer.AirVertVector) return;
+
+            mpPlayer.TransferVert(vertVector);
+        }
+
         [HarmonyPrefix]
         [HarmonyPatch(nameof(GroundDetection.ComputeGroundHit))]
         private static bool ComputeGroundHit_Prefix(GroundDetection __instance, ref bool __result, Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo, float distance) {
             var mpPlayer = MapStationPlayer.Get(__instance.player);
+
+            ComputeVert(__instance);
 
             mpPlayer.OnVertGround = false;
 
@@ -87,7 +137,7 @@ namespace MapStation.Plugin.Patches {
         private static void ComputeGroundHit_Postfix(GroundDetection __instance, ref bool __result, Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo, float distance) {
             var mpPlayer = MapStationPlayer.Get(__instance.player);
 
-            if (!__result && mpPlayer.WasOnVertGround && Vector3.Angle(-mpPlayer.GroundVertVector, Vector3.up) >= MapStationPlayer.MinimumAirVertAngle && __instance.player.motor.velocity.y > 0f) {
+            if (!__result && (mpPlayer.WasOnVertGround || mpPlayer.HasVertBelow) && __instance.prevGroundHit.isValidGround && Vector3.Angle(-mpPlayer.GroundVertVector, Vector3.up) >= MapStationPlayer.MinimumAirVertAngle && __instance.player.motor.velocity.y > 0f) {
                 mpPlayer.AirVertBegin();
             }
 

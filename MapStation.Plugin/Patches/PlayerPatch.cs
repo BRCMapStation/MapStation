@@ -25,6 +25,7 @@ internal static class PlayerPatch {
     private static bool OnLanded_Prefix(Player __instance) {
         var mpPlayer = MapStationPlayer.Get(__instance);
         if (mpPlayer.OnVertGround && Vector3.Angle(__instance.motor.groundNormal, Vector3.up) >= MapStationPlayer.MinimumGroundVertAngle) {
+            __instance.OrientVisualInstant();
             __instance.audioManager.PlaySfxGameplay(__instance.moveStyle, AudioClipID.land, __instance.playerOneShotAudioSource, 0f);
             return false;
         }
@@ -39,19 +40,29 @@ internal static class PlayerPatch {
         return true;
     }
 
+    private struct MoveState {
+        public float airDecc;
+        public float aboveMaxAirDecc;
+    }
+
     [HarmonyPrefix]
     [HarmonyPatch(nameof(Player.Move))]
-    private static void Move_Prefix(Player __instance, out float __state) {
-        __state = __instance.stats.airDecc;
+    private static void Move_Prefix(Player __instance, out MoveState __state) {
+        __state = new MoveState();
+        __state.airDecc = __instance.stats.airDecc;
+        __state.aboveMaxAirDecc = __instance.aboveMaxAirDecc;
         var mpPlayer = MapStationPlayer.Get(__instance);
-        if (mpPlayer.OnVertAir)
+        if (mpPlayer.OnVertAir) {
             __instance.stats.airDecc = 0f;
+            __instance.aboveMaxAirDecc = 0f;
+        }
     }
 
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Player.Move))]
-    private static void Move_Postfix(Player __instance, float __state) {
-        __instance.stats.airDecc = __state;
+    private static void Move_Postfix(Player __instance, MoveState __state) {
+        __instance.stats.airDecc = __state.airDecc;
+        __instance.aboveMaxAirDecc = __state.aboveMaxAirDecc;
     }
 
     private struct OrientState {
