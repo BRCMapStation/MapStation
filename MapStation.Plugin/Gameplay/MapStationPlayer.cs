@@ -124,7 +124,14 @@ namespace MapStation.Plugin.Gameplay {
         }
 
         public void AirVertUpdate() {
-            ReptilePlayer.SetRotation(Quaternion.LookRotation(currentVertRotation * Vector3.forward, Vector3.up));
+            // Hacky stuff - set our rotation either looking horizontally relative to the vert for movement and physics stuff to work better.
+            var vertRight = Vector3.Cross(AirVertVector, Vector3.up).normalized;
+            var vertForward = vertRight;
+            var vertDot = Vector3.Dot(ReptilePlayer.motor.velocity.normalized, vertForward);
+            if (vertDot < 0f)
+                vertForward = -vertRight;
+            ReptilePlayer.SetRotation(Quaternion.LookRotation(vertForward, Vector3.up));
+
             VertBoostCooldown -= Core.dt;
             if (VertBoostCooldown < 0f)
                 VertBoostCooldown = 0f;
