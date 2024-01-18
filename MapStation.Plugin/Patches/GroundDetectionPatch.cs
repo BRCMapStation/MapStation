@@ -148,13 +148,13 @@ namespace MapStation.Plugin.Patches {
 
             if (mpPlayer.OnVertGround)
                 mpPlayer.GroundVertVector = -groundHitInfo.groundNormal;
-            /*
+            
             if (!mpPlayer.OnVertGround && groundHitInfo.isValidGround && groundHitInfo.isOnGround && mpPlayer.MoveStyleEquipped && mpPlayer.GroundVertVector != Vector3.down) {
                 var mpVert = groundHitInfo.groundCollider.GetComponent<MapStationVert>();
                 if (mpVert != null) {
                     mpPlayer.OnVertGround = true;
                 }
-            }*/
+            }
 
             if (!mpPlayer.OnVertGround)
                 mpPlayer.GroundVertVector = Vector3.down;
