@@ -84,7 +84,7 @@ namespace MapStation.Plugin.Gameplay {
         public void AirVertBegin() {
             if (ReptilePlayer.ability is BoostAbility)
                 VertBoostCooldown = VertBoostCooldownMax;
-            // Carrying over abilities might screw with rotations
+            // Carrying over abilities might screw with things
             ReptilePlayer.StopCurrentAbility();
             OnVertAir = true;
             AirVertVector = GroundVertVectorToAir(GroundVertVector);
@@ -107,7 +107,6 @@ namespace MapStation.Plugin.Gameplay {
 
             if (ReptilePlayer.motor.isOnGround && ReptilePlayer.motor.isValidGround) {
                 var targetRotation = Quaternion.FromToRotation(currentVertRotation * Vector3.up, Vector3.up) * currentVertRotation;
-                //MapStationVert.CreateDebugObject(ReptilePlayer.motor.transform.position, Quaternion.FromToRotation(currentVertRotation * Vector3.up, groundNormal) * currentVertRotation);
                 ReptilePlayer.SetRotation(targetRotation);
                 ReptilePlayer.motor.velocity = ReptilePlayer.motor.velocity.magnitude * (targetRotation * Vector3.forward);
                 if (Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < MinimumAngleToKeepVertSpeed)
