@@ -106,11 +106,7 @@ namespace MapStation.Plugin.Gameplay {
             OnVertAir = false;
 
             if (ReptilePlayer.motor.isOnGround && ReptilePlayer.motor.isValidGround) {
-
-                // Tried a TRILLION things, somehow, for some reason, this weird stuff gives the best results.
-                var groundNormal = ReptilePlayer.motor.groundNormal;
-                groundNormal = Vector3.Lerp(groundNormal, Vector3.up, 0.5f).normalized;
-                var targetRotation = Quaternion.FromToRotation(currentVertRotation * Vector3.up, groundNormal) * currentVertRotation;
+                var targetRotation = Quaternion.FromToRotation(currentVertRotation * Vector3.up, Vector3.up) * currentVertRotation;
                 //MapStationVert.CreateDebugObject(ReptilePlayer.motor.transform.position, Quaternion.FromToRotation(currentVertRotation * Vector3.up, groundNormal) * currentVertRotation);
                 ReptilePlayer.SetRotation(targetRotation);
                 ReptilePlayer.motor.velocity = ReptilePlayer.motor.velocity.magnitude * (targetRotation * Vector3.forward);
