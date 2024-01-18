@@ -7,6 +7,7 @@ using UnityEngine;
 using MapStation.Common.Gameplay;
 using Reptile;
 using Microsoft.SqlServer.Server;
+using ECM.Common;
 
 namespace MapStation.Plugin.Gameplay {
     public class MapStationPlayer : MonoBehaviour {
@@ -73,7 +74,6 @@ namespace MapStation.Plugin.Gameplay {
         public void UpdateVertRotation() {
             var targetVertRotation = Quaternion.LookRotation(ReptilePlayer.motor.velocity.normalized, AirVertVector);
             currentVertRotation = Quaternion.Lerp(currentVertRotation, targetVertRotation, vertRotationSpeed * Core.dt);
-            ReptilePlayer.SetRotation(Quaternion.LookRotation(currentVertRotation * Vector3.forward, Vector3.up));
             ReptilePlayer.SetVisualRot(currentVertRotation);
         }
 
@@ -105,16 +105,15 @@ namespace MapStation.Plugin.Gameplay {
             VertBoostCooldown = 0f;
             OnVertAir = false;
 
-            // If we're landing back on vert calculate a rotation that goes down the slope.
-            if (OnVertGround) {
-                //var targetVector = (Vector3.down - Vector3.Project(Vector3.down, ReptilePlayer.motor.groundNormal)).normalized;
-                var motorDir = ReptilePlayer.motor.velocity.normalized;
-                var targetVector = (motorDir - Vector3.Project(motorDir, ReptilePlayer.motor.groundNormal)).normalized;
-                var targetRotation = Quaternion.LookRotation(targetVector, ReptilePlayer.motor.groundNormal);
-                ReptilePlayer.SetRotation(targetRotation);
-            }
-
             if (ReptilePlayer.motor.isOnGround && ReptilePlayer.motor.isValidGround) {
+
+                // Tried a TRILLION things, somehow, for some reason, this weird stuff gives the best results.
+                var groundNormal = ReptilePlayer.motor.groundNormal;
+                groundNormal = Vector3.Lerp(groundNormal, Vector3.up, 0.5f).normalized;
+                var targetRotation = Quaternion.FromToRotation(currentVertRotation * Vector3.up, groundNormal) * currentVertRotation;
+                //MapStationVert.CreateDebugObject(ReptilePlayer.motor.transform.position, Quaternion.FromToRotation(currentVertRotation * Vector3.up, groundNormal) * currentVertRotation);
+                ReptilePlayer.SetRotation(targetRotation);
+                ReptilePlayer.motor.velocity = ReptilePlayer.motor.velocity.magnitude * (targetRotation * Vector3.forward);
                 if (Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < MinimumAngleToKeepVertSpeed)
                     SpeedFromVertAir = 0f;
             } else
@@ -125,6 +124,7 @@ namespace MapStation.Plugin.Gameplay {
         }
 
         public void AirVertUpdate() {
+            ReptilePlayer.SetRotation(Quaternion.LookRotation(currentVertRotation * Vector3.forward, Vector3.up));
             VertBoostCooldown -= Core.dt;
             if (VertBoostCooldown < 0f)
                 VertBoostCooldown = 0f;
