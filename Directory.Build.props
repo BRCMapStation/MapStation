@@ -9,6 +9,9 @@
       We can also zip this for ThunderStore.
     -->
     <LocalPluginBuild>$(SolutionDir)/Build/MapStation.Plugin.$(Configuration)</LocalPluginBuild>
+
+    <!-- Always define MAPSTATION -->
+    <DefineConstants>$(DefineConstants);MAPSTATION</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">

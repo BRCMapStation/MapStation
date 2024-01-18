@@ -100,7 +100,7 @@ function CreateEditorZip([switch]$local) {
     # Exclude additional files
     $exclusions = @(
         # Has our dev-only `#if` defines
-        'MapStation.Editor/Assets/csc.rsp*'
+        'MapStation.Editor/Assets/csc*.rsp*'
         # Git is configured for local development, so we manually put the
         # correct release manifest into the zip later
         if(-not $local) {'MapStation.Editor/Packages/manifest*.json'}
@@ -117,6 +117,9 @@ function CreateEditorZip([switch]$local) {
     foreach($file in $files) {
         AddToZip $zip $file $file
     }
+
+    # Add correct compiler #defines
+    AddToZip $zip 'MapStation.Editor/Assets/csc-release.rsp' 'MapStation.Editor/Assets/csc.rsp'
 
     if(-not $local) {
         # Add correct package manager manifest
