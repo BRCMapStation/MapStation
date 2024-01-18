@@ -19,9 +19,11 @@ namespace MapStation.Plugin.Gameplay {
         public const float MinimumGroundVertAngle = 10f;
 
         public bool OnVertAir = false;
-        public const float MinimumAirVertAngle = 30f;
+        public const float MinimumAirVertAngle = 40f;
         public Vector3 AirVertVector = Vector3.down;
         public float SpeedFromVertAir = 0f;
+
+        public float VertBoostCooldown = 0f;
 
         public const float VertLandMultiplier = 0.6f;
         public const float VertLandDecc = 4f;
@@ -30,6 +32,7 @@ namespace MapStation.Plugin.Gameplay {
         public const float VertGravity = 20f;
         public const float VertGravityTurnSpeed = 4f;
         public const float MinimumAngleToKeepVertSpeed = 10f;
+        public const float VertBoostCooldownMax = 0.5f;
 
         public bool MoveStyleEquipped {
             get {
@@ -50,8 +53,10 @@ namespace MapStation.Plugin.Gameplay {
 
         public static MapStationPlayer Get(Player player) {
             var mpPlayer = player.GetComponent<MapStationPlayer>();
-            if (mpPlayer == null)
+            if (mpPlayer == null) {
+                Debug.LogWarning($"Requested MapStationPlayer component from player {player.gameObject.name} but they didn't have one.");
                 return player.gameObject.AddComponent<MapStationPlayer>();
+            }
             return mpPlayer;
         }
 
@@ -70,7 +75,9 @@ namespace MapStation.Plugin.Gameplay {
 
         public void AirVertBegin() {
             if (ReptilePlayer.ability is BoostAbility)
-                ReptilePlayer.StopCurrentAbility();
+                VertBoostCooldown = VertBoostCooldownMax;
+            // Carrying over abilities might screw with rotations
+            ReptilePlayer.StopCurrentAbility();
             OnVertAir = true;
             AirVertVector = GroundVertVectorToAir(GroundVertVector);
             RemoveAirVertSpeed();
@@ -79,35 +86,43 @@ namespace MapStation.Plugin.Gameplay {
                 ReptilePlayer.UseColliderInCombo(VertCollider);
             ReptilePlayer.PlayAnim(Animator.StringToHash("jump"), false, false, -1f);
             SpeedFromVertAir = 0f;
+            // lil nudge so we don't get caught up in shit
+            ReptilePlayer.motor.transform.position += AirVertVector * 0.1f;
         }
 
         public void AirVertEnd() {
+            VertBoostCooldown = 0f;
             OnVertAir = false;
+
+            // If we're landing back on vert calculate a rotation that goes down the slope.
             if (OnVertGround) {
                 var targetVector = (Vector3.down - Vector3.Project(Vector3.down, ReptilePlayer.motor.groundNormal)).normalized;
                 var targetRotation = Quaternion.LookRotation(targetVector, ReptilePlayer.motor.groundNormal);
                 ReptilePlayer.SetRotation(targetRotation);
-                //ReptilePlayer.motor.velocity = targetVector * SpeedFromVertAir;
-                //ReptilePlayer.SetRotHard(currentVertRotation);
             }
 
             if (ReptilePlayer.motor.isOnGround && ReptilePlayer.motor.isValidGround) {
                 if (Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < MinimumAngleToKeepVertSpeed)
                     SpeedFromVertAir = 0f;
-                ReptilePlayer.audioManager.PlaySfxGameplay(ReptilePlayer.moveStyle, AudioClipID.land, ReptilePlayer.playerOneShotAudioSource, 0f);
             } else
                 SpeedFromVertAir = 0f;
+
+            // Rotating the player too steep causes issues.
             ReptilePlayer.FlattenRotation();
-            //ReptilePlayer.FlattenRotation();
         }
 
         public void AirVertUpdate() {
-            var downSpeed = Mathf.Abs(ReptilePlayer.motor.velocity.y) * VertLandMultiplier;
-            if (downSpeed > SpeedFromVertAir)
-                SpeedFromVertAir = downSpeed;
+            VertBoostCooldown -= Core.dt;
+            if (VertBoostCooldown < 0f)
+                VertBoostCooldown = 0f;
+            // Accumulate speed to add when we land.
+            var ySpeed = Mathf.Abs(ReptilePlayer.motor.velocity.y) * VertLandMultiplier;
+            if (ySpeed > SpeedFromVertAir)
+                SpeedFromVertAir = ySpeed;
             RemoveAirVertSpeed();
         }
 
+        // Convert the vert slope normal to air vert normal.
         private Vector3 GroundVertVectorToAir(Vector3 groundVector) {
             var airVector = -groundVector;
             airVector.y = 0f;
@@ -119,14 +134,13 @@ namespace MapStation.Plugin.Gameplay {
         }
 
         private void OnUpdate() {
+            // IK can be very wonky on steep slopes.
             if (OnVertGround) {
                 if (Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < 10f)
                     ReptilePlayer.visualTf.transform.position = ReptilePlayer.motor.groundPoint;
                 else
                     ReptilePlayer.characterVisual.feetIK = false;
             }
-            //if (OnVertAir)
-                //UpdateVertRotation();
         }
 
         private void OnFixedUpdate() {
@@ -153,15 +167,6 @@ namespace MapStation.Plugin.Gameplay {
             if (OnVertGround && Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < MinimumVertGravityAngle) {
                 ReptilePlayer.FlattenRotation();
             }
-
-            /*
-            if (OnVertGround) {
-                var heightOffVertGround = 0.1f;
-                var positionDelta = ReptilePlayer.motor.transform.position - ReptilePlayer.motor.groundPoint;
-                positionDelta -= Vector3.Project(positionDelta, ReptilePlayer.motor.groundNormal);
-                positionDelta += heightOffVertGround * ReptilePlayer.motor.groundNormal;
-                ReptilePlayer.motor.transform.position = positionDelta + ReptilePlayer.motor.groundPoint;
-            }*/
 
             if (OnVertGround && Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) >= MinimumVertGravityAngle && ReptilePlayer.motor.velocity.magnitude < VertMinimumSpeed) {
                 var normal = ReptilePlayer.motor.groundNormal;

@@ -24,8 +24,10 @@ internal static class PlayerPatch {
     [HarmonyPatch(nameof(Player.OnLanded))]
     private static bool OnLanded_Prefix(Player __instance) {
         var mpPlayer = MapStationPlayer.Get(__instance);
-        if (mpPlayer.OnVertGround && Vector3.Angle(__instance.motor.groundNormal, Vector3.up) >= MapStationPlayer.MinimumGroundVertAngle)
+        if (mpPlayer.OnVertGround && Vector3.Angle(__instance.motor.groundNormal, Vector3.up) >= MapStationPlayer.MinimumGroundVertAngle) {
+            __instance.audioManager.PlaySfxGameplay(__instance.moveStyle, AudioClipID.land, __instance.playerOneShotAudioSource, 0f);
             return false;
+        }
         return true;
     }
 
@@ -86,6 +88,21 @@ internal static class PlayerPatch {
         mpPlayer.SpeedFromVertAir = 0f;
         if (mpPlayer.OnVertAir)
             mpPlayer.AirVertEnd();
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(Player.JumpIsAllowed))]
+    private static bool JumpIsAllowed_Prefix(Player __instance, ref bool __result) {
+        var mpPlayer = MapStationPlayer.Get(__instance);
+        if (mpPlayer.OnVertGround && Vector3.Angle(__instance.motor.groundNormal, Vector3.up) >= MapStationPlayer.MinimumAirVertAngle) {
+            __result = false;
+            return false;
+        }
+        if (mpPlayer.OnVertAir) {
+            __result = false;
+            return false;
+        }
+        return true;
     }
 
     /*
