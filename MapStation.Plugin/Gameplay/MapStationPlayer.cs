@@ -163,9 +163,7 @@ namespace MapStation.Plugin.Gameplay {
         private void OnUpdate() {
             // IK can be very wonky on steep slopes.
             if (OnVertGround) {
-                if (Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < 10f)
-                    ReptilePlayer.visualTf.transform.position = ReptilePlayer.motor.groundPoint;
-                else
+                if (Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) >= 10f)
                     ReptilePlayer.characterVisual.feetIK = false;
             }
         }
