@@ -57,7 +57,7 @@ namespace MapStation.Plugin.Gameplay {
         }
 
         private void Awake() {
-            VertCameraMode = new MapStationVertCamera();
+            VertCameraMode = new CameraModeVert(null);
             ReptilePlayer = GetComponent<Player>();
             Core.OnUpdate += OnUpdate;
             Core.OnFixedUpdate += OnFixedUpdate;
