@@ -171,12 +171,16 @@ namespace MapStation.Plugin.Gameplay {
         private void SnapToFloor() {
             var groundNormal = ReptilePlayer.motor.groundNormal;
             var groundPoint = ReptilePlayer.motor.groundPoint;
+            var maxDelta = 0.05f;
 
             var groundDelta = ReptilePlayer.transform.position - groundPoint;
-            groundDelta -= Vector3.Project(groundDelta, groundNormal);
-            groundDelta += 0.01f * groundNormal;
+            var currentDelta = Vector3.Dot(groundDelta, groundNormal);
+            if (currentDelta > maxDelta) {
+                groundDelta -= Vector3.Project(groundDelta, groundNormal);
+                groundDelta += maxDelta * groundNormal;
 
-            ReptilePlayer.transform.position = groundDelta + groundPoint;
+                ReptilePlayer.transform.position = groundDelta + groundPoint;
+            }
         }
 
         private void OnFixedUpdate() {
@@ -217,7 +221,7 @@ namespace MapStation.Plugin.Gameplay {
                 ReptilePlayer.targetMovement = Player.MovementType.WALKING;
             }
 
-            if (OnVertGround && Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < MinimumGroundVertAngle)
+            if (OnVertGround && Vector3.Angle(ReptilePlayer.motor.groundNormal, Vector3.up) < MinimumVertGravityAngle)
                 SnapToFloor();
 
             if (OnVertAir && !ReptilePlayer.IsGrounded())

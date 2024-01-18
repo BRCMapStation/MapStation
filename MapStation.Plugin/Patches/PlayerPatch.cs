@@ -131,6 +131,27 @@ internal static class PlayerPatch {
         return true;
     }
 
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(Player.CanStartGrind))]
+    private static bool CanStartGrind_Prefix(Player __instance, ref bool __result) {
+        var player = __instance;
+        if (player.jumpButtonHeld || player.jumpButtonNew || player.jumpRequested) return true;
+        var mpPlayer = MapStationPlayer.Get(player);
+        if (mpPlayer.OnVertAir) {
+            __result = false;
+            return false;
+        }
+        if (mpPlayer.HasVertBelow) {
+            __result = false;
+            return false;
+        }
+        if (mpPlayer.OnVertGround && Vector3.Angle(player.motor.groundNormal, Vector3.up) >= MapStationPlayer.MinimumAirVertAngle) {
+            __result = false;
+            return false;
+        }
+        return true;
+    }
+
     /*
     [HarmonyPrefix]
     [HarmonyPatch(nameof(Player.CheckVert))]

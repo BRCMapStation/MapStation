@@ -65,15 +65,16 @@ namespace MapStation.Plugin.Patches {
         private static bool ComputeGroundHit_Prefix(GroundDetection __instance, ref bool __result, Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo, float distance) {
             var mpPlayer = MapStationPlayer.Get(__instance.player);
 
-            ComputeVert(__instance);
-
-            mpPlayer.OnVertGround = false;
-
             if (!mpPlayer.MoveStyleEquipped) {
                 mpPlayer.OnVertGround = false;
                 mpPlayer.WasOnVertGround = false;
+                mpPlayer.HasVertBelow = false;
                 return true;
             }
+
+            ComputeVert(__instance);
+
+            mpPlayer.OnVertGround = false;
 
             if (mpPlayer.OnVertAir && __instance.player.motor.velocity.y > 0f) {
                 __result = false;
@@ -147,13 +148,13 @@ namespace MapStation.Plugin.Patches {
 
             if (mpPlayer.OnVertGround)
                 mpPlayer.GroundVertVector = -groundHitInfo.groundNormal;
-
+            /*
             if (!mpPlayer.OnVertGround && groundHitInfo.isValidGround && groundHitInfo.isOnGround && mpPlayer.MoveStyleEquipped && mpPlayer.GroundVertVector != Vector3.down) {
                 var mpVert = groundHitInfo.groundCollider.GetComponent<MapStationVert>();
                 if (mpVert != null) {
                     mpPlayer.OnVertGround = true;
                 }
-            }
+            }*/
 
             if (!mpPlayer.OnVertGround)
                 mpPlayer.GroundVertVector = Vector3.down;
