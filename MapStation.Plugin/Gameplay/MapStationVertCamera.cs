@@ -15,7 +15,7 @@ namespace MapStation.Plugin.Gameplay {
             position = Vector3.Lerp(position, player.visualTf.position + lookFromOffset + (Vector3.up * 5f), 5f * Core.dt);
             var target = player.visualTf.position + lookAtOffset;
             var dist = Vector3.Distance(position, target);
-            var minimumDistance = 2f;
+            var minimumDistance = 5f;
             if (dist < minimumDistance) {
                 var heading = (target - position).normalized;
                 position = target - (heading * minimumDistance);
