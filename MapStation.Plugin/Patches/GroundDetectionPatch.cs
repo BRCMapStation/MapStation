@@ -138,7 +138,7 @@ namespace MapStation.Plugin.Patches {
         private static void ComputeGroundHit_Postfix(GroundDetection __instance, ref bool __result, Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo, float distance) {
             var mpPlayer = MapStationPlayer.Get(__instance.player);
 
-            if (!__result && (mpPlayer.WasOnVertGround || mpPlayer.HasVertBelow) && __instance.prevGroundHit.isValidGround && Vector3.Angle(-mpPlayer.GroundVertVector, Vector3.up) >= MapStationPlayer.MinimumAirVertAngle && __instance.player.motor.velocity.y > 0f) {
+            if (!__result && mpPlayer.HasVertBelow && __instance.prevGroundHit.isValidGround && Vector3.Angle(-mpPlayer.GroundVertVector, Vector3.up) >= MapStationPlayer.MinimumAirVertAngle && __instance.player.motor.velocity.y > 0f) {
                 mpPlayer.AirVertBegin();
             }
 
