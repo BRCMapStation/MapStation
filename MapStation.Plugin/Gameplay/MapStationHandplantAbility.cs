@@ -18,15 +18,24 @@ namespace MapStation.Plugin.Gameplay {
         
         // 
         public void UpdateAbility() {
-            var p = ReptileHandplantAbility.p;
-            // If currently handplanting
-            if(p.ability == this.ReptileHandplantAbility) {
-                p.motor.SetPositionTeleport(PlantedOn.position + Vector3.up * 0.03f);
-            }
         }
 
         public void FixedUpdateAbility() {
-            
+        }
+
+        /// <summary>
+        /// Called by Player.LateUpdateAnimation
+        /// *if* player is active, *whether or not* player is handplanting.
+        /// </summary>
+        public void LateUpdateAnimation() {
+            var p = ReptileHandplantAbility.p;
+            // If currently handplanting
+            if(p.ability == this.ReptileHandplantAbility) {
+                var position = PlantedOn.position + Vector3.up * 0.03f;
+                // Directly manipulate position to avoid rigidbody delaying update till next FixedUpdate
+                // I hope this doesn't cause issues
+                p.transform.position = position;
+            }
         }
     }
 }

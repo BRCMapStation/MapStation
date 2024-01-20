@@ -170,6 +170,14 @@ internal static class PlayerPatch {
         }
     }
 
+    [HarmonyPostfix]
+    [HarmonyPatch(nameof(Player.LateUpdateAnimation))]
+    private static void LateUpdateAnimation_Postfix(Player __instance) {
+        if (!__instance.gameObject.activeSelf)
+            return;
+        MapStationPlayer.Get(__instance).MapStationHandplantAbility.LateUpdateAnimation();
+    }
+
     /*
     [HarmonyPrefix]
     [HarmonyPatch(nameof(Player.CheckVert))]
