@@ -45,6 +45,8 @@ namespace MapStation.Plugin.Gameplay {
         [HideInInspector]
         public CameraMode VertCameraMode = null;
 
+        public MapStationHandplantAbility MapStationHandplantAbility { get; private set; }
+
         public bool MoveStyleEquipped {
             get {
                 if (ReptilePlayer.usingEquippedMovestyle) return true;
@@ -61,6 +63,13 @@ namespace MapStation.Plugin.Gameplay {
             ReptilePlayer = GetComponent<Player>();
             Core.OnUpdate += OnUpdate;
             Core.OnFixedUpdate += OnFixedUpdate;
+        }
+
+        /// <summary>
+        /// Called immediately after Reptile.Player.Init
+        /// </summary>
+        public void Init() {
+            MapStationHandplantAbility = new MapStationHandplantAbility(ReptilePlayer.handplantAbility);
         }
 
         public static MapStationPlayer Get(Player player) {

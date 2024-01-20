@@ -18,6 +18,7 @@ internal static class PlayerPatch {
             KBMInputDisabler.Disable();
         }
         __instance.gameObject.AddComponent<MapStationPlayer>();
+        MapStationPlayer.Get(__instance).Init();
     }
 
     [HarmonyPrefix]
@@ -159,6 +160,14 @@ internal static class PlayerPatch {
             return false;
         }
         return true;
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(nameof(Player.UpdateAbilities))]
+    private static void UpdateAbilities_Postfix(Player __instance) {
+        if (__instance.ability == __instance.handplantAbility) {
+            MapStationPlayer.Get(__instance).MapStationHandplantAbility.UpdateAbility();
+        }
     }
 
     /*
