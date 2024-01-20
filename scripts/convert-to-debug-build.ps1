@@ -1,7 +1,10 @@
 param($brcInstallDirectory, $unityEditorDirectory)
 
 if(-not $unityEditorDirectory) {
-    $unityEditorDirectory="C:\Program Files\Unity\Hub\Editor\2021.3.27f1\Editor\Data\PlaybackEngines\windowsstandalonesupport\Variations\win64_player_development_mono"
+    # Previous patch runs .27.  If you downpatch on Steam, use this
+    # $unityEditorDirectory="C:\Program Files\Unity\Hub\Editor\2021.3.27f1\Editor\Data\PlaybackEngines\windowsstandalonesupport\Variations\win64_player_development_mono"
+    # Current patch runs .20
+    $unityEditorDirectory="C:\Program Files\Unity\Hub\Editor\2021.3.20f1\Editor\Data\PlaybackEngines\windowsstandalonesupport\Variations\win64_player_development_mono"
 }
 if(-not $brcInstallDirectory) {
     $brcInstallDirectory=$env:BRCPath
