@@ -39,10 +39,18 @@ public static class GrindAbilityMovingHandplantPatch
         for (var i = 1; i < codes.Count; i++)
         {
             var code = codes[i];
+            // Replace this:
+            //     this.handplantAbility.SetToPole(this.grindNode.position)
+            // With this:
+            //     GrindAbilityMovingHandplantPatch.HandplantAbility_SetToPole_1_Replacement(this, this.grindNode)
             if(code.Calls(Mi_HandplantAbility_SetToPole_1)) {
                 var previousCode = codes[i - 1];
                 if(previousCode.Calls(Mi_GrindNode_get_position)) {
+                    // Remove the `grindNode.position` call, leaving `grindNode` on the stack
                     codes[i - 1] = new CodeInstruction(OpCodes.Nop);
+                    // Replace the call.  We are replacing a method call which gets target instance and arguments off of stack.
+                    // Our static replacement doesn't need a target instance, but accepts it as first argument instead.
+                    // This ensures same # of items are popped from the stack.
                     codes[i] = new CodeInstruction(OpCodes.Call, Mi_HandplantAbility_SetToPole_1_Replacement);
                 }
             }
