@@ -15,6 +15,9 @@ namespace MapStation.Plugin.Gameplay {
             PlantedOn = plantOn;
             ReptileHandplantAbility.SetToPole(plantOn.position);
         }
+        public void SetOnScrewpole(SkateboardScrewPole screwPole) {
+            PlantedOn = screwPole.point.transform;
+        }
         
         // 
         public void UpdateAbility() {
@@ -30,7 +33,7 @@ namespace MapStation.Plugin.Gameplay {
         public void LateUpdateAnimation() {
             var p = ReptileHandplantAbility.p;
             // If currently handplanting
-            if(p.ability == this.ReptileHandplantAbility) {
+            if(p.ability == this.ReptileHandplantAbility && this.PlantedOn != null) {
                 var position = PlantedOn.position + Vector3.up * 0.03f;
                 // Directly manipulate position to avoid rigidbody delaying update till next FixedUpdate
                 // I hope this doesn't cause issues
