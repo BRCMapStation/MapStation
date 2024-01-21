@@ -16,7 +16,6 @@ namespace MapStation.Plugin.Patches {
         public static void Awake_Postfix(SkateboardScrewPole __instance) {
             __instance.poleStartPos = __instance.pole.transform.localPosition;
             __instance.startRot = __instance.pole.transform.localRotation;
-            Debug.Log("Awake_Postfix ran");
         }
         
         [HarmonyPrefix]

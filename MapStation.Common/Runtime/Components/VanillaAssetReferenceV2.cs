@@ -5,6 +5,7 @@ using Reptile;
 using UnityEngine;
 using UnityEngine.Audio;
 using MapStation.Common.Serialization;
+using Object = UnityEngine.Object;
 
 namespace MapStation.Common.VanillaAssets {
     /// <summary>
@@ -69,7 +70,7 @@ namespace MapStation.Common.VanillaAssets {
                             asset = mixer.FindMatchingGroups(f.SubPath)[0];
                             break;
                     }
-
+                    
                     if(asset == null) {
                         Debug.Log(string.Format("{0}: Restoring reference to vanilla asset failed, sub-asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\"); SubAssetType={5}; SubPath={6}", nameof(VanillaAssetReferenceV2), component.GetType().Name, f.Name, f.BundleName, f.Path, f.SubAssetType.ToString(), f.SubPath));
                         continue;
@@ -106,9 +107,23 @@ namespace MapStation.Common.VanillaAssets {
                 collection.GetType().GetProperty("Item").SetValue(collection, asset, new object[] { f.Index });
             } else {
                 if(member is PropertyInfo p) {
-                    p.SetValue(component, asset);
+                    var a = GetComponentFromPrefab(p.PropertyType, asset);
+                    p.SetValue(component, a);
+                } else if(member is FieldInfo fieldInfo) {
+                    var a = GetComponentFromPrefab(fieldInfo.FieldType, asset);
+                    fieldInfo.SetValue(component, a);
                 } else {
-                    ((FieldInfo)member).SetValue(component, asset);
+                    Debug.Log($"Unexpected member type: {member.MemberType}");
+                }
+            }
+
+            Object GetComponentFromPrefab(Type FieldOrPropertyType, Object asset) {
+                if(asset is GameObject go && FieldOrPropertyType.IsSubclassOf(typeof(Component))) {
+                    Debug.Log(go);
+                    Debug.Log(FieldOrPropertyType);
+                    return go.GetComponent(FieldOrPropertyType);
+                } else {
+                    return asset;
                 }
             }
         }

@@ -65,6 +65,10 @@ public class AddPrefabsToContextMenu {
     private static void CreateSkateboardScrewPole(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "Skateboard Screw Pole");
     }
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Cypher", priority = Priority)]
+    private static void CreateCypher(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Cypher");
+    }
 
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
