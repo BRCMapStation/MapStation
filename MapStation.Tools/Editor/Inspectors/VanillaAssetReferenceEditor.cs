@@ -99,10 +99,9 @@ namespace MapStation.Common.VanillaAssets {
                 Debug.LogError("Referenced asset is not assigned to an assetbundle.");
                 return;
             }
-            const string assetsDir = "Assets/";
             foreach(var prefix in Configuration.StripPathPrefixes) {
-                if(path.IndexOf(assetsDir + prefix) == 0) {
-                    path = assetsDir + path[(assetsDir.Length + prefix.Length)..];
+                if(path.IndexOf(prefix) == 0) {
+                    path = "Assets/" + path[(prefix.Length)..];
                     break;
                 }
             }
