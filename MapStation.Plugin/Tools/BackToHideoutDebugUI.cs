@@ -2,16 +2,12 @@ using Reptile;
 using UnityEngine;
 using MapStation.Common;
 
-namespace MapStation.Plugin;
+namespace MapStation.Plugin.Tools;
 
-class BackToHideoutDebugUI {
-    const string Name = "Hideout Escape";
+class BackToHideoutDebugUI : DebugUI.DebugMenu {
+    public override string Name => "Hideout Escape";
 
-    public void Register(DebugUI ui) {
-        ui.RegisterMenu(Name, OnGUI);
-    }
-
-    private void OnGUI() {
+    public override void OnGUI() {
         if(Plugin.CanSwitchStagesWithoutCrashing()) {
             GUILayout.Label("This button takes you back to the hideout, if you get trapped in a custom map.");
             if(GUILayout.Button("Go to Hideout")) {

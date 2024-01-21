@@ -8,7 +8,7 @@ namespace MapStation.Common.Components {
     /// 
     /// This component will create a dummy NPC component on startup, to keep vanilla BRC happy.
     /// </summary>
-    public class CreateNoOpNPC : MonoBehaviour {
+    public class CreateDummyNPC : MonoBehaviour {
 #if BEPINEX
         void Awake() {
             gameObject.SetActive(false);

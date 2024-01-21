@@ -1,3 +1,4 @@
+#pragma warning disable Harmony003
 using Reptile;
 using HarmonyLib;
 using Winterland.Plugin;

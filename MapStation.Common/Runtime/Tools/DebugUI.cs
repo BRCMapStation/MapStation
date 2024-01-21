@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MapStation.Common {
     public class DebugUI : MonoBehaviour {
-        private const int Width = 400;
+        public const int DefaultWidth = 400;
         private const int Height = 1200;
 
         public static DebugUI Instance {get; private set;}
@@ -24,15 +24,15 @@ namespace MapStation.Common {
         private bool show = true;
         private DebugMenu currentDebugMenu = null;
 
-        public void RegisterMenu(string name, Action onDebugUI) {
-            var menu = new DebugMenu() { Name = name, OnGUI = onDebugUI };
+        public void RegisterMenu(DebugMenu menu) {
             debugMenus.Add(menu);
         }
 
         private void OnGUI () {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            GUILayout.BeginArea(new Rect(0, 0, Width, Height));
+            var width = show && currentDebugMenu != null && currentDebugMenu.Width.HasValue ? currentDebugMenu.Width.Value : DefaultWidth;
+            GUILayout.BeginArea(new Rect(0, 0, width, Height));
             // HACK call it multiple times to increase the opacity (yes the internet recommended this)
             GUILayout.BeginVertical(GUI.skin.box);
             GUILayout.BeginVertical(GUI.skin.box);
@@ -47,7 +47,7 @@ namespace MapStation.Common {
                         if (GUILayout.Button("Back")) {
                             currentDebugMenu = null;
                         } else {
-                            currentDebugMenu.OnGUI.Invoke();
+                            currentDebugMenu.OnGUI();
                         }
                     } else {
                         foreach (var debugMenu in debugMenus) {
@@ -64,9 +64,10 @@ namespace MapStation.Common {
             }
         }
 
-        private class DebugMenu {
-            public string Name;
-            public Action OnGUI;
+        public abstract class DebugMenu {
+            public abstract string Name { get; }
+            public virtual int? Width { get; } = null;
+            public abstract void OnGUI();
         }
     }
 }

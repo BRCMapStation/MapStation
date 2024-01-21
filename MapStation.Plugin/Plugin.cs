@@ -15,6 +15,7 @@ using MapStation.Plugin.Phone;
 using CommonAPI.Phone;
 using MapStation.API;
 using MapStation.Plugin.API;
+using MapStation.Plugin.Tools;
 
 namespace MapStation.Plugin
 {
@@ -55,7 +56,8 @@ namespace MapStation.Plugin
             StageProgresses.Instance = new StageProgresses();
 #if MAPSTATION_DEBUG
             DebugUI.Create(MapStationConfig.Instance.DebugUI.Value);
-            new BackToHideoutDebugUI().Register(DebugUI.Instance);
+            DebugUI.Instance.RegisterMenu(new BackToHideoutDebugUI());
+            DebugUI.Instance.RegisterMenu(new DoctorDebugUI());
 #endif
             MapStationMapsAbsoluteDirectory = Path.GetDirectoryName(Info.Location);
             TestMapsAbsoluteDirectory = Path.Combine(Paths.ConfigPath, PathConstants.ConfigDirectory, PathConstants.TestMapsDirectory);
