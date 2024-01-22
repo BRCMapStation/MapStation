@@ -10,7 +10,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-	<ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
+	  <ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
   </PropertyGroup>
   
   <ItemGroup>
@@ -30,6 +30,16 @@
     <ProjectReference Include="..\MapStation.Common\MapStation.Common.csproj" />
     <ProjectReference Include="..\TypeForwarder\TypeForwarder.csproj" />
     <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
+  </ItemGroup>
+
+  <!--
+  Include Doctor sources
+  Why?
+    - Doctor must reference our stubbed Reptile components in Editor
+    - Doctor must reference real Assembly-CSharp or TypeForwarder (MapStation.Tools) at runtime
+  -->
+  <ItemGroup>
+    <Compile Include="../MapStation.Tools/Runtime/Doctor/**/*.cs" />
   </ItemGroup>
   
   <ItemGroup>

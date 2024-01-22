@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using MapStation.Common.Components;
 using UnityEngine;
 using Reptile;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements.Collections;
 using Object = UnityEngine.Object;
 
 namespace MapStation.Common.Doctor {
@@ -27,7 +25,6 @@ namespace MapStation.Common.Doctor {
         public static Analysis Analyze(GameObject[] roots) {
             var a = new Analysis();
 
-#if BEPINEX
             foreach (var root in roots) {
                 foreach (var GraffitiSpot in root.GetComponentsInChildren<GraffitiSpot>()) {
                     if (GraffitiSpot.dynamicRepPickup == null) {
@@ -60,10 +57,13 @@ namespace MapStation.Common.Doctor {
                         a.Add(VendingMachine, $"Found VendingMachine without an Animation component.");
                     }
                     foreach (var animName in VendingMachineAnimations) {
+                        // Editor says `GetState` method doesn't exist
+#if BEPINEX
                         if (animation.GetState(animName) == null) {
                             a.Add(VendingMachine,
                                 $"Found VendingMachine with Animation component missing animation: {animName}. This will fail with errors when kicked.");
                         }
+#endif
                     }
                 }
 
@@ -82,18 +82,19 @@ namespace MapStation.Common.Doctor {
                         a.Add(Teleport, $"Found Teleport's child collider not on the 'TriggerDetectPlayer' layer.");
                     }
                 }
-
-                foreach (var CharacterSelectSpot in root.GetComponentsInChildren<CharacterSelectSpot>()) {
-                    var npc = CharacterSelectSpot.GetComponentInChildren<NPC>(includeInactive: true);
-                    if (npc == null) {
-                        a.Add(CharacterSelectSpot, $"Found CharacterSelectSpot (Cypher) without a child NPC GameObject. This will crash when using the Cypher.",
-                            $"Check MapStation's Cypher prefab, which includes a dummy {nameof(CreateDummyNPC)} script to meet this requirement.");
-                    }
-                }
+                
+                // TODO check for missing Sun, suggest adding Sun prefab in Editor
+                // Old repair code, DID NOT WORK:
+                // // Create a SunFlareGPU if the map doesn't have one
+                // if (GameObject.FindObjectOfType<SunFlareGPU>() == null) {
+                //     var go = new GameObject();
+                //     var sunflareGpu = go.AddComponent<SunFlareGPU>();
+                //     var occlusionCamera = new GameObject();
+                //     occlusionCamera.transform.SetParent(go.transform);
+                //     occlusionCamera.AddComponent<Camera>();
+                // }
             }
-#endif
-            a.Add(roots[0], "testing 123");
-            a.Add(roots[1], "testing 456");
+            
             return a;
         }
 

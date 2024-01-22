@@ -6,7 +6,7 @@ namespace Reptile
 	{
 		[SerializeField]
 		[Uid]
-		protected string uid = string.Empty;
+		public string uid = string.Empty;
 
 		public string Uid => uid;
 	}

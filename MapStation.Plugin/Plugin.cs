@@ -75,6 +75,8 @@ namespace MapStation.Plugin
             if(MapStationConfig.Instance.QuickReloadValue) {
                 UpdateEvent += QuickReloadUpdate;
             }
+
+            StageAPI.OnStagePreInitialization += MapRepair.OnStagePreInitialization;
         }
 
         public void InitializeMapDatabase(Assets assets) {
