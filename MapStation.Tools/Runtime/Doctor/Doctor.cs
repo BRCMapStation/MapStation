@@ -95,7 +95,7 @@ namespace MapStation.Common.Doctor {
                 }
             }
             
-            // TODO check for missing Sun, suggest adding Sun prefab in Editor
+            // Should have exactly one sun
             var suns = roots.GetComponentsInChildren<SunFlareGPU>();
             if (suns.Count == 0) {
                 a.Add(null, "Missing Sun", "Map is missing a sun, will crash on startup. Try adding Sun prefab from the right-click menu.");
