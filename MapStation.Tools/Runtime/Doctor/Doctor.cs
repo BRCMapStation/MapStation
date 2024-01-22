@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using Reptile;
@@ -22,77 +23,87 @@ namespace MapStation.Common.Doctor {
             return Analyze(new[] {root});
         }
 
+            private static List<T> GetComponentsInChildren<T>(this GameObject[] roots) {
+                List<T> results = new ();
+                foreach (var root in roots) {
+                    results.AddRange(root.GetComponentsInChildren<T>());
+                }
+                return results;
+            }
+
         public static Analysis Analyze(GameObject[] roots) {
             var a = new Analysis();
 
-            foreach (var root in roots) {
-                foreach (var GraffitiSpot in root.GetComponentsInChildren<GraffitiSpot>()) {
-                    if (GraffitiSpot.dynamicRepPickup == null) {
-                        a.Add(GraffitiSpot, "Found GraffitiSpot.dynamicRepPickup == null. This will soft-lock when tagged.");
-                    }
-                    if (GraffitiSpot.tag != Tags.GraffitiSpot) {
-                        a.Add(GraffitiSpot, $"Found GraffitiSpot not tagged as 'GraffitiSpot'");
-                    }
-                    if (GraffitiSpot.gameObject.layer != Layers.TriggerDetectPlayer) {
-                        a.Add(GraffitiSpot, $"Found GraffitiSpot not on the 'TriggerDetectPlayer' layer.");
-                    }
-                }
-
-                foreach (var AProgressable in root.GetComponentsInChildren<AProgressable>()) {
-                    const string uidRegexp = @"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$";
-                    if (!Regex.Match(AProgressable.uid, uidRegexp, RegexOptions.None).Success) {
-                        a.Add(AProgressable, String.Format(
-                                         $"Found {AProgressable.GetType().Name}.uid which is not in expected UID format (all lowercase, numbers and letters a-f, correct length, correct hyphens) UID={0}",
-                                         AProgressable.uid));
-                    }
-                }
-
-                foreach (var VendingMachine in root.GetComponentsInChildren<VendingMachine>()) {
-                    if (VendingMachine.gameObject.layer != Layers.Enemies) {
-                        a.Add(VendingMachine,
-                            $"Found VendingMachine that is not on the Enemies layer, this means it cannot be kicked.");
-                    }
-                    var animation = VendingMachine.GetComponent<Animation>();
-                    if (animation == null) {
-                        a.Add(VendingMachine, $"Found VendingMachine without an Animation component.");
-                    }
-                    foreach (var animName in VendingMachineAnimations) {
-                        // Editor says `GetState` method doesn't exist
+            foreach (var GraffitiSpot in roots.GetComponentsInChildren<GraffitiSpot>()) {
 #if BEPINEX
-                        if (animation.GetState(animName) == null) {
-                            a.Add(VendingMachine,
-                                $"Found VendingMachine with Animation component missing animation: {animName}. This will fail with errors when kicked.");
-                        }
+                // Commonly attached w/VanillaAssetReference, so test only at runtime.
+                if (GraffitiSpot.dynamicRepPickup == null) {
+                    a.Add(GraffitiSpot, "Graffiti missing dynamicRepPickup", "Found GraffitiSpot.dynamicRepPickup == null. This will soft-lock when tagged.");
+                }
 #endif
-                    }
+                if (GraffitiSpot.tag != Tags.GraffitiSpot) {
+                    a.Add(GraffitiSpot, "GraffitiSpot has wrong tag", $"Found GraffitiSpot not tagged as 'GraffitiSpot'");
                 }
+                if (GraffitiSpot.gameObject.layer != Layers.TriggerDetectPlayer) {
+                    a.Add(GraffitiSpot, "GraffitiSpot has wrong layer", $"Found GraffitiSpot not on the 'TriggerDetectPlayer' layer.");
+                }
+            }
 
-                foreach (var Teleport in root.GetComponentsInChildren<Teleport>()) {
-                    if (Teleport.teleportTo == null) {
-                        a.Add(Teleport, $"Found Teleport missing a `teleportTo` destination.");
-                    }
-                    var collider = Teleport.GetComponentInChildren<BoxCollider>();
-                    if (collider == null) {
-                        a.Add(Teleport, $"Found Teleport without a Box Collider on a child GameObject.");
-                    }
-                    if (collider.tag != Tags.Teleport) {
-                        a.Add(Teleport, $"Found Teleporter's child collider not tagged as 'Teleport'");
-                    }
-                    if (collider.gameObject.layer != Layers.TriggerDetectPlayer) {
-                        a.Add(Teleport, $"Found Teleport's child collider not on the 'TriggerDetectPlayer' layer.");
-                    }
+            foreach (var AProgressable in roots.GetComponentsInChildren<AProgressable>()) {
+                const string uidRegexp = @"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$";
+                if (!Regex.Match(AProgressable.uid, uidRegexp, RegexOptions.None).Success) {
+                    a.Add(AProgressable, "Bad Uid", String.Format(
+                                     $"Found {AProgressable.GetType().Name}.uid which is not in expected UID format (all lowercase, numbers and letters a-f, correct length, correct hyphens) UID={0}",
+                                     AProgressable.uid));
                 }
-                
-                // TODO check for missing Sun, suggest adding Sun prefab in Editor
-                // Old repair code, DID NOT WORK:
-                // // Create a SunFlareGPU if the map doesn't have one
-                // if (GameObject.FindObjectOfType<SunFlareGPU>() == null) {
-                //     var go = new GameObject();
-                //     var sunflareGpu = go.AddComponent<SunFlareGPU>();
-                //     var occlusionCamera = new GameObject();
-                //     occlusionCamera.transform.SetParent(go.transform);
-                //     occlusionCamera.AddComponent<Camera>();
-                // }
+            }
+
+            foreach (var VendingMachine in roots.GetComponentsInChildren<VendingMachine>()) {
+                if (VendingMachine.gameObject.layer != Layers.Enemies) {
+                    a.Add(VendingMachine, "VendingMachine has wrong layer",
+                        $"Found VendingMachine that is not on the Enemies layer, this means it cannot be kicked.");
+                }
+                var animation = VendingMachine.GetComponent<Animation>();
+                if (animation == null) {
+                    a.Add(VendingMachine, "VendingMachine missing Animation component", $"Found VendingMachine without an Animation component.");
+                }
+                foreach (var animName in VendingMachineAnimations) {
+#if BEPINEX
+                    // Commonly attached w/VanillaAssetReference, so test only at runtime.
+                    // Also, editor says `GetState` method doesn't exist.
+                    if (animation.GetState(animName) == null) {
+                        a.Add(VendingMachine, "VendingMachine missing animations",
+                            $"Found VendingMachine with Animation component missing animation: {animName}. This will fail with errors when kicked.");
+                    }
+#endif
+                }
+            }
+
+            foreach (var Teleport in roots.GetComponentsInChildren<Teleport>()) {
+                if (Teleport.teleportTo == null) {
+                    a.Add(Teleport, $"Found Teleport missing a `teleportTo` destination.");
+                }
+                var collider = Teleport.GetComponentInChildren<BoxCollider>();
+                if (collider == null) {
+                    a.Add(Teleport, $"Found Teleport without a Box Collider on a child GameObject.");
+                }
+                if (collider.tag != Tags.Teleport) {
+                    a.Add(Teleport, $"Found Teleporter's child collider not tagged as 'Teleport'");
+                }
+                if (collider.gameObject.layer != Layers.TriggerDetectPlayer) {
+                    a.Add(Teleport, $"Found Teleport's child collider not on the 'TriggerDetectPlayer' layer.");
+                }
+            }
+            
+            // TODO check for missing Sun, suggest adding Sun prefab in Editor
+            var suns = roots.GetComponentsInChildren<SunFlareGPU>();
+            if (suns.Count == 0) {
+                a.Add(null, "Missing Sun", "Map is missing a sun, will crash on startup. Try adding Sun prefab from the right-click menu.");
+            }
+            if (suns.Count > 1) {
+                foreach (var sun in suns) {
+                    a.Add(sun, "Multiple Suns", "Map has multiple suns, lighting will be too bright. Try deleting all but one.");
+                }
             }
             
             return a;

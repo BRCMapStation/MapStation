@@ -69,6 +69,10 @@ public class AddPrefabsToContextMenu {
     private static void CreateCypher(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "Cypher");
     }
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Sun", priority = Priority)]
+    private static void CreateSun(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Sun");
+    }
 
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
