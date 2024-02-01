@@ -26,31 +26,34 @@ namespace Reptile
 		[ContextMenu("Initialize")]
 		public void Init()
 		{
-			{
-				bottomLeft = new Vector3(GetComponent<MeshCollider>().sharedMesh.bounds.extents.x, -GetComponent<MeshCollider>().sharedMesh.bounds.extents.y, GetComponent<MeshCollider>().sharedMesh.bounds.extents.z);
-				bottomLeft += GetComponent<MeshCollider>().sharedMesh.bounds.center;
-				topLeft = new Vector3(GetComponent<MeshCollider>().sharedMesh.bounds.extents.x, GetComponent<MeshCollider>().sharedMesh.bounds.extents.y, -GetComponent<MeshCollider>().sharedMesh.bounds.extents.z);
-				topLeft += GetComponent<MeshCollider>().sharedMesh.bounds.center;
-				topRight = new Vector3(-GetComponent<MeshCollider>().sharedMesh.bounds.extents.x, GetComponent<MeshCollider>().sharedMesh.bounds.extents.y, -GetComponent<MeshCollider>().sharedMesh.bounds.extents.z);
-				topRight += GetComponent<MeshCollider>().sharedMesh.bounds.center;
-				bottomLeftWorld = base.transform.TransformPoint(bottomLeft);
-				Vector3 from = base.transform.TransformDirection(topRight - topLeft);
-				from.y = 0f;
-				float angle = Vector3.SignedAngle(from, Vector3.right, Vector3.up);
-				rotLocal = Quaternion.AngleAxis(angle, Vector3.up);
-				rotWorld = Quaternion.Inverse(rotLocal);
-				size = topRight - bottomLeft;
-				size.x = Mathf.Abs(size.x) * base.transform.lossyScale.x;
-				size.y = Mathf.Abs(size.y) * base.transform.lossyScale.y;
-				size.z = Mathf.Abs(size.z) * base.transform.lossyScale.z;
-				if (Mathf.Abs(topRight.x - topLeft.x) < Mathf.Abs(topRight.z - topLeft.z))
-				{
-					float x = size.x;
-					size.x = size.z;
-					size.z = x;
-				}
-			}
-			EditorUtility.SetDirty(this);
+            // Mark dirty and track for undo IFF these computations change any values
+            Undo.RecordObject(this, "Init VertShape");
+
+            // These 3x were not computed in Reptile's ripped code, presumably were wrapped in UNITY_EDITOR and excluded from release build
+            bottomLeft = new Vector3(GetComponent<MeshCollider>().sharedMesh.bounds.extents.x, -GetComponent<MeshCollider>().sharedMesh.bounds.extents.y, GetComponent<MeshCollider>().sharedMesh.bounds.extents.z);
+            bottomLeft += GetComponent<MeshCollider>().sharedMesh.bounds.center;
+            topLeft = new Vector3(GetComponent<MeshCollider>().sharedMesh.bounds.extents.x, GetComponent<MeshCollider>().sharedMesh.bounds.extents.y, -GetComponent<MeshCollider>().sharedMesh.bounds.extents.z);
+            topLeft += GetComponent<MeshCollider>().sharedMesh.bounds.center;
+            topRight = new Vector3(-GetComponent<MeshCollider>().sharedMesh.bounds.extents.x, GetComponent<MeshCollider>().sharedMesh.bounds.extents.y, -GetComponent<MeshCollider>().sharedMesh.bounds.extents.z);
+            topRight += GetComponent<MeshCollider>().sharedMesh.bounds.center;
+
+            // Remainder were computed by Reptile's Init()
+            bottomLeftWorld = base.transform.TransformPoint(bottomLeft);
+            Vector3 from = base.transform.TransformDirection(topRight - topLeft);
+            from.y = 0f;
+            float angle = Vector3.SignedAngle(from, Vector3.right, Vector3.up);
+            rotLocal = Quaternion.AngleAxis(angle, Vector3.up);
+            rotWorld = Quaternion.Inverse(rotLocal);
+            size = topRight - bottomLeft;
+            size.x = Mathf.Abs(size.x) * base.transform.lossyScale.x;
+            size.y = Mathf.Abs(size.y) * base.transform.lossyScale.y;
+            size.z = Mathf.Abs(size.z) * base.transform.lossyScale.z;
+            if (Mathf.Abs(topRight.x - topLeft.x) < Mathf.Abs(topRight.z - topLeft.z))
+            {
+                float x = size.x;
+                size.x = size.z;
+                size.z = x;
+            }
 		}
 
         private void Update()
