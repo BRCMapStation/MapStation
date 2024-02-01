@@ -18,10 +18,14 @@ namespace MapStation.Plugin.Phone {
             base.OnAppEnable();
             ScrollView.RemoveAllButtons();
             var stages = MapDatabase.Instance.maps.Values;
+            addButton(Stage.hideout, "Hideout");
             foreach(var stage in stages) {
-                var button = PhoneUIUtility.CreateSimpleButton(stage.Properties.displayName);
+                addButton(stage.stageId, stage.Properties.displayName);
+            }
+            void addButton(Stage stageId, string displayName) {
+                var button = PhoneUIUtility.CreateSimpleButton(displayName);
                 button.OnConfirm += () => {
-                    Core.Instance.BaseModule.StageManager.ExitCurrentStage(stage.stageId);
+                    Core.Instance.BaseModule.StageManager.ExitCurrentStage(stageId);
                 };
                 ScrollView.AddButton(button);
             }
