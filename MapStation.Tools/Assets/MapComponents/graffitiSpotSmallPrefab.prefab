@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 2330866082535417773}
   - component: {fileID: 2330866082535425299}
   - component: {fileID: 2330866082535433880}
-  - component: {fileID: 6921781554498009533}
+  - component: {fileID: 5641289035948805680}
   m_Layer: 0
   m_Name: ShineMarker
   m_TagString: Untagged
@@ -420,7 +420,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6921781554498009533
+--- !u!114 &5641289035948805680
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -429,12 +429,61 @@ MonoBehaviour:
   m_GameObject: {fileID: 2330866082535379725}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 42104060, guid: 7486338a3d7da87438ecab790990b00d, type: 3}
+  m_Script: {fileID: 11500000, guid: d3f53950e5e641f459d8726da39a49ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  component: {fileID: 2330866082535433880}
-  fields:
-  - sharedMaterial=common_assets:Assets/common assets/graffiti/MarkerShineMaterial.mat
+  components:
+    rid: 5481975903607324700
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 5481975903607324700
+      type: {class: VanillaAssetReferenceV2/SList_Components, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 5481975903607324701
+        items:
+        - rid: 5481975903607324702
+    - rid: 5481975903607324701
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 5481975903607324702
+        next:
+          rid: -2
+    - rid: 5481975903607324702
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 2330866082535433880}
+        fields:
+          rid: 5481975903607324703
+    - rid: 5481975903607324703
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 5481975903607324704
+        items:
+        - rid: 5481975903607324705
+    - rid: 5481975903607324704
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 5481975903607324705
+        next:
+          rid: -2
+    - rid: 5481975903607324705
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: sharedMaterial
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/graffiti/MarkerShineMaterial.mat
+        SubAssetType: 0
+        SubPath: 
 --- !u!1 &2330866082535381517
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,7 +668,7 @@ MonoBehaviour:
   surfaceRotation: 0
   quality: 0
   sharedMesh: {fileID: 0}
-  instanceID: 60902
+  instanceID: 29678
 --- !u!1 &2330866082535394042
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +680,7 @@ GameObject:
   - component: {fileID: 2330866082535410140}
   - component: {fileID: 2330866082535318826}
   - component: {fileID: 2330866082535315805}
-  - component: {fileID: 2081468038880057907}
+  - component: {fileID: 7833748116091829648}
   m_Layer: 19
   m_Name: graffitiSpotSmallPrefab
   m_TagString: GraffitiSpot
@@ -704,7 +753,7 @@ MonoBehaviour:
   dynamicRepPickup: {fileID: 1896520741361529, guid: 5435ec0b366afd5468a261290d2d1fea, type: 3}
   decalTopPlaneAlternativeRenderer: []
   decalBottomPlaneAlternativeRenderer: []
---- !u!114 &2081468038880057907
+--- !u!114 &7833748116091829648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -713,13 +762,80 @@ MonoBehaviour:
   m_GameObject: {fileID: 2330866082535394042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 42104060, guid: 7486338a3d7da87438ecab790990b00d, type: 3}
+  m_Script: {fileID: 11500000, guid: d3f53950e5e641f459d8726da39a49ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  component: {fileID: 2330866082535315805}
-  fields:
-  - emptyGraffitiMaterial=common_assets:Assets/common assets/graffiti/EmptyGraffitiSwirlMaterial.mat
-  - dynamicRepPickup=common_assets:Assets/common assets/gameplay/prefabs/pickups/dynamicRepPickup.prefab
+  components:
+    rid: 5481975903607324673
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 5481975903607324673
+      type: {class: VanillaAssetReferenceV2/SList_Components, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 5481975903607324674
+        items:
+        - rid: 5481975903607324675
+    - rid: 5481975903607324674
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 5481975903607324675
+        next:
+          rid: -2
+    - rid: 5481975903607324675
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 2330866082535315805}
+        fields:
+          rid: 5481975903607324676
+    - rid: 5481975903607324676
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 5481975903607324677
+        items:
+        - rid: 5481975903607324678
+        - rid: 5481975903607324679
+    - rid: 5481975903607324677
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 5481975903607324678
+        next:
+          rid: 5481975903607324680
+    - rid: 5481975903607324678
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: emptyGraffitiMaterial
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/graffiti/EmptyGraffitiSwirlMaterial.mat
+        SubAssetType: 0
+        SubPath: 
+    - rid: 5481975903607324679
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: dynamicRepPickup
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/gameplay/prefabs/pickups/dynamicRepPickup.prefab
+        SubAssetType: 0
+        SubPath: 
+    - rid: 5481975903607324680
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 5481975903607324679
+        next:
+          rid: -2
 --- !u!1 &2330866082535406476
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,4 +988,4 @@ MonoBehaviour:
   surfaceRotation: 0
   quality: 0
   sharedMesh: {fileID: 0}
-  instanceID: 60900
+  instanceID: 29676
