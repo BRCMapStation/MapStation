@@ -10,8 +10,8 @@
   </PropertyGroup>
   
   <PropertyGroup>
-	<ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
-	<RootNamespace>MapStation.Common</RootNamespace>
+    <ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
+    <RootNamespace>MapStation.Common</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +19,8 @@
     <PackageReference Include="BepInEx.Core" Version="5.*" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
     <PackageReference Include="UnityEngine.Modules" Version="2021.3.27" IncludeAssets="compile" />
-	<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Unity.Analyzers" Version="1.18.0" PrivateAssets="all" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
@@ -29,8 +30,8 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(ManagedPath)/Assembly-CSharp.dll</HintPath>
-	  <Private>false</Private>
-	  <Publicize>true</Publicize>
+      <Private>false</Private>
+      <Publicize>true</Publicize>
     </Reference>
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
