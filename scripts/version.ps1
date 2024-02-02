@@ -10,12 +10,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
-function PatchJson($path, $fn) {
-    $json = Get-Content $path | ConvertFrom-Json
-    # Trick to call $fn and set the automatic $_ var
-    ForEach-Object -Process $fn -InputObject $json
-    $json | ConvertTo-Json -Depth 99 | Set-Content $path
-}
+. $PSScriptRoot/common.ps1
 
 $RestoreCwd = Get-Location
 Set-Location $PSScriptRoot/..
