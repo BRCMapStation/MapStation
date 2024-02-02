@@ -17,8 +17,8 @@ function findFromRunningProcess() {
     }
 }
 
-findFromStartMenu "$($env:programdata)\Microsoft\Windows\Start Menu\Programs\Unity 2021.3.27f1\Unity.lnk"
-findFromStartMenu "$($env:appdata)\Microsoft\Windows\Start Menu\Programs\Unity 2021.3.27f1\Unity.lnk"
+findFromStartMenu "$($env:programdata)\Microsoft\Windows\Start Menu\Programs\Unity 2021.3.20f1\Unity.lnk"
+findFromStartMenu "$($env:appdata)\Microsoft\Windows\Start Menu\Programs\Unity 2021.3.20f1\Unity.lnk"
 
 findFromRunningProcess
 
