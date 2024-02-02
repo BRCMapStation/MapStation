@@ -49,6 +49,8 @@ Build & zip plugin, editor, and package registry.
 
 Create a new "Release" on github, selecting the git tag you previously pushed. Upload plugin and editor .zips to the release.
 
+Upload plugin .zip to Thunderstore. *Don't forget to choose the correct team!*
+
 Push the updated package registry to git, which publishes to github pages. (static file hosting)
 
 *This is a different `git clone` and will push to a different git repository*
