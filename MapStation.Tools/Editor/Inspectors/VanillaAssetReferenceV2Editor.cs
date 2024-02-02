@@ -116,7 +116,7 @@ namespace MapStation.Common.VanillaAssets {
         private void onFieldSelected(object selected_) {
             var selected = (MenuItemValue)selected_;
             var component = selected.ComponentEntry.Component;
-            
+
             var member = component.GetType().GetMember(selected.Name, 
                 VanillaAssetReference.UseTheseBindingFlags
             )[0].ToManipulator();
@@ -159,6 +159,8 @@ namespace MapStation.Common.VanillaAssets {
                 SubPath = audioMixerGroup.name;
             }
 
+            // "Complete" Necessary to record nested objects which are [SerializeReference]
+            Undo.RegisterCompleteObjectUndo(selected.Owner, $"Add Field to {nameof(VanillaAssetReferenceV2)}");
             selected.ComponentEntry.Fields.Add(new () {
                 Name = selected.Name,
                 BundleName = bundle,
@@ -167,7 +169,6 @@ namespace MapStation.Common.VanillaAssets {
                 SubAssetType = type,
                 SubPath = SubPath
             });
-            EditorUtility.SetDirty(selected.Owner);
         }
     }
 

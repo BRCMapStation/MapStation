@@ -106,8 +106,8 @@ namespace MapStation.Common.VanillaAssets {
                 }
             }
             
+            Undo.RecordObject(t, "Add field");
             t.fields.Add(String.Format("{0}={1}:{2}", s.PropertyPath, bundle, path));
-            EditorUtility.SetDirty(t);
         }
     }
 

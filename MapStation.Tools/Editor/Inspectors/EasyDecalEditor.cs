@@ -37,16 +37,16 @@ public class EasyDecalEditor : Editor {
             "Click 'Reset to BRC defaults' to set default values similar to TeamReptile's graffiti spots.",
             MessageType.Warning);
         if(GUILayout.Button("Reset to BRC defaults")) {
+            Undo.RecordObject(decal, "Reset EasyDecal to BRC defaults");
             resetToBrcDefaults();
-            EditorUtility.SetDirty(decal);
         }
         proxy.readFromEasyDecal();
         CreateCachedEditor(proxy, null, ref proxyEditor);
         EditorGUI.BeginChangeCheck();
         proxyEditor.OnInspectorGUI();
         if(EditorGUI.EndChangeCheck()) {
+            Undo.RecordObject(decal, "Modify EasyDecal");
             proxy.writeToEasyDecal();
-            EditorUtility.SetDirty(decal);
         }
     }
 
