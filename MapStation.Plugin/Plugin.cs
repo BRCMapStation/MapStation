@@ -63,6 +63,8 @@ namespace MapStation.Plugin
             TestMapsAbsoluteDirectory = Path.Combine(Paths.ConfigPath, PathConstants.ConfigDirectory, PathConstants.TestMapsDirectory);
             UserMapsAbsoluteDirectory = Paths.PluginPath;
 
+            ThreadedLogFix.Install();
+
             Log = Logger;
             PhoneAPI.RegisterApp<AppMapStation>("mapstation");
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
