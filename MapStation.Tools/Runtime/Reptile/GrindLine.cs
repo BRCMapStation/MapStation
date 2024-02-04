@@ -373,7 +373,7 @@ namespace Reptile
 		}
 
 		private void OnValidate() {
-			if(EditorUtility.IsPersistent(this)) return;
+			if(EditorUtility.IsPersistent(this) || MapBuilderStatus.IsBuilding) return;
 			PathReference = PathReference != null ? PathReference : GetComponentInParent<GrindPath>();
 		}
 		#endif

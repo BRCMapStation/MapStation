@@ -392,7 +392,7 @@ public class BezierSpline : MonoBehaviour
 	public event OnChangeHandler OnChange;
 
 	private void OnValidate() {
-		if(EditorUtility.IsPersistent(this)) return;
+		if(EditorUtility.IsPersistent(this) || MapBuilderStatus.IsBuilding) return;
 		// TODO this duplicates the DirtyCount call from OnInspectorGUI()
 		CoroutineUtils.RunNextTick(EmitChange);
     }

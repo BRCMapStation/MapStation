@@ -144,7 +144,7 @@ namespace Reptile
 		}
 
 		private void OnValidate() {
-			if(EditorUtility.IsPersistent(this)) return;
+			if(EditorUtility.IsPersistent(this) || MapBuilderStatus.IsBuilding) return;
 			// Auto-set PathReference
 			if (PathReference == null) {
 				PathReference = gameObject.GetComponentInParent<GrindPath>();
