@@ -8,6 +8,11 @@ using BepInEx.Logging;
 
 namespace MapStation.Plugin;
 
+public enum MapSource {
+    Normal,
+    TestMaps
+}
+
 public class MapDatabase {
     public static MapDatabase Instance;
     public Assets Assets;
@@ -22,7 +27,7 @@ public class MapDatabase {
         logger = new ManualLogSource("MapStation Map Database");
     }
 
-    public void AddFromDirectory(string path) {
+    public void AddFromDirectory(string path, MapSource source = MapSource.Normal) {
         var files = Directory.GetFiles(path, $"*{PathConstants.MapFileExtension}", SearchOption.AllDirectories);
         foreach(var file in files) {
             var mapName = Path.GetFileNameWithoutExtension(file);
@@ -41,7 +46,8 @@ public class MapDatabase {
                     Properties = properties,
                     ScenePath = AssetNames.GetScenePathForMap(mapName),
                     zipPath = file,
-                    stageId = stageID
+                    stageId = stageID,
+                    source = source
                 };
                 Add(map);
             }
@@ -107,4 +113,5 @@ public class PluginMapDatabaseEntry : BaseMapDatabaseEntry {
     public string internalName;
     public string zipPath;
     public MapProperties Properties;
+    public MapSource source;
 }

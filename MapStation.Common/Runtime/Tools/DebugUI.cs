@@ -19,6 +19,11 @@ namespace MapStation.Common {
             DontDestroyOnLoad(gameObject);
         }
 
+        public bool UiEnabled {
+            get => gameObject.activeSelf;
+            set => gameObject.SetActive(value);
+        }
+
         private List<DebugMenu> debugMenus = new ();
 
         private bool show = true;

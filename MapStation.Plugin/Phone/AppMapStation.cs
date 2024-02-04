@@ -20,7 +20,9 @@ namespace MapStation.Plugin.Phone {
             var stages = MapDatabase.Instance.maps.Values;
             addButton(Stage.hideout, "Hideout");
             foreach(var stage in stages) {
-                addButton(stage.stageId, stage.Properties.displayName);
+                var displayName = stage.Properties.displayName;
+                if(stage.source == MapSource.TestMaps) displayName += " (local build)";
+                addButton(stage.stageId, displayName);
             }
             void addButton(Stage stageId, string displayName) {
                 var button = PhoneUIUtility.CreateSimpleButton(displayName);

@@ -54,11 +54,11 @@ namespace MapStation.Plugin
             SceneNameMapper.Instance = new SceneNameMapper();
             ZipAssetBundles.Instance = new ZipAssetBundles();
             StageProgresses.Instance = new StageProgresses();
-#if MAPSTATION_DEBUG
+
             DebugUI.Create(MapStationConfig.Instance.DebugUI.Value);
             DebugUI.Instance.RegisterMenu(new BackToHideoutDebugUI());
             DebugUI.Instance.RegisterMenu(new DoctorDebugUI());
-#endif
+
             MapStationMapsAbsoluteDirectory = Path.GetDirectoryName(Info.Location);
             TestMapsAbsoluteDirectory = Path.Combine(Paths.ConfigPath, PathConstants.ConfigDirectory, PathConstants.TestMapsDirectory);
             UserMapsAbsoluteDirectory = Paths.PluginPath;
@@ -79,6 +79,7 @@ namespace MapStation.Plugin
             }
 
             StageAPI.OnStagePreInitialization += MapRepair.OnStagePreInitialization;
+            StageAPI.OnStagePreInitialization += EnableDebugUIOnStageInit;
         }
 
         public void InitializeMapDatabase(Assets assets) {
@@ -90,7 +91,7 @@ namespace MapStation.Plugin
                 Directory.CreateDirectory(TestMapsAbsoluteDirectory);
             }
             MapDatabase.Instance.AddFromDirectory(MapStationMapsAbsoluteDirectory);
-            MapDatabase.Instance.AddFromDirectory(TestMapsAbsoluteDirectory);
+            MapDatabase.Instance.AddFromDirectory(TestMapsAbsoluteDirectory, MapSource.TestMaps);
             MapDatabase.Instance.AddFromDirectory(UserMapsAbsoluteDirectory);
 
             var api = new MapStationAPI(MapDatabase.Instance);
@@ -119,6 +120,14 @@ namespace MapStation.Plugin
                     Core.Instance.BaseModule.StageManager.ExitCurrentStage(Core.Instance.SaveManager.CurrentSaveSlot.currentStageProgress.stageID);
                 }
             }
+        }
+
+        private void EnableDebugUIOnStageInit(Stage newStage, Stage previousStage) {
+            if(MapStationConfig.Instance.DebugUI.Value) {
+                DebugUI.Instance.enabled = true;
+                return;
+            }
+            DebugUI.Instance.UiEnabled = MapDatabase.Instance.maps.TryGetValue(newStage, out var map) && map.source == MapSource.TestMaps;
         }
     }
 }
