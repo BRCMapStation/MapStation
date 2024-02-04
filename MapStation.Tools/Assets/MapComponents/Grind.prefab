@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 3784662297063719540}
   - component: {fileID: 3784662297063719541}
   m_Layer: 0
-  m_Name: GrindPrefab
+  m_Name: Grind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,8 +79,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodePrefab: {fileID: 3015417607446456701, guid: fb941ccabf44e77468b77f7ce2f047b7, type: 3}
   LinePrefab: {fileID: 3476559938138676021, guid: e20cef06072d3f44eab3ee5ea7f19a58, type: 3}
-  NodeParent: {fileID: 3784662297942923792}
-  LineParent: {fileID: 3784662296940412038}
+  NodesContainer: {fileID: 3784662297942923792}
+  LinesContainer: {fileID: 3784662296940412038}
+  SplinesContainer: {fileID: 0}
+  GrindPath: {fileID: 3784662298383400180}
   nodes:
   - {fileID: 3784662296593771578}
   - {fileID: 3784662297646413460}
@@ -134,9 +136,6 @@ MonoBehaviour:
   grindLines:
   - {fileID: 3784662297528714099}
   retour: 0
-  dummy: 0
-  dummy2: 0
-  dummy3: 0
 --- !u!1 &3784662297942923791
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,6 +285,18 @@ PrefabInstance:
       propertyPath: nodes.Array.data[1]
       value: 
       objectReference: {fileID: 3784662297646413460}
+    - target: {fileID: 3476559938650893497, guid: e20cef06072d3f44eab3ee5ea7f19a58, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3476559938650893497, guid: e20cef06072d3f44eab3ee5ea7f19a58, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3476559938650893497, guid: e20cef06072d3f44eab3ee5ea7f19a58, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e20cef06072d3f44eab3ee5ea7f19a58, type: 3}
 --- !u!4 &3784662297528714098 stripped

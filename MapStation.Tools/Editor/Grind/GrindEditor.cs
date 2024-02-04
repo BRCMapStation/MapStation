@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Reptile;
 using UnityEngine;
 using UnityEditor;
 using MapStation.Components;
@@ -8,24 +5,27 @@ using MapStation.Components;
 [CustomEditor(typeof(Grind))]
 public class GrindEditor : Editor
 {
-    public Grind thisGrind;
+    public new Grind target;
 
     private void Awake()
     {
-        thisGrind = target as Grind;
+        target = base.target as Grind;
     }
+
     public override void OnInspectorGUI()
     {
-        thisGrind.ListNodes();
-        thisGrind.ListLines();
         DrawDefaultInspector();
+        if (GUILayout.Button("Repair"))
+        {
+            GrindActions.Repair(target);
+        }
         if (GUILayout.Button("Add Node"))
         {
-            thisGrind.AddNode();
+            GrindActions.AddNode(target);
         }
         if (GUILayout.Button("Remove Node"))
         {
-            thisGrind.RemoveNode();
+            GrindActions.RemoveLastNode(target);
         }
     }
 

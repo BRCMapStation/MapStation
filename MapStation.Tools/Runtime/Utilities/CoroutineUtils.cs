@@ -5,6 +5,9 @@ using Unity.EditorCoroutines.Editor;
 
 static class CoroutineUtils {
     public delegate void RunNextTickDelegate();
+    /// <summary>
+    /// Note: consider `EditorApplication.delayCall += ` as alternative.
+    /// </summary>
     public static void RunNextTick(RunNextTickDelegate fn, Object owner = null) {
         if(owner == null)
             EditorCoroutineUtility.StartCoroutineOwnerless(RunNextTickWorker(fn));

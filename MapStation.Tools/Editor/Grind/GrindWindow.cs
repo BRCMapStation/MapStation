@@ -4,6 +4,7 @@ using Reptile;
 using UnityEditor;
 using UnityEngine;
 using MapStation.Components;
+using System;
 
 public class GrindWindow : EditorWindow
 {
@@ -88,6 +89,19 @@ public class GrindWindow : EditorWindow
         }
     }
 
+    /// <summary>
+    /// Prevents console errors when trying render inspector for destroyed object
+    /// </summary>
+    private bool anyInspectedComponentIsDestroyed() {
+        bool FindDestroyed(Component[] components) => Array.Exists(components, c => c == null);
+        return
+            FindDestroyed(grindPaths)
+            || FindDestroyed(grindNodes)
+            || FindDestroyed(grindLines)
+            || FindDestroyed(splineBasedGrindLineGenerators)
+            || FindDestroyed(bezierSplines);
+    }
+
     static T[] GetComponentInParentOfEach<T>(GameObject[] objects) {
             List<T> results = new List<T>();
             foreach(var o in objects) {
@@ -108,6 +122,10 @@ public class GrindWindow : EditorWindow
 
     private void OnGUI()
     {
+        if(anyInspectedComponentIsDestroyed()) {
+            refreshSelectedComponentsAndEditors();
+        }
+
         // Restore defaults; we modify these elsewhere
         EditorGUIUtility.labelWidth = 0;
         EditorGUIUtility.fieldWidth = 0;

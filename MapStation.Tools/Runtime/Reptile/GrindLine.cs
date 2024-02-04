@@ -1,5 +1,3 @@
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,29 +30,9 @@ namespace Reptile
 
 		public bool alwaysFlipBack;
 
-		public GrindNode n0
-		{
-			get
-			{
-				return nodes[0];
-			}
-			set
-			{
-				nodes[0] = value;
-			}
-		}
+		public ref GrindNode n0 => ref nodes[0];
 
-		public GrindNode n1
-		{
-			get
-			{
-				return nodes[1];
-			}
-			set
-			{
-				nodes[1] = value;
-			}
-		}
+		public ref GrindNode n1 => ref nodes[1];
 
 		public Vector3 defaultDir => (n1 - n0).normalized;
 
@@ -153,7 +131,10 @@ namespace Reptile
 
 		[ContextMenu("Build Grind Line")]
 		public void Rebuild()
-		{
+		{	
+			ReferenceRecoveryUtil.Repair(ref n0);
+			ReferenceRecoveryUtil.Repair(ref n1);
+
 			if (IsValid() != LineState.missingNode)
 			{
 				if (n0.transform.parent != base.transform.parent || n1.transform.parent != base.transform.parent)
@@ -356,6 +337,7 @@ namespace Reptile
 
 		void OnEnable() {
 			transform.hideFlags |= HideFlags.NotEditable;
+			GetComponent<CapsuleCollider>().hideFlags |= HideFlags.NotEditable;
 		}
 
 		public GameObject redDebugShape => transform.childCount > 0 ? transform.GetChild(0).gameObject : null;
@@ -371,8 +353,6 @@ namespace Reptile
 
 			// To preserve inspector configuration on the nodes and lines,
 			// this line is cloned to make the new line, and n0 is cloned to make the new node.
-
-			Undo.IncrementCurrentGroup();
 
 			var oldN1 = n1;
 
@@ -428,50 +408,33 @@ namespace Reptile
 		}
 
 		public void RebuildWithRedDebugShape() {
+			Rebuild();
+
 			// TODO conditional is hack to avoid errors while spline grinds are being hooked up. they don't have red debug shapes
 			var r = redDebugShape;
 			if(r) {
+				Undo.RecordObject(r.transform, null);
 				r.transform.localScale = new Vector3(0.3f, 0.3f, GetComponent<CapsuleCollider>().height);
 				// When you accidentally drag-select the red debug shape alongside nodes, you will accidentally move
 				// the debug shape. Causes wonky drag behavior. Prevent this by resetting localPosition
 				// TODO EXCEPT THIS DOESN'T FIX THE PROBLEM
-				r.transform.localPosition = Vector3.zero;
-				r.transform.localRotation = Quaternion.identity;
+				r.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 			}
-
-			Rebuild();
 		}
 
 		private void OnDestroy() {
-			if(n0 != null) n0.RemoveLine(this);
-			if(n1 != null) n1.RemoveLine(this);
+			if(n0 != null) {
+				GrindActions.RemoveLineFromNode(this, n0);
+			}
+			if(n1 != null) {
+				GrindActions.RemoveLineFromNode(this, n1);
+			}
 		}
 
 		private void OnValidate() {
 			if(EditorUtility.IsPersistent(this)) return;
 			PathReference = PathReference != null ? PathReference : GetComponentInParent<GrindPath>();
 		}
-
-		// TODO delete this, testing code
-		// [InitializeOnLoadMethod]
-		// static void registerSelectionChange() {
-		// 	// Selection.selectionChanged += selectionChanged;
-		// }
-		// static void selectionChanged() {
-		// 	CoroutineUtils.RunNextTick(selectionChangedNextTick);
-		// }
-		// static void selectionChangedNextTick() {
-		// 	foreach(var o in Selection.gameObjects) {
-		// 		if(o.name == "Cube") {
-		// 			Debug.Log("removing " + o);
-		// 			foreach(var o2 in Selection.objects) {
-		// 				Debug.Log("o2 " + o2);
-		// 			}
-		// 			Selection.objects = Selection.objects.Where(x => x != o).ToArray();
-		// 			break;
-		// 		}
-		// 	}
-		// }
 		#endif
 	}
 }

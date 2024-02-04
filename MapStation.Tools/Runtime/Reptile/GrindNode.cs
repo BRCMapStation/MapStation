@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using System.Linq;
 using MapStation.Components;
+using MapStation.Common.Doctor;
 
 namespace Reptile
 {
@@ -99,7 +99,7 @@ namespace Reptile
 		{
 			foreach (GrindLine grindLine in grindLines)
 			{
-				if (grindLine.ContainsNode(grindNode))
+				if (grindLine != null && grindLine.ContainsNode(grindNode))
 				{
 					return true;
 				}
@@ -151,15 +151,31 @@ namespace Reptile
 			}
 
 			// Keep GrindLines synced to GrindNodes
-            foreach(GrindLine line in new List<GrindLine>(grindLines))
-            {
-				if (line == null)
-					grindLines.Remove(line);
-                else
-                {
-					line.RebuildWithRedDebugShape();
+			for(var i = 0; i < grindLines.Count; i++) {
+				if(ReferenceRecoveryUtil.GetCurrent(grindLines[i], out var current)) {
+					grindLines[i] = current;
 				}
-            }
+
+				var line = grindLines[i];
+				if (line != null) {
+					line.RebuildWithRedDebugShape();
+				} else {
+					// Cannot synchronously remove missing references from the list, because they might be recreated in a moment!
+
+					// When undoing a line deletion, Unity restores the line in this order:
+					// 1. Nodes' references to the line are restored first, show as "missing"
+					// 2. This OnValidate is called, sees "missing" references
+					// 3. Deleted line is restored, references are no longer "missing"
+
+					EditorApplication.delayCall += () => {
+						if(this == null) return;
+						ReferenceRecoveryUtil.GetCurrent(line, out var current);
+						if(current == null) {
+							RemoveLine(line);
+						}
+					};
+				}
+			}
 		}
 
 		private void OnDrawGizmos() {
@@ -171,22 +187,23 @@ namespace Reptile
 			Gizmos.DrawLine(transform.position, transform.position + transform.up * prefs.nodePostureDirectionGizmoLength);
 		}
 
-		public void Button_OrientUp() {
-			transform.localRotation = Quaternion.identity;
-		}
-		public void Button_OrientDown() {
-			transform.localRotation = Quaternion.FromToRotation(Vector3.forward, Vector3.back);
-		}
-
 		private void OnDestroy() {
 			// Auto-destroy attached GrindLines when node is deleted
 			// This is meant for user interaction, to execute when the user deletes the object
 			// But it's flaky when triggered in other scenarios.
 
 			// TODO find a better way to respond when user presses "delete"
-			foreach(var grindLine in new List<GrindLine>(grindLines)) {
-				if(grindLine != null)
-					Undo.DestroyObjectImmediate(grindLine.gameObject);
+			foreach(var grindLine in grindLines) {
+				if(grindLine != null) {
+					// If we run synchronously, we trigger a bug when user deletes entire `Grind`.
+					// Unity records the grindLine deletion twice on the undo stack, so undo-ing
+					// re-creates the same grindLine twice.  Two objects w/same ID == Unity crashes.
+					CoroutineUtils.RunNextTick(() => {
+						if(grindLine != null) {
+							Undo.DestroyObjectImmediate(grindLine.gameObject);
+						}
+					});
+				}
 			}
 		}
 
@@ -194,7 +211,12 @@ namespace Reptile
 			if(!grindLines.Contains(line)) grindLines.Add(line);
 		}
 		public void RemoveLine(GrindLine line) {
-			grindLines.Remove(line);
+			for(var i = 0; i < grindLines.Count; i++) {
+				if(line == grindLines[i]) {
+					grindLines.RemoveAt(i);
+					return;
+				}
+			}
 		}
 		public void ClearLines() {
 			grindLines.Clear();

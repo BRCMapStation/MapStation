@@ -14,4 +14,10 @@ namespace MapStation.Common {
             }
         }
     }
+    public static class EnumeratorExtensions {
+        public static T TakeNext<T>(this IEnumerator<T> enumerator) {
+            enumerator.MoveNext();
+            return enumerator.Current;
+        }
+    }
 }

@@ -27,7 +27,7 @@ static class Hotkeys {
 
         // TODO this should technically check for grind nodes in parents, too.  In that situation,
         // the Grind's "Add Node" button will still appear in grind inspector, so you'd expect the hotkey to work, too.
-        var grinds = aos.Select(go => go.GetComponent<Grind>()).Where(c => c != null).ToArray();
+        var grinds = aos.Select(go => go.GetComponentInParent<Grind>()).Where(c => c != null).ToHashSet();
         foreach(var grind in grinds) {
             grind.AddNode();
         }

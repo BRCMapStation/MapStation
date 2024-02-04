@@ -12,9 +12,9 @@ class GrindNodeEditor : Editor
     private bool allSameGrind;
     private Grind grind;
     private void Awake() {
-        grindNodes = targets.Select(x => (GrindNode)x).ToArray();
+        grindNodes = (from target in targets select (GrindNode)target).ToArray();
         grind = grindNodes[0]?.Grind;
-        allSameGrind = true;
+        allSameGrind = grind != null;
         for(var i = 1; i < grindNodes.Length; i++) {
             if(grindNodes[i].Grind != grind) {
                 allSameGrind = false;
@@ -32,26 +32,17 @@ class GrindNodeEditor : Editor
 
         DrawDefaultInspector();
 
-        if(GUILayout.Button("Orient upright")) {
-            foreach(var grindNode in grindNodes) {
-                grindNode.Button_OrientUp();
-            }
+        if(GUILayout.Button("Orient Upright")) {
+            GrindActions.OrientNodesUpward(grindNodes);
         }
-        if(GUILayout.Button("Orient upside-down")) {
-            foreach(var grindNode in grindNodes) {
-                grindNode.Button_OrientDown();
-            }
+        if(GUILayout.Button("Orient Upside-Down")) {
+            GrindActions.OrientNodesDownward(grindNodes);
         }
-        if(CanDoAddNodeAction() && GUILayout.Button("Add node")) {
+        if(CanDoAddNodeAction() && GUILayout.Button("Add Node")) {
             AddNodeAction();
         }
-
-        if(grindNodes.Length == 2) {
-            var n0 = grindNodes[0];
-            var n1 = grindNodes[1];
-            if(n0.Grind == n1.Grind && !n0.IsConnectedTo(n1) && GUILayout.Button("Join nodes")) {
-                n0.Grind.AddLine(n0, n1, n0.grindLines.Find(x => x != null));
-            }
+        if(CanDoJoinNodesAction() && GUILayout.Button("Join Nodes")) {
+            JoinNodesAction();
         }
     }
 
@@ -60,6 +51,21 @@ class GrindNodeEditor : Editor
     }
 
     public void AddNodeAction() {
-        grind.AddNodes(grindNodes);
+        GrindActions.AddNodes(grind, grindNodes);
+    }
+
+    public bool CanDoJoinNodesAction() {
+        if(grindNodes.Length == 2) {
+            var n0 = grindNodes[0];
+            var n1 = grindNodes[1];
+            return GrindActions.CanJoinNodes(n0, n1);
+        }
+        return false;
+    }
+
+    public void JoinNodesAction() {
+        var n0 = grindNodes[0];
+        var n1 = grindNodes[1];
+        GrindActions.JoinNodes(n0, n1);
     }
 }

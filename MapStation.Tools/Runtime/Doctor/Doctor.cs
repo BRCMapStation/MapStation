@@ -105,6 +105,20 @@ namespace MapStation.Common.Doctor {
                     a.Add(sun, "Multiple Suns", "Map has multiple suns, lighting will be too bright. Try deleting all but one.");
                 }
             }
+
+            // Detect orphaned or empty Grind components
+            var grindNodes = roots.GetComponentsInChildren<GrindNode>();
+            foreach(var grindNode in grindNodes) {
+                if(grindNode.grindLines.Find(l => l != null) == null) {
+                    a.Add(grindNode, "Unattached Grind Node", "Grind Node is not attached to any grind lines, should probably be deleted.");
+                }
+            }
+            var grindLines = roots.GetComponentsInChildren<GrindLine>();
+            foreach(var grindLine in grindLines) {
+                if(grindLine.n0 == null || grindLine.n1 == null) {
+                    a.Add(grindLine, "Unattached Grind Line", "Grind Line is not attached to two Grind Nodes, should probably be deleted.");
+                }
+            }
             
             return a;
         }

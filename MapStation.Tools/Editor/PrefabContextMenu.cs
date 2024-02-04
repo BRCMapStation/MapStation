@@ -28,24 +28,24 @@ public class AddPrefabsToContextMenu {
 
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Graffiti/Small Graffiti Spot", priority = Priority)]
     private static void CreateGraffitiSpotSmall(MenuCommand menuCommand) {
-        CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotSmallPrefab", false);
+        CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotSmallPrefab");
     }
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Graffiti/Medium Graffiti Spot", priority = Priority)]
     private static void CreateGraffitiSpotMedium(MenuCommand menuCommand) {
-        CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotMediumPrefab", false);
+        CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotMediumPrefab");
     }
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Graffiti/Large Graffiti Spot", priority = Priority)]
     private static void CreateGraffitiSpotLarge(MenuCommand menuCommand) {
-        CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotLargePrefab", false);
+        CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotLargePrefab");
     }
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Graffiti/Extra Large Graffiti Spot", priority = Priority)]
     private static void CreateGraffitiSpotExtraLarge(MenuCommand menuCommand) {
-        CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotExtraLargePrefab", false);
+        CreatePrefabUnderContext(menuCommand.context, "GraffitiSpotExtraLargePrefab");
     }
 
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Grind", priority = Priority)]
     private static void CreateGrind(MenuCommand menuCommand) {
-        CreatePrefabUnderContext(menuCommand.context, "GrindPrefab", false);
+        CreatePrefabUnderContext(menuCommand.context, "Grind");
     }
 
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Vert Ramp", priority = Priority)]
@@ -88,7 +88,9 @@ public class AddPrefabsToContextMenu {
         // Undo for some prefabs is *crashing* Unity Editor.
         // Broken/misbehaving Undo is better than losing your work.
         if(supportUndo) {
-            Undo.RegisterCreatedObjectUndo(prefabInstance, $"Create {prefabInstance.name}");
+            var undoTitle = $"Create {prefabInstance.name}";
+            Undo.RegisterCreatedObjectUndo(prefabInstance, undoTitle);
+            Undo.RegisterFullObjectHierarchyUndo(prefabInstance, undoTitle);
         }
         Selection.activeObject = prefabInstance;
     }

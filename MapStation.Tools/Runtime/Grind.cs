@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 using System;
+using MapStation.Common;
 
 namespace MapStation.Components {
+    [ExecuteInEditMode]
     public class Grind : MonoBehaviour
     {
         // These are saved in the prefab but hidden in the inspector, because UX.
@@ -19,13 +21,17 @@ namespace MapStation.Components {
         public GameObject LinePrefab;
         [HideInInspector]
         [SerializeField]
-        private Transform NodeParent;
+        public Transform NodesContainer;
         [HideInInspector]
         [SerializeField]
-        private Transform LineParent;
+        public Transform LinesContainer;
         [HideInInspector]
         [SerializeField]
-        private Transform SplineParent;
+        public Transform SplinesContainer;
+
+        [HideInInspector]
+        [SerializeField]
+        public GrindPath GrindPath;
 
         [NonReorderable]
         public List<GrindNode> nodes = new();
@@ -34,32 +40,20 @@ namespace MapStation.Components {
 
         #if UNITY_EDITOR
 
-        public void ListNodes()
-        {
-            nodes.Clear();
-            var sortedNodes = GetComponentsInChildren<GrindNode>();//.OrderBy(go => int.Parse(go.name));
-            nodes.AddRange(sortedNodes);
-        }
-
-
-        public void ListLines()
-        {
-            lines.Clear();
-            var sortedLines = GetComponentsInChildren<GrindLine>();//.OrderBy(go => int.Parse(go.name));
-            lines.AddRange(sortedLines);
-        }
-
         /// Return a nice, numeric name for a new node or line GameObject, based on
         /// all the names that have already been taken.  Names will count up from 1,
         /// but this logic won't break if you decide to rename your GameObjects.
-        private string getNameForNewNodeOrLine<T>(List<T> components) where T : MonoBehaviour {
-            int name = components.Count();
+        private IEnumerator<string> generateNamesForNewNodesOrLines<T>(List<T> components) where T : MonoBehaviour {
+            int name = components.Count;
             foreach(var c in components) {
-                if (int.TryParse(c.name, out int i))
+                if (int.TryParse(c.name, out int i)) {
                     name = Math.Max(name, i);
+                }
             }
-            name++;
-            return name.ToString();
+            while(true) {
+                name++;
+                yield return name.ToString();
+            }
         }
 
         public void AddNode(GrindNode branchFromNode = null)
@@ -68,14 +62,14 @@ namespace MapStation.Components {
         }
 
         public void AddNodes(GrindNode[] branchFromNodes) {
-            Undo.IncrementCurrentGroup();
             Undo.RegisterCompleteObjectUndo(gameObject, "");
 
             List<GameObject> newNodeGameObjects = new();
+            var nodeNames = generateNamesForNewNodesOrLines(nodes);
             foreach(var item in branchFromNodes) {
                 var branchFromNode = item != null ? item : nodes.LastOrDefault();
                 var cloneFromGameObject = branchFromNode != null ? branchFromNode.gameObject : NodePrefab;
-                var parent = branchFromNode != null ? branchFromNode.transform.parent : NodeParent;
+                var parent = branchFromNode != null ? branchFromNode.transform.parent : NodesContainer;
 
                 var newNode = Instantiate(cloneFromGameObject, parent).GetComponent<GrindNode>();
 
@@ -92,62 +86,26 @@ namespace MapStation.Components {
                 else
                     newNode.transform.position = transform.position;
 
-                newNode.name = getNameForNewNodeOrLine(nodes);
+                newNode.name = nodeNames.TakeNext();
 
-                Undo.RegisterCompleteObjectUndo(branchFromNode.gameObject, "");
-                Undo.RegisterCompleteObjectUndo(branchFromNode, "");
-                AddLine(branchFromNode, newNode, branchFromNode.grindLines.Find(x => x != null));
+                if(branchFromNode != null) {
+                    Undo.RegisterCompleteObjectUndo(branchFromNode.gameObject, "");
+                    Undo.RegisterCompleteObjectUndo(branchFromNode, "");
+                    AddLine(branchFromNode, newNode, branchFromNode.grindLines.Find(x => x != null));
+                }
                 newNodeGameObjects.Add(newNode.gameObject);
+                nodes.Add(newNode);
             }
 
             GrindUtils.autoSelectIfEnabled(newNodeGameObjects);
             Undo.SetCurrentGroupName("Add grind node(s)");
         }
 
-        public void RemoveNode()
-        {
-            Undo.IncrementCurrentGroup();
-            Undo.RegisterCompleteObjectUndo(gameObject, "");
-
-            // Get the last node, to be removed
-            var lastNode = nodes.LastOrDefault();
-            if(lastNode == null) {
-                Debug.LogError("Grind has no nodes to remove.");
-            }
-            nodes.Remove(lastNode);
-
-            GrindNode selectThisNodeAfterRemoval = null;
-
-            // Detach all connected lines from their other node, tracking undo.
-            foreach(var l in lastNode.grindLines) {
-                lines.Remove(l);
-                var otherNode = l.n0 == lastNode ? l.n1 : l.n0;
-                if(otherNode != null) {
-                    selectThisNodeAfterRemoval = otherNode;
-                    Undo.RegisterCompleteObjectUndo(otherNode.gameObject, "");
-                    otherNode.RemoveLine(l);
-                }
-            }
-
-            // Destroy lines
-            foreach(var l in lastNode.grindLines) {
-                Undo.DestroyObjectImmediate(l.gameObject);
-            }
-
-            // Destroy node
-            Undo.DestroyObjectImmediate(lastNode.gameObject);
-
-            if(selectThisNodeAfterRemoval != null) {
-                GrindUtils.autoSelectIfEnabled(selectThisNodeAfterRemoval.gameObject);
-            }
-
-            Undo.SetCurrentGroupName("Remove grind node");
-        }
-
         public void AddLine(GrindNode n0, GrindNode n1, GrindLine cloneFromLine)
         {
+            // TODO teach this method to track undo! Though informal testing shows it already works?
             var cloneFromGameObject = cloneFromLine != null ? cloneFromLine.gameObject : LinePrefab;
-            var parent = cloneFromLine != null ? cloneFromLine.transform.parent : LineParent;
+            var parent = cloneFromLine != null ? cloneFromLine.transform.parent : LinesContainer;
 
             var newLine = Instantiate(cloneFromGameObject, parent).GetComponent<GrindLine>();
 
@@ -157,7 +115,7 @@ namespace MapStation.Components {
             }
             Undo.RegisterCreatedObjectUndo(newLine.gameObject, "");
 
-            newLine.name = getNameForNewNodeOrLine(lines);
+            newLine.name = generateNamesForNewNodesOrLines(lines).TakeNext();
             
             n0.AddLine(newLine);
             n1.AddLine(newLine);
@@ -166,6 +124,8 @@ namespace MapStation.Components {
             newLine.nodes[1] = n1;
 
             newLine.RebuildWithRedDebugShape();
+
+            lines.Add(newLine);
         }
 
         void OnValidate() {
@@ -177,6 +137,7 @@ namespace MapStation.Components {
                 PrefabUtility.UnpackPrefabInstance(gameObject, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
             }
         }
+
         #endif
     }
 }
