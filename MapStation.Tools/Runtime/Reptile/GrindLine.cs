@@ -133,9 +133,6 @@ namespace Reptile
 		[ContextMenu("Build Grind Line")]
 		public void Rebuild()
 		{	
-			ReferenceRecoveryUtil.Repair(ref n0);
-			ReferenceRecoveryUtil.Repair(ref n1);
-
 			if (IsValid() != LineState.missingNode)
 			{
 				if (n0.transform.parent != base.transform.parent || n1.transform.parent != base.transform.parent)
@@ -339,23 +336,26 @@ namespace Reptile
 		private Grind grind_;
         public Grind Grind => grind_ = grind_ != null ? grind_ : GetComponentInParent<Grind>();
 
-		public CapsuleCollider collider => GetComponent<CapsuleCollider>();
+		public CapsuleCollider capsuleCollider => GetComponent<CapsuleCollider>();
 
 		void OnEnable() {
 			transform.hideFlags |= HideFlags.NotEditable;
-			collider.hideFlags |= HideFlags.NotEditable;
+			capsuleCollider.hideFlags |= HideFlags.NotEditable;
 		}
 
 		public GameObject redDebugShape => transform.childCount > 0 ? transform.GetChild(0).gameObject : null;
 
 		public void RebuildWithRedDebugShape() {
+			ReferenceRecoveryUtil.Repair(ref n0);
+			ReferenceRecoveryUtil.Repair(ref n1);
+
 			Rebuild();
 
 			// TODO conditional is hack to avoid errors while spline grinds are being hooked up. they don't have red debug shapes
 			var r = redDebugShape;
 			if(r) {
 				Undo.RecordObject(r.transform, null);
-				r.transform.localScale = new Vector3(0.3f, 0.3f, collider.height);
+				r.transform.localScale = new Vector3(0.3f, 0.3f, capsuleCollider.height);
 				// When you accidentally drag-select the red debug shape alongside nodes, you will accidentally move
 				// the debug shape. Causes wonky drag behavior. Prevent this by resetting localPosition
 				// TODO EXCEPT THIS DOESN'T FIX THE PROBLEM

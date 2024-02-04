@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -38,3 +39,4 @@ public static class ReferenceRecoveryUtil {
         return !ReferenceEquals(currentObj, null) && !ReferenceEquals(obj, currentObj);
     }
 }
+#endif
