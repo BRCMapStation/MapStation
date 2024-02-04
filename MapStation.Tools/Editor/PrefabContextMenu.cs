@@ -73,6 +73,14 @@ public class AddPrefabsToContextMenu {
     private static void CreateSun(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "Sun");
     }
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Launchers/Launcher", priority = Priority)]
+    private static void CreateLauncher(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Launcher");
+    }
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Launchers/SuperLauncher", priority = Priority)]
+    private static void CreateSuperLauncher(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Super Launcher");
+    }
 
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
