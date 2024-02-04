@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommonAPI.Phone;
 using Reptile;
+using TMPro;
+using Vector3 = UnityEngine.Vector3;
 
 namespace MapStation.Plugin.Phone {
     public class AppMapStation : CustomApp {
@@ -17,15 +15,22 @@ namespace MapStation.Plugin.Phone {
         public override void OnAppEnable() {
             base.OnAppEnable();
             ScrollView.RemoveAllButtons();
-            var stages = MapDatabase.Instance.maps.Values;
+            // Local builds first, then sorted alphabetically
+            var stages = MapDatabase.Instance.maps.Values.OrderBy(map => map.source).ThenBy(map => map.Properties.displayName);
             addButton(Stage.hideout, "Hideout");
             foreach(var stage in stages) {
-                var displayName = stage.Properties.displayName;
-                if(stage.source == MapSource.TestMaps) displayName += " (local build)";
-                addButton(stage.stageId, displayName);
+                addButton(stage.stageId, stage.Properties.displayName, stage.source == MapSource.TestMaps);
             }
-            void addButton(Stage stageId, string displayName) {
+            void addButton(Stage stageId, string displayName, bool localBuild = false) {
                 var button = PhoneUIUtility.CreateSimpleButton(displayName);
+                if(localBuild) {
+                    // Ugly, temporary: in lieu of an icon, add the letter L on the corner of the button
+                    // "L" for "Local Build"
+                    var localLabel = Instantiate(button.Label.transform.gameObject, button.AnimationParent);
+                    localLabel.GetComponent<TextMeshProUGUI>().text = "L";
+                    var rect = localLabel.RectTransform();
+                    rect.localPosition += Vector3.up * 65 + Vector3.left * 65;
+                }
                 button.OnConfirm += () => {
                     Core.Instance.BaseModule.StageManager.ExitCurrentStage(stageId);
                 };

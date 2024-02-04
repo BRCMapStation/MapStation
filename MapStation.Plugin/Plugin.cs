@@ -74,12 +74,8 @@ namespace MapStation.Plugin
             PathDetection.SetBepInExProfileInRegistry(BepInEx.Paths.BepInExRootPath);
             PathDetection.SetBRCPathInRegistry(Path.GetDirectoryName(Application.dataPath));
 
-            if(MapStationConfig.Instance.QuickReloadValue) {
-                UpdateEvent += QuickReloadUpdate;
-            }
-
             StageAPI.OnStagePreInitialization += MapRepair.OnStagePreInitialization;
-            StageAPI.OnStagePreInitialization += EnableDebugUIOnStageInit;
+            StageAPI.OnStagePreInitialization += EnableDebugFeaturesOnStageInit;
         }
 
         public void InitializeMapDatabase(Assets assets) {
@@ -122,12 +118,21 @@ namespace MapStation.Plugin
             }
         }
 
-        private void EnableDebugUIOnStageInit(Stage newStage, Stage previousStage) {
+        private void EnableDebugFeaturesOnStageInit(Stage newStage, Stage previousStage) {
+            var isLocalBuild = MapDatabase.Instance.maps.TryGetValue(newStage, out var map) && map.source == MapSource.TestMaps;
             if(MapStationConfig.Instance.DebugUI.Value) {
                 DebugUI.Instance.enabled = true;
-                return;
+            } else {
+                DebugUI.Instance.UiEnabled = isLocalBuild;
             }
-            DebugUI.Instance.UiEnabled = MapDatabase.Instance.maps.TryGetValue(newStage, out var map) && map.source == MapSource.TestMaps;
+            if(MapStationConfig.Instance.QuickReloadValue) {
+                UpdateEvent += QuickReloadUpdate;
+            }
+
+            UpdateEvent -= QuickReloadUpdate;
+            if(MapStationConfig.Instance.QuickReloadValue || isLocalBuild) {
+                UpdateEvent += QuickReloadUpdate;
+            }
         }
     }
 }
