@@ -77,9 +77,13 @@ public class AddPrefabsToContextMenu {
     private static void CreateLauncher(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "Launcher");
     }
-    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Launchers/SuperLauncher", priority = Priority)]
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Launchers/Super Launcher", priority = Priority)]
     private static void CreateSuperLauncher(MenuCommand menuCommand) {
-        CreatePrefabUnderContext(menuCommand.context, "Super Launcher");
+        CreatePrefabUnderContext(menuCommand.context, "SuperLauncher");
+    }
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Speed Zone", priority = Priority)]
+    private static void CreateSpeedZone(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "SpeedZone");
     }
 
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true) {
