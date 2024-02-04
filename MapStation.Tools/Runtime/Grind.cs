@@ -8,6 +8,7 @@ using MapStation.Common;
 
 namespace MapStation.Components {
     [ExecuteInEditMode]
+    [StripFromAssetBundleScene]
     public class Grind : MonoBehaviour
     {
         // These are saved in the prefab but hidden in the inspector, because UX.
