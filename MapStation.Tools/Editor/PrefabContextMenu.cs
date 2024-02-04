@@ -85,6 +85,10 @@ public class AddPrefabsToContextMenu {
     private static void CreateSpeedZone(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "SpeedZone");
     }
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Walk Zone", priority = Priority)]
+    private static void CreateWalkZone(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "WalkZone");
+    }
 
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
