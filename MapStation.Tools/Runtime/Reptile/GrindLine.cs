@@ -1,3 +1,4 @@
+using MapStation.Components;
 using UnityEditor;
 using UnityEngine;
 
@@ -335,77 +336,17 @@ namespace Reptile
 
 		#if UNITY_EDITOR
 
+		private Grind grind_;
+        public Grind Grind => grind_ = grind_ != null ? grind_ : GetComponentInParent<Grind>();
+
+		public CapsuleCollider collider => GetComponent<CapsuleCollider>();
+
 		void OnEnable() {
 			transform.hideFlags |= HideFlags.NotEditable;
-			GetComponent<CapsuleCollider>().hideFlags |= HideFlags.NotEditable;
+			collider.hideFlags |= HideFlags.NotEditable;
 		}
 
 		public GameObject redDebugShape => transform.childCount > 0 ? transform.GetChild(0).gameObject : null;
-
-		[ButtonInvoke(nameof(Button_Split), displayIn:ButtonInvoke.DisplayIn.PlayAndEditModes, customLabel: "Split Grind Line")]
-		public bool _dummy;
-
-		void Button_Split() {
-			// Split this line into two lines.
-			// This line will remain attached to n0
-			// The new line will be attached to n1
-			// a new node will be created between them
-
-			// To preserve inspector configuration on the nodes and lines,
-			// this line is cloned to make the new line, and n0 is cloned to make the new node.
-
-			var oldN1 = n1;
-
-			// create new node at midpoint between n0 and n1
-			var midpoint = n0.transform.position + (n1.transform.position - n0.transform.position) / 2;
-			var newNode = GameObject.Instantiate(n0.gameObject).GetComponent<GrindNode>();
-			Undo.RegisterCreatedObjectUndo(newNode.gameObject, "Create new GrindNode");
-			Undo.RegisterFullObjectHierarchyUndo(newNode.gameObject, "Create new GrindNode");
-			newNode.transform.parent = n0.transform.parent;
-			newNode.transform.position = midpoint;
-
-			// create new grindline
-			var newLine = GameObject.Instantiate(gameObject).GetComponent<GrindLine>();
-			Undo.RegisterCreatedObjectUndo(newLine.gameObject, "Create new GrindLine");
-			Undo.RegisterFullObjectHierarchyUndo(newLine.gameObject, "Create new GrindLine");
-			newLine.transform.parent = transform.parent;
-
-			// Fix all references along the grind, starting with n0, going to n1
-
-			// old n0 is still correct, attached to this line
-
-			// Fix this line to attach to new node
-			Undo.RegisterCompleteObjectUndo(this, "");
-			n1 = newNode;
-
-			// Fix new node to attach to both lines
-			newNode.grindLines.Clear();
-			newNode.grindLines.Add(this);
-			newNode.grindLines.Add(newLine);
-
-			// Fix new line to attach to new node
-			newLine.n0 = newNode;
-			newLine.n1 = oldN1; // unnecessary but readable
-
-			// Fix old n1 to attach to new line
-			Undo.RegisterCompleteObjectUndo(oldN1, "");
-			oldN1.grindLines.Remove(this);
-			oldN1.grindLines.Add(newLine);
-
-			// Re-order hierarchy so that new node and line appear directly after this line
-			if(newLine.transform.parent == newNode.transform.parent) {
-				newNode.transform.SetSiblingIndex(transform.GetSiblingIndex() + 1);
-				newLine.transform.SetSiblingIndex(transform.GetSiblingIndex() + 2);
-			}
-
-			// rebuild both grindlines
-			Rebuild();
-			newLine.Rebuild();
-
-			GrindUtils.autoSelectIfEnabled(newNode.gameObject);
-
-			Undo.SetCurrentGroupName("Split GrindLine");
-		}
 
 		public void RebuildWithRedDebugShape() {
 			Rebuild();
@@ -414,7 +355,7 @@ namespace Reptile
 			var r = redDebugShape;
 			if(r) {
 				Undo.RecordObject(r.transform, null);
-				r.transform.localScale = new Vector3(0.3f, 0.3f, GetComponent<CapsuleCollider>().height);
+				r.transform.localScale = new Vector3(0.3f, 0.3f, collider.height);
 				// When you accidentally drag-select the red debug shape alongside nodes, you will accidentally move
 				// the debug shape. Causes wonky drag behavior. Prevent this by resetting localPosition
 				// TODO EXCEPT THIS DOESN'T FIX THE PROBLEM

@@ -269,4 +269,79 @@ public static class GrindActions {
         Undo.RegisterCompleteObjectUndo(node, Undo.GetCurrentGroupName());
         node.RemoveLine(line);
     }
+
+    public static void SplitLines(GrindLine[] lines) {
+        foreach(var line in lines) {
+			// Split this line into two lines.
+			// This line will remain attached to n0
+			// The new line will be attached to n1
+			// a new node will be created between them
+
+			// To preserve inspector configuration on the nodes and lines,
+			// this line is cloned to make the new line, and n0 is cloned to make the new node.
+
+            // BE VERY CAREFUL this can crash unity if you track undo wrong
+            // Undo.RegisterChildrenOrderUndo() was causing crashes on redo
+
+			var oldN1 = line.n1;
+
+            // While stepping through the Undo stack, unity triggers oldN1.OnValidate() which moves the line's red debug
+            // shape to the wrong position.
+            // Snapshotting oldN1 first ensures OnValidate() will be triggered again *last* when undoing, fixing the
+            // debug shape.
+			Undo.RegisterCompleteObjectUndo(oldN1, "");
+
+			// create new node at midpoint between n0 and n1
+			var midpoint = line.n0.transform.position + (line.n1.transform.position - line.n0.transform.position) / 2;
+            var nodeParent = line.n0.transform.parent;
+			var newNode = GameObject.Instantiate(line.n0.gameObject, nodeParent).GetComponent<GrindNode>();
+            // Important that undo/redo does not associate this node with any lines, should not trigger line destruction!
+			newNode.grindLines.Clear();
+			Undo.RegisterCreatedObjectUndo(newNode.gameObject, "Create new GrindNode");
+			Undo.RegisterFullObjectHierarchyUndo(newNode.gameObject, "Create new GrindNode");
+			newNode.transform.position = midpoint;
+
+			// create new grindline
+            var lineParent = line.transform.parent;
+			var newLine = GameObject.Instantiate(line.gameObject, lineParent).GetComponent<GrindLine>();
+            newLine.n0 = newNode;
+            newLine.n1 = oldN1;
+			Undo.RegisterCreatedObjectUndo(newLine.gameObject, "Create new GrindLine");
+			Undo.RegisterFullObjectHierarchyUndo(newLine.gameObject, "Create new GrindLine");
+
+			// Fix all references along the grind, starting with n0, going to n1
+
+			// old n0 is still correct, attached to this line
+
+			// Fix this line to attach to new node
+			Undo.RegisterCompleteObjectUndo(line, "");
+			line.n1 = newNode;
+
+			// Fix new node to attach to both lines
+			Undo.RegisterCompleteObjectUndo(newNode, "");
+			newNode.grindLines.Add(line);
+			newNode.grindLines.Add(newLine);
+
+			// Fix new line to attach to new node (already done above)
+
+			// Fix old n1 to attach to new line
+			Undo.RegisterCompleteObjectUndo(oldN1, "");
+			oldN1.grindLines.Remove(line);
+			oldN1.grindLines.Add(newLine);
+
+			// // Re-order hierarchy so that new node and line appear directly after this line
+			// if(newLine.transform.parent == newNode.transform.parent) {
+			// 	newNode.transform.SetSiblingIndex(line.transform.GetSiblingIndex() + 1);
+			// 	newLine.transform.SetSiblingIndex(line.transform.GetSiblingIndex() + 2);
+			// }
+
+			// rebuild both grindlines
+			line.RebuildWithRedDebugShape();
+			newLine.RebuildWithRedDebugShape();
+
+			GrindUtils.autoSelectIfEnabled(newNode.gameObject);
+
+		}
+        Undo.SetCurrentGroupName("Split GrindLine(s)");
+    }
 }
