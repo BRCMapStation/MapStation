@@ -63,7 +63,7 @@ function Clean() {
 }
 
 function CreatePluginZip() {
-    $zipPath = "Build/MapStation.Plugin.$Configuration.zip"
+    $zipPath = "Build/MapStation.Plugin.$Configuration-$version.zip"
     $zip = CreateZip $zipPath
 
     Push-Location "Build/MapStation.Plugin.$Configuration"
