@@ -34,12 +34,15 @@ public class DoctorDebugUI : DebugUI.DebugMenu {
     
     public DoctorDebugUI() {
         StageAPI.OnStagePreInitialization += OnStagePreInitialization;
+        HasUnityExplorer = false;
         unityExplorerAssembly = AppDomain.CurrentDomain.GetAssemblies().
             SingleOrDefault(assembly => assembly.GetName().Name == "UnityExplorer.BIE5.Mono");
-        unityExplorerInspectorManagerType = unityExplorerAssembly.GetExportedTypes().SingleOrDefault(type => type.FullName == "UnityExplorer.InspectorManager");
-        unityExplorerUIManagerType = unityExplorerAssembly.GetExportedTypes().SingleOrDefault(type => type.FullName == "UnityExplorer.UI.UIManager");
-        unityExplorerCacheObjectBase = unityExplorerAssembly.GetExportedTypes().SingleOrDefault(t => t.Name == "CacheObjectBase");
-        HasUnityExplorer = unityExplorerInspectorManagerType != null;
+        if(unityExplorerAssembly != null) {
+            unityExplorerInspectorManagerType = unityExplorerAssembly.GetExportedTypes().SingleOrDefault(type => type.FullName == "UnityExplorer.InspectorManager");
+            unityExplorerUIManagerType = unityExplorerAssembly.GetExportedTypes().SingleOrDefault(type => type.FullName == "UnityExplorer.UI.UIManager");
+            unityExplorerCacheObjectBase = unityExplorerAssembly.GetExportedTypes().SingleOrDefault(t => t.Name == "CacheObjectBase");
+            HasUnityExplorer = unityExplorerInspectorManagerType != null;
+        }
     }
     
     public override void OnGUI() {
