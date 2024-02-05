@@ -14,7 +14,7 @@
     <MakeDir Directories="$(BepInExDirectory)/plugins/MapStation/Assets" />
     <ItemGroup>
       <!-- Copy can't do directories, mark files with Include and copy that instead -->
-      <_Assets Include="$(SolutionDir)Assets\**\*" />
+      <_Assets Include="$(SolutionDir)Assets/**/*" />
     </ItemGroup>
     <Copy SourceFiles="@(_Assets)" DestinationFolder="$(BepInExDirectory)/plugins/MapStation" />
   </Target>
