@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using MapStation.Tools.DevTools;
 using UnityEditor;
 using UnityEngine;
 
@@ -49,21 +50,11 @@ public class PluginEditor : MonoBehaviour
     {
         var rootFolder = Path.GetDirectoryName(Directory.GetCurrentDirectory());
         var rebuildScript = Path.Combine(rootFolder, "scripts", "rebuild.ps1");
-        var rebuildProcess = RunScript(rebuildScript);
+        var rebuildProcess = PowershellUtil.RunScript(rebuildScript);
         rebuildProcess.WaitForExit();
         var copyAssetsScript = Path.Combine(rootFolder, "scripts", "copy-assets.ps1");
-        var copyAssetsProcess = RunScript(copyAssetsScript);
+        var copyAssetsProcess = PowershellUtil.RunScript(copyAssetsScript);
         return copyAssetsProcess;
-    }
-
-    private static Process RunScript(string script) {
-        var startInfo = new ProcessStartInfo();
-        var powershellDirectory = Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine", "ApplicationBase", "") as string;
-        startInfo.FileName = Path.Combine(powershellDirectory, "powershell.exe");
-        startInfo.WorkingDirectory = Path.GetDirectoryName(script);
-        script = "\"&'" + script + "'\"";
-        startInfo.Arguments = script;
-        return Process.Start(startInfo);
     }
 }
 #endif
