@@ -347,7 +347,9 @@ public class MapBuilder {
             description = map.Sources.Properties.description,
             website_url = map.Sources.Properties.website,
             // TODO depend on MapStation
-            dependencies = new ()
+            dependencies = new () {
+                BuildConstants.ThunderstoreMapstationDependency
+            }
         };
         var manifestContents = JsonUtility.ToJson(manifest, true);
         var manifestEntry = zip.CreateEntry("manifest.json");
