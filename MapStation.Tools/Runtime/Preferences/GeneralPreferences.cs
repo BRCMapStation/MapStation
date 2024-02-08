@@ -7,4 +7,5 @@ using UnityEngine;
 public class GeneralPreferences {
     [TextArea(1, 3)]
     public string testMapDirectory;
+    public bool checkDoctorErrorsBeforeBuildingMap = true;
 }

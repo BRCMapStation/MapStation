@@ -63,6 +63,7 @@ public class PreferencesEditor : Editor {
                     prefGroup.Draw();
                     break;
             }
+            Space();
         }
 
         serializedObject.ApplyModifiedProperties();

@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using MapStation.Common;
+using MapStation.Common.Doctor;
 using MapStation.Tools;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -61,6 +62,7 @@ public class MapBuilder {
         StubMissingMapFiles(mapSources);
         SyncMapProperties(mapSources);
         PreBuildAssetBundles(mapSources);
+        CheckForDoctorErrors();
         var OutputDirectory = BuildConstants.BuiltBundlesDirectory(compressed);
         CleanUpOutputDirectoryPreBuild(OutputDirectory);
         BuildAssetBundles(compressed);
@@ -222,6 +224,23 @@ public class MapBuilder {
         }
     }
 
+    private static void CheckForDoctorErrors() {
+        if (!Preferences.instance.general.checkDoctorErrorsBeforeBuildingMap) return;
+        var analysis = Doctor.Analyze();
+        var errors = analysis.countBySeverity[Severity.Error];
+        if (errors > 0) {
+            var message = $"Map Doctor found {errors} errors that may crash the game. Are you sure you want to build?";
+            var response = EditorUtility.DisplayDialog(
+                "Fatal Map Errors",
+                message,
+                "Build Map", "See Errors");
+            if (!response) {
+                DoctorWindow.Show().Analysis = analysis;
+                throw new Exception("Build aborted");
+            }
+        }
+    }
+    
     private static void CleanUpOutputDirectoryPreBuild(string directory) {
         // Do not delete emitted bundles, so that unity skips rebuild when
         // they haven't changed

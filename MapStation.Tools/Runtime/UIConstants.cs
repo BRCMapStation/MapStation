@@ -3,6 +3,7 @@ public static class UIConstants {
     public const string menuLabel = "BRC MapStation";
     public const string experimentsSubmenuLabel = "Experiments";
     public const string GizmoIconBaseDir = "Packages/com.brcmapstation.tools/Assets/Icons";
+    public const string DrPoloIcon = GizmoIconBaseDir + "/drpoloIcon.png";
 
     // Unity rule: add 11 or more to get a separator
     // Unity quirk: Submenus get "stuck" at a certain priority until you restart Unity Editor.

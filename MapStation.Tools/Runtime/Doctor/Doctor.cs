@@ -42,30 +42,41 @@ namespace MapStation.Common.Doctor {
                 }
 #endif
                 if (GraffitiSpot.tag != Tags.GraffitiSpot) {
-                    a.Add(GraffitiSpot, "GraffitiSpot has wrong tag", $"Found GraffitiSpot not tagged as 'GraffitiSpot'");
+                    a.Add(Severity.Warning, GraffitiSpot, "GraffitiSpot has wrong tag", $"Found GraffitiSpot not tagged as 'GraffitiSpot'");
                 }
                 if (GraffitiSpot.gameObject.layer != Layers.TriggerDetectPlayer) {
-                    a.Add(GraffitiSpot, "GraffitiSpot has wrong layer", $"Found GraffitiSpot not on the 'TriggerDetectPlayer' layer.");
+                    a.Add(Severity.Warning, GraffitiSpot, "GraffitiSpot has wrong layer", $"Found GraffitiSpot not on the 'TriggerDetectPlayer' layer.");
                 }
             }
 
-            foreach (var AProgressable in roots.GetComponentsInChildren<AProgressable>()) {
+            var progressables = roots.GetComponentsInChildren<AProgressable>();
+            foreach (var progressable in progressables) {
                 const string uidRegexp = @"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$";
-                if (!Regex.Match(AProgressable.uid, uidRegexp, RegexOptions.None).Success) {
-                    a.Add(AProgressable, "Bad Uid", String.Format(
-                                     $"Found {AProgressable.GetType().Name}.uid which is not in expected UID format (all lowercase, numbers and letters a-f, correct length, correct hyphens) UID={0}",
-                                     AProgressable.uid));
+                if (!Regex.Match(progressable.uid, uidRegexp, RegexOptions.None).Success) {
+                    a.Add(Severity.Warning, progressable, "Bad Uid",
+                          $"Found {progressable.GetType().Name}.uid which is not in expected UID format (all lowercase, numbers and letters a-f, correct length, correct hyphens) UID={progressable.uid}"
+                    );
+                }
+            }
+            foreach (var group in progressables.GroupBy(p => p.uid)) {
+                if (group.Count() > 1) {
+                    // TODO support diagnostics w/multiple targets so all duplicates can be reported as one
+                    foreach (var progressable in group) {
+                        a.Add(Severity.Error, progressable, "Duplicate Uid", 
+                            $"Found {progressable.GetType().Name}.uid which is identical to one or more other progressables in this map. This may crash the game when the map loads. Ensure all UIDs are unique. UID={progressable.uid}"
+                            );
+                    }
                 }
             }
 
             foreach (var VendingMachine in roots.GetComponentsInChildren<VendingMachine>()) {
                 if (VendingMachine.gameObject.layer != Layers.Enemies) {
-                    a.Add(VendingMachine, "VendingMachine has wrong layer",
+                    a.Add(Severity.Warning, VendingMachine, "VendingMachine has wrong layer",
                         $"Found VendingMachine that is not on the Enemies layer, this means it cannot be kicked.");
                 }
                 var animation = VendingMachine.GetComponent<Animation>();
                 if (animation == null) {
-                    a.Add(VendingMachine, "VendingMachine missing Animation component", $"Found VendingMachine without an Animation component.");
+                    a.Add(Severity.Warning, VendingMachine, "VendingMachine missing Animation component", $"Found VendingMachine without an Animation component.");
                 }
                 foreach (var animName in VendingMachineAnimations) {
 #if BEPINEX
@@ -81,28 +92,28 @@ namespace MapStation.Common.Doctor {
 
             foreach (var Teleport in roots.GetComponentsInChildren<Teleport>()) {
                 if (Teleport.teleportTo == null) {
-                    a.Add(Teleport, $"Found Teleport missing a `teleportTo` destination.");
+                    a.Add(Severity.Warning, Teleport, $"Found Teleport missing a `teleportTo` destination.");
                 }
                 var collider = Teleport.GetComponentInChildren<BoxCollider>();
                 if (collider == null) {
-                    a.Add(Teleport, $"Found Teleport without a Box Collider on a child GameObject.");
+                    a.Add(Severity.Warning, Teleport, $"Found Teleport without a Box Collider on a child GameObject.");
                 }
                 if (collider.tag != Tags.Teleport) {
-                    a.Add(Teleport, $"Found Teleporter's child collider not tagged as 'Teleport'");
+                    a.Add(Severity.Warning, Teleport, $"Found Teleporter's child collider not tagged as 'Teleport'");
                 }
                 if (collider.gameObject.layer != Layers.TriggerDetectPlayer) {
-                    a.Add(Teleport, $"Found Teleport's child collider not on the 'TriggerDetectPlayer' layer.");
+                    a.Add(Severity.Warning, Teleport, $"Found Teleport's child collider not on the 'TriggerDetectPlayer' layer.");
                 }
             }
             
             // Should have exactly one sun
             var suns = roots.GetComponentsInChildren<SunFlareGPU>();
             if (suns.Count == 0) {
-                a.Add(null, "Missing Sun", "Map is missing a sun, will crash on startup. Try adding Sun prefab from the right-click menu.");
+                a.Add(Severity.Error, null, "Missing Sun", "Map is missing a sun, will crash on startup. Try adding Sun prefab from the right-click menu.");
             }
             if (suns.Count > 1) {
                 foreach (var sun in suns) {
-                    a.Add(sun, "Multiple Suns", "Map has multiple suns, lighting will be too bright. Try deleting all but one.");
+                    a.Add(Severity.Warning, sun, "Multiple Suns", "Map has multiple suns, lighting will be too bright. Try deleting all but one.");
                 }
             }
 
@@ -110,13 +121,13 @@ namespace MapStation.Common.Doctor {
             var grindNodes = roots.GetComponentsInChildren<GrindNode>();
             foreach(var grindNode in grindNodes) {
                 if(grindNode.grindLines.Find(l => l != null) == null) {
-                    a.Add(grindNode, "Unattached Grind Node", "Grind Node is not attached to any grind lines, should probably be deleted.");
+                    a.Add(Severity.Warning, grindNode, "Unattached Grind Node", "Grind Node is not attached to any grind lines, should probably be deleted.");
                 }
             }
             var grindLines = roots.GetComponentsInChildren<GrindLine>();
             foreach(var grindLine in grindLines) {
                 if(grindLine.n0 == null || grindLine.n1 == null) {
-                    a.Add(grindLine, "Unattached Grind Line", "Grind Line is not attached to two Grind Nodes, should probably be deleted.");
+                    a.Add(Severity.Warning, grindLine, "Unattached Grind Line", "Grind Line is not attached to two Grind Nodes, should probably be deleted.");
                 }
             }
             
@@ -141,10 +152,19 @@ namespace MapStation.Common.Doctor {
         public readonly Dictionary<GameObject, List<Diagnostic>> gameObjects = new ();
         public readonly List<Diagnostic> diagnostics = new ();
         public readonly List<Diagnostic> diagnosticsWithoutTarget = new ();
+        public readonly Dictionary<Severity, int> countBySeverity = new ();
 
-        public void Add(Object target, string message, string details = null) {
-            var diagnostic = new Diagnostic(target, message, details);
+        public Analysis() {
+            foreach(var s in Enum.GetValues(typeof(Severity)))
+            {
+                countBySeverity.Add((Severity)s, 0);
+            }
+        }
+
+        public void Add(Severity severity, Object target, string message, string details = null) {
+            var diagnostic = new Diagnostic(severity, target, message, details);
             diagnostics.Add(diagnostic);
+            countBySeverity[diagnostic.Severity]++;
             if (diagnostic.GameObject != null) {
                 gameObjects.TryGetValue(diagnostic.GameObject, out var goList);
                 if (goList == null) {
@@ -158,7 +178,7 @@ namespace MapStation.Common.Doctor {
         }
 
         public void Log() {
-            Debug.Log(String.Format("MapStation: Analysis found {0} problems.", diagnostics.Count));
+            Debug.Log($"MapStation: Analysis found {diagnostics.Count} problems.");
             foreach(var diagnostic in diagnostics) {
                 var path = diagnostic.TargetPath;
                 var suffix = "";
@@ -166,11 +186,10 @@ namespace MapStation.Common.Doctor {
                 Debug.Log(diagnostic.Message + suffix);
             }
         }
-        
     }
 
     public class Diagnostic {
-        public Diagnostic(Object target, string message, string details = null) {
+        public Diagnostic(Severity severity, Object target, string message, string details = null) {
             GameObject go = target as GameObject;
             Component c = target as Component;
             if (c != null) go = c.gameObject;
@@ -179,6 +198,7 @@ namespace MapStation.Common.Doctor {
             Details = details;
             Target = target;
             GameObject = go;
+            Severity = severity;
             Component = c;
             TargetPath = GameObject == null ? null : Doctor.GetGameObjectPath(GameObject);
         }
@@ -203,7 +223,19 @@ namespace MapStation.Common.Doctor {
         /// GameObject exhibiting the problem. May be same as Target, or may be target's GameObject.
         /// </summary>
         public readonly GameObject GameObject;
+        /// <summary>
+        /// Diagnostic severity.
+        /// </summary>
+        public readonly Severity Severity;
 
         public string TargetPath;
+
+    }
+    public enum Severity {
+        /// <summary>
+        /// Errors prevent the author from building their map, so these should be severe enough to cause a crash.
+        /// </summary>
+        Error,
+        Warning
     }
 }
