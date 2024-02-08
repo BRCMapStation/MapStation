@@ -38,7 +38,7 @@ namespace MapStation.Common.Doctor {
 #if BEPINEX
                 // Commonly attached w/VanillaAssetReference, so test only at runtime.
                 if (GraffitiSpot.dynamicRepPickup == null) {
-                    a.Add(GraffitiSpot, "Graffiti missing dynamicRepPickup", "Found GraffitiSpot.dynamicRepPickup == null. This will soft-lock when tagged.");
+                    a.Add(Severity.Error, GraffitiSpot, "Graffiti missing dynamicRepPickup", "Found GraffitiSpot.dynamicRepPickup == null. This will soft-lock when tagged.");
                 }
 #endif
                 if (GraffitiSpot.tag != Tags.GraffitiSpot) {
@@ -83,7 +83,7 @@ namespace MapStation.Common.Doctor {
                     // Commonly attached w/VanillaAssetReference, so test only at runtime.
                     // Also, editor says `GetState` method doesn't exist.
                     if (animation.GetState(animName) == null) {
-                        a.Add(VendingMachine, "VendingMachine missing animations",
+                        a.Add(Severity.Warning, VendingMachine, "VendingMachine missing animations",
                             $"Found VendingMachine with Animation component missing animation: {animName}. This will fail with errors when kicked.");
                     }
 #endif
