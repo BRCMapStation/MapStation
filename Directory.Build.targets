@@ -8,4 +8,14 @@
     <WriteLinesToFile File="$(GeneratedAssemblyInfoFile)" Lines="#pragma warning disable CS0436" Overwrite="true" />
     <WriteLinesToFile File="$(GeneratedAssemblyInfoFile)" Lines="@(Lines)" Overwrite="false" />
   </Target>
+
+  <!-- Right now this copies on *every* project build, instead of solution - a little wasteful... -->
+  <Target Name="CopyAssets" AfterTargets="Build">
+    <MakeDir Directories="$(BepInExDirectory)/plugins/MapStation/Assets" />
+    <ItemGroup>
+      <!-- Copy can't do directories, mark files with Include and copy that instead -->
+      <_Assets Include="$(SolutionDir)Assets/**/*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_Assets)" DestinationFolder="$(BepInExDirectory)/plugins/MapStation" />
+  </Target>
 </Project>
