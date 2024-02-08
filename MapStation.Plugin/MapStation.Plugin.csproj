@@ -59,6 +59,14 @@
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <!-- Copy assets -->
+    <MakeDir Directories="$(LocalPluginBuild)" />
+    <ItemGroup>
+      <!-- Copy can't do directories, mark files with Include and copy that instead -->
+      <_Assets Include="$(SolutionDir)Assets/**/*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_Assets)" DestinationFolder="$(LocalPluginBuild)" />
+    
     <PropertyGroup>
       <PdbCommand>
         <!-- Generate debug symbols for all DLLs -->
