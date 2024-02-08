@@ -72,7 +72,7 @@ public class DoctorWindow : EditorWindow {
             });
             Label(new GUIContent() {
                 image = getIconForSeverity(Severity.Warning).image,
-                text = $"{analysis.diagnostics.Count} warnings"
+                text = $"{analysis.countBySeverity[Severity.Warning]} warnings"
             });
             Space();
             using (ScrollView(ref scrollPosition)) {
