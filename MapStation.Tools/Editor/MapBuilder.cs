@@ -57,7 +57,7 @@ public class MapBuilder {
 #endif
         var mapSources = MapDatabase.GetMaps();
         var mapOutputs = mapSources.Select(map => new MapBuildOutputs(compressed, map)).ToArray();
-        ValidateSceneNames(mapSources);
+        ValidateAndFixSceneNames(mapSources);
         StubMissingMapFiles(mapSources);
         SyncMapProperties(mapSources);
         PreBuildAssetBundles(mapSources);
@@ -119,9 +119,10 @@ public class MapBuilder {
         }
     }
 
-    private static void ValidateSceneNames(EditorMapDatabaseEntry[] maps) {
+    private static void ValidateAndFixSceneNames(EditorMapDatabaseEntry[] maps) {
         foreach(var map in maps) {
-            if(AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(map.ScenePath) == null) {
+            var sceneAsset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(map.ScenePath);
+            if(sceneAsset == null) {
                 var message = "Missing scene";
                 EditorUtility.DisplayDialog(message,
                     $"Scene is missing for {map.Name}.\n" + 
@@ -132,6 +133,13 @@ public class MapBuilder {
                     map.ScenePath[0..^6],
                     "Ok", null);
                     throw new Exception(message);
+            }
+            var sceneAssetName = AssetDatabase.GetAssetPath(sceneAsset);
+            if (sceneAssetName != map.ScenePath) {
+                // Must be different capitalization; unity's AssetDatabase is case insensitive, but runtime scene loading is case sensitive.
+                // Automatically fix capitalization to avoid confusion.
+                AssetDatabase.RenameAsset(map.ScenePath, map.ScenePath);
+                AssetDatabase.SaveAssets();
             }
         }
     }
