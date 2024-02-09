@@ -76,6 +76,8 @@ namespace MapStation.Plugin
 
             StageAPI.OnStagePreInitialization += MapRepair.OnStagePreInitialization;
             StageAPI.OnStagePreInitialization += EnableDebugFeaturesOnStageInit;
+
+            KBMInputDisabler.Init(MapStationConfig.Instance.DisableKBMInputValue, MapStationConfig.Instance.DisableKBMInputKeyValue, ref UpdateEvent, ref LateUpdateEvent);
         }
 
         public void InitializeMapDatabase(Assets assets) {
@@ -97,6 +99,9 @@ namespace MapStation.Plugin
         private void Update() {
             UpdateEvent?.Invoke();
         }
+        private void LateUpdate() {
+            LateUpdateEvent?.Invoke();
+        }
 
         private static IEnumerator BackToHideout() {
             yield return null;
@@ -105,6 +110,7 @@ namespace MapStation.Plugin
 
         public delegate void UpdateDelegate();
         public static UpdateDelegate UpdateEvent;
+        public static UpdateDelegate LateUpdateEvent;
 
         public static bool CanSwitchStagesWithoutCrashing() {
             return Core.Instance != null && Core.Instance.BaseModule.IsPlayingInStage && !Core.Instance.BaseModule.IsLoading && !Core.Instance.BaseModule.IsInGamePaused;
@@ -112,7 +118,7 @@ namespace MapStation.Plugin
         private static void QuickReloadUpdate() {
             // Only allow if the game is currently in a stage
             if(CanSwitchStagesWithoutCrashing()) {
-                if(Input.GetKeyDown(KeyCode.F5)) {
+                if(Input.GetKeyDown(MapStationConfig.Instance.QuickReloadKeyValue)) {
                     Core.Instance.BaseModule.StageManager.ExitCurrentStage(Core.Instance.SaveManager.CurrentSaveSlot.currentStageProgress.stageID);
                 }
             }
@@ -120,15 +126,9 @@ namespace MapStation.Plugin
 
         private void EnableDebugFeaturesOnStageInit(Stage newStage, Stage previousStage) {
             var isLocalBuild = MapDatabase.Instance.maps.TryGetValue(newStage, out var map) && map.source == MapSource.TestMaps;
-            if(MapStationConfig.Instance.DebugUI.Value) {
-                DebugUI.Instance.enabled = true;
-            } else {
-                DebugUI.Instance.UiEnabled = isLocalBuild;
-            }
-            if(MapStationConfig.Instance.QuickReloadValue) {
-                UpdateEvent += QuickReloadUpdate;
-            }
-
+            
+            DebugUI.Instance.UiEnabled = MapStationConfig.Instance.DebugUIValue || isLocalBuild;
+            
             UpdateEvent -= QuickReloadUpdate;
             if(MapStationConfig.Instance.QuickReloadValue || isLocalBuild) {
                 UpdateEvent += QuickReloadUpdate;

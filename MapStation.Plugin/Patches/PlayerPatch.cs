@@ -1,12 +1,8 @@
 #pragma warning disable Harmony003
 using Reptile;
 using HarmonyLib;
-using Winterland.Plugin;
-using MapStation.Common.Gameplay;
-using UnityEngine.UIElements;
 using MapStation.Plugin.Gameplay;
 using UnityEngine;
-using System.Runtime.CompilerServices;
 
 namespace MapStation.Plugin.Patches;
 
@@ -15,9 +11,7 @@ internal static class PlayerPatch {
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Player.Init))]
     private static void Init_Postfix(Player __instance) {
-        if(MapStationConfig.Instance.DisableKBMInputValue) {
-            KBMInputDisabler.Disable();
-        }
+        KBMInputDisabler.Apply();
         __instance.gameObject.AddComponent<MapStationPlayer>();
         MapStationPlayer.Get(__instance).Init();
     }

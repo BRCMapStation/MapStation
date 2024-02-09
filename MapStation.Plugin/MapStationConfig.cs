@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BepInEx.Configuration;
+using UnityEngine;
 
 namespace MapStation.Plugin {
     public class MapStationConfig {
@@ -24,6 +20,10 @@ namespace MapStation.Plugin {
 
         public ConfigEntry<bool> ShowDebugShapes;
         public bool ShowDebugShapesValue => ShowDebugShapes.Value;
+        public ConfigEntry<KeyCode> QuickReloadKey;
+        public KeyCode QuickReloadKeyValue => QuickReloadKey.Value;
+        public ConfigEntry<KeyCode> DisableKBMInputKey;
+        public KeyCode DisableKBMInputKeyValue => DisableKBMInputKey.Value;
 
 #if MAPSTATION_DEBUG
         // Options only for developers, not for mappers
@@ -39,6 +39,8 @@ namespace MapStation.Plugin {
         public bool DisableKBMInputValue => false;
         public bool DebugUIValue => false;
         public bool ShowDebugShapesValue => false;
+        public bool QuickReloadKeyValue => KeyCode.F5;
+        public bool DisableKBMInputKeyValue => KeyCode.F6;
 
         // Options only for developers, not for mappers
         // <none>
@@ -56,29 +58,50 @@ namespace MapStation.Plugin {
                 "",
                 "Skip game intros and menu and launch directly into this map."
             );
+            // Keeping descriptions adjacent so I remember to update them at same time
+
+            var quickReloadDescription = "Enable to reload *any* map with a hotkey (F5 by default), including vanilla and downloaded maps. By default, only locally-built maps can be reloaded.";
+            var quickReloadKeyDescription = "Reloads the map.";
             QuickReload = file.Bind(
                 mappingSection,
                 "QuickReload",
                 true,
-                "If enabled, F5 will instantly reload the current map. Useful for rapidly testing map changes."
+                quickReloadDescription
             );
+            // Keeping descriptions adjacent so I remember to update them at same time
+            var disableKBMInputDescription = "Disable keyboard and mouse input, making it easier to use MapStation's DebugUI, Unity Explorer, or tab between windows. When this is enabled, you MUST use a game controller. Note: there is also a hotkey for this.";
+            var disableKBMInputKeyDescription = "Enables/disables keyboard and mouse input.";
             DisableKBMInput = file.Bind(
                 mappingSection,
                 "DisableKBMInput",
                 false,
-                "Disable keyboard and mouse inputs, making it easier to use Unity Explorer or tab between windows. If this is enabled, you MUST use a game controller."
+                disableKBMInputDescription
             );
             DebugUI = file.Bind(
                 mappingSection,
                 "DebugUI",
                 false,
-                "Show Debug UI in the corner."
+                "Show Debug UI in the corner for *all* maps. By default this is enabled only for locally-built maps."
             );
             ShowDebugShapes = file.Bind(
                 mappingSection,
                 "ShowDebugShapes",
                 false,
                 "Show debug meshes along grind lines, spawners, teleporters, etc."
+            );
+
+            var inputSection = "Input";
+            QuickReloadKey = file.Bind(
+                inputSection,
+                "QuickReloadKey",
+                KeyCode.F5,
+                quickReloadKeyDescription
+            );
+            DisableKBMInputKey = file.Bind(
+                inputSection,
+                "DisableKBMInputKey",
+                KeyCode.F6,
+                disableKBMInputKeyDescription
             );
 #if MAPSTATION_DEBUG
             // Options only for developers, not for mappers

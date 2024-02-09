@@ -34,8 +34,6 @@ namespace MapStation.Common {
         }
 
         private void OnGUI () {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
             var width = show && currentDebugMenu != null && currentDebugMenu.Width.HasValue ? currentDebugMenu.Width.Value : DefaultWidth;
             GUILayout.BeginArea(new Rect(0, 0, width, Height));
             // HACK call it multiple times to increase the opacity (yes the internet recommended this)
