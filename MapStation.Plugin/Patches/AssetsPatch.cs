@@ -4,7 +4,6 @@ using HarmonyLib;
 using Reptile;
 using UnityEngine;
 using MapStation.Common;
-using Debug = UnityEngine.Debug;
 
 namespace MapStation.Plugin.Patches;
 
@@ -23,7 +22,7 @@ internal static class AssetsPatch {
         // so we create a value here.
         // Vanilla stages use identical values: true, true, true, empty array of SfxCollections
         if(__result == null) {
-            Debug.Log($"{nameof(Assets)}.{nameof(Assets.GetAssetsToLoadDataForScene)} does not know about scene {sceneName}; assuming it's a custom map, creating default struct instead.");
+            Log.Info($"{nameof(Assets)}.{nameof(Assets.GetAssetsToLoadDataForScene)} does not know about scene {sceneName}; assuming it's a custom map, creating default struct instead.");
             __result = ScriptableObject.CreateInstance<AssetsToLoadData>();
             __result.loadCharacters = true;
             __result.loadGameplayPrefabs = true;
@@ -51,7 +50,7 @@ internal static class AssetsPatch {
     {
         bundleToLoad.InitializeLoad();
         
-        Debug.Log($"{nameof(Assets)}.{nameof(Assets.LoadBundleASync)} loading {bundleToLoad.Name} from zip {zipAssetBundle.zipPath}");
+        Log.Info($"{nameof(Assets)}.{nameof(Assets.LoadBundleASync)} loading {bundleToLoad.Name} from zip {zipAssetBundle.zipPath}");
         byte[] data;
         using(var zip = new MapZip(zipAssetBundle.zipPath)) {
             Stream stream = zipAssetBundle.bundleType switch {

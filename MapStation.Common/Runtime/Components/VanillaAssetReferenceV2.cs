@@ -51,7 +51,7 @@ namespace MapStation.Common.VanillaAssets {
                     }
 
                     if(asset == null && assets == null) {
-                        Debug.Log(string.Format("{0}: Restoring reference to vanilla asset failed, asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\")", nameof(VanillaAssetReferenceV2), component.GetType().Name, f.Name, f.BundleName, f.Path));
+                        Log.Info(string.Format("{0}: Restoring reference to vanilla asset failed, asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\")", nameof(VanillaAssetReferenceV2), component.GetType().Name, f.Name, f.BundleName, f.Path));
                         continue;
                     }
 
@@ -72,7 +72,7 @@ namespace MapStation.Common.VanillaAssets {
                     }
                     
                     if(asset == null) {
-                        Debug.Log(string.Format("{0}: Restoring reference to vanilla asset failed, sub-asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\"); SubAssetType={5}; SubPath={6}", nameof(VanillaAssetReferenceV2), component.GetType().Name, f.Name, f.BundleName, f.Path, f.SubAssetType.ToString(), f.SubPath));
+                        Log.Info(string.Format("{0}: Restoring reference to vanilla asset failed, sub-asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\"); SubAssetType={5}; SubPath={6}", nameof(VanillaAssetReferenceV2), component.GetType().Name, f.Name, f.BundleName, f.Path, f.SubAssetType.ToString(), f.SubPath));
                         continue;
                     }
 
@@ -85,7 +85,7 @@ namespace MapStation.Common.VanillaAssets {
                             AssignMember(asset, component, f, out message);
                         }
                     } catch(Exception e) {
-                        Debug.Log(message + "\nFailed with error:\n" + e.Message + "\n" + e.StackTrace);
+                        Log.Info(message + "\nFailed with error:\n" + e.Message + "\n" + e.StackTrace);
                     }
                 }
             }
@@ -113,14 +113,12 @@ namespace MapStation.Common.VanillaAssets {
                     var a = GetComponentFromPrefab(fieldInfo.FieldType, asset);
                     fieldInfo.SetValue(component, a);
                 } else {
-                    Debug.Log($"Unexpected member type: {member.MemberType}");
+                    Log.Info($"Unexpected member type: {member.MemberType}");
                 }
             }
 
             Object GetComponentFromPrefab(Type FieldOrPropertyType, Object asset) {
                 if(asset is GameObject go && FieldOrPropertyType.IsSubclassOf(typeof(Component))) {
-                    Debug.Log(go);
-                    Debug.Log(FieldOrPropertyType);
                     return go.GetComponent(FieldOrPropertyType);
                 } else {
                     return asset;

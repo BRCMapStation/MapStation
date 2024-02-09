@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using MapStation.Common;
 using Reptile;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class ASceneSetupInstructionPatch {
     [HarmonyPatch(nameof(ASceneSetupInstruction.SetSceneActive))]
     protected static void SetSceneActive_Prefix(ref string sceneToSetActive) {
         if (SceneNameMapper.Instance.Names.TryGetValue(sceneToSetActive, out var replacement)) {
-            Debug.Log($"{nameof(ASceneSetupInstruction)}.{nameof(ASceneSetupInstruction.SetSceneActive)} redirected from {sceneToSetActive} to {replacement}");
+            Log.Info($"{nameof(ASceneSetupInstruction)}.{nameof(ASceneSetupInstruction.SetSceneActive)} redirected from {sceneToSetActive} to {replacement}");
             sceneToSetActive = replacement;
         }
     }

@@ -8,6 +8,7 @@ using MapStation.Common.Gameplay;
 using Reptile;
 using Microsoft.SqlServer.Server;
 using ECM.Common;
+using MapStation.Common;
 
 namespace MapStation.Plugin.Gameplay {
     public class MapStationPlayer : MonoBehaviour {
@@ -75,7 +76,7 @@ namespace MapStation.Plugin.Gameplay {
         public static MapStationPlayer Get(Player player) {
             var mpPlayer = player.GetComponent<MapStationPlayer>();
             if (mpPlayer == null) {
-                Debug.LogWarning($"Requested MapStationPlayer component from player {player.gameObject.name} but they didn't have one.");
+                Log.Warning($"Requested MapStationPlayer component from player {player.gameObject.name} but they didn't have one.");
                 return player.gameObject.AddComponent<MapStationPlayer>();
             }
             return mpPlayer;

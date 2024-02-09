@@ -1,8 +1,8 @@
 
 using HarmonyLib;
 using UnityEngine.SceneManagement;
-using UnityEngine;
 using System;
+using MapStation.Common;
 using MapStation.Plugin;
 
 [HarmonyPatch(typeof(SceneManager))]
@@ -19,7 +19,7 @@ internal static class SceneManagerPatch {
         // into valid Scene names which will match what comes out of Unity Editor, such as `Assets/Maps/cspotcode.deatheggzone/Scene` (scene name? path? I get confused)
 
         if(SceneNameMapper.Instance.Paths.TryGetValue(sceneName, out var replacement)) {
-            Debug.Log($"{nameof(SceneManager)}.{nameof(SceneManager.LoadSceneAsync)} redirected from {sceneName} to {replacement}");
+            Log.Info($"{nameof(SceneManager)}.{nameof(SceneManager.LoadSceneAsync)} redirected from {sceneName} to {replacement}");
             sceneName = replacement;
         }
     }
@@ -30,7 +30,7 @@ internal static class SceneManagerPatch {
     private static void UnloadSceneAsync_Prefix(ref string sceneName) {
         // Same logic as LoadSceneAsync patch
         if(SceneNameMapper.Instance.Names.TryGetValue(sceneName, out var replacement)) {
-            Debug.Log($"{nameof(SceneManager)}.{nameof(SceneManager.UnloadSceneAsync)} redirected from {sceneName} to {replacement}");
+            Log.Info($"{nameof(SceneManager)}.{nameof(SceneManager.UnloadSceneAsync)} redirected from {sceneName} to {replacement}");
             sceneName = replacement;
         }
     }

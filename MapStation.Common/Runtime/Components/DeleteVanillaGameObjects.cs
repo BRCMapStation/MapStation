@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MapStation.Common.Serialization;
-using Reptile;
 
 namespace MapStation.Common.VanillaAssets {
     /// <summary>
@@ -34,7 +33,7 @@ namespace MapStation.Common.VanillaAssets {
             foreach(var d in Deletions) {
                 var go = GameObject.Find(d.Path);
                 if(go == null) {
-                    Debug.Log($"{nameof(DeleteVanillaGameObjectsV1)} could not find GameObject to delete at path: {d.Path}");
+                    Log.Info($"{nameof(DeleteVanillaGameObjectsV1)} could not find GameObject to delete at path: {d.Path}");
                 } else {
                     HandleDeleteGameObject(go);
                 }

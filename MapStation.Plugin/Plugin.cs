@@ -22,7 +22,6 @@ namespace MapStation.Plugin
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin {
         public static Plugin Instance;
-        public static ManualLogSource Log = null;
         // Directory for maps bundled with MapStation, such as the subway station. These take top priority, can't be overriden.
         internal string MapStationMapsAbsoluteDirectory;
         // Test map directory, lower priority than map station maps.
@@ -36,6 +35,11 @@ namespace MapStation.Plugin
         private static Type ForceLoadMapStationPluginAssembly = typeof(MapStation.Plugin.Dependencies.AssemblyDependencies);
         private static Type ForceLoadMapStationTypeForwarderAssembly = typeof(MapStation.TypeForwarder.Dependencies.AssemblyDependencies);
 
+        public Plugin() {
+            // As early as possible for logging code to use it
+            Log.Logger = Logger;
+        }
+        
         private void Awake() {
             Instance = this;
             try {
@@ -66,7 +70,6 @@ namespace MapStation.Plugin
 
             ThreadedLogFix.Install();
 
-            Log = Logger;
             PhoneAPI.RegisterApp<AppMapStation>("mapstation");
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();

@@ -52,7 +52,7 @@ namespace MapStation.Common.VanillaAssets {
                 var asset = Core.Instance.Assets.LoadAssetFromBundle<UnityEngine.Object>(bundle, path);
 
                 if(asset == null) {
-                    Debug.Log(string.Format("{0}: Restoring reference to vanilla asset failed, asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\")", nameof(VanillaAssetReference), component.GetType().Name, name, bundle, path));
+                    Log.Info(string.Format("{0}: Restoring reference to vanilla asset failed, asset not found: {1}.{2} = LoadAssetFromBundle(\"{3}\", \"{4}\")", nameof(VanillaAssetReference), component.GetType().Name, name, bundle, path));
                     continue;
                 }
 
@@ -74,7 +74,7 @@ namespace MapStation.Common.VanillaAssets {
                         }
                     }
                 } catch(Exception e) {
-                    Debug.Log(message + "\nFailed with error:\n" + e.Message + "\n" + e.StackTrace);
+                    Log.Info(message + "\nFailed with error:\n" + e.Message + "\n" + e.StackTrace);
                 }
             }
         }

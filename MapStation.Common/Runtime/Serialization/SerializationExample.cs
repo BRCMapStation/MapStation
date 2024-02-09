@@ -44,7 +44,7 @@ namespace MapStation.Common.Serialization {
                 message += string.Format("{0}[{1}].{2}={3}\n", nameof(npcDialogs), i, nameof(Dialog.animation), npcDialogs[i].animation);
                 message += string.Format("{0}[{1}].{2}={3}\n", nameof(npcDialogs), i, nameof(Dialog.askYesNo), npcDialogs[i].askYesNo);
             }
-            Debug.Log(message);
+            Log.Info(message);
         }
     }
 }

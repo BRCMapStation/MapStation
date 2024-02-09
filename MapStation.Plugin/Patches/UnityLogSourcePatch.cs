@@ -22,7 +22,7 @@ class Patch {
 //     [HarmonyPrefix]
 //     [HarmonyPatch(nameof(Debug.LogWarning), typeof(object))]
 //     private static bool LogWarning_Prefix(object message) {
-//         Debug.Log("intercepted a warning 1");
+//         Log.Info("intercepted a warning 1");
 //         return false;
 //     }
 
