@@ -7,25 +7,17 @@ using UnityEngine;
 using Reptile;
 using HarmonyLib;
 using MapStation.Plugin.Gameplay;
+using MapStation.Plugin.Tools;
 
 namespace MapStation.Plugin.Patches;
 
 [HarmonyPatch(typeof(GameplayCamera))]
 internal static class GameplayCameraPatch {
 
-    private static readonly int[] DebugLayers = [
-        Layers.CameraIgnore,
-        Layers.TriggerDetectPlayer
-    ];
-
     [HarmonyPostfix]
     [HarmonyPatch(nameof(GameplayCamera.Awake))]
     private static void Awake_Postfix(GameplayCamera __instance) {
-        if (MapStationConfig.Instance.ShowDebugShapesValue) {
-            foreach (var layer in DebugLayers) {
-                __instance.cam.cullingMask |= (1 << layer);
-            }
-        }
+        HiddenShapes.Camera = __instance;
     }
 
     [HarmonyPostfix]

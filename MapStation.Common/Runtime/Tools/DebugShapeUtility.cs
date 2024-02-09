@@ -4,7 +4,10 @@ using System.Linq;
 using UnityEngine;
 
 namespace MapStation.Common {
-
+    
+    /// <summary>
+    /// DEPRECATED TODO remove
+    /// </summary>
     public class DebugShapeUtility {
         public static IEnumerable<Renderer> FindDebugShapes(GameObject root) {
             var renderers = root.GetComponentsInChildren<Renderer>(includeInactive: true);

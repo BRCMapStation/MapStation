@@ -58,6 +58,7 @@ namespace MapStation.Plugin
             DebugUI.Create(MapStationConfig.Instance.DebugUI.Value);
             DebugUI.Instance.RegisterMenu(new BackToHideoutDebugUI());
             DebugUI.Instance.RegisterMenu(new DoctorDebugUI());
+            DebugUI.Instance.RegisterMenu(new HiddenShapesDebugUI());
 
             MapStationMapsAbsoluteDirectory = Path.GetDirectoryName(Info.Location);
             TestMapsAbsoluteDirectory = Path.Combine(Paths.ConfigPath, PathConstants.ConfigDirectory, PathConstants.TestMapsDirectory);
@@ -80,6 +81,8 @@ namespace MapStation.Plugin
             KBMInputDisabler.Init(MapStationConfig.Instance.DisableKBMInputValue, MapStationConfig.Instance.DisableKBMInputKeyValue, ref UpdateEvent, ref LateUpdateEvent);
             
             CrashDetector.InitOnGameStart();
+
+            HiddenShapes.Visible = MapStationConfig.Instance.ShowDebugShapesValue;
         }
 
         public void InitializeMapDatabase(Assets assets) {
