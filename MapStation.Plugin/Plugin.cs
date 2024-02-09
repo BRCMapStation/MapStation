@@ -78,6 +78,8 @@ namespace MapStation.Plugin
             StageAPI.OnStagePreInitialization += EnableDebugFeaturesOnStageInit;
 
             KBMInputDisabler.Init(MapStationConfig.Instance.DisableKBMInputValue, MapStationConfig.Instance.DisableKBMInputKeyValue, ref UpdateEvent, ref LateUpdateEvent);
+            
+            CrashDetector.InitOnGameStart();
         }
 
         public void InitializeMapDatabase(Assets assets) {

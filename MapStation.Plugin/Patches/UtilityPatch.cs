@@ -32,7 +32,7 @@ internal static class UtilityPatch {
             }
 
             if(recognized) {
-                Debug.Log($"Utility.SceneNameToStage: non-vanilla sceneName=\"{sceneName}\" parsed as int={__result}, Stage.ToString()=\"{__result.ToString()}\"");
+                Debug.Log($"Utility.SceneNameToStage: non-vanilla sceneName=\"{sceneName}\" parsed as int={(int)__result}, Stage.ToString()=\"{__result.ToString()}\"");
                 return;
             }
             
