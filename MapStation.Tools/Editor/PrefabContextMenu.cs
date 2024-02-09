@@ -89,6 +89,10 @@ public class AddPrefabsToContextMenu {
     private static void CreateWalkZone(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "WalkZone");
     }
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Glass/Blue 8x4", priority = Priority)]
+    private static void CreateGlassBlue8x4(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "GlassBlue_8x4");
+    }
 
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";

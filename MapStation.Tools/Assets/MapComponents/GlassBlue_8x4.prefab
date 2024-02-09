@@ -1,0 +1,412 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7067515271087008489
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7067515271087108314}
+  - component: {fileID: 7067515271086881519}
+  - component: {fileID: 7067515271086868326}
+  - component: {fileID: 7067515271086997331}
+  - component: {fileID: 7067515271086970706}
+  - component: {fileID: 7067515271086989216}
+  - component: {fileID: 7067515271086972865}
+  - component: {fileID: 8931289756751381014}
+  m_Layer: 10
+  m_Name: GlassBlue_8x4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7067515271087108314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067515271087008489}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0398, y: 1, z: 1.1595}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!33 &7067515271086881519
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067515271087008489}
+  m_Mesh: {fileID: 0}
+--- !u!23 &7067515271086868326
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067515271087008489}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7067515271086997331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067515271087008489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8288e11303f3fb4987103122ebfa098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakOn: 0
+  breakEffect: {fileID: 0}
+  breakSounds: 383
+  audioSource: {fileID: 7067515271086972865}
+--- !u!65 &7067515271086970706
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067515271087008489}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8, y: 0.5, z: 3.9999995}
+  m_Center: {x: 0, y: 0, z: 1.9999998}
+--- !u!208 &7067515271086989216
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067515271087008489}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4, y: 0.25, z: 2}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 2}
+  m_TimeToStationary: 0.5
+--- !u!82 &7067515271086972865
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067515271087008489}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300000, guid: 2f929fd3a018c48449995bb7f2a1b192, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 2
+  MaxDistance: 250
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &8931289756751381014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067515271087008489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3f53950e5e641f459d8726da39a49ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+    rid: 6474265538733801472
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 6474265538733801472
+      type: {class: VanillaAssetReferenceV2/SList_Components, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 6474265538733801473
+        items:
+        - rid: 6474265538733801474
+        - rid: 6474265538733801478
+        - rid: 6474265538733801481
+        - rid: 6474265538733801484
+    - rid: 6474265538733801473
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 6474265538733801474
+        next:
+          rid: 6474265538733801479
+    - rid: 6474265538733801474
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 7067515271086881519}
+        fields:
+          rid: 6474265538733801475
+    - rid: 6474265538733801475
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 6474265538733801476
+        items:
+        - rid: 6474265538733801477
+    - rid: 6474265538733801476
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 6474265538733801477
+        next:
+          rid: -2
+    - rid: 6474265538733801477
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: sharedMesh
+        Index: -1
+        BundleName: common_assets
+        Path: assets/common assets/gameplay/models/basicglass.fbx
+        SubAssetType: 2
+        SubPath: GlassBlue_8x4
+    - rid: 6474265538733801478
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 7067515271086868326}
+        fields:
+          rid: 6474265538733801480
+    - rid: 6474265538733801479
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 6474265538733801478
+        next:
+          rid: 6474265538733801483
+    - rid: 6474265538733801480
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 6474265538733801487
+        items:
+        - rid: 6474265538733801488
+    - rid: 6474265538733801481
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 7067515271086997331}
+        fields:
+          rid: 6474265538733801482
+    - rid: 6474265538733801482
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 6474265538733801489
+        items:
+        - rid: 6474265538733801490
+    - rid: 6474265538733801483
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 6474265538733801481
+        next:
+          rid: 6474265538733801486
+    - rid: 6474265538733801484
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 7067515271086972865}
+        fields:
+          rid: 6474265538733801485
+    - rid: 6474265538733801485
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 6474265538733801491
+        items:
+        - rid: 6474265538733801492
+    - rid: 6474265538733801486
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 6474265538733801484
+        next:
+          rid: -2
+    - rid: 6474265538733801487
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 6474265538733801488
+        next:
+          rid: -2
+    - rid: 6474265538733801488
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: sharedMaterial
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/gameplay/materials/GlassAtlasMat.mat
+        SubAssetType: 0
+        SubPath: 
+    - rid: 6474265538733801489
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 6474265538733801490
+        next:
+          rid: -2
+    - rid: 6474265538733801490
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: breakEffect
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/vfx/glassBreakEffect.prefab
+        SubAssetType: 0
+        SubPath: 
+    - rid: 6474265538733801491
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 6474265538733801492
+        next:
+          rid: -2
+    - rid: 6474265538733801492
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: outputAudioMixerGroup
+        Index: -1
+        BundleName: coreassets
+        Path: Assets/audio/MasterMixer.mixer
+        SubAssetType: 1
+        SubPath: Gameplay

@@ -23,6 +23,8 @@ namespace Reptile
 		private Collision curCollision;
 
 		public GameObject breakEffect;
+        
+		public AudioClipID breakSounds;
 
 		public AudioSource audioSource;
 
