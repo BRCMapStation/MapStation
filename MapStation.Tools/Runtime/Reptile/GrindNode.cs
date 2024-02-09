@@ -17,6 +17,7 @@ namespace Reptile
 
 		public List<GrindLine> grindLines = new();
 
+        [Tooltip("If enabled, the player will automatically turn around and grind in the opposite direction when they hit this node. Use for nodes that are against a wall.")]
 		public bool retour;
 
 		public Vector3 position

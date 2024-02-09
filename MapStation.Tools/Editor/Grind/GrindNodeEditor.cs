@@ -1,8 +1,14 @@
 using System.Linq;
+using cspotcode.UnityGUI;
 using Reptile;
 using UnityEditor;
 using UnityEngine;
 using MapStation.Components;
+using static UnityEditor.EditorGUILayout;
+using static UnityEditor.EditorGUI;
+using static UnityEngine.GUILayout;
+using static UnityEngine.GUI;
+using static cspotcode.UnityGUI.GUIUtil;
 
 [CustomEditor(typeof(GrindNode))]
 [CanEditMultipleObjects]
@@ -29,8 +35,19 @@ class GrindNodeEditor : Editor
         if(!allSameGrind) {
             EditorGUILayout.HelpBox("You have selected nodes from different Grinds. This is probably a mistake.", MessageType.Warning);
         }
-
-        DrawDefaultInspector();
+        
+        // Mimic default inspector, with customization
+        serializedObject.Update();
+        foreach (var prop in serializedObject.IterChildren(skipScriptName: false)) {
+            if (prop.name == nameof(GrindNode.retour)) {
+                PropertyField(prop, new GUIContent("Retour / Turn around"));
+            } else {
+                PropertyField(prop);
+            }
+        }
+        serializedObject.ApplyModifiedProperties();
+        
+        Space();
 
         if(GUILayout.Button("Orient Upright")) {
             GrindActions.OrientNodesUpward(grindNodes);
@@ -41,7 +58,7 @@ class GrindNodeEditor : Editor
         if(CanDoAddNodeAction() && GUILayout.Button("Add Node")) {
             AddNodeAction();
         }
-        if(CanDoJoinNodesAction() && GUILayout.Button("Join Nodes")) {
+        if(CanDoJoinNodesAction() && GUILayout.Button("Connect Nodes")) {
             JoinNodesAction();
         }
     }
