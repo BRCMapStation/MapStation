@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MapStation.Common.Serialization;
+using Reptile;
 
 namespace MapStation.Common.VanillaAssets {
     /// <summary>
