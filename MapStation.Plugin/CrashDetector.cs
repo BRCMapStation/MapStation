@@ -5,12 +5,11 @@ namespace MapStation.Plugin;
 
 public class CrashDetector {
     private const string PlayerPrefName = "MapStation.CrashDetector.IsLoadingStage";
-    private static bool shouldAvoidReCrashing = false;
-    public static bool ShouldAvoidReCrashing => shouldAvoidReCrashing;
+    public static bool ShouldAvoidReCrashing { get; private set; }
     
     public static void InitOnGameStart() {
         var wasLoadingStage = PlayerPrefs.GetInt(PlayerPrefName);
-        shouldAvoidReCrashing = wasLoadingStage > 0;
+        ShouldAvoidReCrashing = wasLoadingStage > 0;
         StageManager.OnStagePostInitialization += AfterLoadStage;
     }
     
@@ -20,6 +19,6 @@ public class CrashDetector {
     
     public static void AfterLoadStage() {
         PlayerPrefs.SetInt(PlayerPrefName, 0);
-        shouldAvoidReCrashing = false;
+        ShouldAvoidReCrashing = false;
     }   
 }
