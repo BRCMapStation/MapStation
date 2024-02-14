@@ -25,7 +25,7 @@ public class MapBuilder {
     }
 
     [MenuItem(UIConstants.menuLabel + "/Build Maps _F5", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS)]
-    private static void BuildAssets() {
+    public static void BuildAssets() {
         var mapOutputs = BuildAllAssetBundles(compressed: false);
         CopyToTestMapsDirectory(mapOutputs, BuildConstants.PluginName);
         UnityEngine.Debug.Log("Done building assets!");
