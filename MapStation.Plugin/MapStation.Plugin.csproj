@@ -26,10 +26,11 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\libs\SlopCrewClient\SlopCrewClient\SlopCrewClient.csproj" Private="false" />
     <ProjectReference Include="..\MapStation.API\MapStation.API.csproj" />
     <ProjectReference Include="..\MapStation.Common\MapStation.Common.csproj" />
     <ProjectReference Include="..\TypeForwarder\TypeForwarder.csproj" />
-    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
+    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" Private="false" />
   </ItemGroup>
 
   <!--
