@@ -16,7 +16,7 @@ public class DoctorWindow : EditorWindow {
     const string windowLabel = "Doctor";
 
     [MenuItem(UIConstants.menuLabel + "/" + windowLabel, priority = (int)UIConstants.MenuOrder.DOCTOR)]
-    public static DoctorWindow Show() {
+    public static DoctorWindow ShowWindow() {
         var wnd = GetWindow<DoctorWindow>();
         wnd.titleContent = new GUIContent(windowLabel);
         return wnd;
@@ -93,7 +93,7 @@ public class DoctorWindow : EditorWindow {
                     showGo[goi] = BeginFoldoutHeaderGroup(showGo[goi], $"{diagnostics[0].TargetPath}");
                     EndFoldoutHeaderGroup(); // Unity doesn't let us nest them, so we close it immediately
                     if(showGo[goi]) {
-                        EditorGUILayout.ObjectField("Game Object", gameObject, typeof(GameObject));
+                        EditorGUILayout.ObjectField("Game Object", gameObject, typeof(GameObject), allowSceneObjects: true);
                         using (Indent(apply:true)) {
                             foreach (var diagnostic in diagnostics) {
                                 DrawDiagnostic(diagnostic);

@@ -235,7 +235,7 @@ public class MapBuilder {
                 message,
                 "Build Map", "See Errors");
             if (!response) {
-                DoctorWindow.Show().Analysis = analysis;
+                DoctorWindow.ShowWindow().Analysis = analysis;
                 throw new Exception("Build aborted");
             }
         }
