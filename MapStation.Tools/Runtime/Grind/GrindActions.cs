@@ -4,6 +4,7 @@ using System.Linq;
 using MapStation.Common.Doctor;
 using MapStation.Components;
 using Reptile;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -181,6 +182,75 @@ public static class GrindActions {
         SyncReferences(grind);
         foreach(var line in grind.lines) {
             line.RebuildWithRedDebugShape();
+        }
+    }
+
+    public static void Renumber(Grind grind) {
+        SyncReferences(grind);
+
+        var visited = new HashSet<Object>();
+        var nextNodeIndex = 1;
+        var nextLineIndex = 1;
+        var pendingLines = new Stack<GrindLine>();
+        var orderedNodes = new List<GrindNode>();
+        var orderedLines = new List<GrindLine>();
+
+        foreach(var firstNode in grind.nodes) {
+            var node = firstNode;
+            if(!visited.Contains(node)) {
+                rename(node, ref nextNodeIndex, orderedNodes);  
+                queueLines(node);
+            }
+            // Rename next line
+            while(pendingLines.Count > 0) {
+                var line = pendingLines.Pop();
+                rename(line, ref nextLineIndex, orderedLines);
+                if(line.n0 != null && !visited.Contains(line.n0)) {
+                    node = line.n0;
+                }
+                else if(line.n1 != null && !visited.Contains(line.n1)) {
+                    node = line.n1;
+                } else {
+                    // no node; do next line
+                    continue;
+                }
+                if(!visited.Contains(node)) {
+                    rename(node, ref nextNodeIndex, orderedNodes);
+                    queueLines(node);
+                }
+            }
+            // We've run out of lines but there may still be unvisited nodes if
+            // disjoint
+        }
+
+        // Now that all nodes and lines have been visited, reorder them in
+        // hierarchy
+        reorder(grind.NodesContainer, orderedNodes);
+        reorder(grind.LinesContainer, orderedLines);
+
+        void rename<T>(T c, ref int index, List<T> ordered) where T : Component {
+            // Rename the node
+            Undo.RecordObject(c.gameObject, null);
+            c.gameObject.name = $"{index++}";
+            visited.Add(c);
+            ordered.Add(c);
+        }
+        void queueLines(GrindNode node) {
+            // Queue all lines extending from this node
+            for(var i = node.grindLines.Count - 1; i >= 0; i--) {
+                var l = node.grindLines[i];
+                if(!visited.Contains(l)) {
+                    pendingLines.Push(l);
+                }
+            }
+        }
+        void reorder<T>(Transform parent, List<T> components) where T : Component {
+            Undo.RegisterChildrenOrderUndo(grind.NodesContainer, null);
+            var i = 0;
+            foreach(var c in components) {
+                if(c.transform.parent != parent) continue;
+                c.transform.SetSiblingIndex(i++);
+            }
         }
     }
 

@@ -19,6 +19,10 @@ public class GrindEditor : Editor
         {
             GrindActions.Repair(target);
         }
+        if (GUILayout.Button("Re-number"))
+        {
+            GrindActions.Renumber(target);
+        }
         if (GUILayout.Button("Add Node"))
         {
             GrindActions.AddNode(target);
