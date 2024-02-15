@@ -12,7 +12,8 @@ public static class UIConstants {
         BUILD_ASSETS_AND_RUN_ON_STEAM,
         BUILD_AND_PACKAGE_FOR_THUNDERSTORE,
         //---
-        UPDATE_PLUGIN = 20,
+        CREATE_MAP = 20,
+        UPDATE_PLUGIN,
         //---
         MAP_PROPERTIES = 40,
         DOCTOR,

@@ -17,5 +17,7 @@ namespace MapStation.Tools {
     /// </summary>
     public static class ToolAssetConstants {
         public const string DefaultThunderstoreIconPath = "Packages/com.brcmapstation.tools/Assets/Icons/DefaultThunderstoreIcon.png";
+        public const string NewMapTemplatePath = "Packages/com.brcmapstation.tools/Assets/NewMapTemplate";
+        public const string NewMapTemplateScenePath = "Packages/com.brcmapstation.tools/Assets/NewMapTemplate/Scene.unity";
     }
 }

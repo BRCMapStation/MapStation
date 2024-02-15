@@ -146,7 +146,7 @@ public class MapBuilder {
         }
     }
 
-    private static void StubMissingMapFiles(EditorMapDatabaseEntry[] maps) {
+    public static void StubMissingMapFiles(EditorMapDatabaseEntry[] maps) {
         foreach(var map in maps) {
             if(!File.Exists(map.ReadmePath)) {
                 File.Create(map.ReadmePath);
@@ -163,7 +163,7 @@ public class MapBuilder {
         }
     }
 
-    private static void SyncMapProperties(EditorMapDatabaseEntry[] maps) {
+    public static void SyncMapProperties(EditorMapDatabaseEntry[] maps) {
         foreach(var map in maps) {
             map.Properties.SyncAutomaticFields(map);
         }
