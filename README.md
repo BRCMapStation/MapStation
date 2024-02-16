@@ -2,4 +2,4 @@
 
 ![MapStation Logo](MapStationLogo.png)
 
-## [Wiki](https://github.com/BRCMapStation/Docs/wiki)
+## [How to Use MapStation](https://github.com/BRCMapStation/Docs/wiki)
