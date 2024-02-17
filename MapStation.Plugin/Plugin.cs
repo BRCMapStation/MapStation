@@ -64,7 +64,7 @@ namespace MapStation.Plugin
             DebugUI.Instance.RegisterMenu(new DoctorDebugUI());
             DebugUI.Instance.RegisterMenu(new HiddenShapesDebugUI());
 #if MAPSTATION_DEBUG
-            DebugUI.Instance.RegisterMenu(new SlopCrewClientUI());
+            //DebugUI.Instance.RegisterMenu(new SlopCrewClientUI());
 #endif
 
             MapStationMapsAbsoluteDirectory = Path.GetDirectoryName(Info.Location);
