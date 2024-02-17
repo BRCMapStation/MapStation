@@ -12,7 +12,7 @@ catch [System.Management.Automation.CommandNotFoundException]
 try
 {
     $netsdks = dotnet --list-sdks
-    if (-not $netsdks -like "*sdk*"){
+    if (-not ($netsdks -like "*sdk*")) {
         winget install dotnet-sdk-8
     }
     else
@@ -97,4 +97,4 @@ cd scripts
 
 ./copy-assets.ps1
 
-read-host �Press ENTER to continue�
+read-host  Press ENTER to continue 
