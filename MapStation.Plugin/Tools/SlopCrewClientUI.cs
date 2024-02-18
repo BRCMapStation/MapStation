@@ -13,6 +13,8 @@ class BasePacket {}
 class PlayAnimation : BasePacket {
     [ProtoMember(1)]
     public string directorId;
+    [ProtoMember(2)]
+    public Vector3 position;
 }
 
 class SlopCrewClientUI : DebugUI.DebugMenu {
@@ -23,6 +25,13 @@ class SlopCrewClientUI : DebugUI.DebugMenu {
     public SlopCrewClientUI() {
         client = new Client<BasePacket>("MapStation.Common");
         client.Enable();
+        client.OnPacketReceived += (player, packet, isLocal) => {
+            Debug.Log($"{player} sent us: {packet}");
+            if (packet is PlayAnimation p) {
+                Debug.Log(p.directorId);
+                Debug.Log(p.position);
+            }
+        };
     }
 
     public override void OnGUI() {
@@ -47,7 +56,8 @@ class SlopCrewClientUI : DebugUI.DebugMenu {
         GUILayout.Label($"Tick difference {difference} {(localAhead ? "Local is ahead" : serverAhead ? "Server is ahead" : "")}");
         if (GUILayout.Button("Send Packet")) {
             client.Send(new PlayAnimation() {
-                directorId = "foobar"
+                directorId = "foobar",
+                position = Vector3.down
             }, true);
         }
     }
