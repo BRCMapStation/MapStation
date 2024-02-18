@@ -26,7 +26,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\libs\SlopCrewClient\SlopCrewClient\SlopCrewClient.csproj" Private="false" />
+    <ProjectReference Include="..\libs\SlopCrewClient\SlopCrewClient\SlopCrewClient.csproj" Private="false" IncludeAssets="compile" />
+
     <ProjectReference Include="..\MapStation.API\MapStation.API.csproj" />
     <ProjectReference Include="..\MapStation.Common\MapStation.Common.csproj" />
     <ProjectReference Include="..\TypeForwarder\TypeForwarder.csproj" />
@@ -83,6 +84,7 @@
         copy "$(UnityEditorDataDir)\MonoBleedingEdge\lib\mono\unityjit-win32\System.IO.Compression.dll" "$(LocalPluginBuild)"
         copy "$(UnityEditorDataDir)\MonoBleedingEdge\lib\mono\unityjit-win32\System.IO.Compression.Filesystem.dll" "$(LocalPluginBuild)"
         xcopy /q/y/i "$(LocalPluginBuild)" "$(BepInExDirectory)\plugins\MapStation" /E /H /C
+        <!-- TODO rewrite these to use msbuild, not xcopy. MSBuild is more reliable, more explicit -->
       </AlwaysCommand>
     </PropertyGroup>
     <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(PdbCommand)" />
