@@ -26,13 +26,17 @@ class SlopCrewClientUI : DebugUI.DebugMenu {
     }
 
     public override void OnGUI() {
+        GUILayout.Label($"IsSlopCrewInstalled {cspotcode.SlopCrewClient.SlopCrewAPI.APIManager.IsSlopCrewInstalled}");
         GUILayout.Label($"API available? {client.ApiAvailable}");
         if (client.ApiAvailable) {
             GUILayout.Label($"Connected {client.SlopCrewAPI.Connected}");
             GUILayout.Label($"TickRate {client.SlopCrewAPI.TickRate}");
             GUILayout.Label($"ServerAddress {client.SlopCrewAPI.ServerAddress}");
-            GUILayout.Label($"PlayerCount {client.SlopCrewAPI.PlayerCount}");
             GUILayout.Label($"Latency {client.SlopCrewAPI.Latency}");
+            GUILayout.Label($"PlayerCount {client.SlopCrewAPI.PlayerCount}");
+            foreach (var id in client.SlopCrewAPI.Players) {
+                GUILayout.Label($"Player#{id}: {client.SlopCrewAPI.GetPlayerName(id)}");
+            }
         }
         GUILayout.Label($"CurrentTick {client.CurrentTick}");
         GUILayout.Label($"CurrentTickSmoothed {client.CurrentTickSmoothed}");
