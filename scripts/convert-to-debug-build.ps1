@@ -23,7 +23,14 @@ if($confirmation -ne "yes") {
     exit
 }
 
+$bootConfig = "$brcInstallDirectory\Bomb Rush Cyberfunk_data\boot.config"
+
 xcopy /E /C /Y "$unityEditorDirectory\Data" "$brcInstallDirectory\Bomb Rush Cyberfunk_data"
 xcopy /C /Y "$unityEditorDirectory\UnityPlayer.dll" "$brcInstallDirectory\UnityPlayer.dll"
 xcopy /C /Y "$unityEditorDirectory\WindowsPlayer.exe" "$brcInstallDirectory\Bomb Rush Cyberfunk.exe"
-Add-Content -Path "$brcInstallDirectory\Bomb Rush Cyberfunk_data\boot.config" "`n`nplayer-connection-debug=1"
+Add-Content -Path $bootConfig "`n`nplayer-connection-debug=1"
+
+# Support running 2x instances at once
+Set-Content -Path "$brcInstallDirectory\steam_appid.txt" 1353230
+$bootConfigContent = Get-Content -Path $bootConfig | ? { -not ($_ -like '*single-instance*' ) }
+$bootConfigContent > $bootConfig
