@@ -12,12 +12,13 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class MapBuilder {
-
+#if MAPSTATION_DEBUG
     [MenuItem(UIConstants.menuLabel + "/Build Maps and Run on Steam _F6", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS_AND_RUN_ON_STEAM)]
     private static void BuildAndRunSteam() {
         BuildAssets();
         GameLauncher.LaunchGameSteam();
     }
+#endif
 
     [MenuItem(UIConstants.menuLabel + "/Build Maps and Run on Steam _F6", true)]
     private static bool BuildAndRunSteamValidate() {
