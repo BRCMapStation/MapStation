@@ -81,6 +81,7 @@ public class MapDatabase {
             "storyanimation",
             "minimap",
             "common_game_shaders",
+            "city_assets", // Vending machines require this one
                 
             map.AssetsBundleName,
             map.SceneBundleName
