@@ -23,10 +23,9 @@ namespace MapStation.Plugin.Patches {
             
             if (!vertRay.hit) return;
 
-            var vertDot = Vector3.Dot(Vector3.up, vertRay.hitInfo.normal);
             var vertAngle = Vector3.Angle(Vector3.up, vertRay.hitInfo.normal);
 
-            if (vertAngle >= MapStationPlayer.MinimumAirVertAngle || vertDot <= 0f) {
+            if (vertAngle >= MapStationPlayer.MinimumAirVertAngle) {
                 mpPlayer.HasVertBelow = true;
                 if (!mpPlayer.OnVertGround)
                     mpPlayer.GroundVertVector = -vertRay.hitInfo.normal;
@@ -40,7 +39,7 @@ namespace MapStation.Plugin.Patches {
             var nudgeRay = __instance.GetRaycastInfo(player.transform.position - (mpPlayer.AirVertVector * MapStationPlayer.VertOuterRay) + (Vector3.up * 1f), Vector3.down, dist, 1f);
             if (nudgeRay.hit) {
                 var nudgeVert = nudgeRay.hitInfo.collider.GetComponent<MapStationVert>();
-                if (nudgeVert == null || (Vector3.Angle(nudgeRay.hitInfo.normal, Vector3.up) < MapStationPlayer.MinimumAirVertAngle && Vector3.Dot(Vector3.up, nudgeRay.hitInfo.normal) > 0f)) {
+                if (nudgeVert == null || Vector3.Angle(nudgeRay.hitInfo.normal, Vector3.up) < MapStationPlayer.MinimumAirVertAngle) {
                     player.transform.position += mpPlayer.AirVertVector * MapStationPlayer.VertOuterNudge;
                 }
             }
@@ -48,14 +47,12 @@ namespace MapStation.Plugin.Patches {
             nudgeRay = __instance.GetRaycastInfo(player.transform.position + (mpPlayer.AirVertVector * MapStationPlayer.VertInnerRay) + (Vector3.up * 1f), Vector3.down, dist, 1f);
             if (nudgeRay.hit) {
                 var nudgeVert = nudgeRay.hitInfo.collider.GetComponent<MapStationVert>();
-                if (nudgeVert == null || (Vector3.Angle(nudgeRay.hitInfo.normal, Vector3.up) < MapStationPlayer.MinimumAirVertAngle && Vector3.Dot(Vector3.up, nudgeRay.hitInfo.normal) > 0f)) {
+                if (nudgeVert == null || Vector3.Angle(nudgeRay.hitInfo.normal, Vector3.up) < MapStationPlayer.MinimumAirVertAngle) {
                     player.transform.position -= mpPlayer.AirVertVector * MapStationPlayer.VertInnerNudge;
                 }
             }
 
-            if (vertDot > 0f) {
-                if (vertAngle < MapStationPlayer.MinimumAirVertAngle) return;
-            }
+            if (vertAngle < MapStationPlayer.MinimumAirVertAngle) return;
 
             var vertVector = MapStationPlayer.GetVertVectorFromGroundNormal(vertRay.hitInfo.normal);
             if (vertVector == mpPlayer.AirVertVector) return;
