@@ -1,0 +1,31 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--
+    Will copy files to $(BlenderAddonsDir) so you can quickly iterate in Blender.
+
+    In Blender use "Reload Scripts" command. Blender>System>Reload Scripts or hit F3
+    and search for "Reload Scripts"
+  -->
+
+  <Import Condition="Exists('$(MSBuildProjectDirectory)/../Directory.Build.props')" Project="$(MSBuildProjectDirectory)/../Directory.Build.props" />
+  <Import Condition="Exists('$(MSBuildProjectDirectory)/../Directory.Build.props.user')" Project="$(MSBuildProjectDirectory)/../Directory.Build.props.user" />
+  <Import Condition="Exists('$(MSBuildProjectFile).user')" Project="$(MSBuildProjectFile).user" />
+
+  <PropertyGroup>
+    <BuildDir>$(MSBuildProjectDirectory)/../Build/MapStation_Blender_Addon</BuildDir>
+    <BuildZip>$(MSBuildProjectDirectory)/../Build/MapStation_Blender_Addon.zip</BuildZip>
+  </PropertyGroup>
+
+  <Target Name="Build">
+    <MakeDir Directories="$(BuildDir)" />
+    <ItemGroup>
+      <_Assets Include="$(MSBuildProjectDirectory)/mapstation/**/*" Exclude="__pycache__" />
+    </ItemGroup>
+    <!-- Copy to /Build -->
+    <Copy SourceFiles="@(_Assets)" DestinationFolder="$(BuildDir)/mapstation/%(RecursiveDir)" />
+    <!-- Copy to Blender addons dir -->
+    <Copy Condition="'' != '$(BlenderAddonsDir)'" SourceFiles="@(_Assets)" DestinationFolder="$(BlenderAddonsDir)/mapstation/%(RecursiveDir)" />
+    <!-- Zip for publication -->
+    <ZipDirectory Overwrite="true" DestinationFile="$(MSBuildProjectDirectory)/../Build/MapStation_Blender_Addon.zip" SourceDirectory="$(BuildDir)" />
+  </Target>
+</Project>
