@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 2319304232149785985}
   - component: {fileID: 6746105397665826409}
   m_Layer: 0
-  m_Name: DoorTeleporterPrefab
+  m_Name: DoorTeleporter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,8 +157,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2699700430726563172}
-  m_Layer: 0
-  m_Name: Spawner
+  m_Layer: 12
+  m_Name: ExitSpawner
   m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,7 +175,46 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6755309685738423595}
   m_Father: {fileID: 2319304232149785985}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6500127077487649472
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2699700430726563172}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7ee781814a82c6447977c1e1bd72c976, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee781814a82c6447977c1e1bd72c976, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee781814a82c6447977c1e1bd72c976, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7ee781814a82c6447977c1e1bd72c976, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7ee781814a82c6447977c1e1bd72c976, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7fcb3b03632c5b343a0a56fac846a8d0, type: 2}
+    - target: {fileID: 919132149155446097, guid: 7ee781814a82c6447977c1e1bd72c976, type: 3}
+      propertyPath: m_Name
+      value: Spawner
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7ee781814a82c6447977c1e1bd72c976, type: 3}
+--- !u!4 &6755309685738423595 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7ee781814a82c6447977c1e1bd72c976, type: 3}
+  m_PrefabInstance: {fileID: 6500127077487649472}
+  m_PrefabAsset: {fileID: 0}

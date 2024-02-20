@@ -19,7 +19,7 @@ public class AddPrefabsToContextMenu {
 
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Teleports/Door Teleport", priority = Priority)]
     private static void CreateTeleport(MenuCommand menuCommand) {
-        CreatePrefabUnderContext(menuCommand.context, "DoorTeleporterPrefab");
+        CreatePrefabUnderContext(menuCommand.context, "DoorTeleporter");
     }
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Teleports/Out-of-Bounds Teleport", priority = Priority)]
     private static void CreateOobTeleport(MenuCommand menuCommand) {
