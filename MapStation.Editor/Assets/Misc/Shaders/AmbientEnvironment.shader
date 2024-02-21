@@ -32,6 +32,7 @@ Shader "BRC/Ambient Environment"
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
+                float4 color : COLOR0;
             };
 
             struct v2f
@@ -41,6 +42,7 @@ Shader "BRC/Ambient Environment"
                 float3 normal : TEXCOORD1;
                 SHADOW_COORDS(2) // put shadows data into TEXCOORD1
                 float2 uv2 : TEXCOORD3;
+                float4 color : COLOR0;
             };
 
             BRC_LIGHTING_PROPERTIES;
@@ -56,6 +58,7 @@ Shader "BRC/Ambient Environment"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.uv2 = TRANSFORM_TEX(v.uv, _Emission);
                 o.normal = UnityObjectToWorldNormal(v.normal);
+                o.color = v.color;
                 TRANSFER_SHADOW(o)
                 return o;
             }
@@ -63,7 +66,7 @@ Shader "BRC/Ambient Environment"
             fixed4 frag(v2f i) : SV_Target
             {
                 BRC_LIGHTING_FRAGMENT;
-                fixed4 col = tex2D(_MainTex, i.uv) * BRCLighting;
+                fixed4 col = tex2D(_MainTex, i.uv) * i.color * BRCLighting;
                 fixed3 emissionCol = tex2D(_Emission, i.uv2).rgb;
                 col.rgb += emissionCol.rgb;
                 return col;

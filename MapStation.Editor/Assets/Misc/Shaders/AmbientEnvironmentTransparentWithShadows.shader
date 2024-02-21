@@ -17,6 +17,8 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
             CGPROGRAM
+// Upgrade NOTE: excluded shader from DX11; has structs without semantics (struct v2f members color)
+#pragma exclude_renderers d3d11
             #pragma vertex vert
             #pragma fragment frag
 
@@ -33,6 +35,7 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
+                float4 color : COLOR0;
             };
 
             struct v2f
@@ -41,6 +44,7 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
                 float4 pos : SV_POSITION;
                 float3 normal : TEXCOORD1;
                 SHADOW_COORDS(2) // put shadows data into TEXCOORD1
+                float4 color = COLOR0;
             };
 
             BRC_LIGHTING_PROPERTIES;
@@ -53,6 +57,7 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.normal = UnityObjectToWorldNormal(v.normal);
+                o.color = v.color;
                 TRANSFER_SHADOW(o)
                 return o;
             }
@@ -60,7 +65,7 @@ Shader "BRC/Ambient Environment Transparent With Shadows"
             fixed4 frag(v2f i) : SV_Target
             {
                 BRC_LIGHTING_FRAGMENT;
-                fixed4 col = tex2D(_MainTex, i.uv) * BRCLighting;
+                fixed4 col = tex2D(_MainTex, i.uv) * i.color * BRCLighting;
                 return col;
             }
             ENDCG
