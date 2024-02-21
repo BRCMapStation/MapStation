@@ -64,23 +64,13 @@
     </Reference>
   </ItemGroup>
   
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <!-- Copy assets -->
-    <MakeDir Directories="$(LocalPluginBuild)" />
+  <Target Name="CopyToPluginBuild" AfterTargets="PostBuildEvent" Condition="'' != '$(LocalPluginBuild)'">
     <ItemGroup>
-      <!-- Copy can't do directories, mark files with Include and copy that instead -->
       <_Assets Include="$(SolutionDir)Assets/**/*" />
     </ItemGroup>
-    <Copy SourceFiles="@(_Assets)" DestinationFolder="$(LocalPluginBuild)" />
+    <Copy SourceFiles="@(_Assets)" DestinationFolder="$(LocalPluginBuild)\%(RecursiveDir)" />
     
     <PropertyGroup>
-      <PdbCommand>
-        <!-- Generate debug symbols for all DLLs -->
-        $(Pdb2MdbPath) "$(TargetDir)/CommonAPI.dll"
-        $(Pdb2MdbPath) "$(TargetDir)/MapStation.Common.dll"
-        $(Pdb2MdbPath) "$(TargetDir)/MapStation.Plugin.dll"
-        $(Pdb2MdbPath) "$(TargetPath)"
-      </PdbCommand>
       <AlwaysCommand>
         <!-- Copy plugin -->
         xcopy /q/y/i "$(TargetDir)" "$(LocalPluginBuild)" /E /H /C
@@ -91,7 +81,6 @@
         <!-- TODO rewrite these to use msbuild, not xcopy. MSBuild is more reliable, more explicit -->
       </AlwaysCommand>
     </PropertyGroup>
-    <Exec Condition="'' != '$(Pdb2mdbPath)'" Command="$(PdbCommand)" />
     <Exec Command="$(AlwaysCommand)" />
   </Target>
 </Project>

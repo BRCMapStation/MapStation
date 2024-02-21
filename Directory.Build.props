@@ -8,15 +8,18 @@
       Build scripts copy all plugin files to this local directory, then copy the whole thing into BepInEx plugins directory
       We can also zip this for ThunderStore.
     -->
-    <LocalPluginBuild>$(SolutionDir)/Build/MapStation.Plugin.$(Configuration)</LocalPluginBuild>
+    <LocalPluginBuild Condition="'' != '$(SolutionDir)'">$(SolutionDir)/Build/MapStation.Plugin.$(Configuration)</LocalPluginBuild>
 
     <!-- Always define MAPSTATION -->
     <DefineConstants>$(DefineConstants);MAPSTATION</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+  <PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(Configuration)'==''">
     <DebugType>Full</DebugType>
-    <Pdb2mdbPath Condition="Exists('$(SolutionDir)scripts\pdb2mdb.exe')">$(SolutionDir)\scripts\pdb2mdb.exe</Pdb2mdbPath>
+    
+    <!-- Find pdb2mdb.exe to generate .mdb for debugging -->
+    <Pdb2mdbPath Condition="Exists('$(MSBuildThisFileDirectory)\scripts\pdb2mdb.exe')">$(MSBuildThisFileDirectory)\scripts\pdb2mdb.exe</Pdb2mdbPath>
+    
     <NoWarn>$(NoWarn);CS0649;CS0414;CS0169</NoWarn>
     <DefineConstants>$(DefineConstants);MAPSTATION_DEBUG;TRACE</DefineConstants>
   </PropertyGroup>

@@ -1,11 +1,31 @@
 <!-- These targets apply to all projects in this directory -->
 <Project>
+  <!-- Suppress warning CS0436 from generated AssemblyInfo.cs -->
   <Target Condition="$(GenerateAssemblyInfo)=='true'" Name="FixAssemblyInfo" AfterTargets="GenerateAssemblyInfo">
-    <!-- Suppress warning CS0436 from generated AssemblyInfo.cs -->
     <ReadLinesFromFile File="$(GeneratedAssemblyInfoFile)">
       <Output TaskParameter="Lines" ItemName="Lines" />
     </ReadLinesFromFile>
     <WriteLinesToFile File="$(GeneratedAssemblyInfoFile)" Lines="#pragma warning disable CS0436" Overwrite="true" />
     <WriteLinesToFile File="$(GeneratedAssemblyInfoFile)" Lines="@(Lines)" Overwrite="false" />
+  </Target>
+  
+  <!-- Convert .pdb to .mdb for debugging -->
+  <Target Name="GenerateMdb" AfterTargets="Compile" Condition="'' != '$(Pdb2mdbPath)'">
+    <PropertyGroup>
+      <_Cmd>
+        "$(Pdb2mdbPath)" "@(IntermediateAssembly)"
+      </_Cmd>
+    </PropertyGroup>
+    <Exec Command="$(_Cmd)" />
+  </Target>
+  
+  <!-- Tell MSBuild to copy the .mdb to downstream projects -->
+  <Target Name="ExportMdbToDependentProjects" BeforeTargets="BeforeBuild" Condition="'' != '$(Pdb2mdbPath)'">
+    <ItemGroup>
+      <Content Include="$(IntermediateOutputPath)$(TargetName).dll.mdb">
+        <Link>$(TargetName).dll.mdb</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
   </Target>
 </Project>
