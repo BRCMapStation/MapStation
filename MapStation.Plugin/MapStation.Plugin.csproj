@@ -4,7 +4,11 @@
     <TargetFramework>net471</TargetFramework>
     <AssemblyName>MapStation.Plugin</AssemblyName>
     <Description>BepInEx Plugin Assembly for MapStation.</Description>
-    <Version>1.0.0</Version>
+    
+    <!-- Pull version from root package.json -->
+    <_PackageJson>$([System.IO.File]::ReadAllText("$(MSBuildThisFileDirectory)/../package.json"))</_PackageJson>
+    <Version>$([System.Text.RegularExpressions.Regex]::Match("$(_PackageJson)", `\"version\"\s*:\s*\"([^\"]+)\"`).Groups[1].Value)</Version>
+    
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
