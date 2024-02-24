@@ -45,6 +45,8 @@ Build & zip plugin, editor, and package registry.
 ./scripts/package.ps1 -Release
 ```
 
+Open `MapStation.Editor`, click "MapStation" -> "Export Tutorial" to export `.unitypackage`.
+
 *Build output goes into `Build` directory.*
 
 Create a new "Release" on github, selecting the git tag you previously pushed. Upload plugin and editor .zips to the release.
