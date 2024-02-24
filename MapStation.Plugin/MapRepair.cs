@@ -31,6 +31,12 @@ namespace MapStation.Plugin {
                     dummyNpcGo.AddComponent<NPC>();
                 }
             }
+            
+            // BoE HACK: Create disabled, dummy NPC in root of map
+            // Older BoE crashes when the map does not have any NPC components
+            var dummyNpcGo2 = new GameObject("DummyNPC");
+            dummyNpcGo2.SetActive(false);
+            dummyNpcGo2.AddComponent<NPC>();
         }
     }
 }
