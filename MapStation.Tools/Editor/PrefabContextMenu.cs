@@ -101,9 +101,9 @@ public class AddPrefabsToContextMenu {
             Debug.LogError(string.Format("Prefab not found at path {0}", assetPath));
             return;
         }
-        var prefabInstance = PrefabUtility.InstantiatePrefab(prefabAsset) as GameObject;
-        StageUtility.PlaceGameObjectInCurrentStage(prefabInstance);
-        GameObjectUtility.SetParentAndAlign(prefabInstance, context as GameObject);
+        var parent = context is GameObject go ? go.transform : null;
+        var prefabInstance = PrefabUtility.InstantiatePrefab(prefabAsset, parent) as GameObject;
+        // Cannot use SetParentAndAlign b/c it changes child's layer to match parent
         prefabInstance.transform.position = SceneView.lastActiveSceneView.pivot;
         // Undo for some prefabs is *crashing* Unity Editor.
         // Broken/misbehaving Undo is better than losing your work.
