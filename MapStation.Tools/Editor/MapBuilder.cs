@@ -347,7 +347,6 @@ public class MapBuilder {
             version_number = map.Sources.Properties.properties.version,
             description = map.Sources.Properties.description,
             website_url = map.Sources.Properties.website,
-            // TODO depend on MapStation
             dependencies = new () {
                 BuildConstants.ThunderstoreMapstationDependency
             }
