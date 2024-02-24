@@ -98,14 +98,18 @@ function CreateEditorZip([switch]$local) {
         $trackedFiles += $( git ls-files --cached --exclude-standard 'MapStation.Tools' )
     }
     # Exclude additional files
+    # same syntax as .gitignore
     $exclusions = @(
         # Has our dev-only `#if` defines
         'MapStation.Editor/Assets/csc*.rsp*'
         # Git is configured for local development, so we manually put the
         # correct release manifest into the zip later
         if(-not $local) {'MapStation.Editor/Packages/manifest*.json'}
+        # Exclude all maps except those by `doctorpolo` which is the fake author of the tutorial
         # Maps starting with `mapstation.` are bundled with MapStation plugin (e.g. subway station)
-        'MapStation.Editor/Assets/Maps/mapstation.**'
+        # Maps by lazyduchess, garuda, cspotcode, etc are sandboxes for mapstation devs to test things
+        'MapStation.Editor/Assets/Maps/**'
+        '!MapStation.Editor/Assets/Maps/bigslopper.**'
     )
     $exclusionFlags = @($exclusions | ForEach-Object { "--exclude=$_" })
     $excluded = $( git ls-files --ignored -c `
