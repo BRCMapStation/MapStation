@@ -19,5 +19,7 @@ namespace MapStation.Tools {
         public const string DefaultThunderstoreIconPath = "Packages/com.brcmapstation.tools/Assets/Icons/DefaultThunderstoreIcon.png";
         public const string NewMapTemplatePath = "Packages/com.brcmapstation.tools/Assets/NewMapTemplate";
         public const string NewMapTemplateScenePath = "Packages/com.brcmapstation.tools/Assets/NewMapTemplate/Scene.unity";
+        public const string TutorialMapPath = "Assets/Maps/doctorpolo.tutorial";
+        public const string TutorialMapUnityPackagePath = "../Build/TutorialMap.unitypackage";
     }
 }

@@ -14,6 +14,7 @@ public static class UIConstants {
         //---
         CREATE_MAP = 20,
         UPDATE_PLUGIN,
+        EXPORT_TUTORIAL_MAP,
         //---
         MAP_PROPERTIES = 40,
         DOCTOR,
