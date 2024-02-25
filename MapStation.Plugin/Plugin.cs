@@ -73,7 +73,11 @@ namespace MapStation.Plugin
 
             ThreadedLogFix.Install();
 
-            PhoneAPI.RegisterApp<AppMapStation>("mapstation");
+            var pluginDirectory = Path.GetDirectoryName(Info.Location);
+            var phoneAppIcon = TextureUtility.LoadSprite(Path.Combine(pluginDirectory, "MapStation-AppIcon.png"));
+            
+            PhoneAPI.RegisterApp<AppMapStation>("mapstation", phoneAppIcon);
+
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
 
