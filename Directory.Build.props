@@ -12,14 +12,15 @@
 
     <!-- Always define MAPSTATION -->
     <DefineConstants>$(DefineConstants);MAPSTATION</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(Configuration)'==''">
+    
+    <!-- Always generate and bundle .pdb and .mdb -->
     <DebugType>Full</DebugType>
     
     <!-- Find pdb2mdb.exe to generate .mdb for debugging -->
     <Pdb2mdbPath Condition="Exists('$(MSBuildThisFileDirectory)\scripts\pdb2mdb.exe')">$(MSBuildThisFileDirectory)\scripts\pdb2mdb.exe</Pdb2mdbPath>
-    
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(Configuration)'==''">
     <NoWarn>$(NoWarn);CS0649;CS0414;CS0169</NoWarn>
     <DefineConstants>$(DefineConstants);MAPSTATION_DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
