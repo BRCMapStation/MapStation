@@ -13,7 +13,7 @@ namespace MapStation.Common {
 
         public static void Create(bool enabled) {
             if(Instance != null) return;
-            var gameObject = new GameObject("Winterland Debug UI");
+            var gameObject = new GameObject("MapStation Debug UI");
             gameObject.SetActive(enabled);
             Instance = gameObject.AddComponent<DebugUI>();
             DontDestroyOnLoad(gameObject);
