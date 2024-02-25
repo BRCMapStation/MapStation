@@ -16,7 +16,7 @@ namespace MapStation.Plugin.Phone {
             base.OnAppEnable();
             ScrollView.RemoveAllButtons();
             // Local builds first, then sorted alphabetically
-            var stages = MapDatabase.Instance.maps.Values.OrderByDescending(map => map.source).ThenBy(map => map.Properties.displayName);
+            var stages = MapDatabase.Instance.maps.Values.OrderByDescending(map => map.source).ThenBy(map => map.Properties.displayName).Where(map => map.Properties.showInFastTravelMenus);
             addButton(Stage.hideout, "Hideout");
             foreach(var stage in stages) {
                 addButton(stage.stageId, stage.Properties.displayName, stage.source == MapSource.TestMaps);
