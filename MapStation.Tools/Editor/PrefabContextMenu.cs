@@ -4,6 +4,12 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 public class AddPrefabsToContextMenu {
+
+    private enum UnpackMode {
+        DontUnpack,
+        UnpackRoot,
+        UnpackCompletely
+    }
     private const int Priority = -30;
     private const string PrefabPathPrefix = "Packages/com.brcmapstation.tools/Assets/MapComponents/";
 
@@ -94,7 +100,17 @@ public class AddPrefabsToContextMenu {
         CreatePrefabUnderContext(menuCommand.context, "GlassBlue_8x4");
     }
 
-    private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true) {
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Stage Chunk", priority = Priority)]
+    private static void CreateStageChunk(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Stage Chunk", true, UnpackMode.UnpackCompletely);
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Props and Junk/Cube Junk", priority = Priority)]
+    private static void CreateCubeProp(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Cube Junk");
+    }
+
+    private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true, UnpackMode unpackMode = UnpackMode.DontUnpack) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
         var prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
         if(prefabAsset == null) {
@@ -111,6 +127,12 @@ public class AddPrefabsToContextMenu {
             var undoTitle = $"Create {prefabInstance.name}";
             Undo.RegisterCreatedObjectUndo(prefabInstance, undoTitle);
             Undo.RegisterFullObjectHierarchyUndo(prefabInstance, undoTitle);
+        }
+        if (unpackMode != UnpackMode.DontUnpack) {
+            var parsedUnpackMode = PrefabUnpackMode.Completely;
+            if (unpackMode == UnpackMode.UnpackRoot)
+                parsedUnpackMode = PrefabUnpackMode.OutermostRoot;
+            PrefabUtility.UnpackPrefabInstance(prefabInstance, parsedUnpackMode, InteractionMode.AutomatedAction);
         }
         Selection.activeObject = prefabInstance;
     }
