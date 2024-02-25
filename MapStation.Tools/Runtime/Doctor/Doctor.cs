@@ -51,6 +51,12 @@ namespace MapStation.Common.Doctor {
 
             var progressables = roots.GetComponentsInChildren<AProgressable>();
             foreach (var progressable in progressables) {
+#if BEPINEX
+                // BoE HACK: Ignore workaround NPC.
+                // Ignore cypher dummy npcs.
+                if (progressable.gameObject.name == "DummyNPC" && progressable is NPC)
+                    continue;
+#endif
                 const string uidRegexp = @"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$";
                 if (!Regex.Match(progressable.uid, uidRegexp, RegexOptions.None).Success) {
                     a.Add(Severity.Warning, progressable, "Bad Uid",
