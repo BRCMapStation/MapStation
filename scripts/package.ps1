@@ -208,7 +208,8 @@ function WritePackageRegistryJson($pkgPaths) {
         $packageName = Split-Path -Leaf $_
         $versions = Get-ChildItem $PackageRegistryDir/tarballs/$packageName/- `
         | ForEach-Object {
-            (split-path -leafbase $_.name).split('-')[1]
+            # Take care to support prerelease versions e.g. `libname-1.0.0-beta.1`
+            (split-path -leafbase $_.name).split('-')[1..999] -join '-'
         }
         AddPackage $packageName $versions
     }
