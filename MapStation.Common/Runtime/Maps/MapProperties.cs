@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MapStation.Common {
     /// <summary>
@@ -53,5 +54,17 @@ namespace MapStation.Common {
         /// Set to false if this map should only be accessible through portals from other maps, story quests, etc.
         /// </summary>
         public bool showInFastTravelMenus = true;
+
+        /// <summary>
+        /// If true, shadow distance will be forced to a value set by the map author. This is to avoid shadows fading out too close to the camera when there is no lightmapping.
+        /// </summary>
+        [Tooltip("Override the shadow distance for your map. Can be used to avoid shadows fading out too close.")]
+        public bool overrideShadowDistance = true;
+
+        /// <summary>
+        /// Shadow distance for the map.
+        /// </summary>
+        [Range(0f, 500f)]
+        public float shadowDistance = 150f;
     }
 }

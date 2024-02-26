@@ -86,6 +86,7 @@ namespace MapStation.Plugin
             PathDetection.SetBRCPathInRegistry(Path.GetDirectoryName(Application.dataPath));
 
             StageAPI.OnStagePreInitialization += MapRepair.OnStagePreInitialization;
+            StageAPI.OnStagePreInitialization += MapOverrides.OnStagePreInitialization;
             StageAPI.OnStagePreInitialization += EnableDebugFeaturesOnStageInit;
 
             KBMInputDisabler.Init(MapStationConfig.Instance.DisableKBMInputValue, MapStationConfig.Instance.DisableKBMInputKeyValue, ref UpdateEvent, ref LateUpdateEvent);

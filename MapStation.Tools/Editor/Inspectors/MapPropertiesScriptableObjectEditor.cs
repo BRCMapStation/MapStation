@@ -30,6 +30,11 @@ class MapPropertiesScriptableObjectEditor : Editor {
                             propProp.Draw();
                         }
                     }
+                    else if(propProp.name == nameof(MapProperties.shadowDistance)) {
+                        using (Disabled(!properties.properties.overrideShadowDistance)) {
+                            propProp.Draw();
+                        }
+                    }
                     else if(propProp.name == nameof(MapProperties.internalName)) {
                         using(Disabled()) {
                             propProp.Draw();
