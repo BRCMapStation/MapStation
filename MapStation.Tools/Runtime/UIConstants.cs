@@ -21,9 +21,11 @@ public static class UIConstants {
         GRIND_INSPECTOR,
         PREFERENCES,
         //---
-        EXPORT_TO_OBJ = 60,
+        DOCUMENTATION = 60,
+        //---
+        EXPORT_TO_OBJ = 80,
         MAKE_STAGE_PROXY_MESH,
         //---
-        EXPERIMENTS = 80
+        EXPERIMENTS = 100
     }
 }
