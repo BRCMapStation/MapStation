@@ -1,3 +1,5 @@
+using static System.Net.WebRequestMethods;
+
 namespace MapStation.Tools {
     public static class BuildConstants {
         public static string BuiltBundlesDirectory(bool compressed) {
@@ -21,5 +23,12 @@ namespace MapStation.Tools {
         public const string NewMapTemplateScenePath = "Packages/com.brcmapstation.tools/Assets/NewMapTemplate/Scene.unity";
         public const string TutorialMapPath = "Assets/Maps/doctorpolo.tutorial";
         public const string TutorialMapUnityPackagePath = "../Build/TutorialMap.unitypackage";
+    }
+
+    /// <summary>
+    /// Other constants for the tools
+    /// </summary>
+    public static class ToolConstants {
+        public const string WikiRootAddress = "https://github.com/BRCMapStation/Docs/wiki/";
     }
 }
