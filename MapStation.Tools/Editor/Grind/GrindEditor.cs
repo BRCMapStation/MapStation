@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using MapStation.Components;
+using MapStation.Tools.Editor;
 
 [CustomEditor(typeof(Grind))]
 public class GrindEditor : Editor
@@ -14,6 +15,7 @@ public class GrindEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        EditorHelper.MakeDocsButton("Grind");
         DrawDefaultInspector();
         if (GUILayout.Button("Repair"))
         {
