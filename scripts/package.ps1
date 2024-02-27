@@ -221,6 +221,7 @@ function WritePackageRegistryJson($pkgPaths) {
 
 $RestoreToCwd = Get-Location
 Set-Location $PSScriptRoot/..
+[Environment]::CurrentDirectory = (Get-Location -PSProvider FileSystem).ProviderPath
 try {
 
     if($Release -or $Clean) {
