@@ -15,6 +15,9 @@ namespace MapStation.Plugin.Phone {
         public override void OnAppEnable() {
             base.OnAppEnable();
             ScrollView.RemoveAllButtons();
+            // Temp workarounds for scrolling being messed up when coming back to the app. Should probably move this to CommonAPI itself but I'm lazy atm.
+            ScrollView.ResetScroll();
+            ScrollView.CancelAnimation();
             // Local builds first, then sorted alphabetically
             var stages = MapDatabase.Instance.maps.Values.OrderByDescending(map => map.source).ThenBy(map => map.Properties.displayName).Where(map => map.Properties.showInFastTravelMenus);
             addButton(Stage.hideout, "Hideout");
