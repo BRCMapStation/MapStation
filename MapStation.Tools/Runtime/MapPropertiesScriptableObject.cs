@@ -43,7 +43,7 @@ namespace MapStation.Tools {
         }
 
         private string thunderstoreNameFromDisplayName(string displayName) {
-            return Regex.Replace(displayName, @"[^\da-zA-Z_]", "");
+            return Regex.Replace(Regex.Replace(displayName, " ", "_"), @"[^\da-zA-Z_]", "");
         }
 #endif
     }
