@@ -109,7 +109,7 @@ function CreateEditorZip([switch]$local) {
         # Maps starting with `mapstation.` are bundled with MapStation plugin (e.g. subway station)
         # Maps by lazyduchess, garuda, cspotcode, etc are sandboxes for mapstation devs to test things
         'MapStation.Editor/Assets/Maps/**'
-        '!MapStation.Editor/Assets/Maps/bigslopper.**'
+        '!MapStation.Editor/Assets/Maps/doctorpolo.**'
     )
     $exclusionFlags = @($exclusions | ForEach-Object { "--exclude=$_" })
     $excluded = $( git ls-files --ignored -c `
