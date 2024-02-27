@@ -56,6 +56,11 @@ namespace MapStation.Common {
         public bool showInFastTravelMenus = true;
 
         /// <summary>
+        /// If true, you won't be able to gain heat in this map.
+        /// </summary>
+        public bool disableCops = true;
+
+        /// <summary>
         /// If true, shadow distance will be forced to a value set by the map author. This is to avoid shadows fading out too close to the camera when there is no lightmapping.
         /// </summary>
         [Tooltip("Override the shadow distance for your map. Can be used to avoid shadows fading out too close.")]
