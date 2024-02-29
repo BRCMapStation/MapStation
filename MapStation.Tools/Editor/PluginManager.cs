@@ -13,7 +13,7 @@ namespace MapStation.Tools {
             foreach (var assembly in assemblies) {
                 var types = assembly.GetTypes();
                 foreach(var type in types) {
-                    if (typeof(AMapStationPlugin).IsAssignableFrom(type)) {
+                    if (typeof(AMapStationPlugin).IsAssignableFrom(type) && !type.IsAbstract) {
                         var pluginInstance = Activator.CreateInstance(type) as AMapStationPlugin;
                         dependencies.AddRange(pluginInstance.GetDependencies());
                     }
