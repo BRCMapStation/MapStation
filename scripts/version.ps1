@@ -67,6 +67,7 @@ try {
             './package.json' `
             './MapStation.Common/package.json' `
             './MapStation.Tools/package.json' `
+            './MapStation.Tools/Editor/MapStationVersion.cs' `
             './Thunderstore/manifest.json' `
             './MapStation.Editor/Packages/manifest-localregistry.json' `
             './MapStation.Editor/Packages/manifest-releaseregistry.json'
