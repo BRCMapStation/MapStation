@@ -28,9 +28,9 @@ namespace MapStation.Common.Runtime {
                     }
                     catch(Exception e) {
 #if BEPINEX
-                        LogSource.LogWarning($"Problem loading a plugin, silently handled.{Environment.NewLine}{e}");
+                        LogSource.LogWarning($"Problem loading a MapStation plugin, silently handled.{Environment.NewLine}{e}");
 #else
-                        UnityEngine.Debug.LogWarning($"Problem loading a plugin, silently handled.{Environment.NewLine}{e}");
+                        UnityEngine.Debug.LogWarning($"Problem loading a MapStation plugin, silently handled.{Environment.NewLine}{e}");
 #endif
                     }
                 }
