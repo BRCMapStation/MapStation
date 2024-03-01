@@ -1,5 +1,9 @@
+#if BEPINEX
+using BepInEx.Logging;
+#endif
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
@@ -8,6 +12,10 @@ using System.Threading.Tasks;
 
 namespace MapStation.Tools {
     public static class PluginManager {
+#if BEPINEX
+        private static ManualLogSource LogSource = Logger.CreateLogSource("MapStation Plugin Manager");
+#endif
+
         public static List<string> GetDependencies() {
             var dependencies = new List<string>();
             var plugins = GetPlugins();
@@ -37,9 +45,18 @@ namespace MapStation.Tools {
             foreach (var assembly in assemblies) {
                 var types = assembly.GetTypes();
                 foreach (var type in types) {
-                    if (typeof(AMapStationPlugin).IsAssignableFrom(type) && !type.IsAbstract) {
-                        var pluginInstance = Activator.CreateInstance(type) as AMapStationPlugin;
-                        plugins.Add(pluginInstance);
+                    try {
+                        if (typeof(AMapStationPlugin).IsAssignableFrom(type) && !type.IsAbstract) {
+                            var pluginInstance = Activator.CreateInstance(type) as AMapStationPlugin;
+                            plugins.Add(pluginInstance);
+                        }
+                    }
+                    catch(Exception e) {
+#if BEPINEX
+                        LogSource.LogWarning($"Problem loading a plugin, silently handled.{Environment.NewLine}{e}");
+#else
+                        UnityEngine.Debug.LogWarning($"Problem loading a plugin, silently handled.{Environment.NewLine}{e}");
+#endif
                     }
                 }
             }
