@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Compression;
 using UnityEngine;
 
 namespace MapStation.Tools
@@ -8,6 +9,10 @@ namespace MapStation.Tools
     {
         public virtual string[] GetDependencies() {
             return new string[0];
+        }
+
+        public virtual void ProcessThunderstoreZip(ZipArchive archive, string mapName) {
+
         }
     }
 }
