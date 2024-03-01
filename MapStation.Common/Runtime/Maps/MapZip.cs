@@ -1,3 +1,4 @@
+using MapStation.Common.Runtime;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -24,7 +25,7 @@ namespace MapStation.Common {
         /// <summary>
         /// Write map zip to disc
         /// </summary>
-        public void WriteZip(string propertiesContents, string sceneBundlePath, string assetsBundlePath, bool compressed = true) {
+        public ZipArchive WriteZip(string propertiesContents, string sceneBundlePath, string assetsBundlePath, bool compressed = true) {
             var compressionLevel = compressed ? CompressionLevel.Optimal : CompressionLevel.NoCompression;
             zip = ZipFile.Open(path, ZipArchiveMode.Create);
             zip.CreateEntryFromFile(sceneBundlePath, sceneBundleFilename, compressionLevel);
@@ -34,11 +35,16 @@ namespace MapStation.Common {
             using(var propertiesWriter = new StreamWriter(propertiesFile)) {
                 propertiesWriter.Write(propertiesContents);
             }
-            zip.Dispose();
+            return zip;
         }
 
         private void openForReading() {
             zip ??= ZipFile.Open(path, ZipArchiveMode.Read);
+        }
+
+        public void DoPluginOnAddMapToDatabase(string mapName) {
+            openForReading();
+            GamePluginManager.OnAddMapToDatabase(zip, path, mapName);
         }
 
         public string GetPropertiesText() {

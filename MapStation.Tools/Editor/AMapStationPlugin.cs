@@ -14,5 +14,9 @@ namespace MapStation.Tools
         public virtual void ProcessThunderstoreZip(ZipArchive archive, string mapName) {
 
         }
+
+        public virtual void ProcessMapZip(ZipArchive archive, string mapName, System.IO.Compression.CompressionLevel compressionLevel) {
+
+        }
     }
 }

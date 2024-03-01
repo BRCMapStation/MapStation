@@ -39,6 +39,7 @@ public class MapDatabase {
                 var properties = new MapProperties();
                 using (var zip = new MapZip(file)) {
                     JsonUtility.FromJsonOverwrite(zip.GetPropertiesText(), properties);
+                    zip.DoPluginOnAddMapToDatabase(mapName);
                 }
                 var map = new PluginMapDatabaseEntry() {
                     Name = mapName,

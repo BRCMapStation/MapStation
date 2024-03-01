@@ -317,12 +317,16 @@ public class MapBuilder {
             if(File.Exists(map.BuiltZipPath)) {
                 File.Delete(map.BuiltZipPath);
             }
-            new MapZip(map.BuiltZipPath).WriteZip(
+            // Had to hack this a bit for plugin support - could maybe clean it up.
+            var zipArchive = new MapZip(map.BuiltZipPath).WriteZip(
                 propertiesContents: File.ReadAllText(map.BuiltPropertiesPath), 
                 sceneBundlePath: map.BuiltSceneBundlePath,
                 assetsBundlePath: map.BuiltAssetsBundlePath,
                 compressed
             );
+            var compressionLevel = compressed ? System.IO.Compression.CompressionLevel.Optimal : System.IO.Compression.CompressionLevel.NoCompression;
+            PluginManager.ProcessMapZip(zipArchive, map.Sources.Name, compressionLevel);
+            zipArchive.Dispose();
         }
     }
 

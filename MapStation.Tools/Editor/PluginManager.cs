@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,13 @@ namespace MapStation.Tools {
                 dependencies.AddRange(plugin.GetDependencies());
             }
             return dependencies;
+        }
+
+        public static void ProcessMapZip(ZipArchive archive, string mapName, CompressionLevel compressionLevel) {
+            var plugins = GetPlugins();
+            foreach (var plugin in plugins) {
+                plugin.ProcessMapZip(archive, mapName, compressionLevel);
+            }
         }
 
         public static void ProcessThunderstoreZip(ZipArchive archive, string mapName) {
