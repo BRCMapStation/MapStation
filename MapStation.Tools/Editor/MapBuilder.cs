@@ -364,6 +364,8 @@ public class MapBuilder {
         zip.CreateEntryFromFile(map.Sources.ChangelogPath, "CHANGELOG.md");
         zip.CreateEntryFromFile(map.Sources.IconPath, "icon.png");
 
+        PluginManager.ProcessThunderstoreZip(zip, map.Sources.Name);
+
         // Write it!
         zip.Dispose();
     }
