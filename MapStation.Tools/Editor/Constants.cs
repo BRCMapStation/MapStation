@@ -11,7 +11,7 @@ namespace MapStation.Tools {
         public const string PluginName = "MapStation";
         public const string BuiltThunderstoreZipsDirectory = "Assets/Thunderstore";
         /// Maps packaged for thunderstore declare a dependency on the mapstation plugin
-        public const string ThunderstoreMapstationDependency = "SlopBrew-MapStation-0.10.0";
+        public const string ThunderstoreMapstationDependency = "SlopBrew-MapStation-0.13.0";
     }
 
     /// <summary>
