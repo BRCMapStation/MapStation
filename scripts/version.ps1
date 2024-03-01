@@ -36,6 +36,15 @@ try {
     # Copy version number to other files
     $version = (Get-Content package.json | ConvertFrom-Json).version
 
+    $mapStationVersionCSPath = "./MapStation.Tools/Editor/MapStationVersion.cs"
+
+    $mapStationVersionCSBody = 'namespace MapStation.Tools {
+    public static class MapStationVersion {
+        public const string Version = "'+$version+'";
+    }
+}'
+    Out-File -FilePath $mapStationVersionCSPath -InputObject $mapStationVersionCSBody
+
     PatchJson './MapStation.Common/package.json' {
         $_.version = $version
     }

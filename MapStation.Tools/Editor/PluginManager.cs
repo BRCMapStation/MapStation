@@ -10,7 +10,6 @@ namespace MapStation.Tools {
     public static class PluginManager {
         public static List<string> GetDependencies() {
             var dependencies = new List<string>();
-            dependencies.Add(BuildConstants.ThunderstoreMapstationDependency);
             var plugins = GetPlugins();
             foreach(var plugin in plugins) {
                 dependencies.AddRange(plugin.GetDependencies());

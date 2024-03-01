@@ -344,6 +344,9 @@ public class MapBuilder {
         }
         ZipArchive zip = ZipFile.Open(zipPath, ZipArchiveMode.Create);
 
+        var dependencies = PluginManager.GetDependencies();
+        dependencies.Add(BuildConstants.ThunderstoreMapstationDependency);
+
         // manifest.json
         var manifest = new ThunderstoreManifest() {
             name = map.Sources.Properties.thunderstoreName,
@@ -351,7 +354,7 @@ public class MapBuilder {
             version_number = map.Sources.Properties.properties.version,
             description = map.Sources.Properties.description,
             website_url = map.Sources.Properties.website,
-            dependencies = PluginManager.GetDependencies()
+            dependencies = dependencies
         };
         var manifestContents = JsonUtility.ToJson(manifest, true);
         var manifestEntry = zip.CreateEntry("manifest.json");
