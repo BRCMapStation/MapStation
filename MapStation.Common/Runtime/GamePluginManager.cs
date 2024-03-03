@@ -1,5 +1,7 @@
 #if BEPINEX
 using BepInEx.Logging;
+using Reptile;
+
 #endif
 using System;
 using System.Collections.Generic;
@@ -50,6 +52,13 @@ namespace MapStation.Common.Runtime {
             var plugins = GetPlugins();
             foreach (var plugin in plugins) {
                 plugin.OnAddMapToDatabase(archive, path, mapName);
+            }
+        }
+
+        public static void OnReload(Stage stage) {
+            var plugins = GetPlugins();
+            foreach(var plugin in plugins) {
+                plugin.OnReload(stage);
             }
         }
     }
