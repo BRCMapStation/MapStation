@@ -1,5 +1,6 @@
 #define LIGHT_THRESHOLD 0.1
 #define SHADOW_THRESHOLD 0.5
+#define LIGHT_MULTIPLY 150.0
 
 #define BRC_LIGHTING_PROPERTIES \
 float4 LightColor; \

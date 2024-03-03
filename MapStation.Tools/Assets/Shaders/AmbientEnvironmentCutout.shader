@@ -5,8 +5,9 @@ Shader "BRC/Ambient Environment Cutout"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _CutOut("Alpha Cutout", Range(0,1)) = 0
+        _CutOut("Alpha Cutout", Range(0,1)) = 0.1
         _Emission ("Emission", 2D) = "black" {}
+        _Color ("Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -51,6 +52,7 @@ Shader "BRC/Ambient Environment Cutout"
             float4 _MainTex_ST;
             sampler2D _Emission;
             float4 _Emission_ST;
+            float4 _Color;
 
             v2f vert (appdata v)
             {
@@ -59,7 +61,7 @@ Shader "BRC/Ambient Environment Cutout"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.uv2 = TRANSFORM_TEX(v.uv, _Emission);
                 o.normal = UnityObjectToWorldNormal(v.normal);
-                o.color = v.color;
+                o.color = v.color * _Color;
                 TRANSFER_SHADOW(o)
                 return o;
             }
