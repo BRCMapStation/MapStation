@@ -16,6 +16,7 @@ using CommonAPI.Phone;
 using MapStation.API;
 using MapStation.Plugin.API;
 using MapStation.Plugin.Tools;
+using MapStation.Common.Runtime;
 
 namespace MapStation.Plugin
 {
@@ -135,6 +136,7 @@ namespace MapStation.Plugin
             // Only allow if the game is currently in a stage
             if(CanSwitchStagesWithoutCrashing()) {
                 if(Input.GetKeyDown(MapStationConfig.Instance.QuickReloadKeyValue)) {
+                    GamePluginManager.OnReload();
                     Core.Instance.BaseModule.StageManager.ExitCurrentStage(Core.Instance.SaveManager.CurrentSaveSlot.currentStageProgress.stageID);
                 }
             }

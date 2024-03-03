@@ -11,7 +11,7 @@ namespace MapStation.Common {
         public virtual void OnAddMapToDatabase(ZipArchive archive, string path, string mapName) {
         }
 
-        public virtual void OnReload(Stage stage) {
+        public virtual void OnReload() {
 
         }
     }

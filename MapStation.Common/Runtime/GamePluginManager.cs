@@ -1,7 +1,5 @@
 #if BEPINEX
 using BepInEx.Logging;
-using Reptile;
-
 #endif
 using System;
 using System.Collections.Generic;
@@ -55,10 +53,10 @@ namespace MapStation.Common.Runtime {
             }
         }
 
-        public static void OnReload(Stage stage) {
+        public static void OnReload() {
             var plugins = GetPlugins();
             foreach(var plugin in plugins) {
-                plugin.OnReload(stage);
+                plugin.OnReload();
             }
         }
     }
