@@ -19,8 +19,6 @@ namespace MapStation.Plugin.Patches {
             mpPlayer.HasVertBelow = false;
             var dist = 500f;
 
-            if (!mpPlayer.OnVertAir) return;
-
             var vertRay = __instance.GetRaycastInfo(player.transform.position + (Vector3.up * 1f), Vector3.down, dist, 1f);
             
             if (!vertRay.hit) return;
@@ -35,6 +33,8 @@ namespace MapStation.Plugin.Patches {
                 if (!mpPlayer.OnVertGround)
                     mpPlayer.GroundVertVector = -vertRay.hitInfo.normal;
             }
+
+            if (!mpPlayer.OnVertAir) return;
 
             var nudgeRay = __instance.GetRaycastInfo(player.transform.position - (mpPlayer.AirVertVector * MapStationPlayer.VertOuterRay) + (Vector3.up * 1f), Vector3.down, dist, 1f);
             if (nudgeRay.hit) {
@@ -138,7 +138,7 @@ namespace MapStation.Plugin.Patches {
         private static void ComputeGroundHit_Postfix(GroundDetection __instance, ref bool __result, Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo, float distance) {
             var mpPlayer = MapStationPlayer.Get(__instance.player);
 
-            if (!__result && (mpPlayer.WasOnVertGround || mpPlayer.OnVertGround) && __instance.prevGroundHit.isValidGround && Vector3.Angle(-mpPlayer.GroundVertVector, Vector3.up) >= MapStationPlayer.MinimumAirVertAngle && __instance.player.motor.velocity.y > 0f) {
+            if (!__result && (mpPlayer.WasOnVertGround || mpPlayer.OnVertGround || mpPlayer.HasVertBelow) && __instance.prevGroundHit.isValidGround && Vector3.Angle(-mpPlayer.GroundVertVector, Vector3.up) >= MapStationPlayer.MinimumAirVertAngle && __instance.player.motor.velocity.y > 0f) {
                 mpPlayer.AirVertBegin();
             }
 

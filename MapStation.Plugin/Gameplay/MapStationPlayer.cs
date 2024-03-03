@@ -22,7 +22,7 @@ namespace MapStation.Plugin.Gameplay {
         public const float MinimumGroundVertAngle = 10f;
 
         public bool OnVertAir = false;
-        public const float MinimumAirVertAngle = 50f;
+        public const float MinimumAirVertAngle = 45f;
         public Vector3 AirVertVector = Vector3.down;
         public float SpeedFromVertAir = 0f;
 
@@ -42,7 +42,7 @@ namespace MapStation.Plugin.Gameplay {
         public const float VertInnerNudge = 0.35f;
         public const float VertInnerRay = 0.35f;
 
-        public const float VertHorizontalSpeedMultiplier = 3f;
+        public const float VertHorizontalSpeedMultiplier = 1.5f;
         [HideInInspector]
         public CameraMode VertCameraMode = null;
 
