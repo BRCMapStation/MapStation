@@ -18,21 +18,29 @@ namespace MapStation.Common.Runtime {
             var plugins = new List<AGameMapStationPlugin>();
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             foreach (var assembly in assemblies) {
-                var types = assembly.GetTypes();
-                foreach (var type in types) {
-                    try {
-                        if (typeof(AGameMapStationPlugin).IsAssignableFrom(type) && !type.IsAbstract) {
-                            var pluginInstance = Activator.CreateInstance(type) as AGameMapStationPlugin;
-                            plugins.Add(pluginInstance);
+                try {
+                    var types = assembly.GetTypes();
+                    foreach (var type in types) {
+                        try {
+                            if (typeof(AGameMapStationPlugin).IsAssignableFrom(type) && !type.IsAbstract) {
+                                var pluginInstance = Activator.CreateInstance(type) as AGameMapStationPlugin;
+                                plugins.Add(pluginInstance);
+                            }
+                        } catch (Exception e) {
+#if BEPINEX
+                            LogSource.LogWarning($"Problem loading Type, silently handled.{Environment.NewLine}{e}");
+#else
+                        UnityEngine.Debug.LogWarning($"Problem loading Type, silently handled.{Environment.NewLine}{e}");
+#endif
                         }
                     }
-                    catch(Exception e) {
+                }
+                catch(Exception e) {
 #if BEPINEX
-                        LogSource.LogWarning($"Problem loading a MapStation plugin, silently handled.{Environment.NewLine}{e}");
+                    LogSource.LogWarning($"Problem loading Assembly, silently handled.{Environment.NewLine}{e}");
 #else
-                        UnityEngine.Debug.LogWarning($"Problem loading a MapStation plugin, silently handled.{Environment.NewLine}{e}");
+                    UnityEngine.Debug.LogWarning($"Problem loading Assembly, silently handled.{Environment.NewLine}{e}");
 #endif
-                    }
                 }
             }
             return plugins;
