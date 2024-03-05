@@ -12,6 +12,7 @@ using MapStation.Common;
 
 namespace MapStation.Plugin.Gameplay {
     public class MapStationPlayer : MonoBehaviour {
+        public float GroundCooldown = 0f;
         public Player ReptilePlayer { get; private set; } = null;
         public Vector3 GroundVertVector = Vector3.down;
 
@@ -196,7 +197,19 @@ namespace MapStation.Plugin.Gameplay {
             }
         }
 
+        public bool OnPreventComboBreakingGrindPath() {
+            if (ReptilePlayer.ability != ReptilePlayer.grindAbility)
+                return false;
+            var grindAbility = ReptilePlayer.grindAbility;
+            return grindAbility.lastPath.GetComponent<GrindPath_FixComboBreakingProperty>() != null;
+        }
+
         private void OnFixedUpdate() {
+
+            if (!Core.Instance.IsCorePaused) {
+                GroundCooldown = Mathf.Max(0f, GroundCooldown - Core.dt);
+            }
+
             if (ReptilePlayer.IsGrounded()) {
                 var targetVector = (ReptilePlayer.motor.dir - Vector3.Project(ReptilePlayer.motor.dir, ReptilePlayer.motor.groundNormal)).normalized;
                 ReptilePlayer.motor.velocity += targetVector * SpeedFromVertAir * Core.dt;

@@ -64,7 +64,13 @@ namespace MapStation.Plugin.Patches {
         [HarmonyPatch(nameof(GroundDetection.ComputeGroundHit))]
         private static bool ComputeGroundHit_Prefix(GroundDetection __instance, ref bool __result, Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo, float distance) {
             var mpPlayer = MapStationPlayer.Get(__instance.player);
-
+            if (mpPlayer.GroundCooldown > 0f || mpPlayer.OnPreventComboBreakingGrindPath()) {
+                mpPlayer.OnVertGround = false;
+                mpPlayer.WasOnVertGround = false;
+                mpPlayer.HasVertBelow = false;
+                __result = false;
+                return false;
+            }
             if (!mpPlayer.MoveStyleEquipped) {
                 mpPlayer.OnVertGround = false;
                 mpPlayer.WasOnVertGround = false;

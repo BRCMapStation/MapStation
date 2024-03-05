@@ -9,6 +9,7 @@ using MapStation.Plugin.Gameplay;
 using System.Reflection.Emit;
 using System.Reflection;
 using UnityEngine;
+using MapStation.Common.Gameplay;
 
 namespace MapStation.Plugin.Patches {
     [HarmonyPatch(typeof(GrindAbility))]
@@ -20,6 +21,16 @@ namespace MapStation.Plugin.Patches {
             var mpPlayer = MapStationPlayer.Get(player);
             if (mpPlayer.OnVertGround || mpPlayer.OnVertAir || mpPlayer.HasVertBelow) {
                 player.OrientVisualInstantReset();
+            }
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(nameof(GrindAbility.JumpOut))]
+        private static void JumpOut_Prefix(GrindAbility __instance) {
+            var fixComboBreaking = __instance.lastPath.GetComponent<GrindPath_FixComboBreakingProperty>() != null;
+            if (fixComboBreaking) {
+                var mpPlayer = MapStationPlayer.Get(__instance.p);
+                mpPlayer.GroundCooldown = 0.1f;
             }
         }
     }
