@@ -6,6 +6,7 @@ namespace Reptile
 	[ExecuteInEditMode]
 	public class GrindPath : MonoBehaviour
 	{
+        [HideInInspector]
         public SfxCollectionID sfxCollection = SfxCollectionID.GrindMetalSfx;
 
         public bool hardCornerBoostsAllowed = true;
