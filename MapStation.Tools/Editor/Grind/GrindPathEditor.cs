@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(GrindPath))]
+[CanEditMultipleObjects]
 public class GrindPathEditor : Editor {
     public override void OnInspectorGUI() {
         DrawDefaultInspector();
