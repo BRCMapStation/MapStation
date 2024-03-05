@@ -23,7 +23,7 @@ namespace Reptile
 		public GrindNode[] nodes = new GrindNode[2];
 
 		[Header("Line specifics, can be overruled by path's settings")]
-		public bool isPole;
+        public bool isPole;
 
 		public bool cornerBoost = true;
 
@@ -31,7 +31,10 @@ namespace Reptile
 
 		public bool alwaysFlipBack;
 
-		public ref GrindNode n0 => ref nodes[0];
+        [HideInInspector]
+        public SfxCollectionID sfxCollection = SfxCollectionID.GrindMetalSfx;
+
+        public ref GrindNode n0 => ref nodes[0];
 
 		public ref GrindNode n1 => ref nodes[1];
 

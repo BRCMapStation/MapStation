@@ -31,9 +31,10 @@ class GrindLineEditor : Editor
         }
 
         DrawDefaultInspector();
-
+        GrindEditorUtility.MakeGrindSFXDropdown(serializedObject, nameof(GrindLine.sfxCollection));
         if(GUILayout.Button("Split Line")) {
             GrindActions.SplitLines(grindLines);
         }
+        serializedObject.ApplyModifiedProperties();
     }
 }

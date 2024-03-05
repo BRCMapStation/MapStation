@@ -126,6 +126,7 @@ namespace MapStation.Components {
 
             newLine.RebuildWithRedDebugShape();
 
+            newLine.sfxCollection = n0.grindLines[0].sfxCollection;
             lines.Add(newLine);
         }
 
