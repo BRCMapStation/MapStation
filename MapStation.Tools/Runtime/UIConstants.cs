@@ -19,6 +19,7 @@ public static class UIConstants {
         MAP_PROPERTIES = 40,
         DOCTOR,
         GRIND_INSPECTOR,
+        EDIT_MINIMAP,
         PREFERENCES,
         //---
         DOCUMENTATION = 60,
