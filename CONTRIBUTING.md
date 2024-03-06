@@ -39,13 +39,11 @@ git push
 git push --tags
 ```
 
-Build & zip plugin, editor, and package registry.
+Build & zip plugin, editor, package registry, and tutorial map.
 
 ```shell
 ./scripts/package.ps1 -Release
 ```
-
-Open `MapStation.Editor`, click "MapStation" -> "Export Tutorial" to export `.unitypackage`.
 
 *Build output goes into `Build` directory.*
 

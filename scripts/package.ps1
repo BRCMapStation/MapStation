@@ -219,6 +219,29 @@ function WritePackageRegistryJson($pkgPaths) {
     ConvertTo-Json -Depth 99 $searchJson > $PackageRegistryDir/-/v1/search
 }
 
+function ExportTutorialMap() {
+    $RegistryKey = "HKCU:\Software\BRCMapStation\MapStation"
+    $RegistryValue = "UnityEditorDataDir"
+    $UnityEditorDataDir = Get-ItemPropertyValue -path $RegistryKey -name $RegistryValue
+    $UnityEditorExe = "$(Split-Path -Parent $UnityEditorDataDir)/Unity.exe"
+    
+    # Run Unity in batch mode to export .unitypackage
+    $p = Start-Process -FilePath $UnityEditorExe `
+        -ArgumentList @(
+            '-quit', '-batchmode',
+            '-projectPath', 'MapStation.Editor',
+            '-executeMethod', 'TutorialExporter.ExportTutorial'
+        ) `
+        -NoNewWindow -PassThru -Wait
+
+    # Note: There is a slightly slower alternative:
+    # -exportPackage Assets/Maps/doctorpolo.tutorial "$(Get-Location)/Build/TutorialMap2.unitypackage"
+    
+    if ($p.ExitCode -ne 0) {
+        Write-Error 'Error exporting tutorial'
+    }
+}
+
 $RestoreToCwd = Get-Location
 Set-Location $PSScriptRoot/..
 [Environment]::CurrentDirectory = (Get-Location -PSProvider FileSystem).ProviderPath
@@ -236,6 +259,9 @@ try {
     CreateEditorZip -local
     $pkgPaths = CreatePackageTarballs
     WritePackageRegistryJson $pkgPaths
+    if($Release) {
+        ExportTutorialMap
+    }
 
 } finally {
     Set-Location $RestoreToCwd
