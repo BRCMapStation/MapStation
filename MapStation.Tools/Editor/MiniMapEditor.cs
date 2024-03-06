@@ -36,7 +36,9 @@ namespace MapStation.Tools.Editor {
             AssetDatabase.CopyAsset(materialSource, materialDest);
             AssetDatabase.SaveAssets();
 
-            FixMiniMapReferences(AssetDatabase.LoadAssetAtPath<GameObject>(prefabDest));
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabDest);
+            FixMiniMapReferences(prefab);
+            Selection.activeObject = prefab;
         }
 
         private static string GetCurrentFolder() {
