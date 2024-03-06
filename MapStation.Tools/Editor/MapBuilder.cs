@@ -226,8 +226,18 @@ public class MapBuilder {
             // No mini-map should be valid, but maybe we can generate a blank one if there isn't one already in order to get rid of the workaround above?
             var miniMapAsset = AssetImporter.GetAtPath(map.MiniMapPath);
 
-            if (miniMapAsset != null)
+            if (miniMapAsset != null) {
                 miniMapAsset.SetAssetBundleNameAndVariant(map.AssetsBundleName, AssetNames.BundleVariant);
+                var miniMapPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(map.MiniMapPath);
+                if (miniMapPrefab != null) {
+                    var miniMapProperties = miniMapPrefab.GetComponent<MiniMapProperties>();
+                    if (miniMapProperties != null && miniMapProperties.MapMaterial != null) {
+                        var mapMaterialPath = AssetDatabase.GetAssetPath(miniMapProperties.MapMaterial);
+                        var mapMaterialImporter = AssetImporter.GetAtPath(mapMaterialPath);
+                        mapMaterialImporter.SetAssetBundleNameAndVariant(map.AssetsBundleName, AssetNames.BundleVariant);
+                    }
+                }
+            }
         }
     }
 
