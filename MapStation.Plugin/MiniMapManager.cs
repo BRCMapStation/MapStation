@@ -15,6 +15,10 @@ namespace MapStation.Plugin {
                 map = null;
                 return false;
             }
+            var miniMapProperties = miniMapPrefab.GetComponent<MiniMapProperties>();
+            if (miniMapProperties == null) {
+                miniMapProperties = miniMapPrefab.AddComponent<MiniMapProperties>();
+            }
             var minimap = ScriptableObject.CreateInstance<Map>();
             minimap.m_MapObject = miniMapPrefab;
             minimap.m_ScaleFactor = 1f;
@@ -22,24 +26,26 @@ namespace MapStation.Plugin {
             minimap.m_EulerOffset = Vector3.zero;
             minimap.mapMaterial = Mapcontroller.Instance.pyramidMap.mapMaterial;
             map = minimap;
-            ProcessCustomMiniMapPrefab(map);
+            ProcessCustomMiniMapPrefab(map, miniMapProperties);
+            if (miniMapProperties.MapMaterial != null)
+                minimap.mapMaterial = miniMapProperties.MapMaterial;
             minimap.mapMaterial.SetFloat("_AnchorOffset", -5000f);
             minimap.mapMaterial.SetFloat("_AnchorScale", 0.035f);
             return true;
         }
 
-        private static void ProcessCustomMiniMapPrefab(Map map) {
+        private static void ProcessCustomMiniMapPrefab(Map map, MiniMapProperties properties) {
             var renderers = map.m_MapObject.GetComponentsInChildren<Renderer>();
-            foreach(var renderer in renderers) {
-                if (renderer.sharedMaterial != null && renderer.sharedMaterial.shader.name == "BRC/Minimap") {
-                    map.mapMaterial = renderer.sharedMaterial;
-                }
+
+            foreach(var renderer in renderers)
                 renderer.gameObject.layer = Layers.Minimap;
-            }
-            var sortedRenderers = renderers.OrderBy(renderer => renderer.gameObject.transform.position.y).ToArray();
-            for(var i = 0; i < sortedRenderers.Length; i++) {
-                var renderer = sortedRenderers[i];
-                renderer.sortingOrder = i;
+
+            if (properties.SortRenderers) {
+                var sortedRenderers = renderers.OrderBy(renderer => renderer.gameObject.transform.position.y).ToArray();
+                for (var i = 0; i < sortedRenderers.Length; i++) {
+                    var renderer = sortedRenderers[i];
+                    renderer.sortingOrder = i;
+                }
             }
         }
     }
