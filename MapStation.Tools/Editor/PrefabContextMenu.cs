@@ -79,6 +79,10 @@ public class AddPrefabsToContextMenu {
     private static void CreateSun(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "Sun");
     }
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Ambient Trigger", priority = Priority)]
+    private static void CreateAmbientTrigger(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Ambient Trigger");
+    }
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Launchers/Launcher", priority = Priority)]
     private static void CreateLauncher(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "Launcher");
@@ -94,6 +98,10 @@ public class AddPrefabsToContextMenu {
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Walk Zone", priority = Priority)]
     private static void CreateWalkZone(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "WalkZone");
+    }
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Camera Zone", priority = Priority)]
+    private static void CreateCameraZone(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Camera Zone");
     }
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Glass/Blue 8x4", priority = Priority)]
     private static void CreateGlassBlue8x4(MenuCommand menuCommand) {
