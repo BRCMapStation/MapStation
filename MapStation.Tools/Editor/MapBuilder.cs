@@ -222,6 +222,12 @@ public class MapBuilder {
             // In future, we can ensure this w/ the MiniMap prefab.
             // Is confusing because, though Properties ScriptableObject *can* go into a bundle, we don't care; we read properties.json instead.
             AssetImporter.GetAtPath(map.PropertiesPath).SetAssetBundleNameAndVariant(map.AssetsBundleName, AssetNames.BundleVariant);
+
+            // No mini-map should be valid, but maybe we can generate a blank one if there isn't one already in order to get rid of the workaround above?
+            var miniMapAsset = AssetImporter.GetAtPath(map.MiniMapPath);
+
+            if (miniMapAsset != null)
+                miniMapAsset.SetAssetBundleNameAndVariant(map.AssetsBundleName, AssetNames.BundleVariant);
         }
     }
 

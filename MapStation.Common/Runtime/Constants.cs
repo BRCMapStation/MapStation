@@ -21,6 +21,10 @@ namespace MapStation.Common {
         public const string AssetsBundleSuffix = "/" + AssetsBundleBasename;
         public const string BundleVariant = "";
 
+        public static string GetMiniMapPathForMap(string name) {
+            return $"Assets/{MapDirectory}/{name}/MiniMap.prefab";
+        }
+
         public static string GetAssetDirectoryForMap(string name) {
             return $"Assets/{MapDirectory}/{name}";
         }
