@@ -34,6 +34,8 @@ namespace MapStation.Plugin {
             ProcessCustomMiniMapPrefab(map, miniMapProperties);
             if (miniMapProperties.MapMaterial != null)
                 minimap.mapMaterial = miniMapProperties.MapMaterial;
+
+            // Account for map controller transform in the map material shader.
             minimap.mapMaterial.SetFloat("_AnchorOffset", -5000f);
             minimap.mapMaterial.SetFloat("_AnchorScale", 0.035f);
             return true;
