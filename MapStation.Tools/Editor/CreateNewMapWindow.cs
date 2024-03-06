@@ -12,6 +12,7 @@ using static UnityEditor.EditorGUI;
 using static UnityEngine.GUILayout;
 using static UnityEngine.GUI;
 using static cspotcode.UnityGUI.GUIUtil;
+using MapStation.Tools.Editor;
 
 public class CreateNewMapWindow : EditorWindow {
 
@@ -81,22 +82,10 @@ public class CreateNewMapWindow : EditorWindow {
         MapBuilder.SyncMapProperties(maps);
         AssetDatabase.SaveAssets();
 
-        // Fix Mini Map material reference - should probably do this somewhere else.
-
-        var miniMapMaterialPath = AssetNames.GetMiniMapMaterialPathForNewMapFromTemplate(mapName);
         var miniMapPrefabPath = map.MiniMapPath;
-
-        var miniMapMaterial = AssetDatabase.LoadAssetAtPath<Material>(miniMapMaterialPath);
         var miniMapPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(miniMapPrefabPath);
-
-        if (miniMapPrefab != null) {
-            var miniMapProperties = miniMapPrefab.GetComponent<MiniMapProperties>();
-            if (miniMapProperties == null)
-                miniMapProperties = miniMapPrefab.AddComponent<MiniMapProperties>();
-            miniMapProperties.MapMaterial = miniMapMaterial;
-            EditorUtility.SetDirty(miniMapProperties);
-            AssetDatabase.SaveAssets();
-        }
+        if (miniMapPrefab != null)
+            MiniMapEditor.FixMiniMapReferences(miniMapPrefab);
 
         // Open the new map
         EditorSceneManager.OpenScene(map.ScenePath, OpenSceneMode.Single);
