@@ -1,5 +1,5 @@
 namespace MapStation.Tools {
     public static class MapStationVersion {
-        public const string Version = "0.13.2";
+        public const string Version = "0.14.0";
     }
 }
