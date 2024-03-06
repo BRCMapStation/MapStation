@@ -46,6 +46,7 @@ public class MapDatabase {
                     internalName = mapName,
                     Properties = properties,
                     ScenePath = AssetNames.GetScenePathForMap(mapName),
+                    MiniMapPath = AssetNames.GetMiniMapPathForMap(mapName),
                     zipPath = file,
                     stageId = stageID,
                     source = source

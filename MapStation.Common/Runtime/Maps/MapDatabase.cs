@@ -10,6 +10,7 @@ namespace MapStation.Common {
         public string ScenePath;
         public string SceneBundleName => AssetNames.GetSceneBundleNameForMap(Name);
         public string AssetsBundleName => AssetNames.GetAssetBundleNameForMap(Name);
+        public string MiniMapPath;
 
         // Unused: idea I had to find all scene assets, then log a helpful message telling the user it's confusing to have multiple scenes
         // public string[] extantSceneCandidatePaths;
