@@ -23,12 +23,12 @@ namespace MapStation.Tools.Editor {
             var materialDest = Path.Combine(currentfolder, "MiniMapMaterial.mat");
 
             if (File.Exists(prefabDest)) {
-                Debug.LogError("Can't create MiniMap - a \"MiniMap.prefab\" Asset already exists in this directory.");
+                EditorUtility.DisplayDialog("Error", "Can't create MiniMap - a \"MiniMap.prefab\" Asset already exists in this directory.", GetOKString());
                 return;
             }
 
-            if (File.Exists(prefabDest)) {
-                Debug.LogError("Can't create MiniMap - a \"MiniMapMaterial.mat\" Asset already exists in this directory.");
+            if (File.Exists(materialDest)) {
+                EditorUtility.DisplayDialog("Error", "Can't create MiniMap - a \"MiniMapMaterial.mat\" Asset already exists in this directory.", GetOKString());
                 return;
             }
 
@@ -39,6 +39,17 @@ namespace MapStation.Tools.Editor {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabDest);
             FixMiniMapReferences(prefab);
             Selection.activeObject = prefab;
+        }
+
+        private static string GetOKString() {
+            var strings = new string[] {
+                "Alright",
+                "Sure",
+                "Fine",
+                "Whatever",
+                "OK",
+            };
+            return strings[UnityEngine.Random.Range(0, strings.Length)];
         }
 
         private static string GetCurrentFolder() {
