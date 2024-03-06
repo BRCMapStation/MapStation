@@ -67,7 +67,6 @@ namespace MapStation.Tools {
         public string ReadmePath;
         public string IconPath;
         public string ChangelogPath;
-        public string MiniMapPath;
         public string AssetDirectory => AssetNames.GetAssetDirectoryForMap(Name);
         public MapPropertiesScriptableObject Properties => AssetDatabase.LoadAssetAtPath<MapPropertiesScriptableObject>(PropertiesPath);
 

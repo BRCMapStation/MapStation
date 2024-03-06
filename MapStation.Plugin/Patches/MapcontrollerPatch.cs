@@ -12,8 +12,11 @@ namespace MapStation.Plugin.Patches {
     internal static class MapcontrollerPatch {
         [HarmonyPrefix]
         [HarmonyPatch(nameof(Mapcontroller.GetMap))]
-        private static bool GetMap_Prefix(Stage stage, Map __result) {
+        private static bool GetMap_Prefix(Stage stage, ref Map __result) {
             if (MapDatabase.Instance.maps.TryGetValue(stage, out var customStage)) {
+                if (!MiniMapManager.TryCreateMapForCustomStage(customStage, out var map))
+                    return true;
+                __result = map;
                 return false;
             }
             return true;

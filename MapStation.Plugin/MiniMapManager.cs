@@ -9,9 +9,31 @@ using UnityEngine;
 
 namespace MapStation.Plugin {
     public static class MiniMapManager {
-        public static Map CreateMapForCustomStage(BaseMapDatabaseEntry mapEntry) {
-            var map = ScriptableObject.CreateInstance<Map>();
-            return map;
+        public static bool TryCreateMapForCustomStage(BaseMapDatabaseEntry mapEntry, out Map map) { var assets = Core.Instance.Assets;
+            var miniMapPrefab = assets.LoadAssetFromBundle<GameObject>(mapEntry.AssetsBundleName, "MiniMap.prefab");
+            if (miniMapPrefab == null) {
+                map = null;
+                return false;
+            }
+            var minimap = ScriptableObject.CreateInstance<Map>();
+            minimap.m_MapObject = miniMapPrefab;
+            minimap.m_ScaleFactor = 1f;
+            minimap.m_PositionOffset = Vector3.zero;
+            minimap.m_EulerOffset = Vector3.zero;
+            minimap.mapMaterial = Mapcontroller.Instance.pyramidMap.mapMaterial;
+            map = minimap;
+            ProcessCustomMiniMapPrefab(map);
+            return true;
+        }
+
+        private static void ProcessCustomMiniMapPrefab(Map map) {
+            var renderers = map.m_MapObject.GetComponentsInChildren<Renderer>();
+            foreach(var renderer in renderers) {
+                if (renderer.sharedMaterial != null && renderer.sharedMaterial.shader.name == "BRC/Minimap") {
+                    map.mapMaterial = renderer.sharedMaterial;
+                }
+                renderer.gameObject.layer = Layers.Minimap;
+            }
         }
     }
 }
