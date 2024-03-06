@@ -274,7 +274,7 @@ public class MapBuilder {
         string directory = BuildConstants.BuiltBundlesDirectory(compressed);
 
         var options = BuildAssetBundleOptions.StrictMode;
-        if(compressed) {
+        if(!compressed) {
             options |= BuildAssetBundleOptions.UncompressedAssetBundle;
         }
 
