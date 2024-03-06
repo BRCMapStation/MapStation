@@ -10,6 +10,7 @@ using UnityEngine;
 namespace MapStation.Plugin.Patches {
     [HarmonyPatch(typeof(Mapcontroller))]
     internal static class MapcontrollerPatch {
+        // MapMaterial could be null in a custom stage.
         [HarmonyPrefix]
         [HarmonyPatch(nameof(Mapcontroller.SetMapGradient))]
         private static bool SetMapGradient_Prefix(Mapcontroller __instance) {

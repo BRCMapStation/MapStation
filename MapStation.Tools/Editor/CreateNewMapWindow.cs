@@ -81,6 +81,8 @@ public class CreateNewMapWindow : EditorWindow {
         MapBuilder.SyncMapProperties(maps);
         AssetDatabase.SaveAssets();
 
+        // Fix Mini Map material reference - should probably do this somewhere else.
+
         var miniMapMaterialPath = AssetNames.GetMiniMapMaterialPathForNewMapFromTemplate(mapName);
         var miniMapPrefabPath = map.MiniMapPath;
 

@@ -8,7 +8,12 @@ using Reptile;
 using UnityEngine;
 
 namespace MapStation.Plugin {
+    /// <summary>
+    /// Manages Mini Maps for custom stages.
+    /// </summary>
     public static class MiniMapManager {
+
+        // Creates a Map ScriptableObject for a custom stage.
         public static bool TryCreateMapForCustomStage(BaseMapDatabaseEntry mapEntry, out Map map) { var assets = Core.Instance.Assets;
             var miniMapPrefab = assets.LoadAssetFromBundle<GameObject>(mapEntry.AssetsBundleName, "MiniMap.prefab");
             if (miniMapPrefab == null) {
@@ -34,6 +39,7 @@ namespace MapStation.Plugin {
             return true;
         }
 
+        // Sets appropriate layers and ordering in minimap prefab.
         private static void ProcessCustomMiniMapPrefab(Map map, MiniMapProperties properties) {
             var renderers = map.m_MapObject.GetComponentsInChildren<Renderer>();
 
