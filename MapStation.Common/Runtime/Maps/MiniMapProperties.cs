@@ -8,7 +8,7 @@ namespace MapStation.Common
     {
         [Header("Material that will change colors in phone and pause menu.")]
         public Material MapMaterial;
-        [Header("Automatically sort renderers in MiniMap so that higher objects always display on top.")]
-        public bool SortRenderers = true;
+        [Header("Sort meshes from top to bottom when rendering the MiniMap.")]
+        public bool SortRenderers = false;
     }
 }
