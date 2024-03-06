@@ -23,6 +23,8 @@ namespace MapStation.Plugin {
             minimap.mapMaterial = Mapcontroller.Instance.pyramidMap.mapMaterial;
             map = minimap;
             ProcessCustomMiniMapPrefab(map);
+            minimap.mapMaterial.SetFloat("_AnchorOffset", -5000f);
+            minimap.mapMaterial.SetFloat("_AnchorScale", 0.035f);
             return true;
         }
 
@@ -33,6 +35,11 @@ namespace MapStation.Plugin {
                     map.mapMaterial = renderer.sharedMaterial;
                 }
                 renderer.gameObject.layer = Layers.Minimap;
+            }
+            var sortedRenderers = renderers.OrderBy(renderer => renderer.gameObject.transform.position.y).ToArray();
+            for(var i = 0; i < sortedRenderers.Length; i++) {
+                var renderer = sortedRenderers[i];
+                renderer.sortingOrder = i;
             }
         }
     }

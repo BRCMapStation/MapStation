@@ -8,6 +8,11 @@ Shader "BRC/Minimap"
 		_ColorHigh ("Color High", Color) = (1,0,0,0.682353)
         _HeightLow ("Height Low", Float) = 0
         _HeightHigh ("Height High", Float) = 1
+
+        [HideInInspector]
+        _AnchorOffset("Anchor Offset", Float) = 0
+        [HideInInspector]
+        _AnchorScale("Anchor Scale", Float) = 1
     }
     SubShader
     {
@@ -40,12 +45,13 @@ Shader "BRC/Minimap"
             float _HeightLow;
             float _HeightHigh;
             float _AnchorOffset;
+            float _AnchorScale;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.height = v.vertex.y;
+                o.height = ((mul(unity_ObjectToWorld, v.vertex).y - _AnchorOffset) * (1 / _AnchorScale));
                 return o;
             }
 
