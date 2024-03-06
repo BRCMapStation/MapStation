@@ -92,6 +92,8 @@ public class CreateNewMapWindow : EditorWindow {
             if (miniMapProperties == null)
                 miniMapProperties = miniMapPrefab.AddComponent<MiniMapProperties>();
             miniMapProperties.MapMaterial = miniMapMaterial;
+            EditorUtility.SetDirty(miniMapProperties);
+            AssetDatabase.SaveAssets();
         }
 
         // Open the new map
