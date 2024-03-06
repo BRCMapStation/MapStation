@@ -9,7 +9,47 @@ using UnityEditor;
 using UnityEngine;
 
 namespace MapStation.Tools.Editor {
+    
+
     public static class MiniMapEditor {
+
+        [MenuItem("Assets/Create/" + UIConstants.menuLabel + "/MiniMap", false)]
+        public static void CreateMiniMap() {
+            var prefabSource = Path.Combine(ToolAssetConstants.NewMapTemplatePath, "MiniMap.prefab");
+            var materialSource = Path.Combine(ToolAssetConstants.NewMapTemplatePath, "MiniMapMaterial.mat");
+
+            var currentfolder = GetCurrentFolder();
+            var prefabDest = Path.Combine(currentfolder, "MiniMap.prefab");
+            var materialDest = Path.Combine(currentfolder, "MiniMapMaterial.mat");
+
+            if (File.Exists(prefabDest)) {
+                Debug.LogError("Can't create MiniMap - a \"MiniMap.prefab\" Asset already exists in this directory.");
+                return;
+            }
+
+            if (File.Exists(prefabDest)) {
+                Debug.LogError("Can't create MiniMap - a \"MiniMapMaterial.mat\" Asset already exists in this directory.");
+                return;
+            }
+
+            AssetDatabase.CopyAsset(prefabSource, prefabDest);
+            AssetDatabase.CopyAsset(materialSource, materialDest);
+            AssetDatabase.SaveAssets();
+
+            FixMiniMapReferences(AssetDatabase.LoadAssetAtPath<GameObject>(prefabDest));
+        }
+
+        private static string GetCurrentFolder() {
+            var location = "Assets";
+            var activeObject = Selection.activeObject;
+            if (activeObject != null) {
+                location = AssetDatabase.GetAssetPath(activeObject);
+            }
+            if (File.Exists(location))
+                location = Path.GetDirectoryName(location);
+            return location;
+        }
+
         public static void FixMiniMapReferences(GameObject miniMapPrefab) {
             var prefabPath = AssetDatabase.GetAssetPath(miniMapPrefab);
             var prefabFolder = Path.GetDirectoryName(prefabPath);
