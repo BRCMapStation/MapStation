@@ -97,18 +97,19 @@ namespace MapStation.Common.Doctor {
             }
 
             foreach (var Teleport in roots.GetComponentsInChildren<Teleport>()) {
-                if (Teleport.teleportTo == null) {
+                if (Teleport.teleportTo == null && !Teleport.automaticallyReturnPlayerToLastSafeLocation) {
                     a.Add(Severity.Warning, Teleport, $"Found Teleport missing a `teleportTo` destination.");
                 }
                 var collider = Teleport.GetComponentInChildren<BoxCollider>();
                 if (collider == null) {
                     a.Add(Severity.Warning, Teleport, $"Found Teleport without a Box Collider on a child GameObject.");
-                }
-                if (collider.tag != Tags.Teleport) {
-                    a.Add(Severity.Warning, Teleport, $"Found Teleporter's child collider not tagged as 'Teleport'");
-                }
-                if (collider.gameObject.layer != Layers.TriggerDetectPlayer) {
-                    a.Add(Severity.Warning, Teleport, $"Found Teleport's child collider not on the 'TriggerDetectPlayer' layer.");
+                } else {
+                    if (collider.tag != Tags.Teleport) {
+                        a.Add(Severity.Warning, Teleport, $"Found Teleporter's child collider not tagged as 'Teleport'");
+                    }
+                    if (collider.gameObject.layer != Layers.TriggerDetectPlayer) {
+                        a.Add(Severity.Warning, Teleport, $"Found Teleport's child collider not on the 'TriggerDetectPlayer' layer.");
+                    }
                 }
             }
             
