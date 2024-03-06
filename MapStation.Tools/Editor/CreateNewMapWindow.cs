@@ -81,6 +81,19 @@ public class CreateNewMapWindow : EditorWindow {
         MapBuilder.SyncMapProperties(maps);
         AssetDatabase.SaveAssets();
 
+        var miniMapMaterialPath = AssetNames.GetMiniMapMaterialPathForNewMapFromTemplate(mapName);
+        var miniMapPrefabPath = map.MiniMapPath;
+
+        var miniMapMaterial = AssetDatabase.LoadAssetAtPath<Material>(miniMapMaterialPath);
+        var miniMapPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(miniMapPrefabPath);
+
+        if (miniMapPrefab != null) {
+            var miniMapProperties = miniMapPrefab.GetComponent<MiniMapProperties>();
+            if (miniMapProperties == null)
+                miniMapProperties = miniMapPrefab.AddComponent<MiniMapProperties>();
+            miniMapProperties.MapMaterial = miniMapMaterial;
+        }
+
         // Open the new map
         EditorSceneManager.OpenScene(map.ScenePath, OpenSceneMode.Single);
     }
