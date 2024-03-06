@@ -41,20 +41,11 @@ namespace MapStation.Plugin {
             return true;
         }
 
-        // Sets appropriate layers and ordering in minimap prefab.
+        // Sets appropriate layers.
         private static void ProcessCustomMiniMapPrefab(Map map, MiniMapProperties properties) {
             var renderers = map.m_MapObject.GetComponentsInChildren<Renderer>();
-
             foreach(var renderer in renderers)
                 renderer.gameObject.layer = Layers.Minimap;
-
-            if (properties.SortRenderers) {
-                var sortedRenderers = renderers.OrderBy(renderer => renderer.gameObject.transform.position.y).ToArray();
-                for (var i = 0; i < sortedRenderers.Length; i++) {
-                    var renderer = sortedRenderers[i];
-                    renderer.sortingOrder = i;
-                }
-            }
         }
     }
 }
