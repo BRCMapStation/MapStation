@@ -26,7 +26,9 @@ public static class GrindEditorUtility {
         var currentSFX = Array.IndexOf(grindSoundOptionValues, (SfxCollectionID) sfxProperty.enumValueFlag);
         if (currentSFX == -1)
             currentSFX = 0;
+        EditorGUI.showMixedValue = sfxProperty.hasMultipleDifferentValues;
         var newSFX = EditorGUILayout.Popup("Sound Effects", currentSFX, grindSoundOptionNames);
+        EditorGUI.showMixedValue = false;
         if (newSFX != currentSFX) {
             sfxProperty.enumValueFlag = (int) grindSoundOptionValues[newSFX];
         }
