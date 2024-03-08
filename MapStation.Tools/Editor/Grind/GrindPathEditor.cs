@@ -12,16 +12,46 @@ public class GrindPathEditor : Editor {
         DrawDefaultInspector();
         // Unused In-Game
         // GrindEditorUtility.MakeGrindSFXDropdown(serializedObject, nameof(GrindPath.sfxCollection));
-        var isFixComboBreakingSet = serializedObject.targetObject.GetComponent<GrindPath_FixComboBreakingProperty>() != null;
-        var fixComboBreakingToggle = EditorGUILayout.Toggle("Prevent Combo Breaking", isFixComboBreakingSet);
-        if (fixComboBreakingToggle != isFixComboBreakingSet) {
-            if (fixComboBreakingToggle) {
-                var comp = serializedObject.targetObject.AddComponent<GrindPath_FixComboBreakingProperty>();
-                comp.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy;
+        var mixed = false;
+        var fixComboBreakingSet = false;
+
+        for (var i = 0; i < serializedObject.targetObjects.Length; i++) {
+
+            var previousFixComboBreakingSet = fixComboBreakingSet;
+
+            if (serializedObject.targetObjects[i].GetComponent<GrindPath_FixComboBreakingProperty>() != null) {
+                fixComboBreakingSet = true;
             } else {
-                DestroyImmediate(serializedObject.targetObject.GetComponent<GrindPath_FixComboBreakingProperty>());
+                fixComboBreakingSet = false;
+            }
+
+            if (fixComboBreakingSet != previousFixComboBreakingSet && i > 0) {
+                mixed = true;
+                fixComboBreakingSet = false;
+                break;
             }
         }
+
+        EditorGUI.showMixedValue = mixed;
+        var fixComboBreakingToggle = EditorGUILayout.Toggle("Prevent Combo Breaking", fixComboBreakingSet);
+        if (fixComboBreakingToggle != fixComboBreakingSet) {
+            if (fixComboBreakingToggle) {
+                foreach (var targetObject in serializedObject.targetObjects) {
+                    if (targetObject.GetComponent<GrindPath_FixComboBreakingProperty>() != null)
+                        continue;
+                    var comp = Undo.AddComponent<GrindPath_FixComboBreakingProperty>((targetObject as GrindPath).gameObject);
+                    comp.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy;
+                }
+            } else {
+                foreach (var targetObject in serializedObject.targetObjects) {
+                    var comp = targetObject.GetComponent<GrindPath_FixComboBreakingProperty>();
+                    if (comp != null) {
+                        Undo.DestroyObjectImmediate(comp);
+                    }
+                }
+            }
+        }
+        EditorGUI.showMixedValue = false;
 
         serializedObject.ApplyModifiedProperties();
     }
