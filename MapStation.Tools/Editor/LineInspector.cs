@@ -1,7 +1,8 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(Line))]
+[CanEditMultipleObjects]
 public class LineInspector : Editor {
 
 	private void OnSceneGUI () {

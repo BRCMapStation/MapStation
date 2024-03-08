@@ -10,6 +10,7 @@ using MapStation.Common.Gameplay;
 using MapStation.Tools.Editor;
 
 [CustomEditor(typeof(MapStationVert))]
+[CanEditMultipleObjects]
 class MapStationVertEditor : Editor {
     public override void OnInspectorGUI() {
         EditorGUILayout.HelpBox("This is the custom vert component bundled with MapStation.", MessageType.Info);

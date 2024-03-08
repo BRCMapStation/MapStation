@@ -4,6 +4,7 @@ using MapStation.Components;
 using MapStation.Tools.Editor;
 
 [CustomEditor(typeof(Grind))]
+[CanEditMultipleObjects]
 public class GrindEditor : Editor
 {
     public new Grind target;

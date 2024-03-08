@@ -3,6 +3,7 @@ using Reptile;
 using UnityEditor;
 
 [CustomEditor(typeof(VertShape))]
+[CanEditMultipleObjects]
 public class VertShapeEditor : Editor {
     public override void OnInspectorGUI() {
         EditorGUILayout.HelpBox("This is the vanilla BRC vert component, NOT the custom MapStation vert.", MessageType.Info);
