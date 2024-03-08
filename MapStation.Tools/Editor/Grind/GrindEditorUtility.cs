@@ -27,6 +27,8 @@ public static class GrindEditorUtility {
         if (currentSFX == -1)
             currentSFX = 0;
         EditorGUI.showMixedValue = sfxProperty.hasMultipleDifferentValues;
+        if (sfxProperty.hasMultipleDifferentValues)
+            currentSFX = -1;
         var newSFX = EditorGUILayout.Popup("Sound Effects", currentSFX, grindSoundOptionNames);
         EditorGUI.showMixedValue = false;
         if (newSFX != currentSFX) {
