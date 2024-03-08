@@ -1,6 +1,7 @@
 public static class UIConstants {
     public const string hotkeyGroupName = "BRC MapStation";
     public const string menuLabel = "BRC MapStation";
+    public const string mapactionsSubmenuLabel = "Map Actions";
     public const string experimentsSubmenuLabel = "Experiments";
     public const string GizmoIconBaseDir = "Packages/com.brcmapstation.tools/Assets/Icons";
     public const string DrPoloIcon = GizmoIconBaseDir + "/drpoloIcon.png";
@@ -17,6 +18,7 @@ public static class UIConstants {
         EXPORT_TUTORIAL_MAP,
         //---
         MAP_PROPERTIES = 40,
+        MAP_ACTIONS,
         DOCTOR,
         GRIND_INSPECTOR,
         EDIT_MINIMAP,
