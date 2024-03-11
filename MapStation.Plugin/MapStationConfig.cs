@@ -65,7 +65,7 @@ namespace MapStation.Plugin {
             QuickReload = file.Bind(
                 mappingSection,
                 "QuickReload",
-                true,
+                false,
                 quickReloadDescription
             );
             // Keeping descriptions adjacent so I remember to update them at same time
