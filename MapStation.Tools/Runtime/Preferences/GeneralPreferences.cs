@@ -8,4 +8,7 @@ public class GeneralPreferences {
     [TextArea(1, 3)]
     public string testMapDirectory;
     public bool checkDoctorErrorsBeforeBuildingMap = true;
+#if MAPSTATION_DEBUG
+    public bool automaticallyRecompilePlugin = true;
+#endif
 }

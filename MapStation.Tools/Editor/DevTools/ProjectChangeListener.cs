@@ -9,7 +9,9 @@ public class ProjectChangeListener
 {
     static ProjectChangeListener() {
         EditorApplication.projectChanged -= Recompile;
-        EditorApplication.projectChanged += Recompile;
+        if(Preferences.instance.general.automaticallyRecompilePlugin) {
+            EditorApplication.projectChanged += Recompile;
+        }
     }
     private static void Recompile() {
         if (!PluginEditor.IsPluginOutOfDate())
