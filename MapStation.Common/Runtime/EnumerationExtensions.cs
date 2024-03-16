@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace MapStation.Common {
     public static class EnumeratePairsExtensions
@@ -14,6 +15,14 @@ namespace MapStation.Common {
             }
         }
     }
+    
+    public static class DeconstructPairsExtensions {
+        public static void Deconstruct<T, U>(this KeyValuePair<T, U> pair, out T key, out U value) {
+            key = pair.Key;
+            value = pair.Value;
+        }
+    }
+    
     public static class EnumeratorExtensions {
         public static T TakeNext<T>(this IEnumerator<T> enumerator) {
             enumerator.MoveNext();
