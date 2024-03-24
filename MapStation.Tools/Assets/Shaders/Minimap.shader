@@ -16,7 +16,8 @@ Shader "BRC/Minimap"
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" }
+        Tags { "Queue"="Transparent+1" }
+        Cull Off
         LOD 100
 
         Pass
