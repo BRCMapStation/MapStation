@@ -36,6 +36,7 @@ namespace MapStation.Plugin.Patches {
     }
 }
 
+#if MAPSTATION_HANDPLANT
 [HarmonyPatch(typeof(GrindAbility))]
 [HarmonyPatch(nameof(GrindAbility.FixedUpdateAbility))]
 public static class GrindAbilityMovingHandplantPatch
@@ -76,3 +77,4 @@ public static class GrindAbilityMovingHandplantPatch
         mpAbility.SetToPole(plantOnNode.transform);
     }
 }
+#endif

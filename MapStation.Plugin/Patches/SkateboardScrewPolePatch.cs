@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+#if MAPSTATION_HANDPLANT
+using HarmonyLib;
 using Reptile;
 using Rewired;
 using UnityEngine;
@@ -57,3 +58,4 @@ namespace MapStation.Plugin.Patches {
         }
     }
 }
+#endif

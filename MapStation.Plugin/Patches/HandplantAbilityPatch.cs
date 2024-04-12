@@ -1,4 +1,4 @@
-
+#if MAPSTATION_HANDPLANT
 using System;
 using Reptile;
 using HarmonyLib;
@@ -27,3 +27,4 @@ namespace MapStation.Plugin.Patches {
         }
     }
 }
+#endif
