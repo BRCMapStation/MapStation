@@ -76,10 +76,6 @@ namespace MapStation.Plugin.Gameplay {
 
         public static MapStationPlayer Get(Player player) {
             var mpPlayer = player.GetComponent<MapStationPlayer>();
-            if (mpPlayer == null) {
-                Log.Warning($"Requested MapStationPlayer component from player {player.gameObject.name} but they didn't have one.");
-                return player.gameObject.AddComponent<MapStationPlayer>();
-            }
             return mpPlayer;
         }
 
