@@ -31,7 +31,6 @@ internal static class UtilityPatch {
             }
 
             if(recognized) {
-                Log.Info($"Utility.SceneNameToStage: non-vanilla sceneName=\"{sceneName}\" parsed as int={(int)__result}, Stage.ToString()=\"{__result.ToString()}\"");
                 return;
             }
             
@@ -39,7 +38,6 @@ internal static class UtilityPatch {
             // Send the player to hideout instead.
             if(sceneName != "NONE") {
                 __result = Stage.hideout;
-                Log.Info($"Utility.SceneNameToStage: non-vanilla sceneName=\"{sceneName}\" unrecognized, redirecting to hideout.");
             }
         }
     }
