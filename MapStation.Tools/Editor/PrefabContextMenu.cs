@@ -173,6 +173,11 @@ public class AddPrefabsToContextMenu {
         CreatePrefabUnderContext(menuCommand.context, "Street Life Cluster", true, UnpackMode.UnpackRoot);
     }
 
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Public Toilet", priority = Priority)]
+    private static void CreatePublicToilet(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Public Toilet", true);
+    }
+
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true, UnpackMode unpackMode = UnpackMode.DontUnpack) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
         var prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
