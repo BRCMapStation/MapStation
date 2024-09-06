@@ -13,9 +13,9 @@ public class AddPrefabsToContextMenu {
     private const int Priority = -30;
     private const string PrefabPathPrefix = "Packages/com.brcmapstation.tools/Assets/MapComponents/";
 
-    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Audio/Ambient Sound", priority = Priority)]
-    private static void CreateAmbientSound(MenuCommand menuCommand) {
-        CreatePrefabUnderContext(menuCommand.context, "Ambient Sound", true, UnpackMode.UnpackCompletely);
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Audio/Audio Source", priority = Priority)]
+    private static void CreateAudioSource(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Audio Source", true, UnpackMode.UnpackCompletely);
     }
 
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Spawners/Respawn Point", priority = Priority)]
