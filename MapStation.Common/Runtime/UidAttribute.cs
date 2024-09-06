@@ -5,8 +5,7 @@ using UnityEditor;
 #endif
 
 [AttributeUsage(AttributeTargets.Field, Inherited = true)]
-public class UidAttribute : PropertyAttribute
-{}
+public class UidAttribute : PropertyAttribute { }
 
 #if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(UidAttribute))]

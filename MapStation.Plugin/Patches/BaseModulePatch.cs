@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Reptile;
 using HarmonyLib;
+using MapStation.Common;
 
 namespace MapStation.Plugin.Patches {
     [HarmonyPatch(typeof(BaseModule))]
@@ -20,6 +21,7 @@ namespace MapStation.Plugin.Patches {
                 Core.Instance.BaseModule.SwitchStage(StagePrefabHijacker.ActualTargetStage);
                 return false;
             }
+            StagePrefabHijacker.Loaded = false;
             return true;
         }
     }

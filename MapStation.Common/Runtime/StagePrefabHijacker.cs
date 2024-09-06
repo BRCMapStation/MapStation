@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace MapStation.Plugin {
+namespace MapStation.Common {
     public static class StagePrefabHijacker {
+#if BEPINEX
         public const Stage StageToHijackPrefabsFrom = Stage.hideout;
         public static string[] ProtectedAssetBundles = {
             "characters",
@@ -31,27 +33,46 @@ namespace MapStation.Plugin {
         public static bool Loaded = false;
         public static bool Active = false;
         public static StagePrefabs Prefabs;
+        private const int PublicToiletPool = 50;
 
         public static void Log(string text) {
             Common.Log.Info($"[StagePrefabHijacker] {text}");
         }
 
+        private static void CleanUp() {
+            if (Prefabs == null) return;
+            if (Prefabs.Parent == null) return;
+            GameObject.Destroy(Prefabs.Parent);
+        }
+
         public static void Run() {
+            CleanUp();
+
             Prefabs = new StagePrefabs();
 
-            var prefabsParent = new GameObject("Custom Stage Prefabs");
-            GameObject.DontDestroyOnLoad(prefabsParent);
+            Prefabs.Parent = new GameObject("Custom Stage Prefabs");
+            GameObject.DontDestroyOnLoad(Prefabs.Parent);
+            Prefabs.Parent.SetActive(false);
 
             var toilet = GameObject.FindObjectOfType<PublicToilet>();
-            var toiletInstance = GameObject.Instantiate(toilet);
-            toiletInstance.transform.SetParent(prefabsParent.transform, false);
-            toiletInstance.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-            
-            Prefabs.Toilet = toiletInstance;
+            for(var i = 0; i < PublicToiletPool; i++) {
+                var newToilet = GameObject.Instantiate(toilet.gameObject);
+                newToilet.transform.SetParent(Prefabs.Parent.transform, false);
+                newToilet.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+                Prefabs.Toilets.Add(newToilet);
+            }
         }
 
         public class StagePrefabs {
-            public PublicToilet Toilet;
+            public GameObject Parent;
+            public List<GameObject> Toilets = new();
+
+            public GameObject GetToilet() {
+                var toilet = Toilets[0];
+                Toilets.RemoveAt(0);
+                return toilet;
+            }
         }
+#endif
     }
 }

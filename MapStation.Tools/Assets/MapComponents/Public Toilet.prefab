@@ -1,0 +1,254 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1918929027756829838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1918929027756829833}
+  - component: {fileID: 1918929027756829835}
+  - component: {fileID: 1918929027756829832}
+  - component: {fileID: 1918929027756829834}
+  m_Layer: 4
+  m_Name: OutHouse
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1918929027756829833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918929027756829838}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1918929027934500672}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!33 &1918929027756829835
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918929027756829838}
+  m_Mesh: {fileID: 4300000, guid: 26affc408d1834543b87e8006f865b0d, type: 2}
+--- !u!23 &1918929027756829832
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918929027756829838}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: d02516aa51e318c4698052b4d1559968, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1918929027756829834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918929027756829838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3f53950e5e641f459d8726da39a49ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+    rid: 2484949197380911104
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2484949197380911104
+      type: {class: VanillaAssetReferenceV2/SList_Components, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 2484949197380911105
+        items:
+        - rid: 2484949197380911106
+        - rid: 2484949197380911110
+    - rid: 2484949197380911105
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949197380911106
+        next:
+          rid: 2484949197380911111
+    - rid: 2484949197380911106
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 1918929027756829832}
+        fields:
+          rid: 2484949197380911107
+    - rid: 2484949197380911107
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 2484949197380911108
+        items:
+        - rid: 2484949197380911109
+    - rid: 2484949197380911108
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949197380911109
+        next:
+          rid: -2
+    - rid: 2484949197380911109
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: sharedMaterial
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/gameplay/materials/OutHouse.mat
+        SubAssetType: 0
+        SubPath: 
+    - rid: 2484949197380911110
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 1918929027756829835}
+        fields:
+          rid: 2484949197380911112
+    - rid: 2484949197380911111
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949197380911110
+        next:
+          rid: -2
+    - rid: 2484949197380911112
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 2484949197380911113
+        items:
+        - rid: 2484949197380911114
+    - rid: 2484949197380911113
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949197380911114
+        next:
+          rid: -2
+    - rid: 2484949197380911114
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: sharedMesh
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/gameplay/models/OutHouse.fbx
+        SubAssetType: 2
+        SubPath: Cube.007
+--- !u!1 &1918929027934500673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1918929027934500672}
+  - component: {fileID: 1918929027934500674}
+  - component: {fileID: 1918929027934500675}
+  m_Layer: 0
+  m_Name: Public Toilet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1918929027934500672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918929027934500673}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1918929027756829833}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1918929027934500674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918929027934500673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 676de9c2b4b69e843994695cd43043ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!205 &1918929027934500675
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918929027934500673}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.0021807551, y: 1.788257, z: 0}
+  m_Size: 3.576514
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.03326059
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1918929027756829832}
+  m_Enabled: 1
