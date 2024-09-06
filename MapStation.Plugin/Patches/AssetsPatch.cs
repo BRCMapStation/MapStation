@@ -4,6 +4,7 @@ using HarmonyLib;
 using Reptile;
 using UnityEngine;
 using MapStation.Common;
+using System.Linq;
 
 namespace MapStation.Plugin.Patches;
 
@@ -32,6 +33,13 @@ internal static class AssetsPatch {
     }
 
     [HarmonyPrefix]
+    [HarmonyPatch(nameof(Assets.UnloadAssetBundleByName))]
+    private static bool UnloadAssetBundleByName_Prefix(string assetBundleName) {
+        if (StagePrefabHijacker.Loaded && StagePrefabHijacker.ProtectedAssetBundles.Contains(assetBundleName)) return false;
+        return true;
+    }
+
+    [HarmonyPrefix]
     [HarmonyPatch(nameof(Assets.LoadBundleASync))]
     private static bool LoadBundleASync_Prefix(ref IEnumerator __result, Assets __instance, Bundle bundleToLoad)
     {
@@ -40,6 +48,7 @@ internal static class AssetsPatch {
             __result = LoadMapBundleASync(__instance, bundleToLoad, zipAssetBundle);
             return false;
         }
+        if (bundleToLoad.IsLoaded) return false;
         return true;
     }
     
