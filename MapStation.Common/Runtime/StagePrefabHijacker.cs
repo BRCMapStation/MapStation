@@ -33,7 +33,7 @@ namespace MapStation.Common {
         public static bool Loaded = false;
         public static bool Active = false;
         public static StagePrefabs Prefabs;
-        private const int PublicToiletPool = 50;
+        private const int PublicToiletPool = 100;
 
         public static void Log(string text) {
             Common.Log.Info($"[StagePrefabHijacker] {text}");
