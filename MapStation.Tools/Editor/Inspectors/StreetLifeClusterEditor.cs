@@ -2,11 +2,11 @@ using MapStation.Tools.Editor;
 using Reptile;
 using UnityEditor;
 
-[CustomEditor(typeof(Pedestrian))]
+[CustomEditor(typeof(StreetLifeCluster))]
 [CanEditMultipleObjects]
-public class PedestrianEditor : Editor {
+public class StreetLifeClusterEditor : Editor {
     public override void OnInspectorGUI() {
-        EditorHelper.MakeDocsButton("Pedestrian");
+        EditorHelper.MakeDocsButton("Street-Life-Cluster");
         DrawDefaultInspector();
     }
 }

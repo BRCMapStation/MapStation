@@ -123,6 +123,56 @@ public class AddPrefabsToContextMenu {
         CreatePrefabUnderContext(menuCommand.context, "Cube Junk");
     }
 
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Pedestrians/Business 1", priority = Priority)]
+    private static void CreatePedBusiness1(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Peds/Ped Business 1");
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Pedestrians/Business 2", priority = Priority)]
+    private static void CreatePedBusiness2(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Peds/Ped Business 2");
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Pedestrians/Bun 2", priority = Priority)]
+    private static void CreatePedBun2(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Peds/Ped Bun 2");
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Pedestrians/Cap 2", priority = Priority)]
+    private static void CreatePedCap2(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Peds/Ped Cap 2");
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Pedestrians/Lank 1", priority = Priority)]
+    private static void CreatePedLank1(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Peds/Ped Lank 1");
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Pedestrians/Plus 2", priority = Priority)]
+    private static void CreatePedPlus2(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Peds/Ped Plus 2");
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Pedestrians/Racer 1", priority = Priority)]
+    private static void CreatePedRacer1(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Peds/Ped Racer 1");
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Pedestrians/Racer 2", priority = Priority)]
+    private static void CreatePedRacer2(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Peds/Ped Racer 2");
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Pedestrians/Walking", priority = Priority)]
+    private static void CreatePedWalking(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Peds/Walking Ped", true, UnpackMode.UnpackRoot);
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Cluster", priority = Priority)]
+    private static void CreateStreetLifeCluster(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Street Life Cluster", true, UnpackMode.UnpackRoot);
+    }
+
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true, UnpackMode unpackMode = UnpackMode.DontUnpack) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
         var prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
