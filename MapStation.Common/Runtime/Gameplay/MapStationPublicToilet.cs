@@ -14,8 +14,12 @@ namespace MapStation.Common.Runtime.Gameplay {
         public GameObject RedLight;
         private void Awake() {
 #if BEPINEX
+            var myTrigger = transform.Find("Trigger");
             var myToilet = StagePrefabHijacker.Prefabs.GetToilet();
             var toiletScript = myToilet.GetComponent<PublicToilet>();
+
+            Destroy(toiletScript.transform.Find("OutHouse").Find("Cube.001").gameObject);
+            Destroy(toiletScript.transform.Find("Trigger").gameObject);
             Destroy(toiletScript.doorAnimator.gameObject);
 
             toiletScript.exit = Exit;
@@ -30,6 +34,7 @@ namespace MapStation.Common.Runtime.Gameplay {
             }
             myToilet.transform.SetParent(transform, false);
             myToilet.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            myTrigger.transform.SetParent(myToilet.transform, true);
 #endif
         }
     }
