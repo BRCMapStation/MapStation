@@ -33,7 +33,7 @@ namespace MapStation.Plugin {
         public static StagePrefabs Prefabs;
 
         public static void Log(string text) {
-            Common.Log.Info($"[StagePrefabHijacker]{text}");
+            Common.Log.Info($"[StagePrefabHijacker] {text}");
         }
 
         public static void Run() {
