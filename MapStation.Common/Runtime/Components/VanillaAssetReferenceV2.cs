@@ -59,7 +59,7 @@ namespace MapStation.Common.VanillaAssets {
                     switch(f.SubAssetType) {
                         case SubAssetType.FbxChild:
                             foreach(var a in assets) {
-                                if(a.name == f.SubPath) {
+                                if(a.name == f.SubPath && a is Mesh) {
                                     asset = a;
                                     break;
                                 }
