@@ -84,12 +84,20 @@ namespace MapStation.Common.VanillaAssets {
                             AddAnimationClip(asset, component, f, out message);
                         } else {
                             AssignMember(asset, component, f, out message);
+                            var anComponent = component as Animation;
+                            if (anComponent != null && f.Name == "clip" && anComponent.playAutomatically)
+                                StartCoroutine(PlayAnimationAutomaticallyCoroutine(anComponent));
                         }
                     } catch(Exception e) {
                         Log.Info(message + "\nFailed with error:\n" + e.Message + "\n" + e.StackTrace);
                     }
                 }
             }
+        }
+
+        private IEnumerator PlayAnimationAutomaticallyCoroutine(Animation animationComponent) {
+            yield return new WaitForEndOfFrame();
+            animationComponent.Play();
         }
 
         public static void AssignMember(UnityEngine.Object asset, Component component, FieldEntry f, out string message) {
