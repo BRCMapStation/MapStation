@@ -178,6 +178,21 @@ public class AddPrefabsToContextMenu {
         CreatePrefabUnderContext(menuCommand.context, "Public Toilet", true);
     }
 
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/NPC/Inline MoveStyle Changer", priority = Priority)]
+    private static void CreateInlineNPC(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "NPC/NPC Inline MoveStyle Changer", true);
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/NPC/Skateboard MoveStyle Changer", priority = Priority)]
+    private static void CreateSkateboardNPC(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "NPC/NPC Skateboard MoveStyle Changer", true);
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/NPC/BMX MoveStyle Changer", priority = Priority)]
+    private static void CreateBMXNPC(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "NPC/NPC BMX MoveStyle Changer", true);
+    }
+
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true, UnpackMode unpackMode = UnpackMode.DontUnpack) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
         var prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
