@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Reflection;
 using Reptile;
 using UnityEngine;
@@ -59,7 +60,7 @@ namespace MapStation.Common.VanillaAssets {
                     switch(f.SubAssetType) {
                         case SubAssetType.FbxChild:
                             foreach(var a in assets) {
-                                if(a.name == f.SubPath && a is Mesh) {
+                                if(a.name == f.SubPath && (a is not GameObject && a is not Component)) {
                                     asset = a;
                                     break;
                                 }
@@ -103,8 +104,12 @@ namespace MapStation.Common.VanillaAssets {
             );
 
             if(f.Index >= 0) {
-                var collection = member is PropertyInfo p ? p.GetValue(component) : ((FieldInfo)member).GetValue(component);
-                collection.GetType().GetProperty("Item").SetValue(collection, asset, new object[] { f.Index });
+                var collection = (IList) (member is PropertyInfo p ? p.GetValue(component) : ((FieldInfo)member).GetValue(component));
+                collection[f.Index] = asset;
+                if (member is PropertyInfo)
+                    ((PropertyInfo) member).SetValue(component, collection);
+                else
+                    ((FieldInfo) member).SetValue(component, collection);
             } else {
                 if(member is PropertyInfo p) {
                     var a = GetComponentFromPrefab(p.PropertyType, asset);
@@ -155,7 +160,6 @@ namespace MapStation.Common.VanillaAssets {
         [HideInInspector]
         [SerializeField] public bool AutoSync = true;
         [SerializeField] public string Name;
-        [HideInInspector]
         [SerializeField] public int Index = -1;
         [SerializeField] public string BundleName;
         [SerializeField] public string Path;
