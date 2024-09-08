@@ -168,6 +168,11 @@ public class AddPrefabsToContextMenu {
         CreatePrefabUnderContext(menuCommand.context, "Peds/Walking Ped", true, UnpackMode.UnpackRoot);
     }
 
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Pedestrians/Drip Dog", priority = Priority)]
+    private static void CreatePedDripDog(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Peds/Ped Drip Dog", true);
+    }
+
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Street Life/Cluster", priority = Priority)]
     private static void CreateStreetLifeCluster(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "Street Life Cluster", true, UnpackMode.UnpackRoot);
