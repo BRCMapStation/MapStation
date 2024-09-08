@@ -193,6 +193,16 @@ public class AddPrefabsToContextMenu {
         CreatePrefabUnderContext(menuCommand.context, "NPC/NPC BMX MoveStyle Changer", true);
     }
 
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Pickups/Boost Charge", priority = Priority)]
+    private static void CreateBoostCharge(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Pickups/Boost Charge", true);
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Pickups/Boost Charge Big", priority = Priority)]
+    private static void CreateBoostChargeBig(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Pickups/Boost Charge Big", true);
+    }
+
     private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true, UnpackMode unpackMode = UnpackMode.DontUnpack) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
         var prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
