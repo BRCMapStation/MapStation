@@ -18,6 +18,7 @@ namespace MapStation.Tools.Runtime {
         public float HelicopterMaxHeight = 20f;
         public float HelicopterMinHeight = 8f;
         public float HelicopterOuterEdges = 10f;
+        private SceneBoundingBox _sceneBbox = null;
 
         public class SceneBoundingBox {
             public Vector3 Min = Vector3.zero;
@@ -30,10 +31,12 @@ namespace MapStation.Tools.Runtime {
                 Max.z += extrusion;
             }
 
-            public static SceneBoundingBox Calculate(LayerMask layerMask) {
+            public static SceneBoundingBox Calculate(LayerMask layerMask, Transform exclude) {
                 var bbox = new SceneBoundingBox();
                 var colliders = FindObjectsOfType<Collider>();
                 foreach(var collider in colliders) {
+                    var parentTransforms = collider.GetComponentsInParent<Transform>();
+                    if (parentTransforms.Contains(exclude)) continue;
                     if ((layerMask & (1 << collider.gameObject.layer)) == 0)
                         continue;
                     if (collider.bounds.min.x < bbox.Min.x)
@@ -52,6 +55,35 @@ namespace MapStation.Tools.Runtime {
                 }
                 return bbox;
             }
+        }
+
+        private void OnValidate() {
+            _sceneBbox = null;
+        }
+
+        private void OnDrawGizmosSelected() {
+            if (_sceneBbox == null) {
+                var copterSurface = GetCopterNavMeshSurface();
+                if (copterSurface == null) return;
+                var scenebbox = SceneBoundingBox.Calculate(copterSurface.layerMask, transform);
+                scenebbox.ExtrudeEdges(HelicopterOuterEdges);
+                _sceneBbox = scenebbox;
+            }
+            Gizmos.color = new Color(0f, 0.5f, 1f, 0.5f);
+
+            var bboxWidth = (_sceneBbox.Max.x - _sceneBbox.Min.x);
+            var bboxHeight = (_sceneBbox.Max.z - _sceneBbox.Min.z);
+            var bboxCenter = _sceneBbox.Min + new Vector3(bboxWidth * 0.5f, 0f, bboxHeight * 0.5f);
+            var bboxSize = new Vector3(bboxWidth, 0.1f, bboxHeight);
+
+            var lowBBoxLocation = bboxCenter;
+            var hiBBoxLocation = bboxCenter;
+
+            lowBBoxLocation.y = HelicopterMinHeight;
+            hiBBoxLocation.y = HelicopterMaxHeight;
+
+            Gizmos.DrawCube(lowBBoxLocation, bboxSize);
+            Gizmos.DrawCube(hiBBoxLocation, bboxSize);
         }
 
         public bool CanAlignCopterSpawners() {
@@ -106,13 +138,14 @@ namespace MapStation.Tools.Runtime {
             var builder = new CopterNavMeshBuilder();
             foreach (var surface in surfaces) {
                 if (surface.agentTypeID == -334000983) {
-                    var scenebbox = SceneBoundingBox.Calculate(surface.layerMask);
+                    var scenebbox = SceneBoundingBox.Calculate(surface.layerMask, transform);
                     scenebbox.ExtrudeEdges(HelicopterOuterEdges);
                     builder.LayerMask = surface.layerMask;
                     builder.Origin = scenebbox.Min;
                     builder.Origin.y = HelicopterMaxHeight;
-                    builder.Width = (int)((scenebbox.Max.x - scenebbox.Min.x) / builder.TileSize);
-                    builder.Height = (int) ((scenebbox.Max.z - scenebbox.Min.z) / builder.TileSize);
+                    builder.Width = Mathf.CeilToInt((scenebbox.Max.x - scenebbox.Min.x) / builder.TileSize);
+                    builder.Height = Mathf.CeilToInt((scenebbox.Max.z - scenebbox.Min.z) / builder.TileSize);
+                    builder.MinHeight = HelicopterMinHeight;
                     builder.Build();
                     copterMeshCollider.sharedMesh = builder.Mesh;
                     copterMeshFilter.sharedMesh = builder.Mesh;
