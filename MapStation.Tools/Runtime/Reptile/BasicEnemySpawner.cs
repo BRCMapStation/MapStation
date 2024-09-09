@@ -6,9 +6,7 @@ using UnityEngine;
 namespace Reptile {
     public class BasicEnemySpawner : MonoBehaviour, IInitializableSceneObject {
 
-        // Token: 0x040007EF RID: 2031
-        [SerializeField]
-        protected GameObject[] spawnableEnemies;
+        public GameObject[] spawnableEnemies;
 
         // Token: 0x040007F0 RID: 2032
         [SerializeField]

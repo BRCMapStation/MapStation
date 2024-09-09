@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
@@ -61,6 +61,10 @@
     <Reference Include="Rewired_Core">
         <HintPath>$(ManagedPath)/Rewired_Core.dll</HintPath>
         <Private>false</Private>
+    </Reference>
+    <Reference Include="Unity.AI.Navigation">
+      <HintPath>$(ManagedPath)/Unity.AI.Navigation.dll</HintPath>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
   

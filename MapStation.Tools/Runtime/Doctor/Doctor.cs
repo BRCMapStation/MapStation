@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using Reptile;
 using UnityEngine.SceneManagement;
+using Unity.AI.Navigation;
 using Object = UnityEngine.Object;
 
 namespace MapStation.Common.Doctor {
@@ -33,6 +34,63 @@ namespace MapStation.Common.Doctor {
 
         public static Analysis Analyze(GameObject[] roots) {
             var a = new Analysis();
+
+            var spawners = roots.GetComponentsInChildren<BasicEnemySpawner>();
+
+            var hasHumanoidCops = false;
+            var hasCopters = false;
+            var hasTankwalkers = false;
+
+            foreach(var spawner in spawners) {
+                if (spawner.spawnableEnemies == null) continue;
+                foreach(var enemy in spawner.spawnableEnemies) {
+                    switch (enemy.name) {
+                        case "ShieldCop":
+                        case "SniperCop":
+                        case "BasicCop":
+                            hasHumanoidCops = true;
+                            break;
+                        case "CopterCop":
+                            hasCopters = true;
+                            break;
+                        case "tankWalker":
+                            hasTankwalkers = true;
+                            break;
+                    }
+                }
+            }
+
+            var navSurfaces = roots.GetComponentsInChildren<NavMeshSurface>();
+
+            var hasHumanoidNav = false;
+            var hasCopterNav = false;
+            var hasTankwalkerNav = false;
+
+            foreach(var navSurface in navSurfaces) {
+                switch (navSurface.agentTypeID) {
+                    case 0:
+                        hasHumanoidNav = true;
+                        break;
+                    case -1372625422:
+                        hasTankwalkerNav = true;
+                        break;
+                    case -334000983:
+                        hasCopterNav = true;
+                        break;
+                }
+            }
+
+            if (hasHumanoidCops && !hasHumanoidNav) {
+                a.Add(Severity.Warning, null, "Missing NavMeshSurface for Cops", "Map has cops but no NavMeshSurface for them. They will not be able to navigate.");
+            }
+
+            if (hasCopters && !hasCopterNav) {
+                a.Add(Severity.Warning, null, "Missing NavMeshSurface for Cop Helicopters", "Map has helicopters but no NavMeshSurface for them. They will not be able to navigate.");
+            }
+
+            if (hasTankwalkers && !hasTankwalkerNav) {
+                a.Add(Severity.Warning, null, "Missing NavMeshSurface for Tankwalkers", "Map has tankwalkers but no NavMeshSurface for them. They will not be able to navigate.");
+            }
 
             foreach (var GraffitiSpot in roots.GetComponentsInChildren<GraffitiSpot>()) {
 #if BEPINEX
