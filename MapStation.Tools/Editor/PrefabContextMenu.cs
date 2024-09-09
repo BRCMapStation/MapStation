@@ -237,7 +237,7 @@ public class AddPrefabsToContextMenu {
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Police/Navigation Meshes", priority = Priority)]
     private static void CreateNavMeshes(MenuCommand menuCommand) {
         var existingNavMesh = GameObject.FindObjectOfType<NavigationMeshManager>();
-        if (existingNavMesh != null) {
+        if (existingNavMesh == null) {
             var instance = CreatePrefabUnderContext(menuCommand.context, "Police/Navigation Meshes", true, UnpackMode.UnpackRoot);
             instance.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         } else {
