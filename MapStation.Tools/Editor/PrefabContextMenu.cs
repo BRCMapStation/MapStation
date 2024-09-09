@@ -1,3 +1,4 @@
+using MapStation.Tools.Runtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -233,12 +234,48 @@ public class AddPrefabsToContextMenu {
         CreatePrefabUnderContext(menuCommand.context, "Pickups/Boost Charge Big", true);
     }
 
-    private static void CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true, UnpackMode unpackMode = UnpackMode.DontUnpack) {
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Police/Navigation Meshes", priority = Priority)]
+    private static void CreateNavMeshes(MenuCommand menuCommand) {
+        var existingNavMesh = GameObject.FindObjectOfType<NavigationMeshManager>();
+        if (existingNavMesh != null) {
+            var instance = CreatePrefabUnderContext(menuCommand.context, "Police/Navigation Meshes", true, UnpackMode.UnpackRoot);
+            instance.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        } else {
+            EditorUtility.DisplayDialog("Error", "Can't create a new NavigationMeshManager as there already is one in the current scene.", "OK");
+        }
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Police/Spawners/Cop Tube", priority = Priority)]
+    private static void CreateCopTube(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Police/Cop Tube Spawner", true);
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Police/Spawners/Helicopter", priority = Priority)]
+    private static void CreateHelicopter(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Police/Helicopter Spawner", true);
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Police/Spawners/Sniper", priority = Priority)]
+    private static void CreateSniper(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Police/Sniper Spawner", true);
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Police/Spawners/Tankwalker", priority = Priority)]
+    private static void CreateTankwalker(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Police/Tankwalker Spawner", true);
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Police/Spawners/Turret", priority = Priority)]
+    private static void CreateTurret(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Police/Turret Spawner", true);
+    }
+
+    private static GameObject CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true, UnpackMode unpackMode = UnpackMode.DontUnpack) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
         var prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
         if(prefabAsset == null) {
             Debug.LogError(string.Format("Prefab not found at path {0}", assetPath));
-            return;
+            return null;
         }
         var parent = context is GameObject go ? go.transform : null;
         var prefabInstance = PrefabUtility.InstantiatePrefab(prefabAsset, parent) as GameObject;
@@ -258,5 +295,6 @@ public class AddPrefabsToContextMenu {
             PrefabUtility.UnpackPrefabInstance(prefabInstance, parsedUnpackMode, InteractionMode.AutomatedAction);
         }
         Selection.activeObject = prefabInstance;
+        return prefabInstance;
     }
 }
