@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using CommonAPI;
@@ -57,9 +57,11 @@ public class DoctorDebugUI : DebugUI.DebugMenu {
             widthIndex = (widthIndex + 1) % widths.Length;
         }
         if (Button("Analyze")) {
-            analysis = Doctor.Analyze();
-            showDiag = new bool[analysis.diagnostics.Count];
-            showGo = new bool[analysis.gameObjects.Count + 1];
+            if (MapDatabase.Instance.maps.TryGetValue(Core.Instance.BaseModule.CurrentStage, out var pluginMapEntry)) {
+                analysis = Doctor.Analyze(pluginMapEntry.Properties);
+                showDiag = new bool[analysis.diagnostics.Count];
+                showGo = new bool[analysis.gameObjects.Count + 1];
+            }
         }
         if (analysis != null) {
             Label($"Analysis found {analysis.diagnostics.Count} problems.", boldLabel);

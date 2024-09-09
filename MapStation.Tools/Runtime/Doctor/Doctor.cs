@@ -16,13 +16,13 @@ namespace MapStation.Common.Doctor {
     public static class Doctor {
         public const string AboutMe = "The Doctor will analyze your map and list any problems, offering suggestions to fix them.";
 
-        public static Analysis Analyze() {
+        public static Analysis Analyze(MapProperties mapProperties) {
             var roots = SceneManager.GetActiveScene().GetRootGameObjects();
-            return Analyze(roots);
+            return Analyze(roots, mapProperties);
         }
 
-        public static Analysis Analyze(GameObject root) {
-            return Analyze(new[] { root });
+        public static Analysis Analyze(GameObject root, MapProperties mapProperties) {
+            return Analyze(new[] { root }, mapProperties);
         }
 
         private static List<T> GetComponentsInChildren<T>(this GameObject[] roots) {
@@ -53,7 +53,7 @@ namespace MapStation.Common.Doctor {
             }
         }
 
-        public static Analysis Analyze(GameObject[] roots) {
+        public static Analysis Analyze(GameObject[] roots, MapProperties mapProperties) {
             var a = new Analysis();
 
             var playerSpawners = roots.GetComponentsInChildren<PlayerSpawner>();
@@ -116,6 +116,9 @@ namespace MapStation.Common.Doctor {
                         break;
                 }
             }
+
+            if (spawners.Count == 0 && !mapProperties.disableCops)
+                a.Add(Severity.Warning, null, "Missing Cop Spawners", "Map has cops enabled, but there are no spawners for them.");
 
             if (hasHumanoidCops && !hasHumanoidNav) {
                 a.Add(Severity.Warning, null, "Missing NavMeshSurface for Cops", "Map has cops but no NavMeshSurface for them. They will not be able to navigate.");

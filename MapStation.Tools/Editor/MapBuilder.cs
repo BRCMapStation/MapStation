@@ -243,7 +243,7 @@ public class MapBuilder {
 
     private static void CheckForDoctorErrors() {
         if (!Preferences.instance.general.checkDoctorErrorsBeforeBuildingMap) return;
-        var analysis = Doctor.Analyze();
+        var analysis = Doctor.Analyze(MapDatabase.GetMapForActiveScene().Properties.properties);
         var errors = analysis.countBySeverity[Severity.Error];
         if (errors > 0) {
             var message = $"Map Doctor found {errors} errors that may crash the game. Are you sure you want to build?";

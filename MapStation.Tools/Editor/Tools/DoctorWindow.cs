@@ -11,6 +11,7 @@ using static cspotcode.UnityGUI.GUIUtil;
 using cspotcode.UnityGUI;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
+using MapStation.Tools;
 
 public class DoctorWindow : EditorWindow {
     const string windowLabel = "Doctor";
@@ -38,7 +39,8 @@ public class DoctorWindow : EditorWindow {
     }
 
     public void Analyze() {
-        Analysis = Doctor.Analyze();
+        var map = MapDatabase.GetMapForActiveScene();
+        Analysis = Doctor.Analyze(map.Properties.properties);
     }
     
     public Analysis Analysis {
