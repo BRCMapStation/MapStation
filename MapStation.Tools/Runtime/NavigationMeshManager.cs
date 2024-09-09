@@ -14,6 +14,7 @@ using static UnityEditor.ObjectChangeEventStream;
 namespace MapStation.Tools.Runtime {
     public class NavigationMeshManager : MonoBehaviour {
         [Header("Helicopter Settings")]
+        public bool AutomaticallyGenerateHelicopterPathing = true;
         public float HelicopterHeight = 8f;
         public float HelicopterMaxHeight = 20f;
         public float HelicopterMinHeight = 8f;
@@ -62,6 +63,8 @@ namespace MapStation.Tools.Runtime {
         }
 
         private void OnDrawGizmosSelected() {
+            if (!AutomaticallyGenerateHelicopterPathing) return;
+
             if (_sceneBbox == null) {
                 var copterSurface = GetCopterNavMeshSurface();
                 if (copterSurface == null) return;
@@ -81,7 +84,8 @@ namespace MapStation.Tools.Runtime {
         }
 
         public bool CanAlignCopterSpawners() {
-            return GetCopterNavMeshSurface() != null;
+            var navMeshSurface = GetCopterNavMeshSurface();
+            return navMeshSurface != null && navMeshSurface.navMeshData != null;
         }
 
         public void AlignCopterSpawners() {
@@ -115,41 +119,49 @@ namespace MapStation.Tools.Runtime {
         public void GenerateNavMeshes() {
             var surfaces = gameObject.GetComponentsInChildren<NavMeshSurface>();
 
+            
             GameObject copterCollider = null;
-            var copterColliderTf = transform.Find("CopterCollider");
-            if (copterColliderTf != null)
-                copterCollider = copterColliderTf.gameObject;
+            MeshCollider copterMeshCollider = null;
+            if (AutomaticallyGenerateHelicopterPathing) {
+                var copterColliderTf = transform.Find("CopterCollider");
+                if (copterColliderTf != null)
+                    copterCollider = copterColliderTf.gameObject;
 
-            if (copterCollider != null)
-                DestroyImmediate(copterCollider);
+                if (copterCollider != null)
+                    DestroyImmediate(copterCollider);
 
-            copterCollider = new GameObject("CopterCollider");
-            copterCollider.transform.SetParent(transform, false);
-            var copterMeshCollider = copterCollider.AddComponent<MeshCollider>();
-            var copterMeshFilter = copterCollider.AddComponent<MeshFilter>();
-            copterCollider.SetActive(false);
+                copterCollider = new GameObject("CopterCollider");
+                copterCollider.transform.SetParent(transform, false);
+                copterMeshCollider = copterCollider.AddComponent<MeshCollider>();
+                copterCollider.SetActive(false);
+            }
 
             var builder = new CopterNavMeshBuilder();
             foreach (var surface in surfaces) {
                 if (surface.agentTypeID == -334000983) {
-                    var scenebbox = SceneBoundingBox.Calculate(surface.layerMask, transform);
-                    scenebbox.ExtrudeEdges(HelicopterOuterEdges);
-                    builder.LayerMask = surface.layerMask;
-                    builder.Origin = scenebbox.Min;
-                    builder.Origin.y = HelicopterMaxHeight;
-                    builder.Width = Mathf.CeilToInt((scenebbox.Max.x - scenebbox.Min.x) / builder.TileSize);
-                    builder.Height = Mathf.CeilToInt((scenebbox.Max.z - scenebbox.Min.z) / builder.TileSize);
-                    builder.MinHeight = HelicopterMinHeight;
-                    builder.Build();
-                    copterMeshCollider.sharedMesh = builder.Mesh;
-                    copterMeshFilter.sharedMesh = builder.Mesh;
-                    copterCollider.SetActive(true);
-                } else
-                    copterCollider.SetActive(false);
+                    if (AutomaticallyGenerateHelicopterPathing) {
+                        var scenebbox = SceneBoundingBox.Calculate(surface.layerMask, transform);
+                        scenebbox.ExtrudeEdges(HelicopterOuterEdges);
+                        builder.LayerMask = surface.layerMask;
+                        builder.Origin = scenebbox.Min;
+                        builder.Origin.y = HelicopterMaxHeight;
+                        builder.Width = Mathf.CeilToInt((scenebbox.Max.x - scenebbox.Min.x) / builder.TileSize);
+                        builder.Height = Mathf.CeilToInt((scenebbox.Max.z - scenebbox.Min.z) / builder.TileSize);
+                        builder.MinHeight = HelicopterMinHeight;
+                        builder.Build();
+                        copterMeshCollider.sharedMesh = builder.Mesh;
+                        copterCollider.SetActive(true);
+                    }
+                } else {
+                    if (AutomaticallyGenerateHelicopterPathing)
+                        copterCollider.SetActive(false);
+                }
+
+                if (!AutomaticallyGenerateHelicopterPathing && surface.agentTypeID == -334000983) continue;
                 surface.BuildNavMesh();
             }
-
-            copterCollider.SetActive(false);
+            if (AutomaticallyGenerateHelicopterPathing)
+                copterCollider.SetActive(false);
             EditorApplication.MarkSceneDirty();
         }
     }
