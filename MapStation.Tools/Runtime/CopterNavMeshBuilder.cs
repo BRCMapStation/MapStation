@@ -31,7 +31,6 @@ namespace MapStation.Tools.Runtime {
         public void Build() {
             if (Mesh == null)
                 Mesh = new Mesh();
-            Mesh.name = "Helicopter Navigation Mesh";
             var vertices = new List<Vector3>();
             var triangles = new List<int>();
 

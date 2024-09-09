@@ -7,9 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.AI.Navigation;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.ObjectChangeEventStream;
+using System.IO;
 
 namespace MapStation.Tools.Runtime {
     public class NavigationMeshManager : MonoBehaviour {
@@ -149,7 +150,12 @@ namespace MapStation.Tools.Runtime {
                         builder.Height = Mathf.CeilToInt((scenebbox.Max.z - scenebbox.Min.z) / builder.TileSize);
                         builder.MinHeight = HelicopterMinHeight;
                         builder.Build();
+                        var scene = EditorSceneManager.GetActiveScene();
+                        builder.Mesh.name = "CopterNavMesh";
+                        var meshPath = Path.Combine(Path.GetDirectoryName(scene.path), Path.GetFileNameWithoutExtension(scene.path), "_Auto_CopterNavMesh.asset");
                         copterMeshCollider.sharedMesh = builder.Mesh;
+                        AssetDatabase.CreateAsset(builder.Mesh, meshPath);
+                        AssetDatabase.Refresh();
                         copterCollider.SetActive(true);
                     }
                 } else {
