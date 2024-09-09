@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4522039632555229370}
   - component: {fileID: 4522039632555230855}
+  - component: {fileID: 1161890091}
   m_Layer: 8
   m_Name: OcclusionCamera
   m_TagString: Untagged
@@ -42,7 +43,7 @@ Camera:
   m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -75,6 +76,70 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1161890091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522039632555251062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3f53950e5e641f459d8726da39a49ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+    rid: 2484949219088531801
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2484949219088531801
+      type: {class: VanillaAssetReferenceV2/SList_Components, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 2484949219088531802
+        items:
+        - rid: 2484949219088531803
+    - rid: 2484949219088531802
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949219088531803
+        next:
+          rid: -2
+    - rid: 2484949219088531803
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 4522039632555230855}
+        fields:
+          rid: 2484949219088531804
+    - rid: 2484949219088531804
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 2484949219088531805
+        items:
+        - rid: 2484949219088531806
+    - rid: 2484949219088531805
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949219088531806
+        next:
+          rid: -2
+    - rid: 2484949219088531806
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: targetTexture
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/vfx/sun/SunOcclusionTexture.renderTexture
+        SubAssetType: 0
+        SubPath: 
 --- !u!1 &4522039632555259586
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,6 +150,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4522039632555225008}
   - component: {fileID: 4522039632555188759}
+  - component: {fileID: 1151245258}
   m_Layer: 8
   m_Name: SunSprite
   m_TagString: Untagged
@@ -159,6 +225,70 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1151245258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522039632555259586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3f53950e5e641f459d8726da39a49ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+    rid: 2484949219088531792
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2484949219088531792
+      type: {class: VanillaAssetReferenceV2/SList_Components, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 2484949219088531796
+        items:
+        - rid: 2484949219088531797
+    - rid: 2484949219088531796
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949219088531797
+        next:
+          rid: -2
+    - rid: 2484949219088531797
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 4522039632555188759}
+        fields:
+          rid: 2484949219088531798
+    - rid: 2484949219088531798
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 2484949219088531799
+        items:
+        - rid: 2484949219088531800
+    - rid: 2484949219088531799
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949219088531800
+        next:
+          rid: -2
+    - rid: 2484949219088531800
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: sharedMaterial
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/vfx/sun/SunFlareMaterial.mat
+        SubAssetType: 0
+        SubPath: 
 --- !u!1 &4522039632555268765
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,6 +303,7 @@ GameObject:
   - component: {fileID: 4522039632555191072}
   - component: {fileID: 4522039632555190850}
   - component: {fileID: 4522039632555189829}
+  - component: {fileID: 1011564564}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
@@ -187,7 +318,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4522039632555268765}
-  m_LocalRotation: {x: 0.5056071, y: 0.07509593, z: -0.04423489, w: 0.8583504}
+  m_LocalRotation: {x: 0.50560707, y: 0.07509596, z: -0.044234905, w: 0.8583504}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -196,7 +327,7 @@ Transform:
   - {fileID: 4522039632555225008}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 61.000008, y: -10, z: -0.00000015407377}
+  m_LocalEulerAnglesHint: {x: 61, y: 10, z: 0}
 --- !u!108 &4522039632555185071
 Light:
   m_ObjectHideFlags: 0
@@ -289,7 +420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sunOcclusionCamera: {fileID: 4522039632555230855}
   sunFlareTransform: {fileID: 4522039632555225008}
-  sunFlareReplacementShader: {fileID: 4800000, guid: faa766e36f48d564a89c330496f94995, type: 3}
+  sunFlareReplacementShader: {fileID: 4800000, guid: 4ed1155d7573290428df30bf5cf79098, type: 3}
   sunRenderTexture: {fileID: 8400000, guid: c52cc711997521544b681f485bbf13bc, type: 2}
 --- !u!114 &4522039632555190850
 MonoBehaviour:
@@ -321,3 +452,106 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AmbientEnvLight: {r: 1, g: 0.96731913, b: 0.872, a: 1}
   AmbientEnvShadow: {r: 0, g: 0.14642622, b: 0.254717, a: 1}
+--- !u!114 &1011564564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522039632555268765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3f53950e5e641f459d8726da39a49ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+    rid: 2484949219088531781
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2484949219088531781
+      type: {class: VanillaAssetReferenceV2/SList_Components, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 2484949219088531782
+        items:
+        - rid: 2484949219088531783
+        - rid: 2484949219088531787
+    - rid: 2484949219088531782
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949219088531783
+        next:
+          rid: 2484949219088531788
+    - rid: 2484949219088531783
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 4522039632555185088}
+        fields:
+          rid: 2484949219088531784
+    - rid: 2484949219088531784
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 2484949219088531785
+        items:
+        - rid: 2484949219088531786
+    - rid: 2484949219088531785
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949219088531786
+        next:
+          rid: -2
+    - rid: 2484949219088531786
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: flare
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/vfx/Sun.flare
+        SubAssetType: 0
+        SubPath: 
+    - rid: 2484949219088531787
+      type: {class: ComponentEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Component: {fileID: 4522039632555191072}
+        fields:
+          rid: 2484949219088531789
+    - rid: 2484949219088531788
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949219088531787
+        next:
+          rid: -2
+    - rid: 2484949219088531789
+      type: {class: ComponentEntry/SList_FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        linkedList:
+          rid: 2484949219088531790
+        items:
+        - rid: 2484949219088531791
+    - rid: 2484949219088531790
+      type: {class: Node, ns: MapStation.Common.Serialization, asm: MapStation.Common}
+      data:
+        value:
+          rid: 2484949219088531791
+        next:
+          rid: -2
+    - rid: 2484949219088531791
+      type: {class: FieldEntry, ns: MapStation.Common.VanillaAssets, asm: MapStation.Common}
+      data:
+        Enabled: 1
+        AutoSync: 1
+        Name: sunRenderTexture
+        Index: -1
+        BundleName: common_assets
+        Path: Assets/common assets/vfx/sun/SunOcclusionTexture.renderTexture
+        SubAssetType: 0
+        SubPath: 

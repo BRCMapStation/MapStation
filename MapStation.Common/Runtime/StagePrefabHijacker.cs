@@ -45,7 +45,7 @@ namespace MapStation.Common {
             GameObject.Destroy(Prefabs.Parent);
         }
 
-        public static void Run() {
+        public static void RunOnHijackStage() {
             CleanUp();
 
             Prefabs = new StagePrefabs();
@@ -61,6 +61,10 @@ namespace MapStation.Common {
                 newToilet.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
                 Prefabs.Toilets.Add(newToilet);
             }
+        }
+
+        public static void RunOnCustomStage() {
+            // hello
         }
 
         public class StagePrefabs {
