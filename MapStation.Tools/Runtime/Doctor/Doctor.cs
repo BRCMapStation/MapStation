@@ -7,6 +7,7 @@ using Reptile;
 using UnityEngine.SceneManagement;
 using Unity.AI.Navigation;
 using Object = UnityEngine.Object;
+using System.Drawing;
 
 namespace MapStation.Common.Doctor {
     /// <summary>
@@ -14,26 +15,61 @@ namespace MapStation.Common.Doctor {
     /// </summary>
     public static class Doctor {
         public const string AboutMe = "The Doctor will analyze your map and list any problems, offering suggestions to fix them.";
-        
+
         public static Analysis Analyze() {
             var roots = SceneManager.GetActiveScene().GetRootGameObjects();
             return Analyze(roots);
         }
 
         public static Analysis Analyze(GameObject root) {
-            return Analyze(new[] {root});
+            return Analyze(new[] { root });
         }
 
-            private static List<T> GetComponentsInChildren<T>(this GameObject[] roots) {
-                List<T> results = new ();
-                foreach (var root in roots) {
-                    results.AddRange(root.GetComponentsInChildren<T>());
-                }
-                return results;
+        private static List<T> GetComponentsInChildren<T>(this GameObject[] roots) {
+            List<T> results = new();
+            foreach (var root in roots) {
+                results.AddRange(root.GetComponentsInChildren<T>());
             }
+            return results;
+        }
+
+        private static void CheckChunkStuff(Analysis a, GameObject[] roots) {
+            var chunkItems = new List<MonoBehaviour>();
+            chunkItems.AddRange(roots.GetComponentsInChildren<Junk>());
+            chunkItems.AddRange(roots.GetComponentsInChildren<StreetLifeCluster>());
+            foreach (var chunkItem in chunkItems) {
+                var chunk = chunkItem.GetComponentInParent<StageChunk>();
+                if (chunk == null)
+                    a.Add(Severity.Error, chunkItem, "Component not in Chunk", "This component is not inside of a Stage Chunk. This may crash the game.");
+            }
+        }
+
+        private static void CheckStreetLife(Analysis a, GameObject[] roots) {
+            var peds = roots.GetComponentsInChildren<Pedestrian>();
+            foreach (var ped in peds) {
+                var cluster = ped.GetComponentInParent<StreetLifeCluster>(true);
+                if (cluster == null)
+                    a.Add(Severity.Warning, ped, "Pedestrian not in StreetLifeCluster", "Pedestrian is not in a StreetLifeCluster, may not function properly.");
+            }
+        }
 
         public static Analysis Analyze(GameObject[] roots) {
             var a = new Analysis();
+
+            var playerSpawners = roots.GetComponentsInChildren<PlayerSpawner>();
+            var hasDefaultSpawner = false;
+            foreach (var spawner in playerSpawners) {
+                if (spawner.isDefaultSpawnPoint) {
+                    hasDefaultSpawner = true;
+                    break;
+                }
+            }
+
+            if (!hasDefaultSpawner)
+                a.Add(Severity.Warning, null, "Missing Default Player Spawn Point", "Map is missing a default player spawn point. Player will spawn at 0,0,0.");
+
+            CheckChunkStuff(a, roots);
+            CheckStreetLife(a, roots);
 
             var spawners = roots.GetComponentsInChildren<BasicEnemySpawner>();
 
@@ -41,9 +77,9 @@ namespace MapStation.Common.Doctor {
             var hasCopters = false;
             var hasTankwalkers = false;
 
-            foreach(var spawner in spawners) {
+            foreach (var spawner in spawners) {
                 if (spawner.spawnableEnemies == null) continue;
-                foreach(var enemy in spawner.spawnableEnemies) {
+                foreach (var enemy in spawner.spawnableEnemies) {
                     switch (enemy.name) {
                         case "ShieldCop":
                         case "SniperCop":
@@ -66,7 +102,7 @@ namespace MapStation.Common.Doctor {
             var hasCopterNav = false;
             var hasTankwalkerNav = false;
 
-            foreach(var navSurface in navSurfaces) {
+            foreach (var navSurface in navSurfaces) {
                 switch (navSurface.agentTypeID) {
                     case 0:
                         hasHumanoidNav = true;
@@ -126,7 +162,7 @@ namespace MapStation.Common.Doctor {
                 if (group.Count() > 1) {
                     // TODO support diagnostics w/multiple targets so all duplicates can be reported as one
                     foreach (var progressable in group) {
-                        a.Add(Severity.Error, progressable, "Duplicate Uid", 
+                        a.Add(Severity.Error, progressable, "Duplicate Uid",
                             $"Found {progressable.GetType().Name}.uid which is identical to one or more other progressables in this map. This may crash the game when the map loads. Ensure all UIDs are unique. UID={progressable.uid}"
                             );
                     }
@@ -170,7 +206,7 @@ namespace MapStation.Common.Doctor {
                     }
                 }
             }
-            
+
             // Should have exactly one sun
             var suns = roots.GetComponentsInChildren<SunFlareGPU>();
             if (suns.Count == 0) {
@@ -184,28 +220,26 @@ namespace MapStation.Common.Doctor {
 
             // Detect orphaned or empty Grind components
             var grindNodes = roots.GetComponentsInChildren<GrindNode>();
-            foreach(var grindNode in grindNodes) {
-                if(grindNode.grindLines.Find(l => l != null) == null) {
+            foreach (var grindNode in grindNodes) {
+                if (grindNode.grindLines.Find(l => l != null) == null) {
                     a.Add(Severity.Warning, grindNode, "Unattached Grind Node", "Grind Node is not attached to any grind lines, should probably be deleted.");
                 }
             }
             var grindLines = roots.GetComponentsInChildren<GrindLine>();
-            foreach(var grindLine in grindLines) {
-                if(grindLine.n0 == null || grindLine.n1 == null) {
+            foreach (var grindLine in grindLines) {
+                if (grindLine.n0 == null || grindLine.n1 == null) {
                     a.Add(Severity.Warning, grindLine, "Unattached Grind Line", "Grind Line is not attached to two Grind Nodes, should probably be deleted.");
                 }
             }
-            
+
             return a;
         }
 
-        private static readonly string[] VendingMachineAnimations = new[] {"none", "shake", "emptyShake", "close", "drop"};
-        
-        public static string GetGameObjectPath(GameObject obj)
-        {
+        private static readonly string[] VendingMachineAnimations = new[] { "none", "shake", "emptyShake", "close", "drop" };
+
+        public static string GetGameObjectPath(GameObject obj) {
             string path = "/" + obj.name;
-            while (obj.transform.parent != null)
-            {
+            while (obj.transform.parent != null) {
                 obj = obj.transform.parent.gameObject;
                 path = "/" + obj.name + path;
             }
@@ -214,15 +248,14 @@ namespace MapStation.Common.Doctor {
     }
 
     public class Analysis {
-        public readonly Dictionary<GameObject, List<Diagnostic>> gameObjects = new ();
-        public readonly List<Diagnostic> diagnostics = new ();
-        public readonly List<Diagnostic> diagnosticsWithoutTarget = new ();
-        public readonly Dictionary<Severity, int> countBySeverity = new ();
+        public readonly Dictionary<GameObject, List<Diagnostic>> gameObjects = new();
+        public readonly List<Diagnostic> diagnostics = new();
+        public readonly List<Diagnostic> diagnosticsWithoutTarget = new();
+        public readonly Dictionary<Severity, int> countBySeverity = new();
 
         public Analysis() {
-            foreach(var s in Enum.GetValues(typeof(Severity)))
-            {
-                countBySeverity.Add((Severity)s, 0);
+            foreach (var s in Enum.GetValues(typeof(Severity))) {
+                countBySeverity.Add((Severity) s, 0);
             }
         }
 
@@ -244,7 +277,7 @@ namespace MapStation.Common.Doctor {
 
         public void Log() {
             Debug.Log($"MapStation: Analysis found {diagnostics.Count} problems.");
-            foreach(var diagnostic in diagnostics) {
+            foreach (var diagnostic in diagnostics) {
                 var path = diagnostic.TargetPath;
                 var suffix = "";
                 if (path != null) suffix = $" (at {path})";

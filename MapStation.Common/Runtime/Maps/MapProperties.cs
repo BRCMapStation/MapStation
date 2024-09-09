@@ -58,7 +58,7 @@ namespace MapStation.Common {
         /// <summary>
         /// If true, you won't be able to gain heat in this map.
         /// </summary>
-        public bool disableCops = true;
+        public bool disableCops = false;
 
         /// <summary>
         /// If true, shadow distance will be forced to a value set by the map author. This is to avoid shadows fading out too close to the camera when there is no lightmapping.
