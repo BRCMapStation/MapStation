@@ -103,6 +103,7 @@ namespace MapStation.Common.Doctor {
             var hasTankwalkerNav = false;
 
             foreach (var navSurface in navSurfaces) {
+                if (navSurface.navMeshData == null) continue;
                 switch (navSurface.agentTypeID) {
                     case 0:
                         hasHumanoidNav = true;

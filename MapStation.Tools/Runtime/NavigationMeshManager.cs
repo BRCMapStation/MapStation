@@ -69,21 +69,15 @@ namespace MapStation.Tools.Runtime {
                 scenebbox.ExtrudeEdges(HelicopterOuterEdges);
                 _sceneBbox = scenebbox;
             }
-            Gizmos.color = new Color(0f, 0.5f, 1f, 0.5f);
+            Gizmos.color = Color.yellow;
+
 
             var bboxWidth = (_sceneBbox.Max.x - _sceneBbox.Min.x);
             var bboxHeight = (_sceneBbox.Max.z - _sceneBbox.Min.z);
             var bboxCenter = _sceneBbox.Min + new Vector3(bboxWidth * 0.5f, 0f, bboxHeight * 0.5f);
-            var bboxSize = new Vector3(bboxWidth, 0.1f, bboxHeight);
-
-            var lowBBoxLocation = bboxCenter;
-            var hiBBoxLocation = bboxCenter;
-
-            lowBBoxLocation.y = HelicopterMinHeight;
-            hiBBoxLocation.y = HelicopterMaxHeight;
-
-            Gizmos.DrawCube(lowBBoxLocation, bboxSize);
-            Gizmos.DrawCube(hiBBoxLocation, bboxSize);
+            bboxCenter.y = ((HelicopterMaxHeight - HelicopterMinHeight) * 0.5f) + HelicopterMinHeight;
+            var bboxSize = new Vector3(bboxWidth, (HelicopterMaxHeight - HelicopterMinHeight), bboxHeight);
+            Gizmos.DrawWireCube(bboxCenter, bboxSize);
         }
 
         public bool CanAlignCopterSpawners() {
