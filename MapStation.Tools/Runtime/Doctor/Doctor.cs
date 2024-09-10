@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using Unity.AI.Navigation;
 using Object = UnityEngine.Object;
 using System.Drawing;
+using MapStation.Common.Runtime;
 
 namespace MapStation.Common.Doctor {
     /// <summary>
@@ -55,6 +56,11 @@ namespace MapStation.Common.Doctor {
 
         public static Analysis Analyze(GameObject[] roots, MapProperties mapProperties) {
             var a = new Analysis();
+
+            var cameraOverrides = roots.GetComponentsInChildren<MapStationCameraOverride>();
+            if (cameraOverrides.Count > 1) {
+                a.Add(Severity.Warning, null, "Multiple Camera Overrides", "There are multiple Camera Overrides. Only one is supported.");
+            }
 
             var playerSpawners = roots.GetComponentsInChildren<PlayerSpawner>();
             var hasDefaultSpawner = false;

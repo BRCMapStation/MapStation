@@ -270,6 +270,11 @@ public class AddPrefabsToContextMenu {
         CreatePrefabUnderContext(menuCommand.context, "Police/Turret Spawner", true);
     }
 
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Camera Override", priority = Priority)]
+    private static void CreateCameraOverride(MenuCommand menuCommand) {
+        CreatePrefabUnderContext(menuCommand.context, "Camera Override", true, UnpackMode.UnpackRoot);
+    }
+
     private static GameObject CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true, UnpackMode unpackMode = UnpackMode.DontUnpack) {
         var assetPath = PrefabPathPrefix + PrefabName + ".prefab";
         var prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);

@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 namespace MapStation.Common.Runtime {
+    [RequireComponent(typeof(Camera))]
     public class MapStationCameraOverride : MonoBehaviour {
         public static MapStationCameraOverride Instance { get; private set; } = null;
         public bool AlsoAffectPhoneCamera = true;
@@ -21,6 +22,9 @@ namespace MapStation.Common.Runtime {
             _layer = GetComponent<PostProcessLayer>();
             if (_layer != null)
                 _layer.enabled = false;
+            var audioListener = GetComponent<AudioListener>();
+            if (audioListener != null)
+                audioListener.enabled = false;
         }
 
         private void OnDestroy() {
