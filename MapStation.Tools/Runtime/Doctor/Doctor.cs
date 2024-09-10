@@ -41,7 +41,7 @@ namespace MapStation.Common.Doctor {
             foreach (var chunkItem in chunkItems) {
                 var chunk = chunkItem.GetComponentInParent<StageChunk>();
                 if (chunk == null)
-                    a.Add(Severity.Error, chunkItem, "Component not in Chunk", "This component is not inside of a Stage Chunk. This may crash the game.");
+                    a.Add(Severity.Warning, chunkItem, "Component not in Chunk", "This component is not inside of a Stage Chunk. It might not work fully.");
             }
         }
 
