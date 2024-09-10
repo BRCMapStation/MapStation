@@ -66,6 +66,10 @@
       <HintPath>$(ManagedPath)/Unity.AI.Navigation.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime">
+      <HintPath>$(ManagedPath)/Unity.Postprocessing.Runtime.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
   
   <Target Name="CopyToPluginBuild" AfterTargets="PostBuildEvent" Condition="'' != '$(LocalPluginBuild)'">
