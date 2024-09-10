@@ -152,8 +152,10 @@ namespace MapStation.Tools.Runtime {
                         builder.Build();
                         var scene = EditorSceneManager.GetActiveScene();
                         builder.Mesh.name = "CopterNavMesh";
-                        var meshPath = Path.Combine(Path.GetDirectoryName(scene.path), Path.GetFileNameWithoutExtension(scene.path), "_Auto_CopterNavMesh.asset");
+                        var meshDirectory = Path.Combine(Path.GetDirectoryName(scene.path), Path.GetFileNameWithoutExtension(scene.path));
+                        var meshPath = Path.Combine(meshDirectory, "_Auto_CopterNavMesh.asset");
                         copterMeshCollider.sharedMesh = builder.Mesh;
+                        Directory.CreateDirectory(meshDirectory);
                         AssetDatabase.CreateAsset(builder.Mesh, meshPath);
                         AssetDatabase.Refresh();
                         copterCollider.SetActive(true);
