@@ -9,6 +9,11 @@
       We can also zip this for ThunderStore.
     -->
     <LocalPluginBuild Condition="'' != '$(SolutionDir)'">$(SolutionDir)/Build/MapStation.Plugin.$(Configuration)</LocalPluginBuild>
+    <!--
+      .csproj's reference DLLs from your Editor project.
+      This is usually <root>/MapStation.Editor but can be overridden if including MapStation as a submodule in another project.
+    -->
+    <EditorProjectDir>$(SolutionDir)\MapStation.Editor</EditorProjectDir>
 
     <!-- Always define MAPSTATION -->
     <DefineConstants>$(DefineConstants);MAPSTATION</DefineConstants>
@@ -35,4 +40,8 @@
     <!-- Conditional compilation for our BepInEx plugin, excluded from Unity Editor, can refer to TeamReptile Assembly-CSharp stuff -->
     <DefineConstants>$(DefineConstants);BEPINEX</DefineConstants>
   </PropertyGroup>
+  
+  <!-- Hook for projects which include Mapstation as a submodule -->
+  <!-- If your solution has a <root>/MapStation.Build.props file, it will be applied here -->
+  <Import Project="$(SolutionDir)\MapStation.Build.props" Condition="Exists('$(SolutionDir)\MapStation.Build.props')" />
 </Project>
