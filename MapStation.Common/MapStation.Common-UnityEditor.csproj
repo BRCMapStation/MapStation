@@ -27,10 +27,6 @@
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.IO.Compression" />
-  </ItemGroup>
-
   <!-- Above this line: should match MapStation.Common.csproj -->
   <!-- Below this line: things copied from Unity's generated .csproj -->
 
@@ -914,27 +910,30 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.EditorCoroutines.Editor">
-      <HintPath>..\MapStation.Editor\Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
+      <HintPath>$(EditorProjectDir)\Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core">
-      <HintPath>..\MapStation.Editor\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
+      <HintPath>$(EditorProjectDir)\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime">
+      <HintPath>$(EditorProjectDir)\Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>..\MapStation.Editor\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+      <HintPath>$(EditorProjectDir)\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\MapStation.Editor\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+      <HintPath>$(EditorProjectDir)\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>..\MapStation.Editor\Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>$(EditorProjectDir)\Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.TestRunner">
-      <HintPath>..\MapStation.Editor\Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
+      <HintPath>$(EditorProjectDir)\Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

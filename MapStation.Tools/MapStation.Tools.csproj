@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <AssemblyName>MapStation.Tools</AssemblyName>
     <Description></Description>
     <Version>1.0.0</Version>
@@ -393,10 +393,11 @@
       <HintPath>$(UnityEditorDataDir)\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <!-- <Reference Include="EasyDecal.Runtime">
-      <HintPath>Assets\EasyDecal.Runtime.dll</HintPath>
+    <Reference Include="EasyDecal.Runtime">
+      <HintPath>$(EditorProjectDir)\Assets\EasyDecal.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <!--
     <Reference Include="Unity.VisualScripting.YamlDotNet">
       <HintPath>Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll</HintPath>
       <Private>False</Private>
