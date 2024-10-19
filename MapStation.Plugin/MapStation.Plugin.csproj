@@ -30,12 +30,14 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\libs\SlopCrewClient\SlopCrewClient\SlopCrewClient.csproj" Private="false" IncludeAssets="compile" />
-
-    <ProjectReference Include="..\MapStation.API\MapStation.API.csproj" />
-    <ProjectReference Include="..\MapStation.Common\MapStation.Common.csproj" />
-    <ProjectReference Include="..\TypeForwarder\TypeForwarder.csproj" />
-    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" Private="false" />
+    <!-- Third-party dependencies, come from thunderstore, do not bundle in plugin zip! -->
+    <ProjectReference Include="..\libs\SlopCrewClient\SlopCrewClient\SlopCrewClient.csproj" Private="false" PrivateAssets="all" />
+    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" Private="false" PrivateAssets="all" />
+    
+    <!-- MapStation dependencies, bundled in plugin zip -->
+    <ProjectReference Include="..\MapStation.API\MapStation.API.csproj" Private="true" PrivateAssets="all" />
+    <ProjectReference Include="..\MapStation.Common\MapStation.Common.csproj" Private="true" PrivateAssets="all" />
+    <ProjectReference Include="..\TypeForwarder\TypeForwarder.csproj" Private="true" PrivateAssets="all" />
   </ItemGroup>
 
   <!--
