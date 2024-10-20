@@ -16,7 +16,7 @@
         "$(Pdb2mdbPath)" "@(IntermediateAssembly)"
       </_Cmd>
     </PropertyGroup>
-    <Exec Command="$(_Cmd)" />
+    <Exec Command="$(_Cmd)" Condition="Exists('@(IntermediateAssembly)')" />
   </Target>
   
   <!-- Tell MSBuild to copy the .mdb to downstream projects -->
