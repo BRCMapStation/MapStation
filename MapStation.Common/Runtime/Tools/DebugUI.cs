@@ -32,6 +32,9 @@ namespace MapStation.Common {
         public void RegisterMenu(DebugMenu menu) {
             debugMenus.Add(menu);
         }
+        public void RemoveMenu(DebugMenu menu) {
+            debugMenus.Remove(menu);
+        }
 
         private void OnGUI () {
             var width = show && currentDebugMenu != null && currentDebugMenu.Width.HasValue ? currentDebugMenu.Width.Value : DefaultWidth;
