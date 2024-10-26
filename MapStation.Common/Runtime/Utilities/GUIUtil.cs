@@ -144,19 +144,21 @@ namespace cspotcode.UnityGUI {
                 GUILayout.EndHorizontal();
             }
         }
-        public static IDisposable Indent(int increment = 1, bool apply = false) {
+        public static IDisposable Indent(int increment = 1, bool apply = false, bool nativeEditorGuiIndent = true) {
 #if UNITY_EDITOR
-            var indentScope = new EditorGUI.IndentLevelScope(increment);
+            EditorGUI.IndentLevelScope indentScope = null;
+            if (nativeEditorGuiIndent) {
+                indentScope = new EditorGUI.IndentLevelScope(increment);
+            }
 #else
             indentLevel += increment;
             var indentScope = new IndentDisposable(increment);
 #endif
+            IDisposable applyIndentScope = null;
             if (apply) {
-                var applyIndentScope = ApplyIndent();
-                return new CompositeDisposable(applyIndentScope, indentScope);
-            } else {
-                return indentScope;
+                applyIndentScope = ApplyIndent(nativeEditorGuiIndent ? 0 : increment);
             }
+            return new CompositeDisposable(applyIndentScope, indentScope);
         }
         private const int PixelsPerIndentLevel = 15;
 
@@ -166,11 +168,11 @@ namespace cspotcode.UnityGUI {
         /// 
         /// Don't wrap EditorGUILayout stuff, cuz it'll be double-indented!
         /// </summary>
-        public static IDisposable ApplyIndent() {
+        public static IDisposable ApplyIndent(int offset = 0) {
             GUILayout.BeginHorizontal();
             // Don't use GUILayout.Space()
             // This Label trick enforces a fixed indentation, it doesn't wiggle around as contents change.
-            GUILayout.Label("", GUILayout.Width(PixelsPerIndentLevel * indentLevel), GUILayout.ExpandWidth(false));
+            GUILayout.Label("", GUILayout.Width(PixelsPerIndentLevel * (indentLevel + offset)), GUILayout.ExpandWidth(false));
             GUILayout.BeginVertical(GUILayout.ExpandWidth(false));
             return EndApplyIndent;
         }
@@ -202,7 +204,7 @@ namespace cspotcode.UnityGUI {
         }
         public void Dispose() {
             foreach (var d in disposables) {
-                d.Dispose();
+                d?.Dispose();
             }
         }
     }
