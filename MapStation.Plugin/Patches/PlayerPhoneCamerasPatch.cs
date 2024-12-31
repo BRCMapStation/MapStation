@@ -17,6 +17,7 @@ namespace MapStation.Plugin.Patches {
         private static void Awake_Postfix(PlayerPhoneCameras __instance) {
             var cameraOverride = MapStationCameraOverride.Instance;
             if (cameraOverride == null) return;
+            if (!cameraOverride.gameObject.activeInHierarchy) return;
             if (!cameraOverride.AlsoAffectPhoneCamera) return;
             var cams = __instance.GetComponentsInChildren<Camera>();
             foreach(var cam in cams) {

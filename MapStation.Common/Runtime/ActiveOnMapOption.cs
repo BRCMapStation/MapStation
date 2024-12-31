@@ -14,5 +14,37 @@ namespace MapStation.Common.Runtime {
         public FilterModes FilterMode = FilterModes.OptionMatches;
         public string OptionName;
         public string[] OptionValues;
+
+        private void Awake() {
+            MapOptions.OnMapOptionsChanged += UpdateActivation;
+            UpdateActivation();
+        }
+
+        private void Start() {
+            UpdateActivation();
+        }
+
+        private void UpdateActivation() {
+            var mapOptions = LoadedMapOptions.GetCurrentMapOptions?.Invoke();
+            if (mapOptions == null) return;
+            if (ShouldActivate(mapOptions))
+                gameObject.SetActive(true);
+            else
+                gameObject.SetActive(false);
+        }
+
+        private bool ShouldActivate(LoadedMapOptions mapOptions) {
+            var matches = MatchesMapOptions(mapOptions);
+            if (matches)
+                return FilterMode == FilterModes.OptionMatches;
+            else
+                return FilterMode == FilterModes.OptionDoesntMatch;
+        }
+
+        private bool MatchesMapOptions(LoadedMapOptions mapOptions) {
+            if (mapOptions.OptionMatches(OptionName, OptionValues))
+                return true;
+            return false;
+        }
     }
 }

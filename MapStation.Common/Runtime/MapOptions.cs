@@ -7,6 +7,15 @@ using UnityEngine;
 
 namespace MapStation.Common.Runtime {
     public class MapOptions : MonoBehaviour {
+        public static MapOptions Instance {
+            get {
+                if (_instance != null) return _instance;
+                _instance = FindObjectOfType<MapOptions>();
+                return _instance;
+            }
+        }
+        private static MapOptions _instance;
+        public static Action OnMapOptionsChanged;
         public MapOption[] Options;
 
         [Serializable]
@@ -17,6 +26,14 @@ namespace MapStation.Common.Runtime {
             public string DefaultValue;
             public string[] PossibleValues;
             public Camera PreviewCamera;
+        }
+
+        public string GetDefaultOption(string optionName) {
+            foreach(var option in Options) {
+                if (option.Name == optionName)
+                    return option.DefaultValue;
+            }
+            return string.Empty;
         }
     }
 }

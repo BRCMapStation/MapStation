@@ -59,6 +59,8 @@ namespace MapStation.Plugin
             SceneNameMapper.Instance = new SceneNameMapper();
             ZipAssetBundles.Instance = new ZipAssetBundles();
             StageProgresses.Instance = new StageProgresses();
+            MapSaveData.Instance = new MapSaveData();
+            LoadedMapOptions.GetCurrentMapOptions = MapSaveData.Instance.GetCurrentMapOptions;
 
             DebugUI.Create(MapStationConfig.Instance.DebugUI.Value);
             DebugUI.Instance.RegisterMenu(new BackToHideoutDebugUI());

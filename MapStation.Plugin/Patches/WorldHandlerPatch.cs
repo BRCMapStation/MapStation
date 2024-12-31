@@ -15,6 +15,7 @@ namespace MapStation.Plugin.Patches {
         [HarmonyPatch(nameof(WorldHandler.SetCurrentCamera))]
         private static void SetCurrentCamera_Postfix(Camera camera) {
             if (MapStationCameraOverride.Instance == null) return;
+            if (!MapStationCameraOverride.Instance.gameObject.activeInHierarchy) return;
             MapStationCameraOverride.Instance.ApplyToCamera(camera);
         }
     }
