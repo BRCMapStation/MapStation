@@ -6,6 +6,8 @@ using UnityEngine;
 /// map plays.
 [Serializable]
 public class GrindEditingPreferences {
+    public bool preventComboBreakingByDefault = true;
+
     [Range(GrindConstants.MinTriggerRadius, GrindConstants.MaxTriggerRadius)]
     public float defaultGrindTriggerRadius = GrindConstants.DefaultTriggerRadius;
 
