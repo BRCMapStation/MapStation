@@ -80,6 +80,7 @@ namespace MapStation.Plugin
             var phoneAppIcon = TextureUtility.LoadSprite(Path.Combine(pluginDirectory, "MapStation-AppIcon.png"));
             
             PhoneAPI.RegisterApp<AppMapStation>("mapstation", phoneAppIcon);
+            PhoneAPI.RegisterApp<AppMapOptions>("map options", phoneAppIcon);
 
             var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();

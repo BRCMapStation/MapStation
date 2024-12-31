@@ -24,6 +24,10 @@ namespace MapStation.Common.Runtime {
             UpdateActivation();
         }
 
+        private void OnDestroy() {
+            MapOptions.OnMapOptionsChanged -= UpdateActivation;
+        }
+
         private void UpdateActivation() {
             var mapOptions = LoadedMapOptions.GetCurrentMapOptions?.Invoke();
             if (mapOptions == null) return;

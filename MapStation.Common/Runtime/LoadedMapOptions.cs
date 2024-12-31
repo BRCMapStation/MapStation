@@ -18,6 +18,19 @@ namespace MapStation.Common.Runtime {
             }
         }
 
+        public void Sanitize() {
+            var mapOptions = MapOptions.Instance;
+            if (mapOptions == null) return;
+            foreach (var loadedoption in Options) {
+                foreach(var option in mapOptions.Options) {
+                    if (option.Name == loadedoption.Key) {
+                        if (!option.PossibleValues.Contains(loadedoption.Value))
+                            Options[loadedoption.Key] = option.DefaultValue;
+                    }
+                }
+            }
+        }
+
         public string GetOption(string optionName) {
             if (Options.TryGetValue(optionName, out var result))
                 return result;
