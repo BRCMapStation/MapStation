@@ -20,6 +20,7 @@ namespace MapStation.Plugin.Patches {
             var player = __instance.p;
             var mpPlayer = MapStationPlayer.Get(player);
             if (mpPlayer.OnVertGround || mpPlayer.OnVertAir || mpPlayer.HasVertBelow) {
+                mpPlayer.AirVertEnd();
                 player.OrientVisualInstantReset();
             }
         }
