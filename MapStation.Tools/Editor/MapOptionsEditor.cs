@@ -8,6 +8,7 @@ using cspotcode.UnityGUI;
 [CustomEditor(typeof(MapOptions))]
 public class MapOptionsEditor : Editor {
     public override void OnInspectorGUI() {
+        var isInvalid = false;
         EditorHelper.MakeDocsButton("Map-Options");
         var options = serializedObject.FindProperty(nameof(MapOptions.Options));
         var size = options.arraySize;
@@ -38,7 +39,7 @@ public class MapOptionsEditor : Editor {
             }
             GUILayout.Label("Default value");
             var possibleValuesArray = new string[possibleValuesCount + 1];
-            possibleValuesArray[0] = "Invalid";
+            possibleValuesArray[0] = "INVALID";
             for(var n = 0; n < possibleValuesCount; n++) {
                 possibleValuesArray[n + 1] = possibleValues.GetArrayElementAtIndex(n).stringValue;
             }
@@ -51,6 +52,8 @@ public class MapOptionsEditor : Editor {
                     break;
                 }
             }
+            if (currentIndex == 0)
+                isInvalid = true;
             var newIndex = EditorGUILayout.Popup(currentIndex, possibleValuesArray);
             if (newIndex != currentIndex) {
                 defValue.stringValue = possibleValuesArray[newIndex];
@@ -78,6 +81,8 @@ public class MapOptionsEditor : Editor {
             serializedObject.ApplyModifiedProperties();
             return;
         }
+        if (isInvalid)
+            EditorGUILayout.HelpBox("There are one or more invalid values.", MessageType.Warning);
         serializedObject.ApplyModifiedProperties();
     }
 }

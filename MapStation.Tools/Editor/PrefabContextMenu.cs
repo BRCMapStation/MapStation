@@ -1,3 +1,4 @@
+using MapStation.Common.Runtime;
 using MapStation.Tools.Runtime;
 using System.Collections;
 using System.Collections.Generic;
@@ -273,6 +274,17 @@ public class AddPrefabsToContextMenu {
     [MenuItem("GameObject/" + UIConstants.menuLabel + "/Camera Override", priority = Priority)]
     private static void CreateCameraOverride(MenuCommand menuCommand) {
         CreatePrefabUnderContext(menuCommand.context, "Camera Override", true, UnpackMode.UnpackRoot);
+    }
+
+    [MenuItem("GameObject/" + UIConstants.menuLabel + "/Map Options", priority = Priority)]
+    private static void CreateMapOptions(MenuCommand menuCommand) {
+        var existingMapOps = GameObject.FindObjectOfType<MapOptions>();
+        if (existingMapOps == null) {
+            var instance = CreatePrefabUnderContext(menuCommand.context, "Map Options", true, UnpackMode.UnpackRoot);
+            instance.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        } else {
+            EditorUtility.DisplayDialog("Error", "Can't create a new MapOptions as there already is one in the current scene.", "OK");
+        }
     }
 
     private static GameObject CreatePrefabUnderContext(Object context, string PrefabName, bool supportUndo = true, UnpackMode unpackMode = UnpackMode.DontUnpack) {
