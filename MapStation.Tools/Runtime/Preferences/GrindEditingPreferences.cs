@@ -1,3 +1,4 @@
+using MapStation.Common;
 using System;
 using UnityEngine;
 
@@ -5,6 +6,9 @@ using UnityEngine;
 /// map plays.
 [Serializable]
 public class GrindEditingPreferences {
+    [Range(GrindConstants.MinTriggerRadius, GrindConstants.MaxTriggerRadius)]
+    public float defaultGrindTriggerRadius = GrindConstants.DefaultTriggerRadius;
+
     [Header("Length of character posture direction gizmo")]
     public float nodePostureDirectionGizmoLength = 1;
 

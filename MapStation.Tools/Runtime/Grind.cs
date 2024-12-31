@@ -34,9 +34,8 @@ namespace MapStation.Components {
         [SerializeField]
         public GrindPath GrindPath;
 
-        public const float OriginalTriggerRadius = 0.28f;
-        [Range(0.1f, 0.5f)]
-        public float TriggerRadius = OriginalTriggerRadius;
+        [Range(GrindConstants.MinTriggerRadius, GrindConstants.MaxTriggerRadius)]
+        public float TriggerRadius = GrindConstants.DefaultTriggerRadius;
 
         [NonReorderable]
         public List<GrindNode> nodes = new();
@@ -145,6 +144,7 @@ namespace MapStation.Components {
             // breaking the prefab or prompting the user "children of a prefab instance cannot be deleted..."
             if(PrefabUtility.IsAnyPrefabInstanceRoot(gameObject)) {
                 PrefabUtility.UnpackPrefabInstance(gameObject, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+                TriggerRadius = Preferences.instance.grinds.defaultGrindTriggerRadius;
             }
         }
 

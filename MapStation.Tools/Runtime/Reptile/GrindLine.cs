@@ -1,3 +1,4 @@
+using MapStation.Common;
 using MapStation.Components;
 using UnityEditor;
 using UnityEngine;
@@ -152,7 +153,7 @@ namespace Reptile
 				// Seems silly but avoids log spam about SendMessage within `OnValidate`
 				if(base.gameObject.layer != 11) base.gameObject.layer = 11;
                 // HACK - this was calculated from the capsule collider radius but now that we can customize it I just use the original radius here.
-                component.height = vector.magnitude + Grind.OriginalTriggerRadius * 2f;
+                component.height = vector.magnitude + GrindConstants.DefaultTriggerRadius * 2f;
 			}
 		}
 
@@ -170,7 +171,7 @@ namespace Reptile
 				// Seems silly but avoids log spam about SendMessage within `OnValidate`
 				if(base.gameObject.layer != 11) base.gameObject.layer = 11;
                 // HACK - this was calculated from the capsule collider radius but now that we can customize it I just use the original radius here.
-				component.height = vector.magnitude + Grind.OriginalTriggerRadius * 2f;
+				component.height = vector.magnitude + GrindConstants.DefaultTriggerRadius * 2f;
 			}
 		}
 

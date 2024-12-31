@@ -1,6 +1,13 @@
 using System.IO;
 
 namespace MapStation.Common {
+
+    public class GrindConstants {
+        public const float MinTriggerRadius = 0.1f;
+        public const float MaxTriggerRadius = 0.5f;
+        public const float DefaultTriggerRadius = 0.28f;
+    }
+
     public class PathConstants {
         public const string MapFileExtension = ".brcmap";
         public const string ConfigDirectory = "MapStation";
