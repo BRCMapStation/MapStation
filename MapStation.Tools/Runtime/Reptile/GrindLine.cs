@@ -151,7 +151,8 @@ namespace Reptile
 				component.direction = 2;
 				// Seems silly but avoids log spam about SendMessage within `OnValidate`
 				if(base.gameObject.layer != 11) base.gameObject.layer = 11;
-				component.height = vector.magnitude + component.radius * 2f;
+                // HACK - this was calculated from the capsule collider radius but now that we can customize it I just use the original radius here.
+                component.height = vector.magnitude + Grind.OriginalTriggerRadius * 2f;
 			}
 		}
 
@@ -168,7 +169,8 @@ namespace Reptile
 				component.direction = 2;
 				// Seems silly but avoids log spam about SendMessage within `OnValidate`
 				if(base.gameObject.layer != 11) base.gameObject.layer = 11;
-				component.height = vector.magnitude + component.radius * 2f;
+                // HACK - this was calculated from the capsule collider radius but now that we can customize it I just use the original radius here.
+				component.height = vector.magnitude + Grind.OriginalTriggerRadius * 2f;
 			}
 		}
 

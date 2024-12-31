@@ -34,6 +34,10 @@ namespace MapStation.Components {
         [SerializeField]
         public GrindPath GrindPath;
 
+        public const float OriginalTriggerRadius = 0.28f;
+        [Range(0.1f, 0.5f)]
+        public float TriggerRadius = OriginalTriggerRadius;
+
         [NonReorderable]
         public List<GrindNode> nodes = new();
         [NonReorderable]
@@ -131,6 +135,10 @@ namespace MapStation.Components {
         }
 
         void OnValidate() {
+            var capsules = GetComponentsInChildren<CapsuleCollider>();
+            foreach(var capsule in capsules) {
+                capsule.radius = TriggerRadius;
+            }
             if(EditorUtility.IsPersistent(this) || MapBuilderStatus.IsBuilding) return;
             // Unpack prefab as soon as it's added to the scene.
             // This allows deleting the prefab's default 2x nodes and grindline without
