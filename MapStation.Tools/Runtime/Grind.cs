@@ -5,6 +5,7 @@ using UnityEditor;
 using System.Linq;
 using System;
 using MapStation.Common;
+using MapStation.Common.Gameplay;
 
 namespace MapStation.Components {
     [ExecuteInEditMode]
@@ -144,7 +145,19 @@ namespace MapStation.Components {
             // breaking the prefab or prompting the user "children of a prefab instance cannot be deleted..."
             if(PrefabUtility.IsAnyPrefabInstanceRoot(gameObject)) {
                 PrefabUtility.UnpackPrefabInstance(gameObject, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
-                TriggerRadius = Preferences.instance.grinds.defaultGrindTriggerRadius;
+                var grindPrefs = Preferences.instance.grinds;
+                TriggerRadius = grindPrefs.defaultGrindTriggerRadius;
+                if (grindPrefs.preventComboBreakingByDefault) {
+                    if (!GrindPath.GetComponent<GrindPath_FixComboBreakingProperty>()) {
+                        var comp = GrindPath.AddComponent<GrindPath_FixComboBreakingProperty>();
+                        comp.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy;
+                    }
+                }
+                else {
+                    var comp = GrindPath.GetComponent<GrindPath_FixComboBreakingProperty>();
+                    if (comp != null)
+                        DestroyImmediate(comp);
+                }
             }
         }
 
