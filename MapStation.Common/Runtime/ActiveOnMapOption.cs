@@ -8,10 +8,10 @@ using UnityEngine;
 namespace MapStation.Common.Runtime {
     public class ActiveOnMapOption : MonoBehaviour {
         public enum FilterModes {
-            OptionMatches,
-            OptionDoesntMatch
+            OptionMatchesAnyValue,
+            OptionDoesntMatchAnyValue
         }
-        public FilterModes FilterMode = FilterModes.OptionMatches;
+        public FilterModes FilterMode = FilterModes.OptionMatchesAnyValue;
         public string OptionName;
         public string[] OptionValues;
 
@@ -36,9 +36,9 @@ namespace MapStation.Common.Runtime {
         private bool ShouldActivate(LoadedMapOptions mapOptions) {
             var matches = MatchesMapOptions(mapOptions);
             if (matches)
-                return FilterMode == FilterModes.OptionMatches;
+                return FilterMode == FilterModes.OptionMatchesAnyValue;
             else
-                return FilterMode == FilterModes.OptionDoesntMatch;
+                return FilterMode == FilterModes.OptionDoesntMatchAnyValue;
         }
 
         private bool MatchesMapOptions(LoadedMapOptions mapOptions) {

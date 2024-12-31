@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MapStation.Common.Runtime {
     public class LoadedMapOptions {
-        public Dictionary<string, string> Options;
+        public Dictionary<string, string> Options = new();
         public static Func<LoadedMapOptions> GetCurrentMapOptions;
 
         public void MakeDefault() {
