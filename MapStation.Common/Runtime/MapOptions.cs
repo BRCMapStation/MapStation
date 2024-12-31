@@ -25,6 +25,7 @@ namespace MapStation.Common.Runtime {
             public string Description;
             public string DefaultValue;
             public string[] PossibleValues;
+            [Tooltip("Camera shown when previewing the map option in-game.")]
             public Camera PreviewCamera;
         }
 
