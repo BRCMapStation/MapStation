@@ -1,4 +1,5 @@
 using MapStation.Common.Gameplay;
+using MapStation.Components;
 using Reptile;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,16 @@ using UnityEngine;
 
 public static class MapActions
 {
+    [MenuItem(UIConstants.menuLabel + "/" + UIConstants.mapactionsSubmenuLabel + "/" + "Sync All Grind Trigger Radiuses to Preference", priority = (int) UIConstants.MenuOrder.MAP_ACTIONS)]
+    private static void SyncGrindRadiuses() {
+        var grinds = GameObject.FindObjectsOfType<Grind>(true);
+        foreach (var grind in grinds) {
+            var serialized = new SerializedObject(grind);
+            serialized.FindProperty(nameof(Grind.TriggerRadius)).floatValue = Preferences.instance.grinds.defaultGrindTriggerRadius;
+            serialized.ApplyModifiedProperties();
+        }
+    }
+
     [MenuItem(UIConstants.menuLabel + "/" + UIConstants.mapactionsSubmenuLabel + "/" + "Make All Grinds Unable to Break Combo", priority = (int) UIConstants.MenuOrder.MAP_ACTIONS)]
     private static void MakeAllGrindsNotBreakCombo() {
         var grindPaths = GameObject.FindObjectsOfType<GrindPath>(true);
