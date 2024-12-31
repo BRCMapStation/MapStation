@@ -149,7 +149,7 @@ namespace MapStation.Components {
                 TriggerRadius = grindPrefs.defaultGrindTriggerRadius;
                 if (grindPrefs.preventComboBreakingByDefault) {
                     if (!GrindPath.GetComponent<GrindPath_FixComboBreakingProperty>()) {
-                        var comp = GrindPath.AddComponent<GrindPath_FixComboBreakingProperty>();
+                        var comp = GrindPath.gameObject.AddComponent<GrindPath_FixComboBreakingProperty>();
                         comp.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy;
                     }
                 }
