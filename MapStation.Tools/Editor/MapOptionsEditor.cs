@@ -4,6 +4,7 @@ using MapStation.Components;
 using MapStation.Tools.Editor;
 using MapStation.Common.Runtime;
 using cspotcode.UnityGUI;
+using Reptile;
 
 [CustomEditor(typeof(MapOptions))]
 public class MapOptionsEditor : Editor {
@@ -16,6 +17,14 @@ public class MapOptionsEditor : Editor {
             var elem = options.GetArrayElementAtIndex(i);
             GUILayout.BeginVertical(GUI.skin.box);
             elem.FindPropertyRelative(nameof(MapOptions.MapOption.Name)).Draw();
+            var previewCamProp = elem.FindPropertyRelative(nameof(MapOptions.MapOption.PreviewCamera));
+            var previewCamValue = previewCamProp.objectReferenceValue;
+            if (previewCamValue != null && previewCamValue is Camera) {
+                if ((previewCamValue as Camera).gameObject.GetComponent<CameraRegisterer>() == null) {
+                    EditorGUILayout.HelpBox("Camera lacks a Camera Registerer component.", MessageType.Warning);
+                }
+            }
+            previewCamProp.Draw();
             elem.FindPropertyRelative(nameof(MapOptions.MapOption.Description)).Draw();
             EditorGUILayout.Separator();
             GUILayout.Label("Possible values");
@@ -71,6 +80,7 @@ public class MapOptionsEditor : Editor {
             var newelem = options.GetArrayElementAtIndex(size);
             newelem.FindPropertyRelative(nameof(MapOptions.MapOption.Name)).stringValue = "New Option";
             newelem.FindPropertyRelative(nameof(MapOptions.MapOption.Description)).stringValue = "";
+            newelem.FindPropertyRelative(nameof(MapOptions.MapOption.PreviewCamera)).objectReferenceValue = null;
             var posValuesProp = newelem.FindPropertyRelative(nameof(MapOptions.MapOption.PossibleValues));
             posValuesProp.ClearArray();
             posValuesProp.InsertArrayElementAtIndex(0);
