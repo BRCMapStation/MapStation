@@ -11,7 +11,6 @@ namespace MapStation.Common.Runtime {
 
         [Serializable]
         public class MapOption {
-            public string ID;
             public string Name;
             [TextArea(5,5)]
             public string Description;
