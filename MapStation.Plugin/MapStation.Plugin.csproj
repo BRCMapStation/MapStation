@@ -72,6 +72,10 @@
       <HintPath>$(ManagedPath)/Unity.Postprocessing.Runtime.dll</HintPath>
       <Private>false</Private>
     </Reference>
+  <Reference Include="UnityEngine.UI">
+      <HintPath>$(ManagedPath)/UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
   
   <Target Name="CopyToPluginBuild" AfterTargets="PostBuildEvent" Condition="'' != '$(LocalPluginBuild)'">

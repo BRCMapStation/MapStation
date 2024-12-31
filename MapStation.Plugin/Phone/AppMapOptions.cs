@@ -42,16 +42,39 @@ namespace MapStation.Plugin.Phone {
         public override void OnAppUpdate() {
             base.OnAppUpdate();
             UpdateCamera();
+            UpdateDesc();
         }
 
         public override void OnAppDisable() {
             base.OnAppDisable();
             DisableCamera();
+            MapOptionDescriptionUI.Instance.gameObject.SetActive(false);
         }
 
         public override void OnAppTerminate() {
             base.OnAppTerminate();
             DisableCamera();
+            MapOptionDescriptionUI.Instance.gameObject.SetActive(false);
+        }
+
+        private void UpdateDesc() {
+            var descUi = MapOptionDescriptionUI.Instance;
+            var currentButton = ScrollView.Buttons[ScrollView.SelectedIndex];
+            foreach (var buttonByOption in _buttonByOptionName) {
+                if (buttonByOption.Value == currentButton) {
+                    var mapOptions = MapOptions.Instance;
+                    foreach (var mapOption in mapOptions.Options) {
+                        if (mapOption.Name == buttonByOption.Key) {
+                            descUi.gameObject.SetActive(true);
+                            descUi.SetText(mapOption.Description);
+                            return;
+                        }
+                    }
+                    descUi.gameObject.SetActive(false);
+                    return;
+                }
+            }
+            descUi.gameObject.SetActive(false);
         }
 
         private void UpdateCamera() {

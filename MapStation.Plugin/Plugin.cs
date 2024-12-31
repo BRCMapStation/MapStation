@@ -92,6 +92,7 @@ namespace MapStation.Plugin
             StageAPI.OnStagePreInitialization += MapRepair.OnStagePreInitialization;
             StageAPI.OnStagePreInitialization += MapOverrides.OnStagePreInitialization;
             StageAPI.OnStagePreInitialization += EnableDebugFeaturesOnStageInit;
+            StageAPI.OnStagePreInitialization += CreateMapOptionDescription;
 
             KBMInputDisabler.Init(MapStationConfig.Instance.DisableKBMInputValue, MapStationConfig.Instance.DisableKBMInputKeyValue, ref UpdateEvent, ref LateUpdateEvent);
             
@@ -143,6 +144,10 @@ namespace MapStation.Plugin
                     Core.Instance.BaseModule.StageManager.ExitCurrentStage(Core.Instance.SaveManager.CurrentSaveSlot.currentStageProgress.stageID);
                 }
             }
+        }
+
+        private void CreateMapOptionDescription(Stage newStage, Stage previousStage) {
+            MapOptionDescriptionUI.Create();
         }
 
         private void EnableDebugFeaturesOnStageInit(Stage newStage, Stage previousStage) {
