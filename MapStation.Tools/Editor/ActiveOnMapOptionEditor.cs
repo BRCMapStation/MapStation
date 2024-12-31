@@ -12,7 +12,7 @@ public class ActiveOnMapOptionEditor : Editor {
     public override void OnInspectorGUI() {
         EditorGUILayout.HelpBox("Conditionally activate this GameObject depending on a Map Option.", MessageType.Info);
         var isInvalid = false;
-        EditorHelper.MakeDocsButton("Map-Options");
+        EditorHelper.MakeDocsButton("Map-Options#toggling-gameobjects");
         EditorGUILayout.Separator();
         var mapOptions = MapOptions.Instance;
         var hasMapOptions = false;
