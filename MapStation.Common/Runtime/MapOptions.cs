@@ -29,6 +29,10 @@ namespace MapStation.Common.Runtime {
             public Camera PreviewCamera;
         }
 
+        private void Awake() {
+            _instance = this;
+        }
+
         public string GetDefaultOption(string optionName) {
             foreach(var option in Options) {
                 if (option.Name == optionName)
