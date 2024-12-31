@@ -67,6 +67,10 @@ namespace MapStation.Plugin.Gameplay {
             Core.OnFixedUpdate += OnFixedUpdate;
         }
 
+        public bool HoldingVertGrindButton() {
+            return ReptilePlayer.trick1ButtonHeld || ReptilePlayer.trick1ButtonNew;
+        }
+
         /// <summary>
         /// Called immediately after Reptile.Player.Init
         /// </summary>

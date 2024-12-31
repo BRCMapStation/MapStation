@@ -145,7 +145,7 @@ internal static class PlayerPatch {
     [HarmonyPatch(nameof(Player.CanStartGrind))]
     private static bool CanStartGrind_Prefix(Player __instance, ref bool __result) {
         var player = __instance;
-        if (player.jumpButtonHeld || player.jumpButtonNew || player.jumpRequested) return true;
+        if (MapStationPlayer.Get(__instance).HoldingVertGrindButton()) return true;
         var mpPlayer = MapStationPlayer.Get(player);
         if (mpPlayer.OnVertAir) {
             __result = false;
