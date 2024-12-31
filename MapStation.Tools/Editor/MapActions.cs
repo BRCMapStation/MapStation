@@ -11,8 +11,10 @@ public static class MapActions
     private static void MakeAllGrindsNotBreakCombo() {
         var grindPaths = GameObject.FindObjectsOfType<GrindPath>(true);
         foreach (var grindPath in grindPaths) {
-            if (!grindPath.gameObject.GetComponent<GrindPath_FixComboBreakingProperty>())
-                Undo.AddComponent<GrindPath_FixComboBreakingProperty>(grindPath.gameObject);
+            if (!grindPath.gameObject.GetComponent<GrindPath_FixComboBreakingProperty>()) {
+                var comp = Undo.AddComponent<GrindPath_FixComboBreakingProperty>(grindPath.gameObject);
+                comp.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy;
+            }
         }
     }
 
