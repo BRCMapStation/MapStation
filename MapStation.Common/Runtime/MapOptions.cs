@@ -36,5 +36,12 @@ namespace MapStation.Common.Runtime {
             }
             return string.Empty;
         }
+
+        public static void OnStageInitialized() {
+            var mapOptions = GameObject.FindObjectsOfType<ActiveOnMapOption>(true);
+            foreach(var mapOption in mapOptions) {
+                mapOption.Initialize();
+            }
+        }
     }
 }

@@ -15,12 +15,8 @@ namespace MapStation.Common.Runtime {
         public string OptionName;
         public string[] OptionValues;
 
-        private void Awake() {
+        public void Initialize() {
             MapOptions.OnMapOptionsChanged += UpdateActivation;
-            UpdateActivation();
-        }
-
-        private void Start() {
             UpdateActivation();
         }
 
