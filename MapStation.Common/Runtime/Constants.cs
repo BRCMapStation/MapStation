@@ -4,7 +4,7 @@ namespace MapStation.Common {
 
     public class GrindConstants {
         public const float MinTriggerRadius = 0.0f;
-        public const float MaxTriggerRadius = 0.5f;
+        public const float MaxTriggerRadius = 2.0f;
         public const float DefaultTriggerRadius = 0.28f;
     }
 
