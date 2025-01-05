@@ -8,16 +8,11 @@ namespace MapStation.Plugin.Patches;
 
 [HarmonyPatch(typeof(Player))]
 internal static class PlayerPatch {
-    [HarmonyPrefix]
-    [HarmonyPatch(nameof(Player.Awake))]
-    private static void Awake_Prefix(Player __instance) {
-        __instance.gameObject.AddComponent<MapStationPlayer>();
-    }
-
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Player.Init))]
     private static void Init_Postfix(Player __instance) {
         KBMInputDisabler.Apply();
+        __instance.gameObject.AddComponent<MapStationPlayer>();
         MapStationPlayer.Get(__instance).Init();
     }
 
