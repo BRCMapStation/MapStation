@@ -17,6 +17,7 @@ namespace MapStation.Common.Runtime {
         private static MapOptions _instance;
         public static Action OnMapOptionsChanged;
         public MapOption[] Options;
+        private static ActiveOnMapOption[] ActiveOnMapOptions = [];
 
         [Serializable]
         public class MapOption {
@@ -41,11 +42,16 @@ namespace MapStation.Common.Runtime {
             return string.Empty;
         }
 
-        public static void OnStageInitialized() {
-            var mapOptions = GameObject.FindObjectsOfType<ActiveOnMapOption>(true);
-            foreach(var mapOption in mapOptions) {
-                mapOption.Initialize();
+        public static void UpdateActiveOnMapOptions() {
+            foreach(var mapOption in ActiveOnMapOptions) {
+                if (mapOption == null) continue;
+                mapOption.UpdateActivation();
             }
+        }
+
+        public static void OnStageInitialized() {
+            ActiveOnMapOptions = GameObject.FindObjectsOfType<ActiveOnMapOption>(true);
+            UpdateActiveOnMapOptions();
         }
     }
 }

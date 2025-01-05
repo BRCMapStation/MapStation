@@ -65,7 +65,7 @@ namespace MapStation.Plugin.Phone {
         }
 
         private void UpdatePlayerFreeze() {
-            if (ScrollView.SelectedIndex > 0) {
+            if (_currentCamera != null) {
                 var player = WorldHandler.instance.currentPlayer;
                 if (!_onMapOptionSetting) {
                     _fixedPosition = player.transform.position;

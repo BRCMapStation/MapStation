@@ -15,16 +15,7 @@ namespace MapStation.Common.Runtime {
         public string OptionName;
         public string[] OptionValues;
 
-        public void Initialize() {
-            MapOptions.OnMapOptionsChanged += UpdateActivation;
-            UpdateActivation();
-        }
-
-        private void OnDestroy() {
-            MapOptions.OnMapOptionsChanged -= UpdateActivation;
-        }
-
-        private void UpdateActivation() {
+        public void UpdateActivation() {
             var mapOptions = LoadedMapOptions.GetCurrentMapOptions?.Invoke();
             if (mapOptions == null) return;
             if (ShouldActivate(mapOptions))

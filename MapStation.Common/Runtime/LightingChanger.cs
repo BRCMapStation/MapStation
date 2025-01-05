@@ -61,6 +61,13 @@ namespace MapStation.Common.Runtime {
             ambientManager.transform.rotation = transform.rotation;
             ambientManager.AmbientEnvLight = EnvLightColor;
             ambientManager.AmbientEnvShadow = EnvShadowColor;
+            if (ambientManager.curAmbientTrigger == null) {
+                ambientManager.currentDefaultAmbientEnvLight = EnvLightColor;
+                ambientManager.currentDefaultAmbientEnvShadow = EnvShadowColor;
+                ambientManager.curLight = EnvLightColor;
+                ambientManager.curShadow = EnvShadowColor;
+                ambientManager.RevertAmbient(0f);
+            }
         }
 
         private void OnDisable() {
@@ -71,6 +78,13 @@ namespace MapStation.Common.Runtime {
             ambientManager.transform.rotation = OldRotation;
             ambientManager.AmbientEnvLight = OldEnvLightColor;
             ambientManager.AmbientEnvShadow = OldEnvShadowColor;
+            if (ambientManager.curAmbientTrigger == null) {
+                ambientManager.currentDefaultAmbientEnvLight = OldEnvLightColor;
+                ambientManager.currentDefaultAmbientEnvShadow = OldEnvShadowColor;
+                ambientManager.curLight = OldEnvLightColor;
+                ambientManager.curShadow = OldEnvShadowColor;
+                ambientManager.RevertAmbient(0f);
+            }
         }
 #endif
     }

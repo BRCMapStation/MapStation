@@ -94,6 +94,7 @@ namespace MapStation.Plugin
             StageAPI.OnStagePreInitialization += EnableDebugFeaturesOnStageInit;
             StageAPI.OnStagePreInitialization += CreateMapOptionDescription;
             StageManager.OnStageInitialized += MapOptions.OnStageInitialized;
+            MapOptions.OnMapOptionsChanged += MapOptions.UpdateActiveOnMapOptions;
 
             KBMInputDisabler.Init(MapStationConfig.Instance.DisableKBMInputValue, MapStationConfig.Instance.DisableKBMInputKeyValue, ref UpdateEvent, ref LateUpdateEvent);
             
