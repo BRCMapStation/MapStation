@@ -9,26 +9,30 @@ public static class UIConstants {
     // Unity rule: add 11 or more to get a separator
     // Unity quirk: Submenus get "stuck" at a certain priority until you restart Unity Editor.
     public enum MenuOrder {
-        BUILD_ASSETS = 0,
+        BUILD_CURRENT_ASSETS = 0,
+        BUILD_CURRENT_ASSETS_AND_RUN_ON_STEAM,
+        BUILD_CURRENT_ASSETS_AND_PACKAGE_FOR_THUNDERSTORE,
+        //---
+        BUILD_ASSETS = 20,
         BUILD_ASSETS_AND_RUN_ON_STEAM,
         BUILD_AND_PACKAGE_FOR_THUNDERSTORE,
         //---
-        CREATE_MAP = 20,
+        CREATE_MAP = 40,
         UPDATE_PLUGIN,
         EXPORT_TUTORIAL_MAP,
         //---
-        MAP_PROPERTIES = 40,
+        MAP_PROPERTIES = 80,
         MAP_ACTIONS,
         DOCTOR,
         GRIND_INSPECTOR,
         EDIT_MINIMAP,
         PREFERENCES,
         //---
-        DOCUMENTATION = 60,
+        DOCUMENTATION = 100,
         //---
-        EXPORT_TO_OBJ = 80,
+        EXPORT_TO_OBJ = 120,
         MAKE_STAGE_PROXY_MESH,
         //---
-        EXPERIMENTS = 100
+        EXPERIMENTS = 140
     }
 }

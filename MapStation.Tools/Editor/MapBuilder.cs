@@ -12,35 +12,64 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class MapBuilder {
+
 #if MAPSTATION_DEBUG
-    [MenuItem(UIConstants.menuLabel + "/Build Maps and Run on Steam _F6", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS_AND_RUN_ON_STEAM)]
+    [MenuItem(UIConstants.menuLabel + "/Build Current Map and Run on Steam _F6", priority = (int) UIConstants.MenuOrder.BUILD_CURRENT_ASSETS_AND_RUN_ON_STEAM)]
+    private static void BuildCurrentAndRunSteam() {
+        BuildAssets();
+        GameLauncher.LaunchGameSteam();
+    }
+#endif
+
+    [MenuItem(UIConstants.menuLabel + "/Build Current Map and Run on Steam _F6", true)]
+    private static bool BuildCurrentAndRunSteamValidate() {
+        return (!GameLauncher.IsGameOpen() && GameLauncher.CanLaunchOnSteam());
+    }
+
+#if MAPSTATION_DEBUG
+    [MenuItem(UIConstants.menuLabel + "/Build All Maps and Run on Steam", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS_AND_RUN_ON_STEAM)]
     private static void BuildAndRunSteam() {
         BuildAssets();
         GameLauncher.LaunchGameSteam();
     }
 #endif
 
-    [MenuItem(UIConstants.menuLabel + "/Build Maps and Run on Steam _F6", true)]
+    [MenuItem(UIConstants.menuLabel + "/Build All Maps and Run on Steam", true)]
     private static bool BuildAndRunSteamValidate() {
         return (!GameLauncher.IsGameOpen() && GameLauncher.CanLaunchOnSteam());
     }
 
-    [MenuItem(UIConstants.menuLabel + "/Build Maps _F5", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS)]
+    [MenuItem(UIConstants.menuLabel + "/Build All Maps", priority = (int)UIConstants.MenuOrder.BUILD_ASSETS)]
     public static void BuildAssets() {
-        var mapOutputs = BuildAllAssetBundles(compressed: false);
+        var mapOutputs = BuildAssetBundles(MapDatabase.GetMaps(), compressed: false);
         CopyToTestMapsDirectory(mapOutputs, BuildConstants.PluginName);
         UnityEngine.Debug.Log("Done building assets!");
     }
 
-    [MenuItem(UIConstants.menuLabel + "/Package for Thunderstore", priority = (int)UIConstants.MenuOrder.BUILD_AND_PACKAGE_FOR_THUNDERSTORE)]
+    [MenuItem(UIConstants.menuLabel + "/Package All Maps for Thunderstore", priority = (int)UIConstants.MenuOrder.BUILD_AND_PACKAGE_FOR_THUNDERSTORE)]
     private static void BuildAndPackageForThunderstore() {
-        var maps = BuildAllAssetBundles(compressed: true);
+        var maps = BuildAssetBundles(MapDatabase.GetMaps(), compressed: true);
         BuildThunderstoreZips(maps);
         ShowExplorer(Path.Combine(Path.GetDirectoryName(Application.dataPath), BuildConstants.BuiltThunderstoreZipsDirectory));
         UnityEngine.Debug.Log("Done building Thunderstore zips!");
     }
 
-    private static MapBuildOutputs[] BuildAllAssetBundles(bool compressed = false) {
+    [MenuItem(UIConstants.menuLabel + "/Build Current Map _F5", priority = (int) UIConstants.MenuOrder.BUILD_CURRENT_ASSETS)]
+    public static void BuildCurrentAssets() {
+        var mapOutputs = BuildAssetBundles(new EditorMapDatabaseEntry[] { MapDatabase.GetMapForActiveScene() }, compressed: false);
+        CopyToTestMapsDirectory(mapOutputs, BuildConstants.PluginName);
+        UnityEngine.Debug.Log("Done building assets!");
+    }
+
+    [MenuItem(UIConstants.menuLabel + "/Package Current Map for Thunderstore", priority = (int) UIConstants.MenuOrder.BUILD_CURRENT_ASSETS_AND_PACKAGE_FOR_THUNDERSTORE)]
+    private static void BuildCurrentAssetsAndPackageForThunderstore() {
+        var maps = BuildAssetBundles(new EditorMapDatabaseEntry[] { MapDatabase.GetMapForActiveScene() }, compressed: true);
+        BuildThunderstoreZips(maps);
+        ShowExplorer(Path.Combine(Path.GetDirectoryName(Application.dataPath), BuildConstants.BuiltThunderstoreZipsDirectory));
+        UnityEngine.Debug.Log("Done building Thunderstore zips!");
+    }
+
+    private static MapBuildOutputs[] BuildAssetBundles(EditorMapDatabaseEntry[] maps, bool compressed = false) {
 #if MAPSTATION_DEBUG
         if (PluginEditor.IsPluginOutOfDate()) {
             UnityEngine.Debug.Log("MapStation assemblies seem to be out of date, rebuilding!");
@@ -57,12 +86,11 @@ public class MapBuilder {
             }
         }
 #endif
-        var mapSources = MapDatabase.GetMaps();
-        var mapOutputs = mapSources.Select(map => new MapBuildOutputs(compressed, map)).ToArray();
-        ValidateAndFixSceneNames(mapSources);
-        StubMissingMapFiles(mapSources);
-        SyncMapProperties(mapSources);
-        PreBuildAssetBundles(mapSources);
+        var mapOutputs = maps.Select(map => new MapBuildOutputs(compressed, map)).ToArray();
+        ValidateAndFixSceneNames(maps);
+        StubMissingMapFiles(maps);
+        SyncMapProperties(maps);
+        PreBuildAssetBundles(maps);
         CheckForDoctorErrors();
         var OutputDirectory = BuildConstants.BuiltBundlesDirectory(compressed);
         CleanUpOutputDirectoryPreBuild(OutputDirectory);
