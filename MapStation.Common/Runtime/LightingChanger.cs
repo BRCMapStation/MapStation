@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace MapStation.Common.Runtime {
     public class LightingChanger : MonoBehaviour {
+        [Header("Changes the sun lighting when enabled.")]
         [Header("This GameObject's Transform will be applied to the Sun.")]
         [Header("Light Settings")]
         public Color LightColor = Color.white;

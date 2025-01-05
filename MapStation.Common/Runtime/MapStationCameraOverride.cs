@@ -32,6 +32,7 @@ namespace MapStation.Common.Runtime {
         }
 
         public void ApplyToCamera(Camera camera) {
+            if (camera == null) return;
             if (_layer != null) {
                 var newLayer = camera.gameObject.GetComponent<PostProcessLayer>();
                 if (newLayer == null)
