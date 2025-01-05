@@ -52,12 +52,14 @@ namespace MapStation.Plugin.Phone {
 
         public override void OnAppDisable() {
             base.OnAppDisable();
+            _onMapOptionSetting = false;
             DisableCamera();
             MapOptionDescriptionUI.Instance.gameObject.SetActive(false);
         }
 
         public override void OnAppTerminate() {
             base.OnAppTerminate();
+            _onMapOptionSetting = false;
             DisableCamera();
             MapOptionDescriptionUI.Instance.gameObject.SetActive(false);
         }
@@ -130,6 +132,8 @@ namespace MapStation.Plugin.Phone {
         }
 
         private void EnableCamera(Camera camera) {
+            if (_currentCamera != null)
+                DisableCamera();
             camera.gameObject.SetActive(true);
             _currentCamera = camera;
         }
