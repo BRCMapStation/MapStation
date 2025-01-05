@@ -15,10 +15,15 @@ public class FogChangerEditor : Editor {
             GUI.enabled = false;
             EditorGUILayout.HelpBox("Fog must be enabled in the scene for the Fog Changer to work.", MessageType.Error);
         }
+
+        var enabledProp = serializedObject.FindProperty(nameof(FogChanger.FogEnabled));
+
         foreach(var prop in props) {
             if ((prop.name == nameof(FogChanger.Start) || prop.name == nameof(FogChanger.End)) && RenderSettings.fogMode != FogMode.Linear)
                 continue;
             if (prop.name == nameof(FogChanger.Density) && RenderSettings.fogMode != FogMode.Exponential && RenderSettings.fogMode != FogMode.ExponentialSquared)
+                continue;
+            if (prop.name != nameof(FogChanger.FogEnabled) && enabledProp.boolValue == false)
                 continue;
             prop.Draw();
         }
