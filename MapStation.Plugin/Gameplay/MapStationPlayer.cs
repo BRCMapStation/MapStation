@@ -78,10 +78,13 @@ namespace MapStation.Plugin.Gameplay {
             MapStationHandplantAbility = new MapStationHandplantAbility(ReptilePlayer.handplantAbility);
         }
 
+        // HACK - For whatever reason, lazy loading fixes a bug where teleporting while on a vanilla vert would send you to 0,0,0 and maybe some other things?
+        // However lazy loading causes this component to be duplicated, so :/ keeping this behavior to fix the above regression as it doesn't seem to cause issues otherwise.
+        // Originally this was reworked in 0.15.0 to fix the duplicate component issue but i'm bringing it back in 01/05/25 to fix the teleport issue. Should look into this further.
         public static MapStationPlayer Get(Player player) {
             var mpPlayer = player.GetComponent<MapStationPlayer>();
             if (mpPlayer == null) {
-                Log.Warning($"Requested MapStationPlayer component from player {player.gameObject.name} but they didn't have one.");
+                //Log.Warning($"Requested MapStationPlayer component from player {player.gameObject.name} but they didn't have one.");
                 return player.gameObject.AddComponent<MapStationPlayer>();
             }
             return mpPlayer;
