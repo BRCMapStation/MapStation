@@ -17,7 +17,7 @@ namespace MapStation.Common.Runtime {
         private static MapOptions _instance;
         public static Action OnMapOptionsChanged;
         public MapOption[] Options;
-        private static ActiveOnMapOption[] ActiveOnMapOptions = [];
+        private static ActiveOnMapOption[] ActiveOnMapOptions = new ActiveOnMapOption[0];
 
         [Serializable]
         public class MapOption {
