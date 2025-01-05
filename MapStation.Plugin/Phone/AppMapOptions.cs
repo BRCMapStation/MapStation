@@ -16,6 +16,9 @@ namespace MapStation.Plugin.Phone {
         private Dictionary<string, SimplePhoneButton> _buttonByOptionName = new();
 
         private Camera _currentCamera = null;
+        private bool _onMapOptionSetting = false;
+        private Vector3 _fixedPosition;
+        private Quaternion _fixedRotation;
 
         public override void OnAppInit() {
             base.OnAppInit();
@@ -28,6 +31,7 @@ namespace MapStation.Plugin.Phone {
             };
             ScrollView.AddButton(resetButton);
             foreach(var option in _mapOptions.Options) {
+                if (option == null) continue;
                 var button = PhoneUIUtility.CreateSimpleButton(GetOptionString(option.Name));
                 button.OnConfirm += () => {
                     ChangeOption(option.Name);
@@ -43,6 +47,7 @@ namespace MapStation.Plugin.Phone {
             base.OnAppUpdate();
             UpdateCamera();
             UpdateDesc();
+            UpdatePlayerFreeze();
         }
 
         public override void OnAppDisable() {
@@ -55,6 +60,20 @@ namespace MapStation.Plugin.Phone {
             base.OnAppTerminate();
             DisableCamera();
             MapOptionDescriptionUI.Instance.gameObject.SetActive(false);
+        }
+
+        private void UpdatePlayerFreeze() {
+            if (ScrollView.SelectedIndex > 0) {
+                var player = WorldHandler.instance.currentPlayer;
+                if (!_onMapOptionSetting) {
+                    _fixedPosition = player.transform.position;
+                    _fixedRotation = player.transform.rotation;
+                }
+                player.SetPosAndRotHard(_fixedPosition, _fixedRotation);
+                _onMapOptionSetting = true;
+            } else {
+                _onMapOptionSetting = false;
+            }
         }
 
         private void UpdateDesc() {
