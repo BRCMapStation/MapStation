@@ -71,18 +71,18 @@ public class MapBuilder {
 
     private static MapBuildOutputs[] BuildAssetBundles(EditorMapDatabaseEntry[] maps, bool compressed = false) {
 #if MAPSTATION_DEBUG
-        if (PluginEditor.IsPluginOutOfDate()) {
-            UnityEngine.Debug.Log("MapStation assemblies seem to be out of date, rebuilding!");
-            try {
-                if (!GameLauncher.IsGameOpen())
-                {
-                    var rebuildProcess = PluginEditor.RebuildPlugin();
-                    rebuildProcess.WaitForExit();
+        if (Preferences.instance.general.automaticallyRecompilePlugin) {
+            if (PluginEditor.IsPluginOutOfDate()) {
+                UnityEngine.Debug.Log("MapStation assemblies seem to be out of date, rebuilding!");
+                try {
+                    if (!GameLauncher.IsGameOpen()) {
+                        var rebuildProcess = PluginEditor.RebuildPlugin();
+                        rebuildProcess.WaitForExit();
+                    }
+                } catch (Exception e) {
+                    UnityEngine.Debug.LogError("There was a problem rebuilding assemblies.");
+                    UnityEngine.Debug.LogError(e);
                 }
-            }
-            catch(Exception e) {
-                UnityEngine.Debug.LogError("There was a problem rebuilding assemblies.");
-                UnityEngine.Debug.LogError(e);
             }
         }
 #endif
