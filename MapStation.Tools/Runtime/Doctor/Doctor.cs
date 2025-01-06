@@ -36,6 +36,15 @@ namespace MapStation.Common.Doctor {
 
         private static void CheckMapOptions(Analysis a, GameObject[] roots) {
             var activeOnMapOptions = roots.GetComponentsInChildren<ActiveOnMapOption>();
+            var mapOptions = roots.GetComponentsInChildren<MapOptions>();
+            if (mapOptions.Count > 1) {
+                a.Add(Severity.Warning, null, "Multiple Map Options", "Multiple Map Options components are in the map. Only 1 is allowed.");
+            }
+            foreach(var mapOptionsO in mapOptions) {
+                var err = mapOptionsO.GetError();
+                if (err != null)
+                    a.Add(Severity.Warning, mapOptionsO, err);
+            }
             foreach(var mapOption in activeOnMapOptions) {
                 var err = mapOption.GetError();
                 if (err != ActiveOnMapOption.Errors.NoError)

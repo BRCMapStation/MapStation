@@ -9,8 +9,10 @@ using Reptile;
 [CustomEditor(typeof(MapOptions))]
 public class MapOptionsEditor : Editor {
     public override void OnInspectorGUI() {
-        var isInvalid = false;
         EditorHelper.MakeDocsButton("Map-Options");
+        var err = (serializedObject.targetObject as MapOptions).GetError();
+        if (err != null)
+            EditorGUILayout.HelpBox(err, MessageType.Warning);
         var options = serializedObject.FindProperty(nameof(MapOptions.Options));
         var size = options.arraySize;
         for(var i = 0; i < size; i++) {
@@ -61,8 +63,6 @@ public class MapOptionsEditor : Editor {
                     break;
                 }
             }
-            if (currentIndex == 0)
-                isInvalid = true;
             var newIndex = EditorGUILayout.Popup(currentIndex, possibleValuesArray);
             if (newIndex != currentIndex) {
                 defValue.stringValue = possibleValuesArray[newIndex];
@@ -91,8 +91,6 @@ public class MapOptionsEditor : Editor {
             serializedObject.ApplyModifiedProperties();
             return;
         }
-        if (isInvalid)
-            EditorGUILayout.HelpBox("There are one or more invalid values.", MessageType.Warning);
         serializedObject.ApplyModifiedProperties();
     }
 }

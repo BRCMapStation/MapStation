@@ -34,6 +34,18 @@ namespace MapStation.Common.Runtime {
             _instance = this;
         }
 
+        public string GetError() {
+            if (Options == null || Options.Length == 0)
+                return "No Map Options were defined.";
+            foreach(var option in Options) {
+                if (option.PossibleValues == null || option.PossibleValues.Length == 0)
+                    return "One or more Options don't have any possible values.";
+                if (!option.PossibleValues.Contains(option.DefaultValue))
+                    return "One or more Options don't have a valid default value.";
+            }
+            return null;
+        }
+
         public string GetDefaultOption(string optionName) {
             foreach(var option in Options) {
                 if (option.Name == optionName)
