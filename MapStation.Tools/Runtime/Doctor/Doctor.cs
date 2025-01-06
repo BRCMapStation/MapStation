@@ -39,7 +39,7 @@ namespace MapStation.Common.Doctor {
             foreach(var mapOption in activeOnMapOptions) {
                 var err = mapOption.GetError();
                 if (err != ActiveOnMapOption.Errors.NoError)
-                    a.Add(Severity.Warning, mapOption, ActiveOnMapOption.GetErrorString(err), $"{nameof(ActiveOnMapOption)} component is not configured correctly.");
+                    a.Add(Severity.Warning, mapOption, ActiveOnMapOption.GetErrorString(err), ActiveOnMapOption.GetErrorDetails(err));
             }
         }
 

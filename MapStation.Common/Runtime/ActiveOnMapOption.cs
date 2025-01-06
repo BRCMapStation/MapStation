@@ -22,6 +22,25 @@ namespace MapStation.Common.Runtime {
         public string OptionName;
         public string[] OptionValues;
 
+        public static string GetErrorDetails(Errors error) {
+            switch (error) {
+                case Errors.InvalidOptionName:
+                    return "Choose a valid Map Option.";
+
+                case Errors.InvalidOptionValue:
+                    return "Fix the invalid Map Option values by choosing valid options.";
+
+                case Errors.NoMapOptions:
+                    return "Create a Map Options object for your map via the GameObject -> BRC MapStation menu.";
+
+                case Errors.NoOptionValues:
+                    return "Define conditional Map Option values for this component to work.";
+
+                default:
+                    return null;
+            }
+        }
+
         public static string GetErrorString(Errors error) {
             switch (error) {
                 case Errors.InvalidOptionName:
