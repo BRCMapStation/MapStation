@@ -29,7 +29,7 @@ namespace MapStation.Common.Doctor {
         private static List<T> GetComponentsInChildren<T>(this GameObject[] roots) {
             List<T> results = new();
             foreach (var root in roots) {
-                results.AddRange(root.GetComponentsInChildren<T>());
+                results.AddRange(root.GetComponentsInChildren<T>(true));
             }
             return results;
         }
