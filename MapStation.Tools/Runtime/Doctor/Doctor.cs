@@ -34,6 +34,15 @@ namespace MapStation.Common.Doctor {
             return results;
         }
 
+        private static void CheckMapOptions(Analysis a, GameObject[] roots) {
+            var activeOnMapOptions = roots.GetComponentsInChildren<ActiveOnMapOption>();
+            foreach(var mapOption in activeOnMapOptions) {
+                var err = mapOption.GetError();
+                if (err != ActiveOnMapOption.Errors.NoError)
+                    a.Add(Severity.Warning, mapOption, ActiveOnMapOption.GetErrorString(err), $"{nameof(ActiveOnMapOption)} component is not configured correctly.");
+            }
+        }
+
         private static void CheckChunkStuff(Analysis a, GameObject[] roots) {
             var chunkItems = new List<MonoBehaviour>();
             chunkItems.AddRange(roots.GetComponentsInChildren<Junk>());
@@ -76,6 +85,7 @@ namespace MapStation.Common.Doctor {
 
             CheckChunkStuff(a, roots);
             CheckStreetLife(a, roots);
+            CheckMapOptions(a, roots);
 
             var spawners = roots.GetComponentsInChildren<BasicEnemySpawner>();
 

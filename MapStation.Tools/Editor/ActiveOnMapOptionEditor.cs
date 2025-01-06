@@ -11,7 +11,6 @@ using System.Linq;
 public class ActiveOnMapOptionEditor : Editor {
     public override void OnInspectorGUI() {
         EditorGUILayout.HelpBox("Conditionally activate this GameObject depending on a Map Option.", MessageType.Info);
-        var isInvalid = false;
         EditorHelper.MakeDocsButton("Map-Options#toggling-gameobjects");
         EditorGUILayout.Separator();
         var mapOptions = MapOptions.Instance;
@@ -23,6 +22,10 @@ public class ActiveOnMapOptionEditor : Editor {
         if (!hasMapOptions) {
             EditorGUILayout.HelpBox("No Map Options have been defined in this map.", MessageType.Error);
             return;
+        }
+        var error = (serializedObject.targetObject as ActiveOnMapOption).GetError();
+        if (error != ActiveOnMapOption.Errors.NoError) {
+            EditorGUILayout.HelpBox(ActiveOnMapOption.GetErrorString(error), MessageType.Error);
         }
         var filterModeProp = serializedObject.FindProperty(nameof(ActiveOnMapOption.FilterMode));
         filterModeProp.Draw();
@@ -38,7 +41,6 @@ public class ActiveOnMapOptionEditor : Editor {
         var currentIndex = Array.IndexOf(possibleOptions, optionProp.stringValue);
         if (currentIndex <= 0) {
             currentIndex = 0;
-            isInvalid = true;
         }
         var newIndex = EditorGUILayout.Popup(currentIndex, possibleOptions);
         if (newIndex != currentIndex) {
@@ -55,7 +57,6 @@ public class ActiveOnMapOptionEditor : Editor {
                 var str = valuesProp.GetArrayElementAtIndex(i).stringValue;
                 if (!mapOption.PossibleValues.Contains(str)) {
                     str = "INVALID";
-                    isInvalid = true;
                 }
                 EditorGUILayout.LabelField(str);
                 if (GUILayout.Button("Remove")) {
@@ -80,8 +81,6 @@ public class ActiveOnMapOptionEditor : Editor {
             }
         }
         EditorGUILayout.EndVertical();
-        if (isInvalid)
-            EditorGUILayout.HelpBox("There are one or more invalid values.", MessageType.Warning);
         serializedObject.ApplyModifiedProperties();
     }
 
