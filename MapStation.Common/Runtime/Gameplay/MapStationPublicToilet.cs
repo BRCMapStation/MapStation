@@ -18,6 +18,7 @@ namespace MapStation.Common.Runtime.Gameplay {
             var myToilet = StagePrefabHijacker.Prefabs.GetToilet();
             var toiletScript = myToilet.GetComponent<PublicToilet>();
 
+            toiletScript.Awake();
             // Remove shell
             Destroy(toiletScript.transform.Find("OutHouse").Find("Cube.007").gameObject);
             // Remove collision

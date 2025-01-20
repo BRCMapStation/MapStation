@@ -59,6 +59,8 @@ namespace MapStation.Common {
                 var newToilet = GameObject.Instantiate(toilet.gameObject);
                 newToilet.transform.SetParent(Prefabs.Parent.transform, false);
                 newToilet.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+                var newToiletComp = newToilet.GetComponent<PublicToilet>();
+                newToiletComp.OnDestroy();
                 Prefabs.Toilets.Add(newToilet);
             }
         }
