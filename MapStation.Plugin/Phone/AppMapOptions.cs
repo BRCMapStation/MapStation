@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace MapStation.Plugin.Phone {
     public class AppMapOptions : CustomApp {
-        public override bool Available => MapOptions.Instance != null && MapOptions.Instance.Options.Count() > 0;
+        public override bool Available => MapOptions.Instance != null && MapOptions.Instance.Options != null && MapOptions.Instance.Options.Count() > 0;
         private LoadedMapOptions _loadedMapOptions = LoadedMapOptions.GetCurrentMapOptions();
         private MapOptions _mapOptions = MapOptions.Instance;
         private Dictionary<string, SimplePhoneButton> _buttonByOptionName = new();
