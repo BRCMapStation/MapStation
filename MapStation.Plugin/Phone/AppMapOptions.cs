@@ -54,14 +54,16 @@ namespace MapStation.Plugin.Phone {
             base.OnAppDisable();
             _onMapOptionSetting = false;
             DisableCamera();
-            MapOptionDescriptionUI.Instance.gameObject.SetActive(false);
+            if (MapOptionDescriptionUI.Instance != null)
+                MapOptionDescriptionUI.Instance.gameObject.SetActive(false);
         }
 
         public override void OnAppTerminate() {
             base.OnAppTerminate();
             _onMapOptionSetting = false;
             DisableCamera();
-            MapOptionDescriptionUI.Instance.gameObject.SetActive(false);
+            if (MapOptionDescriptionUI.Instance != null)
+                MapOptionDescriptionUI.Instance.gameObject.SetActive(false);
         }
 
         private void UpdatePlayerFreeze() {
@@ -80,6 +82,7 @@ namespace MapStation.Plugin.Phone {
 
         private void UpdateDesc() {
             var descUi = MapOptionDescriptionUI.Instance;
+            if (descUi == null) return;
             var currentButton = ScrollView.Buttons[ScrollView.SelectedIndex];
             foreach (var buttonByOption in _buttonByOptionName) {
                 if (buttonByOption.Value == currentButton) {
