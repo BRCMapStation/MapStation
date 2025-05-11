@@ -10,9 +10,12 @@ namespace MapStation.Common.Runtime {
         public static Func<LoadedMapOptions> GetCurrentMapOptions;
 
         public void MakeDefault() {
+            if (Options == null)
+                Options = new();
             Options.Clear();
             var mapOptions = MapOptions.Instance;
             if (mapOptions == null) return;
+            if (mapOptions.Options == null) return;
             foreach(var option in mapOptions.Options) {
                 Options[option.Name] = option.DefaultValue;
             }
