@@ -6,7 +6,6 @@ using Object = UnityEngine.Object;
 using MapStation.Components;
 #if UNITY_EDITOR
 using UnityEditor;
-using Unity.EditorCoroutines.Editor;
 #endif
 
 namespace Reptile
