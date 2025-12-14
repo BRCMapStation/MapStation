@@ -1,7 +1,6 @@
 using MapStation.Common.Gameplay;
 using Reptile;
 using System;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,7 +18,7 @@ public class GrindPathEditor : Editor {
 
             var previousFixComboBreakingSet = fixComboBreakingSet;
 
-            if (serializedObject.targetObjects[i].GetComponent<GrindPath_FixComboBreakingProperty>() != null) {
+            if ((serializedObject.targetObjects[i] as GameObject).GetComponent<GrindPath_FixComboBreakingProperty>() != null) {
                 fixComboBreakingSet = true;
             } else {
                 fixComboBreakingSet = false;
@@ -37,14 +36,14 @@ public class GrindPathEditor : Editor {
         if (fixComboBreakingToggle != fixComboBreakingSet) {
             if (fixComboBreakingToggle) {
                 foreach (var targetObject in serializedObject.targetObjects) {
-                    if (targetObject.GetComponent<GrindPath_FixComboBreakingProperty>() != null)
+                    if ((targetObject as GameObject).GetComponent<GrindPath_FixComboBreakingProperty>() != null)
                         continue;
                     var comp = Undo.AddComponent<GrindPath_FixComboBreakingProperty>((targetObject as GrindPath).gameObject);
                     comp.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy;
                 }
             } else {
                 foreach (var targetObject in serializedObject.targetObjects) {
-                    var comp = targetObject.GetComponent<GrindPath_FixComboBreakingProperty>();
+                    var comp = (targetObject as GameObject).GetComponent<GrindPath_FixComboBreakingProperty>();
                     if (comp != null) {
                         Undo.DestroyObjectImmediate(comp);
                     }
